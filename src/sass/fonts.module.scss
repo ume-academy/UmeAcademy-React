@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "FontTitle";
+    src: url('../assets/fonts/Inter_28pt-Bold.ttf')format('trueType');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "FontSubTitle";
+    src: url('../assets/fonts/Inter_24pt-SemiBold.ttf')format('trueType');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "FontDesc";
+    src: url('../assets/fonts/Inter_18pt-Medium.ttf')format('trueType');
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+     font-family: 'FontDesc', sans-serif; /* Sử dụng font chính */
+}
