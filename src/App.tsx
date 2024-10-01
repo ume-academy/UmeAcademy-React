@@ -3,6 +3,7 @@ import './sass/App.scss';
 import Layout_Client from './layouts/Layout_Client';
 import Home_Page from './Pages/client/Home_page/Home_Page';
 import Register from './Pages/auth/Register/Register';
+import Login from './Pages/auth/Login/Login';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
 
         {/* <===== Auth =====> */}
         <Route path='/register' element={<Register />} />
-
+        <Route path='/login' element={<Login />} />
       </Routes>
     </>
   )
