@@ -14,3 +14,11 @@ export const imageIntroduce = './src/assets/images/client/homeBGR/introduce.png'
 export const routerConfig = {
     transparentHeader: ['/']
 }
+
+// Location của card giữa mua ngay và hoàn tiền
+export const getButtonDetails = (pathname: string) => {
+    const isHistoryLesson = pathname === "/history-lesson";
+    const buttonText = isHistoryLesson ? "Hoàn tiền" : "Mua ngay";
+    const targetPath = isHistoryLesson ? "/refund-page" : "/purchase-page";
+    return { buttonText, targetPath };
+};
