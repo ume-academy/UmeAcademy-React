@@ -5,11 +5,21 @@ export const getTitleTab = (prefix: string) => {
 }
 
 // Auth
-// Banner login + register
-export const backgroundImageCommon = './src/assets/images/client/auth/login_banner.png';
+
+// img carousel
+export const imgCarousel = './src/assets/images/client/auth/login_banner.png';
 
 // background img default
 export const bgAuthLightMode = './src/assets/images/client/auth/login-bg.png';
 
-// Logo
-export const logo = "./src/assets/images/logo/logo.png";
+export const logo = './src/assets/images/client/Logo/logo.png' //biến dùng cho logo trang web
+
+export const backgroundImageCommon = './src/assets/images/client/homeBGR/banner.png'  //biến dùng cho bgr dùng chung
+
+export const imageIntroduce = './src/assets/images/client/homeBGR/introduce.png'  //biến dùng cho bgr dùng chung
+
+// biến này dùng để thay đổi css cho phù hợp với từng router
+export const routerConfig = {
+    transparentHeader: ['/']
+}
+

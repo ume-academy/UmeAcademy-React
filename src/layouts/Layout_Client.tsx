@@ -4,7 +4,7 @@ import Header from '../Components/client/CommonComponents/Header/Header'
 const Layout_Client = () => {
   return (
     <div>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col relative">
             <Header />
             <main className='flex-grow'>
                 <Outlet />

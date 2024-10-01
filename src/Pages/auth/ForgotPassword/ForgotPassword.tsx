@@ -7,7 +7,7 @@ import styles from '../auth.module.scss';
 //
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { backgroundImageCommon, getTitleTab, logo } from '../../../contants/client';
+import { imgCarousel, getTitleTab, logo } from '../../../contants/client';
 
 
 
@@ -18,20 +18,20 @@ const ForgotPassword = () => {
     const dataCarousel = [
         {
             id: 1,
-            path: backgroundImageCommon,
+            path: imgCarousel,
             title: 'Chào mừng bạn đến với UmeAcademy',
             description: 'Hãy đăng ký tài khoản để trải nghiệm những khóa học tốt nhất'
         },
         {
             id: 2,
-            path: backgroundImageCommon,
+            path: imgCarousel,
             title: 'Đăng ký ngay hôm nay',
             description: 'Để nhận những thông báo mới nhất từ chúng tôi'
 
         },
         {
             id: 3,
-            path: backgroundImageCommon,
+            path: imgCarousel,
             title: 'Với +2000 bài học ở mọi lĩnh vực',
             description: 'Cùng UmeAcademy, chinh phục tri thức, xây dựng tương lai'
         },
