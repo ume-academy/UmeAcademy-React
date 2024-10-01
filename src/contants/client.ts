@@ -6,7 +6,7 @@ export const getTitleTab = (prefix: string) => {
 
 // Auth
 // Banner login + register
-export const bannerImgAuth = './src/assets/images/client/auth/login_banner.png';
+export const backgroundImageCommon = './src/assets/images/client/auth/login_banner.png';
 
 // background img default
 export const bgAuthLightMode = './src/assets/images/client/auth/login-bg.png';

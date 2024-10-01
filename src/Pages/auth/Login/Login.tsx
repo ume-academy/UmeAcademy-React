@@ -7,7 +7,7 @@ import styles from '../auth.module.scss';
 //
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { bannerImgAuth, getTitleTab, logo } from '../../../contants/client';
+import { backgroundImageCommon, getTitleTab, logo } from '../../../contants/client';
 
 
 
@@ -18,20 +18,20 @@ const Login = () => {
     const dataCarousel = [
         {
             id: 1,
-            path: bannerImgAuth,
+            path: backgroundImageCommon,
             title: 'Chào mừng bạn đến với UmeAcademy',
             description: 'Hãy đăng ký tài khoản để trải nghiệm những khóa học tốt nhất'
         },
         {
             id: 2,
-            path: bannerImgAuth,
+            path: backgroundImageCommon,
             title: 'Đăng ký ngay hôm nay',
             description: 'Để nhận những thông báo mới nhất từ chúng tôi'
 
         },
         {
             id: 3,
-            path: bannerImgAuth,
+            path: backgroundImageCommon,
             title: 'Với +2000 bài học ở mọi lĩnh vực',
             description: 'Cùng UmeAcademy, chinh phục tri thức, xây dựng tương lai'
         },
@@ -118,6 +118,11 @@ const Login = () => {
                                         className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
                                         placeholder='Nhập mật khẩu'
                                     />
+
+                                </div>
+                                
+                                <div className="">
+                                    <Link to={'/forgot_password'} className=''>Quên mật khẩu?</Link>
                                 </div>
 
                                 <div className={`${styles['formGroup']} space-y-2`}>

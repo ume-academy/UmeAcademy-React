@@ -1,4 +1,4 @@
-    // img
+// img
 import { useEffect, useState } from 'react';
 
 // css
@@ -12,7 +12,7 @@ import { backgroundImageCommon, getTitleTab, logo } from '../../../contants/clie
 
 
 
-const Register = () => {
+const ForgotPassword = () => {
     const [index, setIndex] = useState(0)
 
     const dataCarousel = [
@@ -68,10 +68,10 @@ const Register = () => {
     return (
         <>
             <Helmet>
-                <title>{getTitleTab('Đăng ký')}</title>
+                <title>{getTitleTab('Đăng nhập')}</title>
             </Helmet>
 
-            <div className={`${styles['parent']} flex items-stretch `}>
+            <div className={`${styles['parent']} flex `}>
                 <div
                     className={`${styles['left']} dark:bg-[#131022] dark:bg-none dark:text-[#B9B7C0] flex flex-col space-y-4 justify-between`}
                 >
@@ -88,7 +88,7 @@ const Register = () => {
                         <div className={`${styles['heading']} flex justify-between items-center`}>
                             <div className={`${styles['logo']} text-3xl font-title`}>
                                 <Link to={'/'}>
-                                    <img src={logo} alt="" width={150}/>
+                                    <img src={logo} alt="" width={150} />
                                 </Link>
                             </div>
 
@@ -99,63 +99,23 @@ const Register = () => {
 
                         <div className="space-y-6">
                             <div className="title">
-                                <h1 className='text-2xl'>Đăng ký</h1>
+                                <h1 className='text-2xl'>Quên mật khẩu?</h1>
                             </div>
 
                             <form className={`${styles['form']} space-y-7`}>
-                                <div className={`${styles['formGroup']} space-y-2`}>
-                                    <label>Tên hiển thị <span className='text-red-500'>*</span></label>
-                                    <input
-                                        className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
-                                        placeholder='Điền tên hiển thị'
-                                    />
-                                </div>
-
+                                <p>Nhập Email của bạn để tạo lại mật khẩu mới.</p>
                                 <div className={`${styles['formGroup']} space-y-2`}>
                                     <label>Email <span className='text-red-500'>*</span></label>
                                     <input
                                         className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
                                         placeholder='Địa chỉ email'
                                     />
-                                </div>
+                                </div>                          
 
                                 <div className={`${styles['formGroup']} space-y-2`}>
-                                    <label>Mật khẩu <span className='text-red-500'>*</span></label>
-                                    <input
-                                        className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
-                                        placeholder='Nhập mật khẩu'
-                                    />
-                                </div>
-
-                                <div className={`${styles['formGroup']} space-y-2`}>
-                                    <button className={`${styles['btn']} font-subtitle text-lg text-white py-6 mt-6 rounded-md`}>Đăng ký</button>
+                                    <button className={`${styles['btn']} font-subtitle text-lg text-white py-6 mt-6 rounded-md`}>Xác nhận</button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-
-                    {/* Register with other way */}
-                    <div className={`${styles['others']} dark:bg-[#5C505B] bg-[#FFF5F4] flex flex-col items-center space-y-6 py-6`}>
-                        <div className="title text-center">
-                            <p>Hoặc đăng nhập bằng</p>
-                        </div>
-
-                        <div className="act flex items-center ">
-                            <div className="">
-                                <Link to={''}>Đăng nhập bằng Google</Link>
-                            </div>
-
-                            <div className="mx-6">
-                                |
-                            </div>
-
-                            <div className="">
-                                <Link to={''}>Đăng nhập bằng Facebook</Link>
-                            </div>
-                        </div>
-
-                        <div className="">
-                            <p>Đã có tài khoản? Đăng nhập ngay <Link to={'/login'} className='font-subtitle text-[#FF875A]'>tại đây</Link></p>
                         </div>
                     </div>
                 </div>
@@ -164,4 +124,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default ForgotPassword
