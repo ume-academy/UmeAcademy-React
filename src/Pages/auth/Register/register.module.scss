@@ -1,0 +1,61 @@
+.parent {
+
+    .left,
+    .right {
+        flex: 1;
+    }
+
+    .left {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-image: url('../../../assets/images/client/auth/login-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+
+    .right {
+        height: 100vh;
+        overflow-y: auto;
+
+        .top {
+            height: 100vh;
+        }
+
+        .form {
+            .formGroup {
+                width: 100%;
+
+                .input {
+                    width: 100%;
+                    border: 2px solid #f5c8c1;
+                    transition: all 0.5s ease;
+                    outline: none;
+
+                    &:focus {
+                        border: 2px solid #FF875A;
+                    }
+                }
+
+                .btn {
+                    background-color: #FF875A;
+                    border: none;
+                    transition: all 0.3s ease;
+                    width: 100%;
+                    // padding: 26px 0;
+
+                    &:hover {
+                        background-color: #f5c8c1;
+                        color: #000;
+                    }
+                }
+
+            }
+
+        }
+    }
+}
