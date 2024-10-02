@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 // css
 import styles from '../auth.module.scss';
 
-//
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { imgCarousel, getTitleTab, logo } from '../../../contants/client';
