@@ -1,0 +1,114 @@
+.parent {
+    border: 1px solid #DCE0EB;
+
+    .heading {
+        border-bottom: 1px solid #DCE0EB;
+
+    }
+
+    .content {
+
+        .tabContent {
+            .info {
+                border-bottom: 1px solid #DCE0EB;
+
+                .subContent {
+
+
+                    .act {
+
+
+                        button {
+                            background-color: #F4F6F9;
+                            padding: 0.5rem 1rem;
+                            border-radius: 5px;
+
+                            &:hover {
+                                background-color: #F84563;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .form {
+                display: flex;
+                flex-direction: column;
+
+                .heading {
+                    border-bottom: none;
+                }
+
+                .formContent {
+                    margin: 0;
+                    padding: 0;
+
+                    .formGrid {
+                        display: flex;
+                        gap: 1rem;
+
+                        .formGroup {
+                            display: flex;
+                            flex-direction: column;
+                            flex: 1;
+
+                            label {
+                                padding: 0.5rem 0;
+                            }
+                            
+                            .formInput {
+                                border: 1px solid #DCE0EB;
+                                outline: none;
+                                padding: 10px 15px;
+                                border-radius: 5px;
+
+                                &:focus {
+                                    border: 1px solid #F84563;
+                                }
+                            }
+                        }
+                    }
+
+                    .formGroup {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1;
+
+                        label {
+                            padding: 0.5rem 0;
+                        }
+
+                        .formInput,
+                        .formTextarea {
+                            border: 1px solid #DCE0EB;
+                            outline: none;
+                            padding: 10px 15px;
+                            border-radius: 5px;
+
+                            &:focus {
+                                border: 1px solid #F84563;
+                            }
+                        }
+
+
+                    }
+
+                    .btnGroup {
+
+                        button {
+                            color: #fff;
+                            background-color: #F84563;
+                            padding: 0.5rem 1rem;
+                            border-radius: 5px;
+
+                            &:hover {
+                                background-color: #f1697f;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

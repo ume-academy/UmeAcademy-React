@@ -60,7 +60,7 @@ const Header = () => {
     {
       key: '1',
       label: (
-        <Link to="https://www.antgroup.com">
+        <Link to="/profile">
           <UserOutlined className="mr-2" />Hồ sơ
         </Link>
       ),

@@ -57,7 +57,7 @@ const Register = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             next();
-        }, 2000); // Chuyển ảnh sau 2s
+        }, 4000); // Chuyển ảnh sau 2s
 
         return () => {
             clearInterval(interval); // Clear interval khi component bị hủy
@@ -78,7 +78,7 @@ const Register = () => {
 
                     <div className="text-center">
                         <h1 className='text-2xl font-title'>{dataCarousel[index].title}</h1>
-                        <p className='text-lg font'>{dataCarousel[index].description}</p>
+                        <p className='text-md dark:text-[#B9B7C0] text-[#22100d]'>{dataCarousel[index].description}</p>
                     </div>
                 </div>
 
