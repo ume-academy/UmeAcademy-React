@@ -136,7 +136,7 @@ const Setting = ({ props }: any) => {
                                     key="2"
                                 >
                                     {/* Nội dung tab 2 */}
-                                    {/* <div className={`${styles['tabContent']} p-6 dark:text-[#B9B7C0]`}>
+                                    <div className={`${styles['tabContent']} p-6 dark:text-[#B9B7C0]`}>
                                         <div className={`${styles['form']} flex space-x-4 p-6`}>
 
                                             <form className={`${styles['formContent']} space-y-6`}>
@@ -170,7 +170,7 @@ const Setting = ({ props }: any) => {
                                                 </div>
                                             </form>
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </Tabs.TabPane>
                             </Tabs>
                         </div>
