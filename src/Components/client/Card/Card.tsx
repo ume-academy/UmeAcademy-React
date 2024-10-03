@@ -25,7 +25,7 @@ const Card = () => {
                     />
                 </div>
                 <div className="absolute bottom-3 right-3 px-4 py-2  rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900">
-                    <p className="text-[15px] font-bold text-[#ff5364]  dark:text-[#B9B7C0]">1.000.000 đ </p>
+                    <p className="text-[15px] font-bold text-[#ff5364]  dark:text-[#B9B7C0]">1.000.000 đ</p>
                     <p className="text-gray-400 line-through text-[12px] pt-[2px]">$9.000.000 đ</p>
                 </div>
             </div>

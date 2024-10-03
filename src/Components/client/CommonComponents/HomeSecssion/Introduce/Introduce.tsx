@@ -1,7 +1,7 @@
-import { StarFilled } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
-import { backgroundImageCommon, imageIntroduce, routerConfig } from '../../../../../contants/client'
+import { StarFilled } from '@ant-design/icons';
 import { easeInOut, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { imageIntroduce, routerConfig } from '../../../../../contants/client';
 
 export const Introduce = () => {
     // Bật trạng thái trong suốt khi ở trang home
@@ -32,14 +32,15 @@ export const Introduce = () => {
 
     return (
         <div>
-            <div
-                className={`bg-cover bg-center min-h-[100vh] dark:bg-[#131022] dark:bg-none`}
-                style={transperent ? { backgroundImage: `url(${backgroundImageCommon})` } : {}}
+            <div 
+                className={`min-h-[100vh] pb-[200px] ${
+                transperent && `bg-[url("./src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+                } dark:bg-[#131022] dark:bg-none`}
             >
             <motion.div
                 initial={{ y: 150, opacity: 0 }}
                 animate={{ y: 0, opacity: 100 }}
-                transition={{ duration: 1, ease: easeInOut }}
+                transition={ { duration: 1, ease: easeInOut } }
                 className="pt-[160px] w-[1296px] mx-auto grid grid-cols-2 ">
                 <div className="justify-self-start">
                     <h4 className='mb-[26px] text-[#685f78] dark:text-[#B9B7C0] text-[20px]'>UMECADEMY dẫn đầu trong học tập trực tuyến</h4>

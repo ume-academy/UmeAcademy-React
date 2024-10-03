@@ -101,7 +101,9 @@ const Header = () => {
         <div className="flex items-center justify-between w-[1296px] h-[80px] mx-auto">
           
           <div className="w-[160px] h-[37px]">
-            <img src={logo} className="w-full h-full object-cover" alt="" width={100} height={50} />
+            <Link to={`/`}>
+              <img src={logo} className="w-full h-full object-cover" alt="" width={100} height={50} />
+            </Link>
           </div>
           {/* search input */}
           <div className="flex justify-between bg-white p-2 rounded-full dark:bg-[#3d3a4e]">

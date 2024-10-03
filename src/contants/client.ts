@@ -18,6 +18,9 @@ export const backgroundImageCommon = './src/assets/images/client/homeBGR/banner.
 
 export const imageIntroduce = './src/assets/images/client/homeBGR/introduce.png'  //biến dùng cho bgr dùng chung
 
+export const imageMasterSkills = './src/assets/images/client/homeBGR/masterSkills.png'  //biến dùng cho bgr dùng chung
+
+
 // biến này dùng để thay đổi css cho phù hợp với từng router
 export const routerConfig = {
     transparentHeader: ['/']
@@ -30,4 +33,13 @@ export const getButtonDetails = (pathname: string) => {
     const targetPath = isHistoryLesson ? "/refund-page" : "/purchase-page";
     return { buttonText, targetPath };
 };
+
+
+//icon vector cho Top Category homePage
+export const ruler = './src/assets/images/client/HomeIconVector/ruler.png'  
+export const tutor = './src/assets/images/client/HomeIconVector/tutor.png'  
+export const medal = './src/assets/images/client/HomeIconVector/medal.png'  
+export const university = './src/assets/images/client/HomeIconVector/university.png'  
+
+
 
