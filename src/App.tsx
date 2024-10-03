@@ -6,6 +6,7 @@ import Register from './Pages/auth/Register/Register';
 import Home_Page from './Pages/client/Home_page/Home_Page';
 import Profile from './Pages/client/User/Profile/Profile';
 import './sass/App.scss';
+import Transaction_History from './Pages/client/Student/Transaction_history/Transaction_History';
 
 function App() {
 
@@ -18,6 +19,9 @@ function App() {
           <Route index element={<Home_Page />} />
 
           <Route path='/abc' element={<h1>ABCaasjhdfash</h1>} />
+
+          {/* student */}
+          <Route path='/transaction-history' element={<Transaction_History />} />
 
           {/* User profile */}
           <Route path='/profile' element={<Profile />} />

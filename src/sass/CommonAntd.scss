@@ -163,3 +163,135 @@
 }
 
 //  <====== Kết thúc ======>
+
+
+
+//  <====== Bắt đầu table ======>
+.dark .ant-table-wrapper table {
+  background: #2b2838;
+  color: #b9b7c0;
+}
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(
+    .ant-table-row-expand-icon-cell
+  ):not([colspan])::before,
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td:not(:last-child):not(.ant-table-selection-column):not(
+    .ant-table-row-expand-icon-cell
+  ):not([colspan])::before {
+  width: 0px;
+}
+
+.dark .ant-table thead > tr > th {
+  background: #3a3545;
+  color: #b9b7c0;
+}
+
+.dark .ant-table tbody > tr > td {
+  border-bottom: 1px solid #3a3545;
+}
+
+.dark .ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+.ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+
+.dark
+  :where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th,
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td {
+  border-bottom: 1px solid #5a5a5a;
+}
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-disabled
+  .ant-pagination-item-link,
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-disabled:hover
+  .ant-pagination-item-link {
+  border: 1px solid #e9ecef;
+}
+
+//pagination
+/* Màu chữ cho mục phân trang đang được chọn */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active
+  a {
+  color: white;
+}
+
+/* Viền và nền cho mục phân trang đang được chọn (viền cùng màu với nền) */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active {
+  border: 1px solid #ff4667;
+  background: #ff4667;
+}
+
+/* Hover cho các mục không được chọn (không active) trong light mode */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item:not(.ant-pagination-item-active):hover
+  a {
+  color: white;
+  background: #ff4667;
+  border-radius: 6px;
+  border: 1px solid #ff4667;
+}
+
+/* Hover cho mục đang được chọn (active) */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active:hover
+  a {
+  color: white;
+}
+
+/* Giữ màu viền và nền khi hover vào mục active */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active:hover {
+  border-color: #ff4667;
+  background: #ff4667;
+  border: 1px solid #ff4667;
+}
+
+/* Bo góc và viền cho các mục không được chọn trong light mode */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item:not(.ant-pagination-item-active)
+  a {
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+/* Viền cho các nút "Trước" và "Sau" trong chế độ dark và light mode */
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-prev
+  .ant-pagination-item-link,
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-next
+  .ant-pagination-item-link {
+  border: 1px solid #685f78;
+}
+
+.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-prev
+  .ant-pagination-item-link,
+.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-next
+  .ant-pagination-item-link {
+  border: 1px solid #685f78;
+}
+
+/* Màu cho biểu tượng SVG trong pagination */
+.ant-pagination .anticon svg {
+  color: #685f78 !important;
+}
+
+//  <====== Kết thúc table ======>
