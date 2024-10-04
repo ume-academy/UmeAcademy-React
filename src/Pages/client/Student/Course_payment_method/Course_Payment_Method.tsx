@@ -90,11 +90,17 @@ const Course_Payment_Method = () => {
                             </div>
                             <p className="">Giá: <span>1.000.000đ</span></p>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Mã giảm giá"
-                            className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-full'
-                        />
+                        <div className="flex justify-between items-center">
+                            <input
+                                type="text"
+                                placeholder="Mã giảm giá"
+                                className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[80%]'
+                            />
+                            <button type="button"
+                                className='bg-[#ff5364] text-white h-10 w-20 text-[14px] rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'>
+                                Sử dụng
+                            </button>
+                        </div>
                     </div>
 
                     <div className="flex justify-between w-full mb-5 font-semibold text-xl">
