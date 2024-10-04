@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { getTitleTab } from "../../../../contants/client";
+import { bankLogo, getTitleTab, vmpayLogo } from "../../../../contants/client";
 import { BookFilled, WalletFilled } from "@ant-design/icons";
 import { Radio, Modal } from "antd";
 import { useState } from "react";
@@ -7,13 +7,13 @@ import { useState } from "react";
 const Course_Payment_Method = () => {
     const [selectedMethod, setSelectedMethod] = useState<string>('Ume Wallet');
     const [isModalVisible, setIsModalVisible] = useState(false);
-    
+
     const onChange = (e: any) => {
         setSelectedMethod(e.target.value);
     };
 
     const handleConfirm = () => {
-        setIsModalVisible(true); 
+        setIsModalVisible(true);
     };
 
     const handleOk = () => {
@@ -38,31 +38,37 @@ const Course_Payment_Method = () => {
                     </p>
                     <Radio.Group onChange={onChange} value={selectedMethod} className="pl-6 pt-14 pb-14 w-full space-y-6">
                         <div className="flex gap-4 items-center w-full">
-                            <Radio value="Ume Wallet" className='w-full'>
+                            <Radio value="Ume Wallet" className='w-full '>
                                 <div className="flex items-center">
-                                    <WalletFilled className='text-[#ff5364] text-4xl' />
-                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0]">
-                                        Ví Ume <span className="text-[16px]">( Số dư: 1.000.000.000đ )</span>
+                                    <div className="relative flex items-center">
+                                        <WalletFilled className='text-[#ff5364] text-[42px]' />
+                                        <span className="absolute top-1 left-2 text-[#fff] font-bold text-[9px]">
+                                            UME
+                                        </span>
+                                    </div>
+                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white">
+                                        Thanh toán qua ví UME <span className="text-[16px]">( Số dư: 1.000.000.000đ )</span>
+                                    </span>
+                                </div>
+
+                            </Radio>
+                        </div>
+                        <div className="flex gap-4 items-center w-full">
+                            <Radio value="Bank Wallet" className='w-full '>
+                                <div className="flex items-center">
+                                    <img src={vmpayLogo} width="40" className="rounded-lg border" />
+                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white">
+                                        Thanh toán qua ví VNPAY
                                     </span>
                                 </div>
                             </Radio>
                         </div>
                         <div className="flex gap-4 items-center w-full">
-                            <Radio value="Bank Wallet" className='w-full'>
+                            <Radio value="E-Wallet" className='w-full '>
                                 <div className="flex items-center">
-                                    <WalletFilled className='text-[#ff5364] text-4xl' />
-                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0]">
-                                        Ví ngân hàng
-                                    </span>
-                                </div>
-                            </Radio>
-                        </div>
-                        <div className="flex gap-4 items-center w-full">
-                            <Radio value="E-Wallet" className='w-full'>
-                                <div className="flex items-center">
-                                    <WalletFilled className='text-[#ff5364] text-4xl' />
-                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0]">
-                                        Ví điện tử
+                                    <img src={bankLogo} width="40" className="rounded-lg border" />
+                                    <span className="ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white">
+                                        Thanh toán qua Ngân hàng
                                     </span>
                                 </div>
                             </Radio>
@@ -97,9 +103,9 @@ const Course_Payment_Method = () => {
                     </div>
                     <div className="flex justify-center">
                         <button
-                            type="button" 
+                            type="button"
                             className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
-                            onClick={handleConfirm} 
+                            onClick={handleConfirm}
                         >
                             Thanh toán
                         </button>
@@ -116,7 +122,7 @@ const Course_Payment_Method = () => {
                 okType="danger"
                 cancelText="Hủy"
             >
-                <p>Bạn có chắc chắn muốn thanh toán cho khóa học này không?</p>
+                <p className="pt-4 pb-6">Vui lòng kiểm tra lại thông tin trước khi thanh toán. Bạn có chắc chắn muốn thanh toán cho khóa học này không?</p>
             </Modal>
         </div>
     );

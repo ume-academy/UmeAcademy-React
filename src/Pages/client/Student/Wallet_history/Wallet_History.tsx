@@ -51,7 +51,7 @@ const Wallet_History = () => {
         {
             title: <div className='pl-5'>STT</div>,
             key: 'stt',
-            width: 50, 
+            width: 50,
             render: (_: any, __: any, index: number) => (
                 <div className='pl-5'>
                     {index + 1}
@@ -63,7 +63,7 @@ const Wallet_History = () => {
             dataIndex: 'type',
             key: 'type',
             width: 120,
-            render:(type: string)=>(
+            render: (type: string) => (
                 <div className='text-[16px]'>
                     {type}
                 </div>
@@ -74,7 +74,7 @@ const Wallet_History = () => {
             dataIndex: 'date',
             key: 'date',
             width: 120,
-            render:(date: string)=>(
+            render: (date: string) => (
                 <div className='text-[16px]'>
                     {date}
                 </div>
@@ -111,10 +111,15 @@ const Wallet_History = () => {
                 <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
                 <div className='flex justify-between items-center p-6'>
                     <div className='flex gap-4 items-center'>
-                        <p><WalletFilled className='text-[#ff5364] text-3xl' /></p>
+                        <div className="relative flex items-center">
+                            <WalletFilled className='text-[#ff5364] text-[50px]' />
+                            <span className="absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]">
+                                UME
+                            </span>
+                        </div>
                         <div>
                             <p>Số dư hiện tại</p>
-                            <p>Bạn đang có: 1000.000.000đ</p>
+                            <p className='dark:hover:text-white'>Bạn đang có: 1000.000.000đ</p>
                         </div>
                     </div>
                     <button className='bg-[#ff5364] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white'>

@@ -42,4 +42,6 @@ export const medal = './src/assets/images/client/HomeIconVector/medal.png'
 export const university = './src/assets/images/client/HomeIconVector/university.png'  
 
 
-
+// img payment
+export const vmpayLogo = './src/assets/images/client/payment/vnpay-logo.png';
+export const bankLogo = './src/assets/images/client/payment/bank.jpg';
