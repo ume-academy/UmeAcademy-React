@@ -8,6 +8,7 @@ import Profile from './Pages/client/User/Profile/Profile';
 import './sass/App.scss';
 import Transaction_History from './Pages/client/Student/Transaction_history/Transaction_History';
 import Wallet_History from './Pages/client/Student/Wallet_history/Wallet_History';
+import Purchased_Courses from './Pages/client/Student/Purchased_courses/Purchased_Courses';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           {/* student */}
           <Route path='/transaction-history' element={<Transaction_History />} />
           <Route path='/wallet-history' element={<Wallet_History />} />
+          <Route path='/purchased-courses' element={<Purchased_Courses />} />
 
           {/* User profile */}
           <Route path='/profile' element={<Profile />} />

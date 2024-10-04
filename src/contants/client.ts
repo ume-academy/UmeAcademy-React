@@ -28,7 +28,7 @@ export const routerConfig = {
 
 // Location của card giữa mua ngay và hoàn tiền
 export const getButtonDetails = (pathname: string) => {
-    const isHistoryLesson = pathname === "/history-lesson";
+    const isHistoryLesson = pathname === "/purchased-courses";
     const buttonText = isHistoryLesson ? "Hoàn tiền" : "Mua ngay";
     const targetPath = isHistoryLesson ? "/refund-page" : "/purchase-page";
     return { buttonText, targetPath };
