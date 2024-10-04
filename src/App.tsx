@@ -10,6 +10,7 @@ import Transaction_History from './Pages/client/Student/Transaction_history/Tran
 import Wallet_History from './Pages/client/Student/Wallet_history/Wallet_History';
 import Purchased_Courses from './Pages/client/Student/Purchased_courses/Purchased_Courses';
 import Course_Payment_Method from './Pages/client/Student/Course_payment_method/Course_Payment_Method';
+import Not_Found from './Pages/client/Not_found/Not_Found';
 
 function App() {
 
@@ -38,6 +39,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgot_password' element={<ForgotPassword />} />
+        
+        <Route path='*' element={<Not_Found />} />
 
       </Routes>
     </>
