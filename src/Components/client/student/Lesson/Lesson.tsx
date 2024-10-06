@@ -232,12 +232,12 @@ const Lesson = () => {
 
                 {/* main */}
                 <div className="flex h-[100vh] overflow-y-hidden">
-                    {/* div content */}
+                    {/*  content */}
                     <div className={`h-full ${isOpenSideBar === true ? 'pr-0' : 'pr-2' } max-h-screen dark:bg-[#131022] overflow-y-auto transition-all duration-300 ${isOpenSideBar ? 'w-[100%]' : 'w-[75%]'} `}>
                       <iframe width="100%" height="532" src="https://www.youtube.com/embed/6BvmfGS47Do?si=GWXiAiWUdeh1skuM" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
 
-                    {/* Div div sidebar */}
+                    {/* sidebar */}
                     <div className={`w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}>
                         <div className=''>
                             <h2 className='bg-[#fff] dark:bg-[#131022] dark:text-[#b9b7c0] px-[16px] py-[12px] font-title text-[18px]'>Nội dung khóa học</h2>
