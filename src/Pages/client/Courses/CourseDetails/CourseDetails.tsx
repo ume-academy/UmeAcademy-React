@@ -3,6 +3,8 @@ import { Avatar, GetProp, Menu, MenuProps, Modal, Rate } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './couseDetails.module.scss';
+import { Helmet } from 'react-helmet';
+import { getTitleTab } from '../../../../contants/client';
 
 
 type MenuItem = GetProp<MenuProps, 'items'>[number];
@@ -142,6 +144,9 @@ const CourseDetails = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{getTitleTab('Chi tiết khóa học')}</title>
+            </Helmet>
             <div className={`${styles['wrapper']} `}>
                 <div className={`${styles['overviewTeacher']} dark:text-[#B9B7C0] pt-[160px] pb-[80px]`}>
                     <div className="container mx-auto">
@@ -406,7 +411,7 @@ const CourseDetails = () => {
                                     <div className={`${styles['btns']} space-y-3`}>
                                         {/* fav */}
                                         <div className={`${styles['btnsGroup']} space-x-4`}>
-                                        <button
+                                            <button
                                                 className='
                                                 rounded-full 
                                                 py-2 
