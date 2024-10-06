@@ -1,12 +1,13 @@
 import { ArrowRightOutlined, HistoryOutlined, LogoutOutlined, MoonFilled, SearchOutlined, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Input, MenuProps, Space, TreeSelect } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logo, routerConfig } from "../../../../contants/client";
 import {
   ThemeContext,
   ThemeContextType,
 } from "../../../../contexts/ThemeContext";
+import { ModeUserContext, ModeUserType } from "../../../../contexts/ModeUser";
 
 const Header = () => {
   // set scroll cuộn header đổi màu bgr header
@@ -102,14 +103,27 @@ const Header = () => {
   // Bật trạng thái trong suốt khi ở trang home
   const transperent = routerConfig.transparentHeader.includes(location.pathname)
 
+  const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType;
+  const navigate = useNavigate();
+  const handleToggle = () => {
+    toggleMode(); // Chuyển đổi chế độ
+    // Điều hướng sang trang phù hợp
+    if (mode === 'student') {
+      navigate('/teacher'); // Chuyển sang trang dành cho teacher
+    } else {
+      navigate('/'); // Chuyển sang trang dành cho student (Home Page)
+    }
+  };
   return (
     <>
       <div className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${isScroll && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} ${isScroll ? 'bg-[#fff]' : (transperent ? "bg-transparent" : "bg-[#fff]")} transition-all duration-300 ease-in-out`}>
         <div className="flex items-center justify-between w-[1296px] h-[80px] mx-auto">
           
-          <div className="w-[160px] h-[37px]">
-            <Link to={`/`}>
+          <div className="flex justify-start items-center">
+            {/* Logo */}
+          <div className="w-[160px] h-[37px] mr-12">
+            <Link to={mode === 'student' ? `/` : '/teacher'}>
               <img src={logo} className="w-full h-full object-cover" alt="" width={100} height={50} />
             </Link>
           </div>
@@ -119,6 +133,7 @@ const Header = () => {
             <Input type="text" className="bg-transparent border-none w-[360px] mr-2 placeholder:text-[#b9b7c0] text-[#b9b7c0] hover:bg-transparent focus:bg-transparent" placeholder="Tìm kiến khóa học, giảng viên," />
             <TreeSelect treeData={treeData} className="bg-transparent max-w-[174px] mr-2" style={{ height: '32px' }} defaultValue={'-- Vui lòng chọn'} />
             <button className="bg-[#f66962] rounded-full w-[32px] hover:bg-[#fc7f50]"><ArrowRightOutlined style={{color: 'white'}}/></button>
+          </div>
           </div>
 
           <div className="flex justify-end">
@@ -132,6 +147,7 @@ const Header = () => {
                 <SunFilled style={{ color: "#808080", fontSize: 16 }} />
               )}
             </button>
+            <button className="mr-[20px] flex items-center" onClick={() => handleToggle()}>{mode === 'student' ? "Giảng viên" : "Học viên"}</button>
             <Dropdown menu={{ items }} trigger={['click']} placement="topRight"
              overlayStyle={{}}>
               <a onClick={(e) => e.preventDefault()}>
