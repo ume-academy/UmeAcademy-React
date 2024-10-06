@@ -34,7 +34,7 @@ export const Introduce = () => {
         <div>
             <div 
                 className={`min-h-[100vh] pb-[200px] ${
-                transperent && `bg-[url("./src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+                transperent && `bg-[url("/src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
                 } dark:bg-[#131022] dark:bg-none`}
             >
             <motion.div

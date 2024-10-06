@@ -12,6 +12,7 @@ import Purchased_Courses from './Pages/client/Student/Purchased_courses/Purchase
 import Course_Payment_Method from './Pages/client/Student/Course_payment_method/Course_Payment_Method';
 import Not_Found from './Pages/client/Not_found/Not_Found';
 import CourseDetails from './Pages/client/Courses/CourseDetails/CourseDetails';
+import Lesson from './Components/client/student/Lesson/Lesson';
 
 
 function App() {
@@ -24,8 +25,6 @@ function App() {
         <Route path='/' element={<Layout_Client />} >
           <Route index element={<Home_Page />} />
 
-          <Route path='/abc' element={<h1>ABCaasjhdfash</h1>} />
-
           {/* student */}
           <Route path='/transaction-history' element={<Transaction_History />} />
           <Route path='/wallet-history' element={<Wallet_History />} />
@@ -37,6 +36,7 @@ function App() {
 
           {/* Course detail */}
           <Route path='/course/details/:id' element={<CourseDetails />} />
+          <Route path='/course/:id/lesson' element={<Lesson />} />
         </Route>
 
 

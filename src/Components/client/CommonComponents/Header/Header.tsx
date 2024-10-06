@@ -1,4 +1,4 @@
-import { ArrowRightOutlined, HistoryOutlined, LogoutOutlined, MoonFilled, SearchOutlined, StarOutlined, SunFilled, UserOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, HistoryOutlined, LogoutOutlined, MoonFilled, SearchOutlined, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Input, MenuProps, Space, TreeSelect } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -68,21 +68,29 @@ const Header = () => {
     {
       key: '2',
       label: (
-        <Link to="https://www.antgroup.com">
-          <HistoryOutlined className="mr-2" />Lịch sử thanh toán
+        <Link to="/wallet-history">
+          <HistoryOutlined className="mr-2" />Lịch sử giao dịch
         </Link>
       ),
     },
     {
       key: '3',
       label: (
-        <Link to="https://www.antgroup.com">
+        <Link to="/purchased-courses">
           <StarOutlined className="mr-2" />Danh sách đã mua
         </Link>
       ),
     },
     {
       key: '4',
+      label: (
+        <Link className="flex justify-start items-center" to="/wallet-history">
+          <WalletOutlined  className="mr-2" style={{width:16, height:16}} />Ví Ume
+        </Link>
+      ),
+    },
+    {
+      key: '5',
       label: (
         <button className="border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]">
           <LogoutOutlined className="mr-2" />Đăng xuất
@@ -132,9 +140,9 @@ const Header = () => {
                 </Space>
               </a>
             </Dropdown>
-            {/* Cho Đăng ký đăng nhập */}
-            {/* <Link to={``} className="mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]">Đăng Nhập</Link> */}
-            {/* <Link to={``} className="mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#22100d] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]">Đăng Ký</Link> */}
+            {/* Khi có data thật đây là nút Đăng ký đăng nhập */}
+            {/* <Link to={`/login`} className="mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]">Đăng Nhập</Link> */}
+            {/* <Link to={`/register`} className="mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#22100d] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]">Đăng Ký</Link> */}
           </div>
 
         </div>

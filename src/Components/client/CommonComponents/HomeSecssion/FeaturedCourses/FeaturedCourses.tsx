@@ -22,9 +22,9 @@ const FeaturedCourses = () => {
     return (
         <div className=''>
             <div className={`min-h-[100vh] pb-[80px] ${
-                transperentFeaturedCourses && `bg-[url("./src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+                transperentFeaturedCourses && `bg-[url("/src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
                 } dark:bg-[#131022] dark:bg-none`}>
-                <div className={`min-h-[100vh] bg-no-repeat bg-[url("./src/assets/images/client/homeBGR/course-bg.png")]`} 
+                <div className={`min-h-[100vh] bg-no-repeat bg-[url("/src/assets/images/client/homeBGR/course-bg.png")]`} 
                 >
                     <div
                         className="w-[1296px] mx-auto pt-[80px]">

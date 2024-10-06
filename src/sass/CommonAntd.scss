@@ -1,103 +1,55 @@
 // File này đặt các css ghi đê antd
 
 // <====== Bắt đầu header ======>
-:where(.css-dev-only-do-not-override-5wsri9).ant-select-outlined:not(
-    .ant-select-customize-input
-  )
-  .ant-select-selector {
+:where(.css-dev-only-do-not-override-5wsri9).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
   background-color: #ffdeda;
   border: none;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-select-outlined:not(
-    .ant-select-customize-input
-  )
-  .ant-select-selector {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
   background-color: #2b2838;
   color: #b9b7c0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-switcher {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-switcher {
   width: 0;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree {
   background: #3d3a4e;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span.ant-select-tree-node-selected {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span.ant-select-tree-node-selected {
   background-color: #dddddd;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span.ant-select-tree-node-selected {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span.ant-select-tree-node-selected {
   background-color: #2b2838; // màu focus
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span {
   border-radius: 0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper:hover,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span:hover {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper:hover,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span:hover {
   background-color: #ffdeda;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper:hover,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span:hover {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper:hover,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span:hover {
   background-color: #633c38;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-node-content-wrapper,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-checkbox
-  + span {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-node-content-wrapper,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-checkbox+span {
   color: #b9b7c0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-list-holder-inner
-  .ant-select-tree-treenode
-  .ant-select-tree-node-content-wrapper {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-list-holder-inner .ant-select-tree-treenode .ant-select-tree-node-content-wrapper {
   padding: 6px;
 }
 
@@ -109,101 +61,62 @@
   padding: 0px;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown
-  .ant-select-tree
-  .ant-select-tree-treenode {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tree-select-dropdown .ant-select-tree .ant-select-tree-treenode {
   padding: 0px;
 }
 
 :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu {
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu {
   padding: 0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-submenu-title,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-submenu-title {
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
   padding: 8px 12px;
   border-radius: 0;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu {
   background-color: #2b2838;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-title-content
-  > a,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-title-content
-  > a {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-title-content>a,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-title-content>a {
   color: #b9b7c0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-btn-variant-outlined:not(
-    :disabled
-  ):not(.ant-btn-disabled):hover,
-:where(.css-dev-only-do-not-override-5wsri9).ant-btn-variant-dashed:not(
-    :disabled
-  ):not(.ant-btn-disabled):hover {
+:where(.css-dev-only-do-not-override-5wsri9).ant-btn-variant-outlined:not( :disabled):not(.ant-btn-disabled):hover,
+:where(.css-dev-only-do-not-override-5wsri9).ant-btn-variant-dashed:not( :disabled):not(.ant-btn-disabled):hover {
   background: transparent;
   color: #000000e0;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-title-content
-  > a,
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-title-content
-  > a {
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-title-content>a,
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-title-content>a {
   color: #212529;
 }
 
+
 /* Chỉ áp dụng thêm cho chế độ light */
-:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item:hover {
+:where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover {
   color: #ff875a;
 }
 
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item:hover,
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu
-  .ant-dropdown-menu
-  .ant-dropdown-menu-item:hover {
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover,
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item:hover {
   background-color: #f8f9fa;
 }
+
 
 //  <====== Kết thúc header ======>
 
 // Tabs antd phần Profile
 //  <====== Bắt đầu ======>
-:where(.css-dev-only-do-not-override-5wsri9)[class^="ant-tabs"]
-  [class^="ant-tabs"],
-:where(.css-dev-only-do-not-override-5wsri9)[class*=" ant-tabs"]
-  [class^="ant-tabs"] {
+:where(.css-dev-only-do-not-override-5wsri9)[class^="ant-tabs"] [class^="ant-tabs"],
+:where(.css-dev-only-do-not-override-5wsri9)[class*=" ant-tabs"] [class^="ant-tabs"] {
   box-sizing: border-box;
   flex: 1;
   // text-align: center;
@@ -213,102 +126,121 @@
 }
 
 // activeTab
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-tabs
-  .ant-tabs-tab.ant-tabs-tab-active
-  .ant-tabs-tab-btn {
-  color: #f84563;
+.dark :where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #F84563;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tabs
-  .ant-tabs-tab.ant-tabs-tab-active
-  .ant-tabs-tab-btn {
-  color: #f84563;
+:where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #F84563;
 }
+
 
 .dark :where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab {
-  color: #b9b7c0;
+  color: #B9B7C0;
+  
 }
 
+// :where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab {
+  
+// }
 
 
 // hoverTab
 :where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab:hover {
-  color: #f84563;
+  color: #F84563;
+  
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tabs-top
-  > .ant-tabs-nav
-  .ant-tabs-ink-bar,
-:where(.css-dev-only-do-not-override-5wsri9).ant-tabs-top
-  > div
-  > .ant-tabs-nav
-  .ant-tabs-ink-bar {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar,
+:where(.css-dev-only-do-not-override-5wsri9).ant-tabs-top>div>.ant-tabs-nav .ant-tabs-ink-bar {
   bottom: 0;
-  background: #f84563;
+  background: #F84563;
   // width: 100%;
 }
 
-:where(.css-dev-only-do-not-override-5wsri9).ant-tabs
-  .ant-tabs-tab
-  + .ant-tabs-tab {
+:where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab+.ant-tabs-tab {
   margin: 0;
 }
 
 //  <====== Kết thúc ======>
+
+
 
 //  <====== Bắt đầu table ======>
 .dark .ant-table-wrapper table {
   background: #2b2838;
   color: #b9b7c0;
 }
-
-:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
-:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper .ant-table-thead>tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(
+    .ant-table-row-expand-icon-cell
+  ):not([colspan])::before,
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td:not(:last-child):not(.ant-table-selection-column):not(
+    .ant-table-row-expand-icon-cell
+  ):not([colspan])::before {
   width: 0px;
 }
 
-.dark .ant-table thead>tr>th {
+.dark .ant-table thead > tr > th {
   background: #3a3545;
   color: #b9b7c0;
 }
 
-.dark .ant-table tbody>tr>td {
+.dark .ant-table tbody > tr > td {
   border-bottom: 1px solid #3a3545;
 }
 
-.dark .ant-table tbody>tr:hover>td {
+.dark .ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+.ant-table tbody > tr:hover > td {
   background: none !important;
 }
 
-.ant-table tbody>tr:hover>td {
-  background: none !important;
-}
-
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper .ant-table-thead>tr>th,
-:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper .ant-table-thead>tr>td {
+.dark
+  :where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th,
+:where(.css-dev-only-do-not-override-5wsri9).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td {
   border-bottom: 1px solid #5a5a5a;
 }
-
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-disabled .ant-pagination-item-link,
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-disabled:hover .ant-pagination-item-link {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-disabled
+  .ant-pagination-item-link,
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-disabled:hover
+  .ant-pagination-item-link {
   border: 1px solid #e9ecef;
 }
 
 //pagination
 /* Màu chữ cho mục phân trang đang được chọn */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item-active a {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active
+  a {
   color: white;
 }
 
 /* Viền và nền cho mục phân trang đang được chọn (viền cùng màu với nền) */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item-active {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active {
   border: 1px solid #ff4667;
   background: #ff4667;
 }
 
 /* Hover cho các mục không được chọn (không active) trong light mode */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover a {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item:not(.ant-pagination-item-active):hover
+  a {
   color: white;
   background: #ff4667;
   border-radius: 6px;
@@ -316,31 +248,44 @@
 }
 
 /* Hover cho mục đang được chọn (active) */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item-active:hover a {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active:hover
+  a {
   color: white;
 }
 
 /* Giữ màu viền và nền khi hover vào mục active */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item-active:hover {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item-active:hover {
   border-color: #ff4667;
   background: #ff4667;
   border: 1px solid #ff4667;
 }
 
 /* Bo góc và viền cho các mục không được chọn trong light mode */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-item:not(.ant-pagination-item-active) a {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-item:not(.ant-pagination-item-active)
+  a {
   border-radius: 6px;
   border: 1px solid #e9ecef;
 }
 
 /* Viền cho các nút "Trước" và "Sau" trong chế độ dark và light mode */
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-next .ant-pagination-item-link {
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-prev
+  .ant-pagination-item-link,
+:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-next
+  .ant-pagination-item-link {
   border: 1px solid #685f78;
 }
 
-.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination .ant-pagination-next .ant-pagination-item-link {
+.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-prev
+  .ant-pagination-item-link,
+.dark:where(.css-dev-only-do-not-override-5wsri9).ant-pagination
+  .ant-pagination-next
+  .ant-pagination-item-link {
   border: 1px solid #685f78;
 }
 
@@ -350,199 +295,3 @@
 }
 
 //  <====== Kết thúc table ======>
-
-//  <====== Bắt đầu ô Radio(checkbox) ======>
-.ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
-  border-color: #ff5364 !important;
-  background-color: #ff5364 !important;
-}
-
-.ant-radio-wrapper .ant-radio-checked:hover .ant-radio-inner {
-  border-color: #ff5364 !important;
-}
-
-.ant-radio-wrapper:hover .ant-radio-inner {
-  border-color: #ff5364 !important;
-}
-
-.dark .ant-radio-inner {
-  border-color: #685f78 !important;
-  background-color: #2b2838 !important;
-}
-
-//  <====== Kết thúc Radio ======>
-
-//  <====== Bắt đầu Modal ======>
-.dark
-  :where(.css-dev-only-do-not-override-5wsri9).ant-modal
-  .ant-modal-content {
-  background: #2b2838;
-  color: #b9b7c0;
-}
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-modal .ant-modal-title {
-  background: #2b2838;
-  color: #b9b7c0;
-  border-bottom: 1px solid #b9b7c0;
-  padding-bottom: 10px;
-}
-.dark .ant-modal-close {
-  color: #b9b7c0;
-}
-.dark .ant-modal-close:hover {
-  color: white;
-}
-.dark .ant-btn-variant-outlined,
-.dark .ant-btn-variant-dashed {
-  border-color: #685f78;
-  background-color: #2b2838;
-  outline: none;
-}
-.dark .ant-btn-color-default {
-  color: #b9b7c0 !important;
-}
-.dark .ant-btn-color-default:hover {
-  color: white !important;
-  border-color: #685f78 !important;
-}
-.ant-btn-color-default:hover {
-  border-color: #685f78 !important;
-}
-.dark .ant-btn-color-dangerous {
-  color: #b9b7c0 !important;
-  border-color: #685f78 !important;
-
-}
-.dark .ant-btn-color-dangerous:hover {
-  color: white !important;
-}
-.ant-btn-color-dangerous:hover {
-  border-color: #685f78 !important;
-  color: black !important;
-}
-.ant-btn-color-dangerous{
-  border-color: #dddddd !important;
-}
-//  <====== Kết thúc Modal ======>
-
-// Course Details
-// <====== Bắt đầu lesson ======>
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu .ant-menu-submenu,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu .ant-menu-submenu-inline {
-  background: rgba(161, 196, 253, 0.12);
-  // padding: 5px 0;
-
-  // &:hover {
-  //   background-color: red;
-  // }
-}
-
-// màu lable
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
-  color: #000;
-}
-
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
-  // color: #1677ff;
-  background: none;
-  height: 100%;
-
-  &:hover {
-    background: none;
-  }
-}
-
-//item
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-inline .ant-menu-item,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item {
-  position: relative;
-  color: black;
-  border: 1px solid;
-  border-left: none;
-  border-top: none;
-  border-right: none;
-  border-radius: 0px;
-  margin: 0;
-  padding: 0 14px !important;
-  width: 100%;
-  background-color: #fff;
-}
-
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-root.ant-menu-inline,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-inline,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-root.ant-menu-vertical,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
-  border-inline-end: none;
-}
-
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu .ant-menu-item,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu .ant-menu-submenu,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu .ant-menu-submenu-title {
-  border-radius: 5px;
-}
-
-// dark mode
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-root.ant-menu-inline,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-inline,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-root.ant-menu-vertical,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
-  border-inline-end: none;
-  background-color: #3A3B50;
-}
-
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-menu-light.ant-menu-inline .ant-menu-item,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item {
-  position: relative;
-  color: #b9b7c0;
-  border: 1px solid;
-  border-left: none;
-  border-top: none;
-  border-right: none;
-  border-radius: 0px;
-  margin: 0;
-  padding: 0 14px !important;
-  width: 100%;
-  background-color: #2B2838;
-}
-
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
-:where(.css-dev-only-do-not-override-5wsri9).ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
-  color: #b9b7c0;
-
-}
-
-// pop up
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-modal .ant-modal-content {
-  position: relative;
-  background-color: #2B2838;
-  background-clip: padding-box;
-  border: 0;
-  border-radius: 8px;
-  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
-  pointer-events: auto;
-  padding: 20px 24px;
-}
-
-.dark :where(.css-dev-only-do-not-override-5wsri9).ant-modal .ant-modal-close {
-  position: absolute;
-  top: 12px;
-  inset-inline-end: 12px;
-  z-index: 1010;
-  padding: 0;
-  color: #b9b7c0;
-  font-weight: 600;
-  line-height: 1;
-  text-decoration: none;
-  background: transparent;
-  border-radius: 4px;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  outline: 0;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s;
-}
-
-//  <====== Kết thúc lesson ======>
-
