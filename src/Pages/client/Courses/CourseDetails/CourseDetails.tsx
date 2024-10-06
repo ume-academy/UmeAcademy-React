@@ -63,7 +63,7 @@ const CourseDetails = () => {
                                 {item.isPreview && (
                                     <div className="">
                                         <p className='underline hover:text-[#f66962]' onClick={() => handlePreviewClick(item.path)}>Xem trước</p>
-                                        {/* <Modal
+                                        <Modal
                                             title={<p className='text-center font-subtitle dark:bg-[#2B2838] dark:text-[#B9B7C0]'>Xem trước</p>}
                                             centered
                                             open={modal2Open}
@@ -81,7 +81,7 @@ const CourseDetails = () => {
                                                     height={250}
                                                 />
                                             </div>
-                                        </Modal> */}
+                                        </Modal>
                                     </div>
                                 )}
                                 <p>{item.duration}</p>
