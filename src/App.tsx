@@ -11,6 +11,8 @@ import Wallet_History from './Pages/client/Student/Wallet_history/Wallet_History
 import Purchased_Courses from './Pages/client/Student/Purchased_courses/Purchased_Courses';
 import Course_Payment_Method from './Pages/client/Student/Course_payment_method/Course_Payment_Method';
 import Not_Found from './Pages/client/Not_found/Not_Found';
+import CourseDetails from './Pages/client/Courses/CourseDetails/CourseDetails';
+
 
 function App() {
 
@@ -32,6 +34,9 @@ function App() {
           
           {/* User profile */}
           <Route path='/profile' element={<Profile />} />
+
+          {/* Course detail */}
+          <Route path='/course/details/:id' element={<CourseDetails />} />
         </Route>
 
 

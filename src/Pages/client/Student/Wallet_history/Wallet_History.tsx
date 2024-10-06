@@ -1,6 +1,5 @@
 import { WalletFilled } from '@ant-design/icons';
 import { Pagination, Table, Tag } from 'antd';
-import { render } from 'sass';
 
 interface WalletTransaction {
     key: string;
