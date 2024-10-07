@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Introduce } from './Components/client/CommonComponents/HomeSecssion/Introduce/Introduce';
 import Lesson from './Components/client/student/Lesson/Lesson';
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser';
 import Layout_Client from './layouts/Layout_Client';
+import Layout_Teacher from './layouts/Layout_Teacher';
 import ForgotPassword from './Pages/auth/ForgotPassword/ForgotPassword';
 import Login from './Pages/auth/Login/Login';
 import Register from './Pages/auth/Register/Register';
@@ -15,6 +15,7 @@ import Purchased_Courses from './Pages/client/Student/Purchased_courses/Purchase
 import Transaction_History from './Pages/client/Student/Transaction_history/Transaction_History';
 import Wallet_History from './Pages/client/Student/Wallet_history/Wallet_History';
 import Profile from './Pages/client/User/Profile/Profile';
+import Dashboard_Teacher from './Pages/teacher/Dashboard/Dashboard_Teacher';
 import './sass/App.scss';
 
 
@@ -25,7 +26,7 @@ function App() {
       <Routes>
 
         <Route path='/' element={<Layout_Client />} >
-        <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<Profile />} />
           {mode === 'student' ? (
             <>
               {/* <===== Layout client =====> */}
@@ -36,22 +37,22 @@ function App() {
               <Route path='/wallet-history' element={<Wallet_History />} />
               <Route path='/purchased-courses' element={<Purchased_Courses />} />
               <Route path='/course-payment-method' element={<Course_Payment_Method />} />
-              
+
               {/* User profile */}
 
               {/* Course detail */}
               <Route path='/course/details/:id' element={<CourseDetails />} />
               <Route path='/course/:id/lesson' element={<Lesson />} />
-              </>
+            </>
           ) : (
             <>
               {/* Teacher */}
-              <Route path='/teacher' element={<Layout_Client />} >
-                <Route index element={<Introduce />} />
-                
+              <Route path='/teacher' element={<Layout_Teacher />} >
+                <Route index element={<Dashboard_Teacher />} />
+                <Route path='/teacher/profile' element={<h1>Profile Teacher</h1>} />
               </Route>
             </>
-          ) }
+          )}
         </Route>
 
 
@@ -59,7 +60,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgot_password' element={<ForgotPassword />} />
-        
+
         <Route path='*' element={<Not_Found />} />
 
       </Routes>
