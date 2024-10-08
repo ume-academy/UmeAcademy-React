@@ -10,7 +10,6 @@ import {
 import { ModeUserContext, ModeUserType } from "../../../../contexts/ModeUser";
 
 const Header = () => {
-  // const logo = '../../../../../public/assets/images/client/Logo/logo.png'
   // set scroll cuộn header đổi màu bgr header
   const [isScroll, setIsScroll] = useState(false)
 

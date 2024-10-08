@@ -36,8 +36,7 @@ export const getButtonDetails = (pathname: string) => {
 export const ruler = "/assets/images/client/HomeIconVector/ruler.png";
 export const tutor = "/assets/images/client/HomeIconVector/tutor.png";
 export const medal = "/assets/images/client/HomeIconVector/medal.png";
-export const university =
-  "/assets/images/client/HomeIconVector/university.png";
+export const university = "/assets/images/client/HomeIconVector/university.png";
 
 // img payment
 export const vmpayLogo = "/assets/images/client/payment/vnpay-logo.png";
