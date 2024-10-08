@@ -110,7 +110,7 @@ const Header = () => {
     toggleMode(); // Chuyển đổi chế độ
     // Điều hướng sang trang phù hợp
     if (mode === 'student') {
-      navigate('/teacher'); // Chuyển sang trang dành cho teacher
+      navigate('/'); // Chuyển sang trang dành cho teacher
     } else {
       navigate('/'); // Chuyển sang trang dành cho student (Home Page)
     }
@@ -123,7 +123,7 @@ const Header = () => {
           <div className="flex justify-start items-center">
             {/* Logo */}
           <div className="w-[160px] h-[37px] mr-12">
-            <Link to={mode === 'student' ? `/` : '/teacher'}>
+            <Link to={mode === 'student' ? `/` : '/'}>
               <img src={logo} className="w-full h-full object-cover" alt="" width={100} height={50} />
             </Link>
           </div>
