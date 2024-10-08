@@ -17,18 +17,25 @@ import Wallet_History from './Pages/client/Student/Wallet_history/Wallet_History
 import Profile from './Pages/client/User/Profile/Profile';
 import Dashboard_Teacher from './Pages/teacher/Dashboard/Dashboard_Teacher';
 import './sass/App.scss';
+import New_Instructor from './Pages/client/Teacher/New_Instructor/New_Instructor';
 
 
 function App() {
-  const { mode } = useContext(ModeUserContext) as ModeUserType
+  const { mode } = useContext(ModeUserContext)  as ModeUserType
+
   return (
     <>
       <Routes>
 
-        <Route path='/' element={<Layout_Client />} >
-          <Route path='/profile' element={<Profile />} />
+          {/* profile dùng chung */}
+          <Route path='/profile' element={mode === 'student' ? (
+            <Layout_Client><Profile/></Layout_Client>
+          ): (
+            <Layout_Client><Profile/></Layout_Client>
+          )} />
+
           {mode === 'student' ? (
-            <>
+           <Route path='/' element={<Layout_Client />} >
               {/* <===== Layout client =====> */}
               <Route index element={<Home_Page />} />
 
@@ -37,30 +44,25 @@ function App() {
               <Route path='/wallet-history' element={<Wallet_History />} />
               <Route path='/purchased-courses' element={<Purchased_Courses />} />
               <Route path='/course-payment-method' element={<Course_Payment_Method />} />
-
-              {/* User profile */}
-
+              
               {/* Course detail */}
               <Route path='/course/details/:id' element={<CourseDetails />} />
               <Route path='/course/:id/lesson' element={<Lesson />} />
-            </>
+              </Route>
           ) : (
             <>
               {/* Teacher */}
-              <Route path='/teacher' element={<Layout_Teacher />} >
+              <Route path='/' element={<Layout_Teacher />} >
                 <Route index element={<Dashboard_Teacher />} />
-                <Route path='/teacher/profile' element={<h1>Profile Teacher</h1>} />
+                <Route path='/teacher/new-instructor' element={<New_Instructor />} />
               </Route>
             </>
           )}
-        </Route>
-
 
         {/* <===== Auth =====> */}
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/forgot_password' element={<ForgotPassword />} />
-
         <Route path='*' element={<Not_Found />} />
 
       </Routes>

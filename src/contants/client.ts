@@ -50,3 +50,5 @@ export const bankLogo = "./src/assets/images/client/payment/bank.jpg";
 
 export const imgNF =
   "https://dreamslms.dreamstechnologies.com/html/assets/img/error-01.png";
+
+// <=====

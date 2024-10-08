@@ -3,7 +3,7 @@ import Footer from '../Components/client/CommonComponents/Footer/Footer'
 import Header from '../Components/client/CommonComponents/Header/Header'
 import { routerConfig } from '../contants/client'
 
-const Layout_Client = () => {
+const Layout_Client = ({children} : {children?: React.ReactNode}) => {
 
   const location = useLocation()
   const hidenHeaderFotter = routerConfig.hidenHeaderFooter.some((route) => {
@@ -16,7 +16,7 @@ const Layout_Client = () => {
       <div className="dark:bg-[#131022] min-h-screen flex flex-col">
             {!hidenHeaderFotter && <Header />}
             <main className='flex-grow'>
-                <Outlet />
+                {children || <Outlet /> }
             </main>
             {!hidenHeaderFotter && <Footer/>}
         </div>
