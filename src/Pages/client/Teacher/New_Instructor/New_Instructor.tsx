@@ -2,7 +2,7 @@
 const New_Instructor = () => {
   return (
     <div>
-      ádasdsd
+      hahah
     </div>
   );
 }

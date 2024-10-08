@@ -7,19 +7,16 @@ export const getTitleTab = (prefix: string) => {
 // Auth
 
 // img carousel
-export const imgCarousel = "./src/assets/images/client/auth/login_banner.png";
+export const imgCarousel = "/assets/images/client/auth/login_banner.png";
 
-// background img default
-export const bgAuthLightMode = "./src/assets/images/client/auth/login-bg.png";
+export const logo = '/assets/images/client/Logo/logo.png' //biến dùng cho logo trang web
 
-export const logo = '/src/assets/images/client/Logo/logo.png' //biến dùng cho logo trang web
+export const backgroundImageCommon = '/assets/images/client/homeBGR/banner.png';  //biến dùng cho bgr dùng chung
 
-export const backgroundImageCommon = '/src/assets/images/client/homeBGR/banner.png';  //biến dùng cho bgr dùng chung
-
-export const imageIntroduce = "./src/assets/images/client/homeBGR/introduce.png"; //biến dùng cho bgr dùng chung
+export const imageIntroduce = "/assets/images/client/homeBGR/introduce.png"; //biến dùng cho bgr dùng chung
 
 export const imageMasterSkills =
-  "./src/assets/images/client/homeBGR/masterSkills.png"; //biến dùng cho bgr dùng chung
+  "/assets/images/client/homeBGR/masterSkills.png"; //biến dùng cho bgr dùng chung
 
 // biến này dùng để thay đổi css cho phù hợp với từng router
 export const routerConfig = {
@@ -36,15 +33,15 @@ export const getButtonDetails = (pathname: string) => {
 };
 
 //icon vector cho Top Category homePage
-export const ruler = "./src/assets/images/client/HomeIconVector/ruler.png";
-export const tutor = "./src/assets/images/client/HomeIconVector/tutor.png";
-export const medal = "./src/assets/images/client/HomeIconVector/medal.png";
+export const ruler = "/assets/images/client/HomeIconVector/ruler.png";
+export const tutor = "/assets/images/client/HomeIconVector/tutor.png";
+export const medal = "/assets/images/client/HomeIconVector/medal.png";
 export const university =
-  "./src/assets/images/client/HomeIconVector/university.png";
+  "/assets/images/client/HomeIconVector/university.png";
 
 // img payment
-export const vmpayLogo = "./src/assets/images/client/payment/vnpay-logo.png";
-export const bankLogo = "./src/assets/images/client/payment/bank.jpg";
+export const vmpayLogo = "/assets/images/client/payment/vnpay-logo.png";
+export const bankLogo = "/assets/images/client/payment/bank.jpg";
 
 //img notfound
 

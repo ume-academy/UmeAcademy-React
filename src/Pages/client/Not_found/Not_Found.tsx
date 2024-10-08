@@ -7,8 +7,8 @@ const Not_Found = () => {
     const {mode} = useContext(ModeUserContext) as ModeUserType
 
     return (
-        <div className={`w-full h-screen ${`bg-[url("./src/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`}`}>
-            <div className={`pt-8 flex flex-col items-center justify-center text-center bg-no-repeat bg-[url("./src/assets/images/client/homeBGR/course-bg.png")]`}>
+        <div className={`w-full h-screen ${`bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`}`}>
+            <div className={`pt-8 flex flex-col items-center justify-center text-center bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}>
                 <Link to={mode === 'student' ? '/' : '/'}>
                     <img src={logo} alt="" className="w-52 mb-10 " />
                 </Link>

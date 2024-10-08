@@ -16,7 +16,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["node"]  // Thêm dòng này
   },
-  "include": ["vite.config.ts"]
+  "include": ["src/**/*"],  // Bao gồm tất cả các tệp trong thư mục src
+  "exclude": ["node_modules", "dist"]
 }
