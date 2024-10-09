@@ -3,7 +3,7 @@ import { Rate } from 'antd'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import { getButtonDetails } from '~/contants/client'
+import { getButtonDetails } from '@/contants/client'
 
 const Card = () => {
   const [heart, setHeart] = useState(false)
