@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../contants/client'
 import { Pagination } from 'antd'
-import Card from '~/components/client/commonComponents/Card/Card'
+import Card from '../../../../components/client/CommonComponents/Card/Card'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
