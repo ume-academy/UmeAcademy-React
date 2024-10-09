@@ -1,10 +1,5 @@
-
 const New_Instructor = () => {
-  return (
-    <div>
-      hahah
-    </div>
-  );
+  return <div>hahah</div>
 }
 
-export default New_Instructor;
+export default New_Instructor

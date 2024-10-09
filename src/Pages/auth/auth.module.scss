@@ -1,61 +1,57 @@
 .parent {
+  .left,
+  .right {
+    flex: 1;
+  }
 
-    .left,
-    .right {
-        flex: 1;
+  .left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url('../../assets/images/client/homeBGR/banner.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
+
+  .right {
+    height: 100vh;
+    overflow-y: auto;
+
+    .top {
+      height: 100vh;
     }
 
-    .left {
+    .form {
+      .formGroup {
+        width: 100%;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        .input {
+          width: 100%;
+          border: 2px solid #f5c8c1;
+          transition: all 0.5s ease;
+          outline: none;
 
-        background-image: url('../../assets/images/client/homeBGR/banner.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-    }
-
-    .right {
-        height: 100vh;
-        overflow-y: auto;
-
-        .top {
-            height: 100vh;
+          &:focus {
+            border: 2px solid #ff875a;
+          }
         }
 
-        .form {
-            .formGroup {
-                width: 100%;
+        .btn {
+          background-color: #ff875a;
+          border: none;
+          transition: all 0.3s ease;
+          width: 100%;
+          // padding: 26px 0;
 
-                .input {
-                    width: 100%;
-                    border: 2px solid #f5c8c1;
-                    transition: all 0.5s ease;
-                    outline: none;
-
-                    &:focus {
-                        border: 2px solid #FF875A;
-                    }
-                }
-
-                .btn {
-                    background-color: #FF875A;
-                    border: none;
-                    transition: all 0.3s ease;
-                    width: 100%;
-                    // padding: 26px 0;
-
-                    &:hover {
-                        background-color: #f5c8c1;
-                        color: #000;
-                    }
-                }
-
-            }
-
+          &:hover {
+            background-color: #f5c8c1;
+            color: #000;
+          }
         }
+      }
     }
+  }
 }

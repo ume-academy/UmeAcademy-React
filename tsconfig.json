@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx" // Đảm bảo rằng cờ này được thiết lập
+    "jsx": "react-jsx", // Đảm bảo rằng cờ này được thiết lập
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }
