@@ -1,0 +1,162 @@
+// File này đặt các css ghi đê antd
+
+
+
+// Tabs antd phần Profile
+//  <====== Bắt đầu ======>
+[class^='ant-tabs'] [class^='ant-tabs'],
+[class*=' ant-tabs'] [class^='ant-tabs'] {
+  // box-sizing: border-box;
+  flex: 1;
+  // text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+// activeTab
+.dark .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #f84563;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #f84563;
+}
+
+.dark .ant-tabs .ant-tabs-tab {
+  color: #b9b7c0;
+}
+
+// .ant-tabs .ant-tabs-tab {
+
+// }
+
+// hoverTab
+.ant-tabs .ant-tabs-tab:hover {
+  color: #f84563;
+}
+
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar {
+  // bottom: 0;
+  background: none;
+  // width: 640px !important;
+  // left: 320px !important;
+  // transform: translateX(-50%) !important;
+}
+
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab-active {
+  margin: 0;
+  border-bottom: 2px solid red;
+}
+
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin: 0;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  color: #f84563;
+  border-bottom: 2px solid;
+}
+
+//  <====== Kết thúc ======>
+
+//  <====== Bắt đầu table ======>
+.dark .ant-table-wrapper table {
+  background: #2b2838;
+  color: #b9b7c0;
+}
+
+.ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
+.ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  width: 0px;
+}
+
+.dark .ant-table thead > tr > th {
+  background: #3a3545;
+  color: #b9b7c0;
+}
+
+.dark .ant-table tbody > tr > td {
+  border-bottom: 1px solid #3a3545;
+}
+
+.dark .ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+
+.ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+
+.dark .ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  border-bottom: 1px solid #5a5a5a;
+}
+
+.ant-pagination .ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination .ant-pagination-disabled:hover .ant-pagination-item-link {
+  border: 1px solid #e9ecef;
+}
+
+//pagination
+/* Màu chữ cho mục phân trang đang được chọn */
+.ant-pagination .ant-pagination-item-active a {
+  color: white;
+}
+
+/* Viền và nền cho mục phân trang đang được chọn (viền cùng màu với nền) */
+.ant-pagination .ant-pagination-item-active {
+  border: 1px solid #ff4667;
+  background: #ff4667;
+}
+
+/* Hover cho các mục không được chọn (không active) trong light mode */
+.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover a {
+  color: white;
+  background: #ff4667;
+  border-radius: 6px;
+  border: 1px solid #ff4667;
+}
+
+/* Hover cho mục đang được chọn (active) */
+.ant-pagination .ant-pagination-item-active:hover a {
+  color: white;
+}
+
+/* Giữ màu viền và nền khi hover vào mục active */
+.ant-pagination .ant-pagination-item-active:hover {
+  border-color: #ff4667;
+  background: #ff4667;
+  border: 1px solid #ff4667;
+}
+
+/* Bo góc và viền cho các mục không được chọn trong light mode */
+.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active) a {
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+/* Viền cho các nút "Trước" và "Sau" trong chế độ dark và light mode */
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  border: 1px solid #685f78;
+}
+
+.dark.ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.dark.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  border: 1px solid #685f78;
+}
+
+/* Màu cho biểu tượng SVG trong pagination */
+.ant-pagination .anticon svg {
+  color: #685f78 !important;
+}
+
+//  <====== Kết thúc table ======>
