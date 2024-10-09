@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { imgNF, logo } from '~/contants/client'
-import { ModeUserContext, ModeUserType } from '~/contexts/ModeUser'
+import { imgNF, logo } from '@/contants/client'
+import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 
 const Not_Found = () => {
   const { mode } = useContext(ModeUserContext) as ModeUserType

@@ -1,4 +1,4 @@
-import Setting from "~/Components/client/CommonComponents/Setting/Setting"
+import Setting from "@/Components/client/CommonComponents/Setting/Setting"
 
 const Profile = () => {
   const user = {
