@@ -12,9 +12,9 @@ import {
 import { Avatar, Dropdown, Input, MenuProps, Space, TreeSelect } from 'antd'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { logo, routerConfig } from '~/contants/client'
-import { ThemeContext, ThemeContextType } from '~/contexts/ThemeContext'
-import { ModeUserContext, ModeUserType } from '~/contexts/ModeUser'
+import { logo, routerConfig } from '@/contants/client'
+import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import  './HeaderAntd.scss'
 
 const Header = () => {

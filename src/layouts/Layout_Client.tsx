@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import Footer from '../Components/client/CommonComponents/Footer/Footer'
-import Header from '../Components/client/CommonComponents/Header/Header'
+import Footer from '../components/client/commonComponents/Footer/Footer'
+import Header from '../components/client/commonComponents/Header/Header'
 import { routerConfig } from '../contants/client'
 
 const Layout_Client = ({ children }: { children?: React.ReactNode }) => {

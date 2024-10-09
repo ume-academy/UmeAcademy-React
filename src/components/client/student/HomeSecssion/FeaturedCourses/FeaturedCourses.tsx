@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { routerConfig } from '../../../../../contants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import Card from '~/components/client/commonComponents/Card/Card'
+import Card from '@/components/client/commonComponents/Card/Card'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
