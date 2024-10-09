@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Sidebar_Teacher from '../components/client/teacher/SidebarTeacher/Sidebar_Teacher'
-import Header from '../Components/client/CommonComponents/Header/Header'
-import Footer from '../Components/client/CommonComponents/Footer/Footer'
+import Header from '../components/client/commonComponents/Header/Header'
+import Footer from '../components/client/commonComponents/Footer/Footer'
 
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
