@@ -1,6 +1,7 @@
 import { CloudUploadOutlined, DeleteOutlined, EditFilled, LockFilled } from "@ant-design/icons";
 import { Avatar, Tabs } from "antd";
 import styles from './setting.module.scss';
+import './SettingAntd.scss'
 
 const Setting = ({ props }: any) => {
     console.log(props)

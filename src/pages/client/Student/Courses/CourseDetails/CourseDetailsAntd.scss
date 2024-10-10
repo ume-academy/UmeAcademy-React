@@ -1,0 +1,163 @@
+// Course Details
+// <====== Bắt đầu lesson ======>
+.ant-menu .ant-menu-submenu,
+.ant-menu .ant-menu-submenu-inline {
+  background: rgba(161, 196, 253, 0.12);
+  // padding: 5px 0;
+
+  // &:hover {
+  //   background-color: red;
+  // }
+}
+
+// màu lable
+.ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
+.ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
+  color: #000;
+}
+
+// màu lable
+.dark .ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
+.dark .ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
+  color: #b9b7c0;
+}
+
+.ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
+.ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
+  // color: #1677ff;
+  background: none;
+  height: 100%;
+
+  &:hover {
+    background: none;
+  }
+}
+
+.dark .ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open .ant-menu-submenu-selected {
+  color: #b9b7c0;
+}
+
+.dark .ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-active {
+  color: #b9b7c0;
+}
+
+//item
+.ant-menu-light.ant-menu-inline .ant-menu-item,
+.ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item {
+  position: relative;
+  color: black;
+  border: 1px solid;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-radius: 0px;
+  margin: 0;
+  padding: 0 14px !important;
+  width: 100%;
+  background-color: #fff;
+}
+
+.ant-menu-light.ant-menu-root.ant-menu-inline,
+.ant-menu-light>.ant-menu.ant-menu-root.ant-menu-inline,
+.ant-menu-light.ant-menu-root.ant-menu-vertical,
+.ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
+  border-inline-end: none;
+}
+
+.ant-menu .ant-menu-item,
+.ant-menu .ant-menu-submenu,
+.ant-menu .ant-menu-submenu-title {
+  border-radius: 5px;
+}
+
+// dark mode
+.dark .ant-menu-light.ant-menu-root.ant-menu-inline,
+.ant-menu-light>.ant-menu.ant-menu-root.ant-menu-inline,
+.ant-menu-light.ant-menu-root.ant-menu-vertical,
+.ant-menu-light>.ant-menu.ant-menu-root.ant-menu-vertical {
+  border-inline-end: none;
+  background-color: #3A3B50;
+}
+
+.dark .ant-menu-light.ant-menu-inline .ant-menu-item,
+.ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item {
+  position: relative;
+  color: #b9b7c0;
+  border: 1px solid;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-radius: 0px;
+  margin: 0;
+  padding: 0 14px !important;
+  width: 100%;
+  background-color: #2B2838;
+}
+
+
+.dark .ant-menu-light .ant-menu-submenu-selected>.ant-menu-submenu-title,
+.ant-menu-light>.ant-menu .ant-menu-submenu-selected>.ant-menu-submenu-title {
+  color: #b9b7c0;
+
+}
+
+.ant-menu .ant-menu-item,
+.ant-menu .ant-menu-submenu,
+.ant-menu .ant-menu-submenu-title {
+  border-radius: 5px;
+  color: #000;
+}
+
+.dark .ant-menu .ant-menu-item,
+.dark .ant-menu .ant-menu-submenu,
+.dark .ant-menu .ant-menu-submenu-title {
+  border-radius: 5px;
+  color: #b9b7c0;
+}
+
+// pop up
+.dark .ant-modal .ant-modal-content {
+  position: relative;
+  background-color: #2B2838;
+  background-clip: padding-box;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  padding: 20px 24px;
+}
+
+.dark .ant-modal .ant-modal-close {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  z-index: 1010;
+  padding: 0;
+  color: #b9b7c0;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  background: transparent;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+//  <====== Kết thúc lesson ======>
+
+// Modal 
+.ant-modal .ant-modal-header {
+  background: transparent;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 8px;
+  padding: 0;
+  border-bottom: none;
+
+  .ant-modal-title {
+    color: #b9b7c0;
+  }
+}

@@ -54,7 +54,7 @@ function App() {
             <Route path='/course-payment-method' element={<Course_Payment_Method />} />
 
             {/* Course detail */}
-            <Route path='/course/details/:id' element={<CourseDetails />} />
+            <Route path='/course/:id' element={<CourseDetails />} />
             <Route path='/course/:id/lesson' element={<Lesson />} />
           </Route>
         ) : (

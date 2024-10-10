@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import styles from './couseDetails.module.scss'
 import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../../contants/client'
+import './CourseDetailsAntd.scss'
 
 type MenuItem = GetProp<MenuProps, 'items'>[number]
 
@@ -138,6 +139,7 @@ const CourseDetails = () => {
                       open={modal2Open}
                       // onOk={() => setModal2Open(false)}
                       onCancel={() => setModal2Open(false)}
+                      footer={null}
                     >
                       <div className='mt-4'>
                         <iframe

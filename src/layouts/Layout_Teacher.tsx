@@ -7,7 +7,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <div className='py-[80px] my-6 container mx-auto'>
+      <div className='py-[80px] my-6 w-[1296px] mx-auto'>
         <div className='flex gap-4'>
           {/* Sidebar */}
           <div className='w-[25%]'>

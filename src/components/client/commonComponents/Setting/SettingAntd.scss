@@ -1,0 +1,101 @@
+// Tabs antd phần Profile
+//  <====== Bắt đầu ======>
+// :where(.css-dev-only-do-not-override-5wsri9)[class^="ant-tabs"] [class^="ant-tabs"],
+// :where(.css-dev-only-do-not-override-5wsri9)[class*=" ant-tabs"] [class^="ant-tabs"] {
+//   // box-sizing: border-box;
+//   flex: 1;
+//   // text-align: center;
+//   font-weight: 500;
+//   font-size: 16px;
+//   margin: 0;
+// }
+
+// deploy
+[class^="ant-tabs"] [class^="ant-tabs"],
+[class*=" ant-tabs"] [class^="ant-tabs"] {
+  box-sizing: border-box;
+  flex: 1;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+// tắt thanh active ở bottom tab
+.ant-tabs .ant-tabs-ink-bar {
+  // position: absolute;
+  // background: #1677ff;
+  // pointer-events: none;
+  background: none;
+}
+
+// màu chữ
+.ant-tabs .ant-tabs-tab {
+  position: relative;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  color: #000;
+}
+
+
+// reset margin
+.ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0;
+}
+
+// activeTab
+.dark .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #F84563;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #F84563;
+}
+
+
+.dark .ant-tabs .ant-tabs-tab {
+  color: #B9B7C0;
+
+}
+
+// :where(.css-dev-only-do-not-override-5wsri9).ant-tabs .ant-tabs-tab {
+
+// }
+
+
+// hoverTab
+.ant-tabs .ant-tabs-tab:hover {
+  color: #F84563;
+}
+
+.ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-ink-bar {
+  // bottom: 0;
+  background: none;
+  // width: 640px !important;
+  // left: 320px !important;
+  // transform: translateX(-50%) !important;
+}
+
+.ant-tabs .ant-tabs-tab+.ant-tabs-tab-active {
+  margin: 0;
+  border-bottom: 2px solid red;
+}
+
+.ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+  margin: 0;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  color: #F84563;
+  border-bottom: 2px solid;
+}
+
+//  <====== Kết thúc ======>
