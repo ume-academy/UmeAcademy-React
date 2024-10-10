@@ -1,0 +1,17 @@
+.ant-radio-inner {
+  border: 1px solid #e9ecef !important;
+}
+.ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: #ff5364 !important; /* Màu đỏ khi hover */
+}
+.ant-radio-checked .ant-radio-inner {
+  background-color: #ff5364 !important;
+  border-color: #ff5364 !important;
+}
+.dark .ant-radio-inner {
+  background-color: #3a3545 !important; /* Nền đen cho ô chưa chọn */
+  border:1px solid #3a3545 !important;
+}
+.dark .ant-radio-checked .ant-radio-inner {
+  background-color: #ff5364 !important; /* Nền đen khi đã chọn trong chế độ tối */
+}

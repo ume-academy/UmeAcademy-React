@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { routerConfig } from '../../../../../contants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import Card from '@/components/client/commonComponents/Card/Card'
+import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -17,15 +17,26 @@ const FeaturedCourses = () => {
   const isMiddleInView = useInView(middleRef, { amount: 0.1, once: true })
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
+  //data card
+  const cardData: CardProps = {
+    image: 'https://i.pravatar.cc',
+    title: 'Thông tin về thiết kế bằng UI/UX',
+    instructorName: 'DaddyGiao',
+    instructorImage: 'https://i.pravatar.cc/150',
+    price: '1.000.000 đ',
+    originalPrice: '9.000.000 đ',
+    lessonCount: '12+ Bài học',
+    duration: '9h 30p',
+    rating: 5,
+  };
   return (
     <div className=''>
       <div
-        className={`min-h-[100vh] pb-[80px] ${
-          transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
-        } dark:bg-[#131022] dark:bg-none`}
+        className={`min-h-[100vh] pb-[80px] ${transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+          } dark:bg-[#131022] dark:bg-none`}
       >
         <div className={`min-h-[100vh] bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}>
-          <div className='w-[1296px] mx-auto pt-[80px]'>
+          <div className='w-[1280px] mx-auto pt-[80px]'>
             <motion.div
               initial={{ y: 100, opacity: 0 }}
               animate={isTopInView ? { y: 0, opacity: 100 } : {}}
@@ -62,14 +73,14 @@ const FeaturedCourses = () => {
               ref={bottomRef}
               className='grid grid-cols-4 gap-7'
             >
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
+              <Card {...cardData} />
             </motion.div>
           </div>
         </div>

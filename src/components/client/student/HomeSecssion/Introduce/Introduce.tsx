@@ -32,15 +32,14 @@ export const Introduce = () => {
   return (
     <div>
       <div
-        className={`min-h-[100vh] pb-[200px] ${
-          transperent && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
-        } dark:bg-[#131022] dark:bg-none`}
+        className={`min-h-[100vh] pb-[200px] ${transperent && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+          } dark:bg-[#131022] dark:bg-none`}
       >
         <motion.div
           initial={{ y: 150, opacity: 0 }}
           animate={{ y: 0, opacity: 100 }}
           transition={{ duration: 1, ease: easeInOut }}
-          className='pt-[160px] w-[1296px] mx-auto grid grid-cols-2 '
+          className='pt-[160px] w-[1280px] mx-auto grid grid-cols-2 '
         >
           <div className='justify-self-start'>
             <h4 className='mb-[26px] text-[#685f78] dark:text-[#B9B7C0] text-[20px] font-title'>

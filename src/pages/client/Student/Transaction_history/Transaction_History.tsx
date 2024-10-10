@@ -1,6 +1,7 @@
+import { getTitleTab } from '@/contants/client'
 import { Table, Pagination, Tag } from 'antd'
 import { Helmet } from 'react-helmet'
-import { getTitleTab } from '../../../../contants/client'
+import '@/scss/TableAntd.scss'
 
 interface Transaction {
   id: number
@@ -84,7 +85,7 @@ const Transaction_History = () => {
   ]
 
   return (
-    <div className='container w-full mx-auto mt-40 mb-40'>
+    <div className='w-[1280px] mx-auto mt-40 mb-40'>
       <Helmet>
         <title>{getTitleTab('Lịch sử giao dịch')}</title>
       </Helmet>

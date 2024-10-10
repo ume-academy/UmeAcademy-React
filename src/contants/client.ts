@@ -24,10 +24,21 @@ export const routerConfig = {
 }
 
 // Location của card giữa mua ngay và hoàn tiền
+export const isMyCoursesPage = location.pathname === '/teacher/my-courses'
 export const getButtonDetails = (pathname: string) => {
   const isHistoryLesson = pathname === '/purchased-courses'
-  const buttonText = isHistoryLesson ? 'Hoàn tiền' : 'Mua ngay'
-  const targetPath = isHistoryLesson ? '/refund-page' : '/purchase-page'
+
+  let buttonText = 'Mua ngay'
+  let targetPath = '/purchase-page'
+
+  if (isHistoryLesson) {
+    buttonText = 'Hoàn tiền'
+    targetPath = '/refund-page'
+  } else if (isMyCoursesPage) {
+    buttonText = 'Xóa'
+    targetPath = '/delete-course'
+  }
+
   return { buttonText, targetPath }
 }
 

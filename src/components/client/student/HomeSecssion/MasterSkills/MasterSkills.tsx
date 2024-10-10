@@ -32,7 +32,7 @@ const MasterSkills = () => {
 
   return (
     <div>
-      <div className='max-w-[1296px] mx-auto py-[80px] grid grid-cols-2'>
+      <div className='max-w-[1280px] mx-auto py-[80px] grid grid-cols-2'>
         <div className=''>
           <motion.div
             initial={{ y: 100, opacity: 0 }}

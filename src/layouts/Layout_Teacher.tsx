@@ -5,9 +5,9 @@ import Footer from '../components/client/commonComponents/Footer/Footer'
 
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <>
+    <div className='dark:bg-[#131022]'>
       <Header />
-      <div className='py-[80px] my-6 w-[1296px] mx-auto'>
+      <div className='py-[140px] w-[1280px] mx-auto'>
         <div className='flex gap-4'>
           {/* Sidebar */}
           <div className='w-[25%]'>
@@ -18,7 +18,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
 
