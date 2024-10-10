@@ -34,7 +34,7 @@ const TopCategory = () => {
 
   return (
     <>
-      <div className='max-w-[1296px] mx-auto pb-[80px]'>
+      <div className='max-w-[1280px] mx-auto pb-[80px]'>
         <div className=''>
           <motion.div
             initial={{ y: 100, opacity: 0 }}

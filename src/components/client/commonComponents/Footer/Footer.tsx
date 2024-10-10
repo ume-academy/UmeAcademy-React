@@ -4,7 +4,7 @@ import { logo } from '../../../../contants/client'
 const Footer = () => {
   return (
     <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] w-full h-[400px] text-[14px]'>
-      <div className='container mx-auto flex justify-between pt-14 space-x-4'>
+      <div className='w-[1280px] mx-auto flex justify-between pt-14 space-x-4'>
         {' '}
         {/* Thêm space-x-4 để có khoảng cách giữa các cột */}
         <div className='flex flex-col w-[36%]'>
@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className='mt-10 pt-5 text-center flex justify-between items-center container mx-auto'>
+      <div className='mt-10 pt-5 text-center flex justify-between items-center w-[1280px] mx-auto'>
         <ul className='flex items-center space-x-2'>
           <li>
             <a href='#'>Điều khoản</a>

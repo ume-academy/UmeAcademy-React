@@ -1,9 +1,10 @@
 import { Helmet } from 'react-helmet'
-import { bankLogo, getTitleTab, vmpayLogo } from '../../../../contants/client'
+import { getTitleTab, vmpayLogo } from '../../../../contants/client'
 import { BookFilled, WalletFilled } from '@ant-design/icons'
 import { Radio, Modal } from 'antd'
 import { useState } from 'react'
-
+import './RadioAntd.scss'
+import { Landmark } from 'lucide-react'
 const Course_Payment_Method = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>('Ume Wallet')
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -27,12 +28,12 @@ const Course_Payment_Method = () => {
   }
 
   return (
-    <div className='container mx-auto mt-40 mb-20 text-[#685f78] dark:text-[#B9B7C0]'>
+    <div className='w-[1280px] mx-auto mt-40 mb-20 text-[#685f78] dark:text-[#B9B7C0]'>
       <Helmet>
         <title>{getTitleTab('Thanh toán khóa học')}</title>
       </Helmet>
-      <div className='flex justify-between'>
-        <div className='w-[56%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl mb-7'>
+      <div className='flex justify-between gap-6'>
+        <div className='w-[70%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl mb-7'>
           <p className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>
             Phương thức thanh toán
           </p>
@@ -63,7 +64,11 @@ const Course_Payment_Method = () => {
             <div className='flex gap-4 items-center w-full'>
               <Radio value='E-Wallet' className='w-full '>
                 <div className='flex items-center'>
-                  <img src={bankLogo} width='40' className='rounded-lg border' />
+                  <div className='text-white'>
+                    <div className='border bg-[#000000] rounded-lg p-2'>
+                      <Landmark size={22} />
+                    </div>
+                  </div>
                   <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
                     Thanh toán qua Ngân hàng
                   </span>
@@ -73,8 +78,8 @@ const Course_Payment_Method = () => {
           </Radio.Group>
         </div>
 
-        <form className='w-[40%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7 p-6'>
-          <p className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] pb-4 mb-4'>Chi tiết</p>
+        <form className='w-[30%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7 p-6'>
+          <p className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] pb-6 mb-4'>Chi tiết</p>
           <div className='space-y-2 mb-5'>
             <p className='text-lg font-medium'>Thông tin về thiết kế bằng UI/UX</p>
             <p className='text-[14px]'>
@@ -93,7 +98,7 @@ const Course_Payment_Method = () => {
               <input
                 type='text'
                 placeholder='Mã giảm giá'
-                className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[80%]'
+                className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[70%]'
               />
               <button
                 type='button'

@@ -1,0 +1,31 @@
+.dark .ant-table-wrapper table {
+  background: #2b2838;
+  color: #b9b7c0;
+}
+
+.dark .ant-table thead > tr > th {
+  background: #3a3545;
+  color: #b9b7c0;
+}
+
+.dark .ant-table tbody > tr > td {
+  border-bottom: 1px solid #3a3545;
+}
+
+.dark .ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+
+.ant-table tbody > tr:hover > td {
+  background: none !important;
+}
+
+.dark .ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  border-bottom: 1px solid #5a5a5a;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
+.ant-table-wrapper .ant-table-thead > tr > td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  width: 0px;
+}

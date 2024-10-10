@@ -7,7 +7,6 @@ import Layout_Teacher from './layouts/Layout_Teacher'
 import './scss/App.scss'
 import Profile from './pages/client/Student/Profile/Profile'
 import Home_Page from './pages/client/Student/Home_page/Home_Page'
-import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
 import Wallet_History from './pages/client/Student/Wallet_history/Wallet_History'
 import Purchased_Courses from './pages/client/Student/Purchased_courses/Purchased_Courses'
 import Course_Payment_Method from './pages/client/Student/Course_payment_method/Course_Payment_Method'
@@ -19,6 +18,7 @@ import Login from './pages/auth/Login/Login'
 import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
 import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor'
 import Not_Found from './pages/Not_found/Not_Found'
+import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType

@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { logo, routerConfig } from '@/contants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
-import  './HeaderAntd.scss'
+import './HeaderAntd.scss'
 
 const Header = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
@@ -95,8 +95,8 @@ const Header = () => {
     },
     // Chỉ hiển thị key 2-4 nếu mode === 'student'
     // Không thêm mục nào nếu mode không phải là 'student'
-  ...(mode === 'student'
-    ? [2, 3, 4].map((key) => ({
+    ...(mode === 'student'
+      ? [2, 3, 4].map((key) => ({
         key: `${key}`,
         label: (() => {
           switch (key) {
@@ -126,7 +126,7 @@ const Header = () => {
           }
         })()
       }))
-    : []), 
+      : []),
     {
       key: '5',
       label: (
@@ -148,7 +148,7 @@ const Header = () => {
       <div
         className={`header fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${isScroll && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
       >
-        <div className='flex items-center justify-between w-[1296px] h-[80px] mx-auto'>
+        <div className='flex items-center justify-between w-[1280px] h-[80px] mx-auto'>
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>

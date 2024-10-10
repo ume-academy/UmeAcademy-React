@@ -1,6 +1,6 @@
 import { WalletFilled } from '@ant-design/icons'
 import { Pagination, Table, Tag } from 'antd'
-
+import '@/scss/TableAntd.scss'
 interface WalletTransaction {
   key: string
   type: string
@@ -94,7 +94,7 @@ const Wallet_History = () => {
   ]
 
   return (
-    <div className='container w-full mx-auto mt-40 mb-40'>
+    <div className='w-[1280px] mx-auto mt-40 mb-40'>
       <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg'>
         <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
         <div className='flex justify-between items-center p-6'>
