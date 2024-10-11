@@ -12,6 +12,7 @@ import {
   ShoppingBasket,
   Star,
   User,
+  Users,
   Volume2,
   Wallet
 } from 'lucide-react'
@@ -22,7 +23,7 @@ const Sidebar_Teacher = () => {
   return (
     <>
       <aside className='flex flex-col gap-6'>
-        <div className={`${styles['introduce']} dark:bg-[#2b2838] `}>
+        <div className={`${styles['introduce']} dark:bg-[#2b2838] dark:border-transparent border border-[#e9ecef]`}>
           <div className={`${styles['top']} bg-[#f84563]`}>
             <div className={`${styles['avt']}`}>
               <Avatar size={100} src='https://i.pravatar.cc/300' className='border-4 border-white' />
@@ -58,7 +59,7 @@ const Sidebar_Teacher = () => {
           </div>
         </div>
 
-        <div className={`${styles['menuItems']} p-6 dark:bg-[#2b2838]`}>
+        <div className={`${styles['menuItems']} p-6 dark:bg-[#2b2838] dark:border-transparent border border-[#e9ecef]`}>
           {/* Management */}
           <div className=''>
             <div className={`${styles['heading']}`}>
@@ -81,13 +82,13 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/notifications'}
+                    to={'/teacher/my-students'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
                   >
-                    <Volume2 />
-                    Thông báo
+                    <Users />
+                    Danh sách học viên
                   </NavLink>
                 </li>
 
