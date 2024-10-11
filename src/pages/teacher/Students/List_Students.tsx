@@ -45,15 +45,15 @@ const List_Students = () => {
       dataIndex: 'email',
       key: 'email',
     },
-    // {
-    //   title: 'Tiến độ',
-    //   render: (_: any, item: any) => (
-    //     <div className="">
-    //       <Progress type="circle" percent={item.progress} size={32}/>
-    //     </div>
-    //   ),
-    //   align: 'center' as const,
-    // },
+    {
+      title: 'Tiến độ',
+      render: (_: any, item: any) => (
+        <div className="">
+          <Progress type="circle" percent={item.progress} size={32}/>
+        </div>
+      ),
+      align: 'center' as const,
+    },
   ];
 
   return (
