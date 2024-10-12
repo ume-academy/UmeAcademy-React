@@ -20,7 +20,8 @@ export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png
 // biến này dùng để thay đổi css cho phù hợp với từng router
 export const routerConfig = {
   transparentHeader: ['/'],
-  hidenHeaderFooter: ['/course/:id/lesson']
+  hidenHeaderFooter: ['/course/:id/lesson'],
+  hiddenSideberTeacher: ['/teacher/new-instructor']
 }
 
 // Location của card giữa mua ngay và hoàn tiền
@@ -56,4 +57,4 @@ export const bankLogo = '/assets/images/client/payment/bank.jpg'
 
 export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/error-01.png'
 
-// <=====
+// <===== Teacher =====>

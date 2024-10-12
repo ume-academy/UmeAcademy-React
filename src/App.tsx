@@ -20,6 +20,7 @@ import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor
 import Not_Found from './pages/Not_found/Not_Found'
 import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
+import List_Students from './pages/teacher/Students/List_Students'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -65,6 +66,7 @@ function App() {
               <Route index element={<Dashboard_Teacher />} />
               <Route path='/teacher/new-instructor' element={<New_Instructor />} />
               <Route path='/teacher/withdraw-money' element={<Withdraw_Money />} />
+              <Route path='/teacher/my-students' element={<List_Students />} />
             </Route>
           </>
         )}
