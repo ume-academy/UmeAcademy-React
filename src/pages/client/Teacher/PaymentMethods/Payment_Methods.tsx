@@ -42,7 +42,7 @@ const Payment_Methods = () => {
               </Radio.Group>
             </Form.Item>
 
-            {/* <div className="dark:border-[#e9ecef] border border-[#e9ecef] p-4 rounded-lg">
+            <div className="dark:border-[#e9ecef] border border-[#e9ecef] p-4 rounded-lg">
               <div className="flex gap-6">
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>Tên tài khoản</span>}>
@@ -90,7 +90,7 @@ const Payment_Methods = () => {
                   Lưu tài khoản rút tiền
                 </button>
               </Form.Item>
-            </div> */}
+            </div>
           </Form>
         </div>
       </div>
