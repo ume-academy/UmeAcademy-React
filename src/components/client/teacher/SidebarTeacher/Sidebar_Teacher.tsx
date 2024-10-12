@@ -93,7 +93,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/withdraw'}
+                    to={'teacher/withdraw-money'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }

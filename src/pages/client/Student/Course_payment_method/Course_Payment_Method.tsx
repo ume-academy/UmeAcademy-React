@@ -42,7 +42,7 @@ const Course_Payment_Method = () => {
               <Radio value='Ume Wallet' className='w-full '>
                 <div className='flex items-center'>
                   <div className='relative flex items-center'>
-                    <WalletFilled className='text-[#ff5364] text-[42px]' />
+                    <WalletFilled className='text-[#ff4667] text-[42px]' />
                     <span className='absolute top-1 left-2 text-[#fff] font-bold text-[9px]'>UME</span>
                   </div>
                   <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
@@ -65,7 +65,7 @@ const Course_Payment_Method = () => {
               <Radio value='E-Wallet' className='w-full '>
                 <div className='flex items-center'>
                   <div className='text-white'>
-                    <div className='border bg-[#000000] rounded-lg p-2'>
+                    <div className='border border-[#685f78] bg-[#000000] rounded-lg p-2'>
                       <Landmark size={22} />
                     </div>
                   </div>
@@ -102,7 +102,7 @@ const Course_Payment_Method = () => {
               />
               <button
                 type='button'
-                className='bg-[#ff5364] text-white h-10 w-20 text-[14px] rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+                className='bg-[#ff4667] text-white h-10 w-20 text-[14px] rounded-lg hover:border hover:text-[#ff4667] hover:border-[#ff4667] hover:bg-white transition duration-200'
               >
                 Sử dụng
               </button>
@@ -116,7 +116,7 @@ const Course_Payment_Method = () => {
           <div className='flex justify-center'>
             <button
               type='button'
-              className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+              className='bg-[#ff4667] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff4667] hover:border-[#ff4667] hover:bg-white transition duration-200'
               onClick={handleConfirm}
             >
               Thanh toán

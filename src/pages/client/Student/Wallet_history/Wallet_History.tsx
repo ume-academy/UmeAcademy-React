@@ -75,7 +75,7 @@ const Wallet_History = () => {
       key: 'amount',
       width: 120,
       render: (amount: string) => (
-        <span className='text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
+        <span className='text-[16px]' style={{ color: parseInt(amount) < 0 ? '#ff4667' : '#159f46' }}>
           {formatCurrency(amount)}
         </span>
       )
@@ -100,7 +100,7 @@ const Wallet_History = () => {
         <div className='flex justify-between items-center p-6'>
           <div className='flex gap-4 items-center'>
             <div className='relative flex items-center'>
-              <WalletFilled className='text-[#ff5364] text-[50px]' />
+              <WalletFilled className='text-[#ff4667] text-[50px]' />
               <span className='absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]'>UME</span>
             </div>
             <div>
@@ -108,7 +108,7 @@ const Wallet_History = () => {
               <p className='dark:hover:text-white'>Bạn đang có: 1000.000.000đ</p>
             </div>
           </div>
-          <button className='bg-[#ff5364] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white'>
+          <button className='bg-[#ff4667] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'>
             Nạp tiền
           </button>
         </div>
