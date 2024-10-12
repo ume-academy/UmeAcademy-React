@@ -22,6 +22,7 @@ import Transaction_History from './pages/client/Student/Transaction_history/Tran
 import List_Students from './pages/teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Revenue from './pages/client/Teacher/Revenue/Revenue'
+import My_Courses from './pages/client/Teacher/My_Courses/My_Courses'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -69,7 +70,7 @@ function App() {
               <Route path='/teacher/my-students' element={<List_Students />} />
               <Route path='/teacher/withdraw_money' element={<Withdraw_Money />} />
               <Route path='/teacher/revenue' element={<Revenue />} />
-
+              <Route path='/teacher/my-courses' element={<My_Courses />} />
             </Route>
           </>
         )}

@@ -24,24 +24,24 @@ export const routerConfig = {
   hiddenSideberTeacher: ['/teacher/new-instructor']
 }
 
-// Location của card giữa mua ngay và hoàn tiền
-export const isMyCoursesPage = location.pathname === '/teacher/my-courses'
+// Location của card giữa mua ngay - hoàn tiền và trang teacher
+export const isMyCoursesPage = location.pathname === "/teacher/my-courses";
 export const getButtonDetails = (pathname: string) => {
-  const isHistoryLesson = pathname === '/purchased-courses'
+  const isHistoryLesson = pathname === "/purchased-courses";
 
-  let buttonText = 'Mua ngay'
-  let targetPath = '/purchase-page'
+  let buttonText = "Mua ngay";
+  let targetPath = "/purchase-page";
 
   if (isHistoryLesson) {
-    buttonText = 'Hoàn tiền'
-    targetPath = '/refund-page'
+    buttonText = "Hoàn tiền";
+    targetPath = "/refund-page";
   } else if (isMyCoursesPage) {
-    buttonText = 'Xóa'
-    targetPath = '/delete-course'
+    buttonText = "Xóa";
+    targetPath = "/delete-course";
   }
 
-  return { buttonText, targetPath }
-}
+  return { buttonText, targetPath };
+};
 
 //icon vector cho Top Category homePage
 export const ruler = '/assets/images/client/HomeIconVector/ruler.png'

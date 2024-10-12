@@ -61,7 +61,7 @@ const Sidebar_Teacher = () => {
               <ul className='space-y-4 text-[#685f78] dark:text-[#B9B7C0]'>
                 <li>
                   <NavLink
-                    to={'/'}
+                    to={'/teacher/my-courses'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
