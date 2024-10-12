@@ -3,6 +3,8 @@ import { Pagination, Table, Tag } from 'antd';
 import { CircleAlert, Landmark, X } from 'lucide-react';
 import { useState } from 'react';
 import '@/scss/PaginationAntd.scss'
+import { getTitleTab } from '@/contants/client';
+import { Helmet } from 'react-helmet';
 interface Withdraw {
   key: string;
   method: string;
@@ -85,6 +87,9 @@ const Withdraw_Money = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>{getTitleTab('Rút tiền')}</title>
+      </Helmet>
       <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg'>
         <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
         <div className='flex justify-between items-center p-6'>

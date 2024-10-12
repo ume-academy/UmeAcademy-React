@@ -25,6 +25,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.2",
+    "recharts": "^2.13.0",
     "sass": "^1.79.4",
     "swiper": "^11.1.14",
     "zod": "^3.23.8"
