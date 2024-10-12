@@ -1,19 +1,10 @@
 import { Avatar } from 'antd'
 import {
-  Bell,
   Boxes,
   FileText,
-  Gauge,
-  GraduationCap,
   HandCoins,
-  Heart,
-  MessageSquareText,
   Rocket,
-  ShoppingBasket,
-  Star,
-  User,
   Users,
-  Volume2,
   Wallet
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
@@ -94,7 +85,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/withdraw'}
+                    to={'/teacher/withdraw_money'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
