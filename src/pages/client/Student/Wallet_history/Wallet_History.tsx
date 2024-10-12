@@ -1,42 +1,50 @@
 import { WalletFilled } from '@ant-design/icons'
-import { Pagination, Table, Tag } from 'antd'
+import { Pagination, Table } from 'antd'
 import '@/scss/TableAntd.scss'
+import { useState } from 'react'
+import { CircleAlert, X } from 'lucide-react'
+
 interface WalletTransaction {
-  key: string
+  id: string
   type: string
+  method: string
   date: string
   amount: string
-  status: '0' | '1'
+  note: string
 }
 
 const wallet: WalletTransaction[] = [
   {
-    key: '1',
+    id: 'dh73232đww33',
     type: 'Mua hàng',
     date: '10/12/2024',
+    method: 'Chuyển khoản ngân hàng',
     amount: '-1000222',
-    status: '1'
+    note: 'giao dep trai'
   },
   {
-    key: '2',
+    id: 'dh73232đww33',
     type: 'Hoàn tiền',
+    method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
     amount: '500000',
-    status: '0'
+    note: 'giao dep trai'
   },
   {
-    key: '3',
+    id: 'dh73232đww33',
     type: 'Nạp tiền',
+    method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
     amount: '300000',
-    status: '1'
+    note: 'giao dep trai'
   },
   {
-    key: '4',
+    id: 'dh73232đww33',
     type: 'Mua hàng',
+    method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
     amount: '-300000',
-    status: '1'
+    note: 'giao dep trai'
   }
 ]
 
@@ -48,32 +56,47 @@ const formatCurrency = (amount: string) => {
 }
 
 const Wallet_History = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const columns = [
     {
-      title: <div className='pl-5'>STT</div>,
-      key: 'stt',
-      width: 50,
-      render: (_: any, __: any, index: number) => <div className='pl-5'>{index + 1}</div>
+      title: 'Mã giao dịch',
+      dataIndex: 'id',
+      key: 'id',
+      width: 150
     },
     {
       title: 'Loại giao dịch',
       dataIndex: 'type',
       key: 'type',
-      width: 120,
+      width: 130,
       render: (type: string) => <div className='text-[16px]'>{type}</div>
+    },
+    {
+      title: 'Phương thức thanh toán',
+      dataIndex: 'method',
+      key: 'method',
+      width: 160
     },
     {
       title: 'Ngày',
       dataIndex: 'date',
       key: 'date',
-      width: 120,
+      width: 140,
       render: (date: string) => <div className='text-[16px]'>{date}</div>
     },
     {
       title: 'Số tiền',
       dataIndex: 'amount',
       key: 'amount',
-      width: 120,
+      width: 140,
       render: (amount: string) => (
         <span className='text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
           {formatCurrency(amount)}
@@ -81,21 +104,16 @@ const Wallet_History = () => {
       )
     },
     {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: '0' | '1') => (
-        <Tag className='text-[17px] py-2 px-9' color={status === '1' ? 'green' : 'volcano'}>
-          {status === '1' ? 'Thành công' : 'Thất bại'}
-        </Tag>
-      ),
-      width: 100
+      title: 'Ghi chú',
+      dataIndex: 'note',
+      key: 'note',
+      width: 200
     }
   ]
 
   return (
     <div className='w-[1280px] mx-auto mt-40 mb-40'>
-      <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg'>
+      <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg shadow-lg'>
         <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
         <div className='flex justify-between items-center p-6'>
           <div className='flex gap-4 items-center'>
@@ -104,15 +122,63 @@ const Wallet_History = () => {
               <span className='absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]'>UME</span>
             </div>
             <div>
-              <p>Số dư hiện tại</p>
-              <p className='dark:hover:text-white'>Bạn đang có: 1000.000.000đ</p>
+              <p className='text-[15px]'>Số dư hiện tại</p>
+              <p className='text-[18px] font-semibold dark:hover:text-white'>Bạn đang có: 1.000.000.000 ₫</p>
             </div>
           </div>
-          <button className='bg-[#ff5364] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white'>
+          <button onClick={openModal}
+            className='bg-[#ff5364] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white' >
             Nạp tiền
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[46%] p-6">
+            <button
+              onClick={closeModal}
+              className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
+              <X size={16} />
+            </button>
+            <h2 className="font-semibold mb-4">Nạp tiền vào ví Ume</h2>
+            <p className='text-[15px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
+            <div className='text-[16px] flex justify-between items-center mb-4'>
+
+            </div>
+            <form>
+              <div className="mb-6 text-[14px] space-y-2">
+                <label htmlFor="amount" className="font-medium">
+                  Số tiền
+                </label>
+                <input
+                  id="amount"
+                  type="number"
+                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md placeholder-gray-400"
+                  placeholder="đ"
+                />
+                <div className="text-sm text-gray-400 flex items-center gap-1 pt-2">
+                  <CircleAlert size={14} className='mr-2' />
+                  <p>Số tiền rút tối thiểu là:</p>
+                  <p className="text-white">50.000đ</p>
+                </div>
+              </div>
+              <div className="flex justify-start text-[16px] gap-4">
+                <button
+                  type="submit"
+                  className="bg-[#ff4667] border border-[#ff4667] text-white py-2 px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white">
+                  Nạp tiền
+                </button>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className=" text-[#ff4667] py-2 px-4 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white">
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
         <h2 className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Lịch sử giao dịch</h2>
         <Table
@@ -129,4 +195,4 @@ const Wallet_History = () => {
   )
 }
 
-export default Wallet_History
+export default Wallet_History  
