@@ -1,0 +1,35 @@
+.ant-picker .ant-picker-suffix {
+  color: #f24f3a;
+}
+.ant-input-suffix .anticon-close-circle {
+  color: #f24f3a; /* Màu mặc định của icon */
+}
+.anticon-close-circle {
+  color: #f24f3a;
+}
+
+.anticon-close-circle:hover {
+  color: #f24f3a;
+}
+
+/* Đổi màu icon khi hover */
+.ant-input-suffix .anticon-close-circle:hover {
+  color: #ff0000; /* Màu khi hover */
+}
+.ant-picker-outlined:hover {
+  border: 1px solid #f24f3a;
+}
+.ant-picker-outlined:focus,
+.ant-picker-outlined:focus-within {
+  border: 1px solid #f24f3a;
+}
+.dark .ant-picker-outlined {
+  border: 1px solid #685f78;
+}
+.dark .ant-picker .ant-picker-input > input {
+  color: #b9b7c0;
+}
+.dark .ant-picker .ant-picker-input > input::placeholder {
+  color: #b9b7c0;
+}
+//  <====== Kết thúc inp nhập Date ======>

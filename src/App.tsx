@@ -21,6 +21,7 @@ import Not_Found from './pages/Not_found/Not_Found'
 import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
 import List_Students from './pages/teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
+import Revenue from './pages/client/Teacher/Revenue/Revenue'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -67,6 +68,8 @@ function App() {
               <Route path='/teacher/new-instructor' element={<New_Instructor />} />
               <Route path='/teacher/my-students' element={<List_Students />} />
               <Route path='/teacher/withdraw_money' element={<Withdraw_Money />} />
+              <Route path='/teacher/revenue' element={<Revenue />} />
+
             </Route>
           </>
         )}
