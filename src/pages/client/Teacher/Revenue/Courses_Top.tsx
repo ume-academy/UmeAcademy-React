@@ -92,13 +92,13 @@ const Courses_Top = () => {
       <div className="mt-5 border rounded-lg dark:border-[#5a5a5a] text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
         <div className="border-b dark:border-[#5a5a5a]">
           <p className="p-6 text-[#2b2838] dark:text-gray-200 text-2xl">
-            Top 5 khóa học bán chạy nhất 
+            Top 5 khóa học bán chạy nhất
           </p>
         </div>
         <div className="p-6">
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={data} 
             pagination={false}
             rowKey="id"
             className="border dark:border-[#5a5a5a] rounded-lg"
