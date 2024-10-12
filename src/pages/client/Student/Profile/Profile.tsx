@@ -1,4 +1,6 @@
 import Setting from "@/components/client/commonComponents/Setting/Setting"
+import { getTitleTab } from "@/contants/client"
+import { Helmet } from "react-helmet"
 
 const Profile = () => {
   const user = {
@@ -12,6 +14,10 @@ const Profile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{getTitleTab('Hồ sơ cá nhân')}</title>
+      </Helmet>
+
       <div className='pt-[160px]'>
         <Setting props={user} />
       </div>

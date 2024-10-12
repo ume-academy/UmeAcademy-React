@@ -1,6 +1,8 @@
-import { Image, Progress, Table } from 'antd';
+import { Image, Pagination, Progress, Table } from 'antd';
 import styles from './listStudent.module.scss';
-import './listStudents.scss'
+import './listStudents.scss';
+import { Helmet } from 'react-helmet';
+import { getTitleTab } from '@/contants/client';
 
 const List_Students = () => {
 
@@ -46,10 +48,16 @@ const List_Students = () => {
       key: 'email',
     },
     {
+      title: 'Ngày đăng ký',
+      dataIndex: 'buyAt',
+      key: 'buyAt',
+      align: 'center' as const,
+    },
+    {
       title: 'Tiến độ',
       render: (_: any, item: any) => (
         <div className="">
-          <Progress type="circle" percent={item.progress} size={32}/>
+          <Progress type="circle" percent={item.progress} size={32} />
         </div>
       ),
       align: 'center' as const,
@@ -58,6 +66,10 @@ const List_Students = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{getTitleTab('Danh sách học viên')}</title>
+      </Helmet>
+
       <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] border border-[#e9ecef] rounded-xl`}>
         <div className={`${styles['heading']} dark:text-[#b9b7c0] font-title text-2xl p-6`}>
           <h3>Danh sách học viên</h3>
@@ -66,6 +78,12 @@ const List_Students = () => {
         <div className={`${styles['content']} p-6`}>
           <Table dataSource={dataSource} columns={columns} pagination={false} className='border border-[#e9ecef] rounded-lg' />
         </div>
+      </div>
+
+      <div className="flex justify-between items-center my-6 text-sm">
+        <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
+
+        <Pagination />
       </div>
     </>
   )

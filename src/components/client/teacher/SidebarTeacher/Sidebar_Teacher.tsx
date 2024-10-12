@@ -5,7 +5,8 @@ import {
   HandCoins,
   Rocket,
   Users,
-  Wallet
+  Wallet,
+  WalletCards
 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
@@ -50,7 +51,7 @@ const Sidebar_Teacher = () => {
           </div>
         </div>
 
-        <div className={`${styles['menuItems']} p-6 dark:bg-[#2b2838] dark:border-transparent border border-[#e9ecef]`}>
+        <div className={`${styles['menuItems']} min-h-screen p-6 dark:bg-[#2b2838] dark:border-transparent border border-[#e9ecef]`}>
           {/* Management */}
           <div className=''>
             <div className={`${styles['heading']}`}>
@@ -59,6 +60,18 @@ const Sidebar_Teacher = () => {
 
             <div className={`${styles['content']} mt-6`}>
               <ul className='space-y-4 text-[#685f78] dark:text-[#B9B7C0]'>
+                <li>
+                  <NavLink
+                    to={'/'}
+                    className={({ isActive }) =>
+                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
+                    }
+                  >
+                    <HandCoins />
+                    Doanh thu
+                  </NavLink>
+                </li>
+
                 <li>
                   <NavLink
                     to={'/teacher/my-courses'}
@@ -97,6 +110,18 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
+                    to={'/teacher/payment-methods'}
+                    className={({ isActive }) =>
+                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
+                    }
+                  >
+                    <WalletCards />
+                    Phương thức thanh toán
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
                     to={'/quiz'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
@@ -116,18 +141,6 @@ const Sidebar_Teacher = () => {
                   >
                     <FileText />
                     Bài tập
-                  </NavLink>
-                </li>
-
-                <li>
-                  <NavLink
-                    to={'/teacher/revenue'}
-                    className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
-                    }
-                  >
-                    <HandCoins />
-                    Doanh thu
                   </NavLink>
                 </li>
               </ul>
