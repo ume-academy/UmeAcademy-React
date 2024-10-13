@@ -1,40 +1,28 @@
-.dark .ant-input-outlined:focus,
-.ant-input-outlined:focus-within {
-  box-sizing: border-box;
-  border: 2px solid #ec7d37;
-  // box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
-  outline: 0;
-  background-color: transparent;
-  // color: #000;
-}
+/* paymentMethodAntd.scss */
+.payment-method-wrapper {
+  .dark .ant-input-outlined:focus,
+  .ant-input-outlined:focus-within {
+    box-sizing: border-box;
+    border: 2px solid #ec7d37;
+    outline: 0;
+    background-color: transparent;
+  }
 
-// .dark .ant-input-outlined:focus,
-// .ant-input-outlined:focus-within {
-//   // color: #b9b7c0;
-// }
+  .ant-input {
+    border: 2px solid #e5e7eb;
+  }
 
-.ant-input {
-  border: 2px solid #e5e7eb;
-}
+  .dark .ant-input {
+    border: 2px solid transparent;
+    background-color: #131022;
+  }
 
-.dark .ant-input {
-  border: 2px solid transparent;
-  background-color: #131022;
-}
+  .ant-input:placeholder-shown {
+    text-overflow: ellipsis;
+  }
 
-.ant-input:placeholder-shown {
-  text-overflow: ellipsis;
-  // color: #000;
-  // background-color: transparent;
-}
-
-// .dark .ant-input:placeholder-shown {
-//   text-overflow: ellipsis;
-//   // color: #b9b7c0;
-//   background-color: #131022;
-// }
-
-.ant-input:hover {
-  border: 2px solid #ec7d37;
-  background-color: transparent;
+  .ant-input:hover {
+    border: 2px solid #ec7d37;
+    background-color: transparent;
+  }
 }

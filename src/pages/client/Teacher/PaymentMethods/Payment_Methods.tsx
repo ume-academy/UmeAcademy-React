@@ -1,14 +1,14 @@
-import { Form, Input, Radio } from 'antd'
-import './paymentMethodAntd.scss'
-import styles from './paymentMethods.module.scss'
-import { Helmet } from 'react-helmet'
-import { getTitleTab } from '@/contants/client'
+import { Form, Input, Radio } from 'antd';
+import './paymentMethodAntd.scss'; // SCSS cho thành phần này
+import styles from './paymentMethods.module.scss';
+import { Helmet } from 'react-helmet';
+import { getTitleTab } from '@/contants/client';
 
 const Payment_Methods = () => {
 
   const handleSubmit = (data: any) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   return (
     <>
@@ -16,7 +16,7 @@ const Payment_Methods = () => {
         <title>{getTitleTab('Phương thức thanh toán')}</title>
       </Helmet>
 
-      <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] border border-[#e9ecef] rounded-xl`}>
+      <div className={`${styles['parent']} payment-method-wrapper dark:border-transparent dark:bg-[#2B2838] border border-[#e9ecef] rounded-xl`}>
         <div className={`${styles['heading']} dark:text-[#b9b7c0] font-title text-2xl p-6`}>
           <h3>Phương thức thanh toán</h3>
         </div>
@@ -26,10 +26,7 @@ const Payment_Methods = () => {
             <h5>Lựa chọn phương thúc thanh toán</h5>
           </div>
 
-          <Form
-            layout='vertical'
-            onFinish={handleSubmit}
-          >
+          <Form layout='vertical' onFinish={handleSubmit}>
             <Form.Item name='payment_method'>
               <Radio.Group className='flex flex-col items-start dark:border-[#e9ecef] border border-[#e9ecef] p-4 rounded-lg'>
                 <Radio
@@ -46,13 +43,13 @@ const Payment_Methods = () => {
               <div className="flex gap-6">
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>Tên tài khoản</span>}>
-                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 haha font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
 
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>Số tài khoản</span>}>
-                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 haha font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
               </div>
@@ -60,13 +57,13 @@ const Payment_Methods = () => {
               <div className="flex gap-6">
                 <div className="flex-1">
                   <Form.Item name='name_banking' label={<span className='font-subtitle dark:text-[#e5e7eb]'>Tên ngân hàng</span>}>
-                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 haha font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
 
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>Mã số IBAN</span>}>
-                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 haha font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
               </div>
@@ -74,13 +71,13 @@ const Payment_Methods = () => {
               <div className="flex gap-6">
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>BIC/SWIFT</span>}>
-                    <Input className='  py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
 
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#e5e7eb]'>Số ti</span>}>
-                    <Input className='  py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
+                    <Input className='py-2 font-semibold dark:text-[#b9b7c0] bg-transparent' />
                   </Form.Item>
                 </div>
               </div>
@@ -95,8 +92,7 @@ const Payment_Methods = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-
-export default Payment_Methods
+export default Payment_Methods;

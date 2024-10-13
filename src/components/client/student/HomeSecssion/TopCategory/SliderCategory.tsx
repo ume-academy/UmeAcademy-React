@@ -116,7 +116,7 @@ const SliderCategory = () => {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className='bg-white dark:bg-[#2b2838] dark:border-transparent dark:hover:bg-[#413655] border-[1px] rounded-lg p-5 text-center flex flex-col items-center hover:bg-[#413655] group transition-all duration-300 ease-in-out'>
+            <div className='bg-white dark:bg-[#2b2838] dark:border-transparent dark:hover:bg-[#413655] border-[1px] border-[#e9ecef] rounded-lg p-5 text-center flex flex-col items-center hover:bg-[#413655] group transition-all duration-300 ease-in-out'>
               <img src={image.src} alt={image.title} className='w-[105px] h-[105px] mb-4 object-cover' />
               <div className='max-w-[130px] mx-auto'>
                 <h3 className='text-lg font-title text-gray-800 mb-[16px] group-hover:text-[#fff] dark:text-[#B9B7C0] transition-all duration-300 ease-in-out'>

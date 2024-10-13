@@ -71,7 +71,7 @@ const MasterSkills = () => {
               onMouseEnter={() => handleMouseEnter(1)}
               onMouseLeave={() => handleMouseLeave(1)}
               animate={hoverStates[1] ? { y: -10 } : {}}
-              className='grid grid-cols-[0.5fr_2fr] border-[1px] rounded-2xl p-[20px] items-center dark:border-transparent dark:bg-[#2b2838]'
+              className='grid grid-cols-[0.5fr_2fr] border-[1px] border-[#e9ecef] rounded-2xl p-[20px] items-center  dark:border-transparent dark:bg-[#2b2838]'
             >
               <svg width='67' height='61' viewBox='0 0 67 61' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path
@@ -105,7 +105,7 @@ const MasterSkills = () => {
               onMouseEnter={() => handleMouseEnter(2)}
               onMouseLeave={() => handleMouseLeave(2)}
               animate={hoverStates[2] ? { y: -10 } : {}}
-              className='grid grid-cols-[0.5fr_2fr] border-[1px] rounded-2xl p-[20px] items-center dark:border-transparent dark:bg-[#2b2838]'
+              className='grid grid-cols-[0.5fr_2fr] border-[1px] border-[#e9ecef] rounded-2xl p-[20px] items-center  dark:border-transparent dark:bg-[#2b2838]'
             >
               <svg width='64' height='50' viewBox='0 0 64 50' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path
@@ -135,7 +135,7 @@ const MasterSkills = () => {
               onMouseEnter={() => handleMouseEnter(3)}
               onMouseLeave={() => handleMouseLeave(3)}
               animate={hoverStates[3] ? { y: -10 } : {}}
-              className='grid grid-cols-[0.5fr_2fr] border-[1px] rounded-2xl p-[20px] items-center dark:border-transparent dark:bg-[#2b2838]'
+              className='grid grid-cols-[0.5fr_2fr] border-[1px] border-[#e9ecef] rounded-2xl p-[20px] items-center  dark:border-transparent dark:bg-[#2b2838]'
             >
               <svg width='61' height='57' viewBox='0 0 61 57' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path
@@ -177,7 +177,7 @@ const MasterSkills = () => {
               onMouseEnter={() => handleMouseEnter(4)}
               onMouseLeave={() => handleMouseLeave(4)}
               animate={hoverStates[4] ? { y: -10 } : {}}
-              className='grid grid-cols-[0.5fr_2fr] border-[1px] rounded-2xl p-[20px] items-center dark:border-transparent dark:bg-[#2b2838]'
+              className='grid grid-cols-[0.5fr_2fr] border-[1px] border-[#e9ecef] rounded-2xl p-[20px] items-center  dark:border-transparent dark:bg-[#2b2838]'
             >
               <svg width='54' height='58' viewBox='0 0 54 58' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path

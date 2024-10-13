@@ -1,3 +1,6 @@
+import { logo, routerConfig } from '@/contants/client'
+import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
+import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import {
   ArrowRightOutlined,
   HistoryOutlined,
@@ -12,15 +15,13 @@ import {
 import { Avatar, Dropdown, Input, MenuProps, Space, TreeSelect } from 'antd'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { logo, routerConfig } from '@/contants/client'
-import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
-import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import './HeaderAntd.scss'
 
 const Header = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const navigate = useNavigate()
+
   const handleToggle = () => {
     toggleMode() // Chuyển đổi chế độ
     // Điều hướng sang trang phù hợp
@@ -146,9 +147,9 @@ const Header = () => {
   return (
     <>
       <div
-        className={`header fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${isScroll && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
+        className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${isScroll && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
       >
-        <div className='flex items-center justify-between w-[1280px] h-[80px] mx-auto'>
+        <div className=' flex items-center justify-between w-[1280px] h-[80px] mx-auto'>
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>
@@ -161,7 +162,7 @@ const Header = () => {
               <SearchOutlined style={{ color: '#f66962', marginRight: 10, paddingLeft: 10 }} />
               <Input
                 type='text'
-                className='bg-transparent border-none w-[360px] mr-2 placeholder:text-[#b9b7c0] text-[#b9b7c0] hover:bg-transparent focus:bg-transparent'
+                className='bg-transparent border-none w-[360px] focus:border-transparent mr-2 placeholder:text-[#b9b7c0] text-[#b9b7c0] hover:bg-transparent focus:bg-transparent'
                 placeholder='Tìm kiến khóa học, giảng viên,'
               />
               <TreeSelect

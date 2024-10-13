@@ -24,6 +24,7 @@ import Transaction_History from './pages/client/Student/Transaction_history/Tran
 import List_Students from './pages/client/Teacher/Students/List_Students'
 import './scss/App.scss'
 import FormCourse from './pages/client/Teacher/FormCourse/FormCourse'
+import Layout_Admin from './layouts/Layout_Admin'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -72,6 +73,10 @@ function App() {
             </Route>
           </>
         )}
+
+        <Route path="/admin" element={<Layout_Admin />}>
+          <Route path='/admin' element={(<h1>hihiihi</h1>)} />
+        </Route>
 
         {/* <===== Auth =====> */}
         <Route path='/register' element={<Register />} />
