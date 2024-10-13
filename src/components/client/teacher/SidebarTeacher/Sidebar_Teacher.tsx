@@ -8,10 +8,14 @@ import {
   Wallet,
   WalletCards
 } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
 
 const Sidebar_Teacher = () => {
+  const nav = useNavigate()
+  const handleClick = () => {
+    nav('/teacher/create-course')
+  }
   return (
     <>
       <aside className='flex flex-col gap-6'>
@@ -33,8 +37,11 @@ const Sidebar_Teacher = () => {
           </div>
 
           <div className={`${styles['act']} p-6`}>
-            <button
-              className='py-3 
+            <Link to={`/teacher/create-course`}
+            // onClick={handleClick}
+              className='   flex
+                            justify-center
+                            py-3 
                             text-white 
                             bg-[#f84563] 
                             rounded-md 
@@ -47,7 +54,7 @@ const Sidebar_Teacher = () => {
                             dark:hover:text-[#b9b7c0]'
             >
               Thêm khóa học
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -98,7 +105,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/teacher/withdraw_money'}
+                    to={'/teacher/withdraw-money'}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }

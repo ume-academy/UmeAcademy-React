@@ -96,13 +96,23 @@
 }
 
 .ant-select-dropdown {
-  padding: 0px;
+  background-color: #fff;
+}
+.dark .ant-select-dropdown {
+  background-color: #3d3a4e;
 }
 
 .ant-tree-select-dropdown .ant-select-tree .ant-select-tree-treenode {
   padding: 0px;
 }
+.ant-tree-select-dropdown .ant-select-tree .ant-select-tree-list-holder-inner .ant-select-tree-treenode .ant-select-tree-node-content-wrapper {
+  padding: 6px 16px;
+}
+.ant-empty-small {
+  padding: 16px;
+}
 
+// dropdown
 .ant-dropdown .ant-dropdown-menu,
 .ant-dropdown-menu-submenu .ant-dropdown-menu {
   padding: 0;

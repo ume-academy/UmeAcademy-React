@@ -2,3 +2,37 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+// Scrollbar style
+::-webkit-scrollbar {
+  width: 8px; /* Độ rộng của scrollbar */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+  background: #fff; /* Màu nền cho scrollbar track trong chế độ light */
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #beb6b6;
+    border-radius: 100vh;
+ /* Màu cho scrollbar thumb trong chế độ light */
+}
+
+/* Scrollbar Handle khi hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a7a0a0; /* Màu cho scrollbar thumb khi hover trong chế độ light */
+}
+
+/* Chế độ dark */
+.dark ::-webkit-scrollbar-track {
+  background: #2c2c2c; /* Màu nền cho scrollbar track trong chế độ dark */
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #444; /* Màu cho scrollbar thumb trong chế độ dark */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #666; /* Màu cho scrollbar thumb khi hover trong chế độ dark */
+}

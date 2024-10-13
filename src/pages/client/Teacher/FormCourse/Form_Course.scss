@@ -1,0 +1,24 @@
+.ant-upload-wrapper .ant-upload-drag {
+  margin-top: 12px;
+}
+
+.dark .ant-upload-wrapper .ant-upload-drag:not(.ant-upload-disabled) {
+  background: #131022;
+  border: 1px dashed #c7c7c740;
+}
+
+.dark .ant-upload-wrapper .ant-upload-drag:not(.ant-upload-disabled):hover {
+  border: 1px dashed #c7c7c740; /* Màu border khi hover */
+}
+
+.ant-upload-wrapper .ant-upload-drag:not(.ant-upload-disabled):hover {
+  border: 1px dashed #c1c9d2;
+  :focus {
+  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1)
+  }
+}
+
+
+
+
+

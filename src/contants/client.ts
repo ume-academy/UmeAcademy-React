@@ -21,7 +21,7 @@ export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png
 export const routerConfig = {
   transparentHeader: ['/'],
   hidenHeaderFooter: ['/course/:id/lesson'],
-  hiddenSideberTeacher: ['/teacher/new-instructor']
+  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/create-course']
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
