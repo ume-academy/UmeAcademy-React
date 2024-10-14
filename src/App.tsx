@@ -5,6 +5,7 @@ import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
 
 import Lesson from './components/client/student/Lesson/Lesson'
+import Layout_Admin from './layouts/Layout_Admin'
 import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
 import Login from './pages/auth/Login/Login'
 import Register from './pages/auth/Register/Register'
@@ -13,18 +14,17 @@ import CourseDetails from './pages/client/Student/Courses/CourseDetails/CourseDe
 import Home_Page from './pages/client/Student/Home_page/Home_Page'
 import Profile from './pages/client/Student/Profile/Profile'
 import Purchased_Courses from './pages/client/Student/Purchased_courses/Purchased_Courses'
+import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
 import Wallet_History from './pages/client/Student/Wallet_history/Wallet_History'
+import FormCourse from './pages/client/Teacher/FormCourse/FormCourse'
 import My_Courses from './pages/client/Teacher/My_Courses/My_Courses'
 import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor'
 import Payment_Methods from './pages/client/Teacher/PaymentMethods/Payment_Methods'
 import Revenue from './pages/client/Teacher/Revenue/Revenue'
+import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
-import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
-import List_Students from './pages/client/Teacher/Students/List_Students'
 import './scss/App.scss'
-import FormCourse from './pages/client/Teacher/FormCourse/FormCourse'
-import Layout_Admin from './layouts/Layout_Admin'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -75,7 +75,6 @@ function App() {
         )}
 
         <Route path="/admin" element={<Layout_Admin />}>
-          <Route path='/admin' element={(<h1>hihiihi</h1>)} />
         </Route>
 
         {/* <===== Auth =====> */}
