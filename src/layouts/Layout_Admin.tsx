@@ -1,81 +1,49 @@
-import React, { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { logo } from '@/contants/client'
-import { NavLink, Outlet } from 'react-router-dom';
+import Footer_Admin from '@/components/admin/Footer/Footer_Admin';
+import Header_Admin from '@/components/admin/Header/Header_Admin';
+import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
+import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
+import { Layout } from 'antd';
+import React, { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
 
-const items: MenuItem[] = [
-  getItem(<NavLink to={'/admin'}>Dashboard</NavLink>, '1', <PieChartOutlined />),
-  getItem(<NavLink to={'/admin/test'}>Test 1</NavLink>, '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
 
 const Layout_Admin: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+
+  const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="flex justify-center p-4" >
-          <img src={logo} alt="logo" width={120}/>
-        </div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
+      {/* Sidebar Admin */}
+      <Sidebar_Admin />
+      {/* End Sidebar Admin */}
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+
+        {/* Header Admin */}
+        <Header_Admin toggleTheme={toggleTheme} theme={theme} />
+        {/* End Header Admin */}
+
+        <Content style={{ padding: '0 16px' }} className='dark:bg-[#131022] dark:text-[#b9b7c0]'>
           <div
             style={{
               padding: 24,
               minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              // background: '#f84563',
+              // borderRadius: borderRadiusLG,
             }}
+            
           >
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+
+        {/* Footer Admin */}
+        <Footer_Admin />
+        {/* End Footer Admin */}
+
       </Layout>
     </Layout>
   );
