@@ -3,18 +3,19 @@
   .dark .ant-input-outlined:focus,
   .ant-input-outlined:focus-within {
     box-sizing: border-box;
-    border: 2px solid #ec7d37;
+    border: 1px solid #ec7d37;
     outline: 0;
     background-color: transparent;
   }
 
-  .ant-input {
-    border: 2px solid #e5e7eb;
+  .dark .ant-input {
+    border: 1px solid black;
   }
 
-  .dark .ant-input {
-    border: 2px solid transparent;
-    background-color: #131022;
+  .ant-input-outlined {
+    border: 1px solid #e9ecef;
+    background-color: #e9ecef;
+
   }
 
   .ant-input:placeholder-shown {
@@ -22,7 +23,12 @@
   }
 
   .ant-input:hover {
-    border: 2px solid #ec7d37;
+    border: 1px solid #ec7d37;
     background-color: transparent;
   }
+}
+
+.dark .payment-method-wrapper .ant-input-outlined {
+  border: 1px solid #5a5a5a;
+  background-color: #5a5a5a;
 }

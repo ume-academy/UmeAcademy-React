@@ -126,30 +126,6 @@ const Sidebar_Teacher = () => {
                     Phương thức thanh toán
                   </NavLink>
                 </li>
-
-                <li>
-                  <NavLink
-                    to={'/quiz'}
-                    className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
-                    }
-                  >
-                    <Boxes />
-                    Quiz
-                  </NavLink>
-                </li>
-
-                <li>
-                  <NavLink
-                    to={'/assignments'}
-                    className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
-                    }
-                  >
-                    <FileText />
-                    Bài tập
-                  </NavLink>
-                </li>
               </ul>
             </div>
           </div>
