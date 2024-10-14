@@ -71,7 +71,7 @@ const List_Students = () => {
       </Helmet>
 
       <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
-        <div className={`${styles['heading']} dark:text-[#b9b7c0] text-[#685f78] font-title text-2xl p-6`}>
+        <div className={`${styles['heading']} dark:border-b-[#5a5a5a] border-b-[#e9ecef] dark:text-[#b9b7c0] text-[#685f78] font-title text-2xl p-6`}>
           <h3>Danh sách học viên</h3>
         </div>
 

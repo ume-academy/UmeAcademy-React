@@ -114,7 +114,7 @@ const Wallet_History = () => {
   return (
     <div className='w-[1280px] mx-auto mt-40 mb-40'>
       <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg shadow-lg'>
-        <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
+        <p className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Ví Ume</p>
         <div className='flex justify-between items-center p-6'>
           <div className='flex gap-4 items-center'>
             <div className='relative flex items-center'>
@@ -134,32 +134,29 @@ const Wallet_History = () => {
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[46%] p-6">
+          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[46%] p-7">
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
               <X size={16} />
             </button>
-            <h2 className="font-semibold mb-4">Nạp tiền vào ví Ume</h2>
-            <p className='text-[15px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
-            <div className='text-[16px] flex justify-between items-center mb-4'>
-
-            </div>
+            <h2 className="font-subtitle mb-4">Nạp tiền vào ví Ume</h2>
+            <p className='text-[16px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
             <form>
-              <div className="mb-6 text-[14px] space-y-2">
-                <label htmlFor="amount" className="font-medium">
+            <div className="mb-6 text-[15px] space-y-2">
+                <label>
                   Số tiền
                 </label>
                 <input
                   id="amount"
                   type="number"
-                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md placeholder-gray-400"
+                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md dark:placeholder:text-[#B9B7C0] placeholder:text-[#685f78] "
                   placeholder="đ"
                 />
-                <div className="text-sm text-gray-400 flex items-center gap-1 pt-2">
+                <div className="text-[15px] dark:text-[#B9B7C0] text-[#685f78] flex items-center gap-1 pt-2">
                   <CircleAlert size={14} className='mr-2' />
                   <p>Số tiền rút tối thiểu là:</p>
-                  <p className="text-white">50.000đ</p>
+                  <p className="dark:text-white text-[#685f78]">100.000đ</p>
                 </div>
               </div>
               <div className="flex justify-start text-[16px] gap-4">
@@ -180,7 +177,7 @@ const Wallet_History = () => {
         </div>
       )}
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Lịch sử giao dịch</h2>
+        <h2 className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử giao dịch</h2>
         <Table
           columns={columns}
           dataSource={wallet}

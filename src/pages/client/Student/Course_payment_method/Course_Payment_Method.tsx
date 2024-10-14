@@ -34,7 +34,7 @@ const Course_Payment_Method = () => {
       </Helmet>
       <div className='flex justify-between gap-6'>
         <div className='w-[70%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl mb-7'>
-          <p className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>
+          <p className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>
             Phương thức thanh toán
           </p>
           <Radio.Group onChange={onChange} value={selectedMethod} className='pl-6 pt-14 pb-14 w-full space-y-6'>
@@ -78,14 +78,14 @@ const Course_Payment_Method = () => {
           </Radio.Group>
         </div>
 
-        <form className='w-[30%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7 p-6'>
-          <p className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] pb-6 mb-4'>Chi tiết</p>
-          <div className='space-y-2 mb-5'>
+        <form className='w-[30%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7'>
+          <p className='text-2xl font-title border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Chi tiết</p>
+          <div className='space-y-3 p-6'>
             <p className='text-lg font-medium'>Thông tin về thiết kế bằng UI/UX</p>
             <p className='text-[14px]'>
               Giảng viên: <span>DaddyGiao</span>
             </p>
-            <div className='flex justify-between text-[14px] mb-4'>
+            <div className='flex justify-between text-[14px]'>
               <div className='flex items-center gap-1'>
                 <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
                 <span>12+ Bài học</span>
@@ -107,20 +107,20 @@ const Course_Payment_Method = () => {
                 Sử dụng
               </button>
             </div>
-          </div>
 
-          <div className='flex justify-between w-full mb-5 font-semibold text-xl'>
-            <p className=''>Tổng tiền:</p>
-            <span className=''>1.000.000đ</span>
-          </div>
-          <div className='flex justify-center'>
-            <button
-              type='button'
-              className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
-              onClick={handleConfirm}
-            >
-              Thanh toán
-            </button>
+            <div className='flex justify-between w-full font-subtitle text-xl pt-5'>
+              <p className=''>Tổng tiền:</p>
+              <span className=''>1.000.000đ</span>
+            </div>
+            <div className='flex justify-center'>
+              <button
+                type='button'
+                className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+                onClick={handleConfirm}
+              >
+                Thanh toán
+              </button>
+            </div>
           </div>
         </form>
       </div>

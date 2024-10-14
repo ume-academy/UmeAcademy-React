@@ -22,19 +22,19 @@ const Courses_Top = () => {
             alt="Course"
             className="w-[100px] rounded-lg"
           />
-          <Link to={`/courses/${record.id}`} className=" hover:text-[#f84563] text-[17px]"> 
+          <Link to={`/courses/${record.id}`} className=" hover:text-[#f84563] text-[17px]">
             {text}
           </Link>
         </div>
       ),
-      width: 600,  
+      width: 600,
     },
     {
       title: 'Lượt bán',
       dataIndex: 'sales',
       key: 'sales',
       render: (sales: number) => <span>{sales}</span>,
-      width: 150,  
+      width: 150,
     },
     {
       title: 'Doanh thu',
@@ -45,7 +45,7 @@ const Courses_Top = () => {
           {revenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
         </p>
       ),
-      width: 200, 
+      width: 200,
     },
   ];
 
@@ -89,9 +89,9 @@ const Courses_Top = () => {
 
   return (
     <div>
-      <div className="mt-5 border rounded-lg dark:border-[#5a5a5a] text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
-        <div className="border-b dark:border-[#5a5a5a]">
-          <p className="p-6 text-[#2b2838] dark:text-gray-200 text-2xl">
+      <div className="mt-5 border border-[#e9ecef] rounded-lg dark:border-transparent text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
+        <div className="border-b border-[#e9ecef] dark:border-[#5a5a5a]  ">
+          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
             Top 5 khóa học bán chạy nhất
           </p>
         </div>
@@ -101,7 +101,7 @@ const Courses_Top = () => {
             dataSource={data}
             pagination={false}
             rowKey="id"
-            className="border dark:border-[#5a5a5a] rounded-lg"
+            className="border dark:border-transparent rounded-lg"
           />
         </div>
       </div>
