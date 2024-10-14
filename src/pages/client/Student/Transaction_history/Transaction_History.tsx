@@ -90,7 +90,7 @@ const Transaction_History = () => {
         <title>{getTitleTab('Lịch sử giao dịch')}</title>
       </Helmet>
       <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg border border-[#e9ecef] dark:border-none'>
-        <h2 className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Lịch sử đơn hàng</h2>
+        <h2 className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử đơn hàng</h2>
         <Table
           dataSource={transactions}
           columns={columns}

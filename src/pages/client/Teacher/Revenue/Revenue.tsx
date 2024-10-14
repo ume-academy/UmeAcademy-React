@@ -10,34 +10,34 @@ const Revenue = () => {
       <Helmet>
         <title>{getTitleTab('Doanh thu')}</title>
       </Helmet>
-      <div className=" border rounded-lg dark:border-[#5a5a5a]  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
-        <div className="border-b  dark:border-[#5a5a5a]">
-          <p className="p-6 text-[#2b2838] dark:text-gray-200 text-2xl font-title">
+      <div className=" border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
+        <div className="border-b border-[#e9ecef]  dark:border-[#5a5a5a]">
+          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
             Thu Nhập
           </p>
         </div>
         <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className=" p-6 space-y-2 rounded-lg border dark:border-[#5a5a5a] ">
+          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Doanh thu</h3>
               <HandCoins className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold text-[#2b2838] dark:text-gray-200">40.000.000đ</h1>
+            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">40.000.000đ</h1>
             <p className="">Kiếm tiền trong tháng này</p>
           </div>
 
-          <div className=" p-6 space-y-2 rounded-lg border dark:border-[#5a5a5a] ">
+          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Sinh viên</h3>
               <Users className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold text-[#2b2838] dark:text-gray-200">12000</h1>
+            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">12000</h1>
             <p className="">Sinh viên mới trong tháng này</p>
           </div>
 
-          <div className=" p-6 space-y-2 rounded-lg border dark:border-[#5a5a5a] ">
+          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Xếp hạng khóa học</h3>
               <Star className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold text-[#2b2838] dark:text-gray-200">4.8</h1>
+            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">4.8</h1>
             <p className="">Đánh giá tháng này</p>
           </div>
         </div>

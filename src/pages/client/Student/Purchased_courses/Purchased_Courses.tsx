@@ -25,7 +25,7 @@ const Purchased_Courses = () => {
       <Helmet>
         <title>{getTitleTab('Khóa học đã mua')}</title>
       </Helmet>
-      <div className=' dark:bg-[#2b2838] bg-white  rounded-lg border border-[#e9ecef] dark:border-none text-2xl font-semibold p-6 mb-7'>
+      <div className=' dark:bg-[#2b2838] bg-white  rounded-lg border border-[#e9ecef] dark:border-none text-2xl font-title p-6 mb-7'>
         Các khóa học đã mua
       </div>
       <motion.div

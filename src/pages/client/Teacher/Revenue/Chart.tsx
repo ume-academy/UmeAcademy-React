@@ -58,7 +58,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         const { createdAt, students, revenue } = payload[0].payload;
 
         return (
-            <div className="dark:border-[#5a5a5a]  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white p-4 rounded shadow-lg space-y-2 text-[14px]">
+            <div className="border border-[#e9ecef] dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white p-4 rounded shadow-lg space-y-2 text-[14px]">
                 <p className="border-b pb-2">{createdAt}</p>
                 <p className='text-[#82ca9d]'>Sinh viên: {students} người</p>
                 <p className='text-[#f24f3a]'>Doanh thu: {revenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
@@ -94,8 +94,8 @@ const Chart = () => {
 
     return (
         <div className="p-6">
-            <div className='flex justify-between items-center mb-6'>
-                <h2 className="text-xl">Biểu đồ tổng hợp theo thời gian
+            <div className='flex justify-between items-center mb-6 border-b dark:border-[#5a5a5a] pb-6'>
+                <h2 className="text-xl font-subtitle">Biểu đồ tổng hợp theo thời gian
                 </h2>
                 <div className="text-[14px] space-x-2 flex items-center">
                     <DatePicker

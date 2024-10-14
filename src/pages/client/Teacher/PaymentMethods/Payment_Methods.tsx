@@ -28,7 +28,7 @@ const Payment_Methods = () => {
 
           <Form layout='vertical' onFinish={handleSubmit}>
             <Form.Item name='payment_method'>
-              <Radio.Group className='flex flex-col items-start dark:border-[#5a5a5a] border border-[#e9ecef] p-4 rounded-lg'>
+              <Radio.Group className='flex flex-col items-start dark:border-transparent border border-[#e9ecef] p-4 rounded-lg'>
                 <Radio
                   value='banking'
                   className='font-subtitle dark:text-[#b9b7c0] text-[#685f78] text-md'
@@ -39,7 +39,7 @@ const Payment_Methods = () => {
               </Radio.Group>
             </Form.Item>
 
-            <div className="dark:border-[#5a5a5a] border border-[#e9ecef] p-4 rounded-lg">
+            <div className="dark:border-transparent border border-[#e9ecef] p-4 rounded-lg">
               <div className="flex gap-6">
                 <div className="flex-1">
                   <Form.Item label={<span className='font-subtitle dark:text-[#b9b7c0] text-[#685f78]'>Tên tài khoản</span>}>

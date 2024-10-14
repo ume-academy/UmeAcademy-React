@@ -77,7 +77,7 @@ const Withdraw_Money = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status: '0' | '1') => (
-        <Tag className='text-[16px] py-2 px-9' color={status === '1' ? 'green' : 'volcano'}>
+        <Tag className='text-[16px] py-2 min-w-[110px] text-center' color={status === '1' ? 'green' : 'volcano'}>
           {status === '1' ? 'Thành công' : 'Thất bại'}
         </Tag>
       ),
@@ -90,10 +90,10 @@ const Withdraw_Money = () => {
       <Helmet>
         <title>{getTitleTab('Rút tiền')}</title>
       </Helmet>
-      <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg'>
-        <p className='font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Ví Ume</p>
+      <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg'>
+        <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6 font-title text-2xl'>Ví Ume</p>
         <div className='flex justify-between items-center p-6'>
-          <div className='flex gap-4 items-center'>
+          <div className='flex gap-4 items-center font-subtitle'>
             <div className='relative flex items-center'>
               <WalletFilled className='text-[#ff4667] text-[50px]' />
               <span className='absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]'>UME</span>
@@ -113,14 +113,14 @@ const Withdraw_Money = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[46%] p-6">
+          <div className="dark:text-[#B9B7C0] text-[#685f78] dark:bg-[#2b2838] bg-white  text-xl rounded-lg  relative w-[46%] p-6">
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
               <X size={16} />
             </button>
-            <h2 className="font-semibold mb-4">Yêu cầu rút tiền</h2>
-            <p className='text-[15px] mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
+            <h2 className="font-subtitle mb-4">Yêu cầu rút tiền</h2>
+            <p className='text-[16px] font-subtitle mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
             <div className='text-[16px] flex justify-between items-center mb-4'>
               <div>
                 <p>Số dư hiện tại</p>
@@ -135,20 +135,20 @@ const Withdraw_Money = () => {
               </div>
             </div>
             <form>
-              <div className="mb-6 text-[14px] space-y-2">
-                <label htmlFor="amount" className="font-medium">
+              <div className="mb-6 text-[15px] space-y-2">
+                <label>
                   Số tiền
                 </label>
                 <input
                   id="amount"
                   type="number"
-                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md placeholder-gray-400"
+                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md dark:placeholder:text-[#B9B7C0] placeholder:text-[#685f78] "
                   placeholder="đ"
                 />
-                <div className="text-sm text-gray-400 flex items-center gap-1 pt-2">
+                <div className="text-[15px] dark:text-[#B9B7C0] text-[#685f78] flex items-center gap-1 pt-2">
                   <CircleAlert size={14} className='mr-2' />
                   <p>Số tiền rút tối thiểu là:</p>
-                  <p className="text-white">50.000đ</p>
+                  <p className="dark:text-white text-[#685f78]">100.000đ</p>
                 </div>
               </div>
               <div className="flex justify-start text-[16px] gap-4">
@@ -171,7 +171,7 @@ const Withdraw_Money = () => {
 
 
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='text-xl font-semibold border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6'>Lịch sử rút tiền</h2>
+        <h2 className='text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử rút tiền</h2>
         <Table
           columns={columns}
           dataSource={withdraw}

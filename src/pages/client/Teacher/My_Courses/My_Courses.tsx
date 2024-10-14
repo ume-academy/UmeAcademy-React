@@ -22,12 +22,12 @@ const My_Courses = () => {
 
   return (
     <div className=" text-[16px]">
-       <Helmet>
+      <Helmet>
         <title>{getTitleTab('Danh sách khóa học')}</title>
       </Helmet>
-      <div className=" border rounded-lg dark:border-[#5a5a5a]  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
-        <div className="border-b  dark:border-[#5a5a5a]">
-          <p className="p-6 text-[#2b2838] dark:text-gray-200 text-2xl font-title">
+      <div className=" border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
+        <div className="border-b border-[#e9ecef]  dark:border-[#5a5a5a]">
+          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title">
             Các khóa học của tôi
           </p>
         </div>
