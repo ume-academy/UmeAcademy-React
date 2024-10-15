@@ -80,7 +80,6 @@ function App() {
           <Route path='/admin/test' element={<h1>Test1</h1>} />
           <Route path='/admin/test2' element={<h1>Test2</h1>} />
           <Route path='/admin/users' element={<List_Users/>} />
-
         </Route>
 
         {/* <===== Auth =====> */}
