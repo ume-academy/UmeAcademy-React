@@ -21,8 +21,8 @@ const List_Users = () => {
   ]);
 
   const [searchText, setSearchText] = useState<string>("");
-  const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined); // Lọc vai trò 
-  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined); // Lọc trạng thái 
+  const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined); // Lọc vai trò
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined); // Lọc trạng thái
 
   const handleChangeStatus = (id: number, checked: boolean) => {
     Modal.confirm({
@@ -30,7 +30,7 @@ const List_Users = () => {
       content: `Bạn có chắc chắn muốn ${checked ? "mở khóa" : "khóa"} tài khoản này không?`,
       okText: 'Đồng ý',
       okType: 'danger',
-      cancelText: 'Hủy',  
+      cancelText: 'Hủy',
       onOk: () => {
         const newStatus = checked ? 0 : 1;
         setData(prevData =>
@@ -59,7 +59,6 @@ const List_Users = () => {
     }
   `;
 
-  
   const handleChangeRole = (id: number, value: string) => {
     const role = value === 'admin' ? 1 : 0;
     setData(prevData =>
@@ -73,7 +72,7 @@ const List_Users = () => {
     setSearchText(value);
   };
 
-  // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect 
+  // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect
   const filteredData = data.filter(user => {
     const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
     const isMatchingRole = selectedRole === undefined || (user.role === 1 && selectedRole === 'admin') || (user.role === 0 && selectedRole === 'user');
