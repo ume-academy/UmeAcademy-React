@@ -5,26 +5,29 @@ import { Radio, Modal } from 'antd'
 import { useState } from 'react'
 import './RadioAntd.scss'
 import { Landmark } from 'lucide-react'
+
 const Course_Payment_Method = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>('Ume Wallet')
-  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const onChange = (e: any) => {
     setSelectedMethod(e.target.value)
   }
 
   const handleConfirm = () => {
-    setIsModalVisible(true)
-  }
-
-  const handleOk = () => {
-    // Logic thanh toán ở đây
-
-    setIsModalVisible(false) // Ẩn modal
-  }
-
-  const handleCancel = () => {
-    setIsModalVisible(false) // Ẩn modal
+    Modal.confirm({
+      title: 'Xác nhận thanh toán khóa học?',
+      content: 'Vui lòng kiểm tra lại thông tin trước khi thanh toán. Bạn có chắc chắn muốn thanh toán cho khóa học này không?',
+      okText: 'Thanh toán',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk() {
+        // Logic thanh toán ở đây
+        console.log('Thanh toán đã được xác nhận');
+      },
+      onCancel() {
+        console.log('Đã hủy thanh toán');
+      },
+    });
   }
 
   return (
@@ -124,20 +127,6 @@ const Course_Payment_Method = () => {
           </div>
         </form>
       </div>
-
-      <Modal
-        title='Xác nhận thanh toán khóa học?'
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        okText='Thanh toán'
-        okType='danger'
-        cancelText='Hủy'
-      >
-        <p className='pt-4 pb-6'>
-          Vui lòng kiểm tra lại thông tin trước khi thanh toán. Bạn có chắc chắn muốn thanh toán cho khóa học này không?
-        </p>
-      </Modal>
     </div>
   )
 }

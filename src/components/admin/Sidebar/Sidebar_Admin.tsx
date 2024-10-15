@@ -2,6 +2,7 @@ import { logo } from '@/contants/client';
 import { DesktopOutlined, PieChartOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
+import { Users } from 'lucide-react';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import './sidebarAntd.scss';
@@ -29,6 +30,7 @@ const Sidebar_Admin = () => {
   const items: MenuItem[] = [
     getItem(<NavLink to={'/admin'} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
     getItem(<NavLink to={'/admin/test'}>Test 1</NavLink>, '2', <DesktopOutlined />),
+    getItem(<NavLink to={'/admin/users'}>User</NavLink>, '3', <Users size={15} />),
     // getItem('User', 'sub1', <UserOutlined />, [
     //   getItem('Tom', '3'),
     //   getItem('Bill', '4'),

@@ -25,6 +25,7 @@ import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
+import List_Users from './pages/admin/User/List_Users/List_Users'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -78,6 +79,8 @@ function App() {
           <Route index element={<h1>Dashboard</h1>} />
           <Route path='/admin/test' element={<h1>Test1</h1>} />
           <Route path='/admin/test2' element={<h1>Test2</h1>} />
+          <Route path='/admin/users' element={<List_Users/>} />
+
         </Route>
 
         {/* <===== Auth =====> */}

@@ -1,0 +1,56 @@
+.ant-table-wrapper .ant-table-tbody .ant-table-row > .ant-table-cell-row-hover {
+  background-color: transparent !important;
+}
+
+.ant-switch-inner:hover {
+  background: #685f78 !important; /* Màu nền khi bật */
+}
+// Tùy chỉnh khi checked và không checked
+.ant-switch .ant-switch-handle::before {
+  background-color: #ff4667; /* Màu cho handle */
+}
+
+.ant-switch.ant-switch-checked {
+  background: #685f78 !important; /* Màu nền khi bật */
+}
+.dark .ant-switch {
+  background: #3a3545 !important; /* Màu nền khi bật */
+}
+.dark .ant-switch.ant-switch-checked {
+  background: #685f78 !important; /* Màu nền trong chế độ tối khi bật */
+}
+
+
+//modal.confirm
+.dark .ant-modal-confirm .ant-modal-confirm-title {
+  color: #b9b7c0;
+}
+.dark .ant-modal-confirm .ant-modal-confirm-content {
+  color: #b9b7c0;
+}
+
+.ant-btn-color-default {
+  border-color: #ff4667 ;
+  color: #fff ;
+  background-color: #ff4667 ;
+}
+
+.ant-btn-color-default:hover {
+  border-color: #ff4667 !important;
+  color: #ff4667 !important;
+  background-color: #fff !important;
+}
+
+.ant-btn-color-dangerous.ant-btn-variant-outlined,.ant-btn-color-dangerous.ant-btn-variant-dashed {
+  border-color: #ff4667;
+  background: #ffffff;
+  color: #ff4667 ;
+}
+
+.ant-btn-color-dangerous.ant-btn-variant-outlined:hover,
+.ant-btn-color-dangerous.ant-btn-variant-dashed:hover {
+  border-color: #ff4667 !important; 
+  background: #ff4667 !important; 
+  color: #fff !important; 
+}
+
