@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import './List_User_Antd.scss';
 
-interface User {
+interface User { 
   id: number;
   fullname: string;
   email: string;
