@@ -26,7 +26,24 @@
   border-bottom: 1px solid #5a5a5a;
 }
 
-.ant-table-wrapper .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
-.ant-table-wrapper .ant-table-thead > tr > td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+.ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before,
+.ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   width: 0px;
+}
+
+.dark .ant-table-wrapper .ant-empty-normal .ant-empty-description {
+  color: #b9b7c0;
+  background-color: #2b2838;
+}
+
+.dark .ant-table-wrapper .ant-table-tbody > tr.ant-table-placeholder:hover > th,
+.dark .ant-table-wrapper .ant-table-tbody > tr.ant-table-placeholder:hover > td,
+.dark .ant-table-wrapper .ant-table-tbody > tr.ant-table-placeholder {
+  background-color: #2b2838 !important;
 }
