@@ -72,7 +72,7 @@ const List_Users = () => {
     setSearchText(value);
   };
 
-  // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect
+  // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect 
   const filteredData = data.filter(user => {
     const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
     const isMatchingRole = selectedRole === undefined || (user.role === 1 && selectedRole === 'admin') || (user.role === 0 && selectedRole === 'user');
