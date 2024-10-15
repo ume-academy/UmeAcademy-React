@@ -30,7 +30,7 @@ const List_Users = () => {
       content: `Bạn có chắc chắn muốn ${checked ? "mở khóa" : "khóa"} tài khoản này không?`,
       okText: 'Đồng ý',
       okType: 'danger',
-      cancelText: 'Hủy',
+      cancelText: 'Hủy',  
       onOk: () => {
         const newStatus = checked ? 0 : 1;
         setData(prevData =>
