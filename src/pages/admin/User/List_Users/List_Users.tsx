@@ -21,8 +21,8 @@ const List_Users = () => {
   ]);
 
   const [searchText, setSearchText] = useState<string>("");
-  const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined); // Lọc vai trò
-  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined); // Lọc trạng thái
+  const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined); // Lọc vai trò 
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined); // Lọc trạng thái 
 
   const handleChangeStatus = (id: number, checked: boolean) => {
     Modal.confirm({
