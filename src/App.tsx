@@ -80,7 +80,11 @@ function App() {
 
         <Route path="/admin" element={<Layout_Admin />}>
           <Route index element={<h1>Dashboard</h1>} />
+
+          {/* Route tài khoản */}
           <Route path='/admin/users' element={<List_Users/>} />
+
+          {/* Route khóa học */}
           <Route path='/admin/courses' element={<List_Courses />} />
 
           {/* Route danh mục */}
