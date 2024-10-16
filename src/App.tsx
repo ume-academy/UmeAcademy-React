@@ -6,6 +6,9 @@ import Layout_Teacher from './layouts/Layout_Teacher'
 
 import Lesson from './components/client/student/Lesson/Lesson'
 import Layout_Admin from './layouts/Layout_Admin'
+import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
+import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
+import List_Users from './pages/admin/User/List_Users/List_Users'
 import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
 import Login from './pages/auth/Login/Login'
 import Register from './pages/auth/Register/Register'
@@ -25,7 +28,6 @@ import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
-import List_Users from './pages/admin/User/List_Users/List_Users'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -79,6 +81,11 @@ function App() {
           <Route index element={<h1>Dashboard</h1>} />
           <Route path='/admin/test' element={<h1>Test1</h1>} />
           <Route path='/admin/users' element={<List_Users/>} />
+
+          {/* Route danh mục */}
+          <Route path='/admin/catalogues' element={<List_Catalogues />} />
+          <Route path='/admin/catalogues/create' element={<Catalog_Form_Submit />} />
+          <Route path='/admin/catalogues/update/:id' element={<Catalog_Form_Submit />} />
         </Route>
 
         {/* <===== Auth =====> */}

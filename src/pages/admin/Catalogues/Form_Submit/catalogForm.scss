@@ -1,0 +1,32 @@
+.formInput {
+
+  // input
+  
+
+  // hover
+  .ant-input-outlined:hover {
+    border-color: #F84563;
+  }
+
+  // error
+  .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):focus,
+  .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled):focus-within {
+    border-color: #ff4d4f;
+    box-shadow: 0 0 0 2px rgba(255, 38, 5, 0.06);
+    outline: 0;
+    // background-color: red;
+  }
+
+  .ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+    background: #ae7474;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ff4d4f;
+  }
+}
+
+.dark .formInput {
+  background: #5A5A5A !important;
+  border: 1px solid #5A5A5A;
+  outline: none;
+}

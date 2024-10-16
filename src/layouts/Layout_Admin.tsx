@@ -16,7 +16,7 @@ const Layout_Admin: React.FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }} >
       {/* Sidebar Admin */}
       <Sidebar_Admin />
       {/* End Sidebar Admin */}
@@ -26,7 +26,7 @@ const Layout_Admin: React.FC = () => {
         <Header_Admin toggleTheme={toggleTheme} theme={theme} />
         {/* End Header Admin */}
 
-        <Content style={{ padding: '0 16px' }} className='dark:bg-[#131022] dark:text-[#b9b7c0]'>
+        <Content className='dark:bg-[#131022] py-2 dark:text-[#b9b7c0]'>
           <div
             style={{
               padding: 24,
@@ -34,9 +34,11 @@ const Layout_Admin: React.FC = () => {
               // background: '#f84563',
               // borderRadius: borderRadiusLG,
             }}
-            
+
           >
-            <Outlet />
+            <div className="bg-[#EEEEEE] p-4 rounded-lg dark:bg-[#2B2838]">
+              <Outlet />
+            </div>
           </div>
         </Content>
 
