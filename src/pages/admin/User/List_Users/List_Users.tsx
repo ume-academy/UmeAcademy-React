@@ -1,11 +1,11 @@
-import { Input, Modal, Space, Switch, Table, TableColumnType, TreeSelect } from "antd";
-import { Search, UserCog } from "lucide-react";
+import { message, Modal, Space, Switch, Table, TableColumnType, TreeSelect } from "antd";
+import { Info, Search } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import './List_User_Antd.scss';
 
-interface User { 
+interface User {
   id: number;
   fullname: string;
   email: string;
@@ -21,26 +21,58 @@ const List_Users = () => {
   ]);
 
   const [searchText, setSearchText] = useState<string>("");
-  const [selectedRole, setSelectedRole] = useState<string | undefined>(undefined); // Lọc vai trò
-  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined); // Lọc trạng thái
+  const [selectedRole, setSelectedRole] = useState<number | undefined>(undefined); // Lọc vai trò
+  const [selectedStatus, setSelectedStatus] = useState<number | undefined>(undefined); // Lọc trạng thái
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleChangeStatus = (id: number, checked: boolean) => {
     Modal.confirm({
-      title: "Xác nhận thay đổi trạng thái",
-      content: `Bạn có chắc chắn muốn ${checked ? "mở khóa" : "khóa"} tài khoản này không?`,
+      title: (
+        <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
+      ),
+      content: (
+        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
+          Bạn có chắc chắn muốn <span className='font-desc'>"{checked ? "mở khóa" : "khóa"}"</span> tài khoản này không?
+        </p>
+      ),
       okText: 'Đồng ý',
       okType: 'danger',
+      okButtonProps: { 
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
+      },
+      cancelButtonProps: { 
+        style: { backgroundColor: '#e5e0e3', color: '#000' },
+      },
       cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null, 
       onOk: () => {
-        const newStatus = checked ? 0 : 1;
-        setData(prevData =>
-          prevData.map(user =>
-            user.id === id ? { ...user, status: newStatus } : user
-          )
-        );
+        setConfirmLoading(true);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const newStatus = checked ? 0 : 1;
+            setData(prevData =>
+              prevData.map(user =>
+                user.id === id ? { ...user, status: newStatus } : user
+              )
+            );
+  
+            messageApi.open({
+              type: 'success',
+              content: `${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`,
+            });
+  
+            setConfirmLoading(false);
+            resolve(undefined);
+          }, 2000); 
+        });
       }
     });
   };
+  
 
   const CustomTreeSelect = styled(TreeSelect)`
     .ant-select-selector {
@@ -59,11 +91,10 @@ const List_Users = () => {
     }
   `;
 
-  const handleChangeRole = (id: number, value: string) => {
-    const role = value === 'admin' ? 1 : 0;
+  const handleChangeRole = (id: number, value: number) => {
     setData(prevData =>
       prevData.map(user =>
-        user.id === id ? { ...user, role } : user
+        user.id === id ? { ...user, role: value } : user
       )
     );
   };
@@ -75,8 +106,8 @@ const List_Users = () => {
   // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect
   const filteredData = data.filter(user => {
     const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
-    const isMatchingRole = selectedRole === undefined || (user.role === 1 && selectedRole === 'admin') || (user.role === 0 && selectedRole === 'user');
-    const isMatchingStatus = selectedStatus === undefined || (user.status === 0 && selectedStatus === 'mở') || (user.status === 1 && selectedStatus === 'khóa');
+    const isMatchingRole = selectedRole === undefined || user.role === selectedRole;
+    const isMatchingStatus = selectedStatus === undefined || user.status === selectedStatus;
 
     return isMatchingEmail && isMatchingRole && isMatchingStatus;
   });
@@ -105,7 +136,7 @@ const List_Users = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (created_at) => (
-        <div>{created_at ? new Date(created_at).toLocaleDateString() : "N/A"}</div>
+        <div>{created_at ? new Date(created_at).toLocaleDateString() : "vi-VN"}</div>
       ),
       width: 150
     },
@@ -131,13 +162,13 @@ const List_Users = () => {
       key: "role",
       render: (_, record) => (
         <CustomTreeSelect
-          value={record.role === 1 ? 'admin' : 'user'}
+          value={record.role}
           treeDefaultExpandAll
           className="w-[120px]"
-          onChange={(value) => handleChangeRole(record.id, value as string)}
+          onChange={(value) => handleChangeRole(record.id, value as number)}
           treeData={[
-            { value: 'admin', title: <span className="text-[#ff4667]">Admin</span> },
-            { value: 'user', title: <span className="text-green-500">User</span> }
+            { value: 1, title: <span className="text-[#ff4667]">Admin</span> },
+            { value: 0, title: <span className="text-green-500">User</span> }
           ]}
         />
       ),
@@ -148,9 +179,9 @@ const List_Users = () => {
       key: "actions",
       width: 110,
       render: (record) => (
-        <div >
+        <div>
           <Link to={`/admin/user-detail/${record.id}`}>
-            <UserCog className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
+            <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
           </Link>
         </div>
       ),
@@ -158,29 +189,29 @@ const List_Users = () => {
   ];
 
   return (
-    <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-6">
+    <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
       <p className="mb-4 font-title text-2xl">Danh sách người dùng</p>
       <div className="flex gap-2">
         <div className="relative mb-4">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-            <Search size={20}/>
+            <Search size={20} />
           </span>
           <input
             placeholder="Tìm theo email"
             value={searchText}
             onChange={(e) => handleSearch(e.target.value)}
-            className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] py-2 pl-10  rounded-lg w-60'
+            className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] py-2 pl-10 rounded-lg w-60'
           />
         </div>
         {/* Lọc theo Trạng thái */}
         <CustomTreeSelect
           placeholder="Lọc theo trạng thái"
           value={selectedStatus}
-          onChange={(value) => setSelectedStatus(value as string)}
+          onChange={(value) => setSelectedStatus(value as number)}
           className="mb-4 w-40 h-10"
           treeData={[
-            { value: 'mở', title: 'Mở' },
-            { value: 'khóa', title: 'Khóa' }
+            { value: 0, title: 'Khóa' },
+            { value: 1, title: 'Mở' }
           ]}
           allowClear
         />
@@ -188,11 +219,11 @@ const List_Users = () => {
         <CustomTreeSelect
           placeholder="Lọc theo vai trò"
           value={selectedRole}
-          onChange={(value) => setSelectedRole(value as string)}
+          onChange={(value) => setSelectedRole(value as number)}
           className="mb-4 w-40 h-10"
           treeData={[
-            { value: 'admin', title: 'Admin' },
-            { value: 'user', title: 'User' }
+            { value: 1, title: 'Admin' },
+            { value: 0, title: 'User' }
           ]}
           allowClear
         />
