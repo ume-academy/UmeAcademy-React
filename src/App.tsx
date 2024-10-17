@@ -29,6 +29,7 @@ import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
 import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
+import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -91,6 +92,9 @@ function App() {
           <Route path='/admin/catalogues' element={<List_Catalogues />} />
           <Route path='/admin/catalogues/create' element={<Catalog_Form_Submit />} />
           <Route path='/admin/catalogues/update/:id' element={<Catalog_Form_Submit />} />
+
+          {/* Route % hoa hồng */}
+          <Route path='/admin/commission-rate/update' element={<Commission_Rate />} />
         </Route>
 
         {/* <===== Auth =====> */}
