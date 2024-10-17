@@ -2,7 +2,7 @@ import { logo } from '@/contants/client';
 import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, PieChartOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { LibraryBig, Users, PercentCircle } from 'lucide-react';import { useState } from "react";
+import { LibraryBig, Users, PercentCircle, HandCoins } from 'lucide-react'; import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import './sidebarAntd.scss';
 
@@ -35,6 +35,8 @@ const Sidebar_Admin = () => {
     ]),
     getItem(<NavLink to={'/admin/courses'}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
     getItem(<NavLink to={'/admin/commission-rate/update'}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
+    getItem(<NavLink to={'/admin/transactions'}>Giao dịch</NavLink>, '7', <HandCoins size={15} />),
+
   ];
 
   return (
