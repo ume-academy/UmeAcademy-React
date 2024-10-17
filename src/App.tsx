@@ -89,7 +89,7 @@ function App() {
           {/* Route khóa học */}
           <Route path='/admin/courses' element={<List_Courses />} />
 
-          {/* Route khóa học */}
+          {/* Route giao dịch */}
           <Route path='/admin/transactions' element={<List_Transactions />} />
 
           {/* Route danh mục */}
