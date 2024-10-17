@@ -30,6 +30,7 @@ import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
 import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
 import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
+import List_Transactions from './pages/admin/Transactions/List_Transactions/List_Transactions'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -87,6 +88,9 @@ function App() {
 
           {/* Route khóa học */}
           <Route path='/admin/courses' element={<List_Courses />} />
+
+          {/* Route khóa học */}
+          <Route path='/admin/transactions' element={<List_Transactions />} />
 
           {/* Route danh mục */}
           <Route path='/admin/catalogues' element={<List_Catalogues />} />
