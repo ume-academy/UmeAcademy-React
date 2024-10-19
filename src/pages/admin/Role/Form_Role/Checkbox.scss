@@ -1,0 +1,39 @@
+.dark .ant-checkbox + span {
+  color: #b9b7c0;
+}
+
+.ant-checkbox + span {
+  font-size: 15px;
+  color: #685f78;
+}
+
+.dark .ant-checkbox + span:hover {
+  color: #fff;
+}
+
+/* Khi hover vào checkbox chưa chọn, chỉ đổi viền thành màu đỏ */
+.ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #ff4667 !important; /* Đổi viền thành đỏ */
+  background-color: transparent !important; /* Bỏ nền màu xanh */
+}
+.dark .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #ff4667 !important; /* Đổi viền thành đỏ */
+  background-color: #4a4755 !important; /* Bỏ nền màu xanh */
+}
+
+/* Màu nền và viền trong chế độ tối khi chưa chọn */
+.dark .ant-checkbox .ant-checkbox-inner {
+  background-color: #4a4755; /* Màu nền khi unchecked trong chế độ tối */
+  border-color: #4a4755; /* Viền trong chế độ tối */
+}
+
+/* Màu nền và viền khi checkbox được chọn */
+.ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner {
+  border-color: #ff4667; /* Đổi viền thành đỏ khi checked */
+  background: #ff4667; /* Đổi nền thành đỏ khi checked */
+}
+
+/* Giữ nền checkbox đã chọn khi hover lên cụm */
+.ant-checkbox-wrapper:hover .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #ff4667 !important; /* Giữ nền đỏ khi hover */
+}

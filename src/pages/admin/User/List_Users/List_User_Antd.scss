@@ -20,37 +20,17 @@
   background: #685f78 !important; /* Màu nền trong chế độ tối khi bật */
 }
 
-
 //modal.confirm
-.dark .ant-modal-confirm .ant-modal-confirm-title {
-  color: #b9b7c0;
-}
-.dark .ant-modal-confirm .ant-modal-confirm-content {
-  color: #b9b7c0;
-}
-
-.ant-btn-color-default {
-  border-color: #ff4667 ;
-  color: #fff ;
-  background-color: #ff4667 ;
-}
-
-.ant-btn-color-default:hover {
-  border-color: #ff4667 !important;
-  color: #ff4667 !important;
+.custom-cancel-btn {
   background-color: #fff !important;
+  color: #ff4667 !important;
+  border-color: #e5e0e3 !important; /* Thiết lập viền mặc định */
 }
 
-.ant-btn-color-dangerous.ant-btn-variant-outlined,.ant-btn-color-dangerous.ant-btn-variant-dashed {
-  border-color: #ff4667;
-  background: #ffffff;
-  color: #ff4667 ;
-}
-
-.ant-btn-color-dangerous.ant-btn-variant-outlined:hover,
-.ant-btn-color-dangerous.ant-btn-variant-dashed:hover {
-  border-color: #ff4667 !important; 
-  background: #ff4667 !important; 
-  color: #fff !important; 
+/* Khi hover vào nút "Hủy", giữ nguyên viền màu xám */
+.custom-cancel-btn:hover {
+  background-color: #fff !important;
+  color: #ff4667 !important;
+  border-color: #ff4667 !important; /* Bỏ viền xanh khi hover */
 }
 

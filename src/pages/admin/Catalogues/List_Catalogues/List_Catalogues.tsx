@@ -34,7 +34,7 @@ const List_Catalogues = () => {
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }, // Màu nền, viền và chữ nút OK
       },
       cancelButtonProps: { // Sửa dấu '=' thành ':'
-        style: { backgroundColor: '#e5e0e3', color: '#000' }, // Màu nền, viền và chữ nút Hủy
+        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
       },
       cancelText: 'Hủy',
       centered: true,
