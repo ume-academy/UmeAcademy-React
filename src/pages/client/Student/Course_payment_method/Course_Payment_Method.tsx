@@ -8,25 +8,46 @@ import { Landmark } from 'lucide-react'
 
 const Course_Payment_Method = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>('Ume Wallet')
-
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const onChange = (e: any) => {
     setSelectedMethod(e.target.value)
   }
 
   const handleConfirm = () => {
     Modal.confirm({
-      title: 'Xác nhận thanh toán khóa học?',
-      content: 'Vui lòng kiểm tra lại thông tin trước khi thanh toán. Bạn có chắc chắn muốn thanh toán cho khóa học này không?',
+      title: (
+        <span className='text-red-500 font-title'>Xác nhận thanh toán khóa học này</span>
+      ),
+      content: (
+        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
+          Vui lòng kiểm tra lại thông tin trước khi thanh toán. Bạn có chắc chắn muốn thanh toán cho khóa học này không?
+        </p>
+      ),
       okText: 'Thanh toán',
       okType: 'danger',
       cancelText: 'Hủy',
-      onOk() {
-        // Logic thanh toán ở đây
-        console.log('Thanh toán đã được xác nhận');
+      okButtonProps: { // Sửa dấu '=' thành ':'
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }, // Màu nền, viền và chữ nút OK
       },
-      onCancel() {
-        console.log('Đã hủy thanh toán');
+      cancelButtonProps: { // Sửa dấu '=' thành ':'
+        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
       },
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null, // Bỏ biểu tượng trong modal
+      onOk: () => {
+        setConfirmLoading(true);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            // Logic
+
+            // Dừng loading
+            setConfirmLoading(false);
+            resolve(undefined);
+          }, 2000);
+        });
+      }
     });
   }
 
@@ -44,10 +65,7 @@ const Course_Payment_Method = () => {
             <div className='flex gap-4 items-center w-full'>
               <Radio value='Ume Wallet' className='w-full '>
                 <div className='flex items-center'>
-                  <div className='relative flex items-center'>
-                    <WalletFilled className='text-[#ff5364] text-[42px]' />
-                    <span className='absolute top-1 left-2 text-[#fff] font-bold text-[9px]'>UME</span>
-                  </div>
+                  <WalletFilled className='text-[#ff5364] text-[41px] rounded-[6px]' />
                   <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
                     Thanh toán qua ví UME <span className='text-[16px]'>( Số dư: 1.000.000.000đ )</span>
                   </span>

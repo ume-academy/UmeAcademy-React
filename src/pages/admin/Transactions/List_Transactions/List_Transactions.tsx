@@ -1,6 +1,8 @@
+import { getTitleTab } from "@/contants/client";
 import { message, Modal, Table, TreeSelect } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 
 interface Transaction {
@@ -65,7 +67,7 @@ const List_Transactions = () => {
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
       },
       cancelButtonProps: {
-        style: { backgroundColor: '#e5e0e3', color: '#000' },
+        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
       },
       cancelText: 'Hủy',
       centered: true,
@@ -177,8 +179,11 @@ const List_Transactions = () => {
     <div>
       {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4 ">
+      <Helmet>
+        <title>{getTitleTab('Quản lý giao dịch')}</title>
+      </Helmet>
         <div className="flex justify-between mb-4">
-          <p className="font-title text-2xl">Danh sách giao dịch</p>
+          <p className="font-title text-xl">Danh sách giao dịch</p>
           <CustomTreeSelect
             placeholder="Lọc theo trạng thái"
             value={selectedStatus}

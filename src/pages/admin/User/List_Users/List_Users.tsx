@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import './List_User_Antd.scss';
+import { getTitleTab } from "@/contants/client";
+import { Helmet } from "react-helmet";
 
 interface User {
   id: number;
@@ -42,7 +44,7 @@ const List_Users = () => {
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
       },
       cancelButtonProps: { 
-        style: { backgroundColor: '#e5e0e3', color: '#000' },
+        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
       },
       cancelText: 'Hủy',
       centered: true,
@@ -190,7 +192,10 @@ const List_Users = () => {
 
   return (
     <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
-      <p className="mb-4 font-title text-2xl">Danh sách người dùng</p>
+      <Helmet>
+        <title>{getTitleTab('Quản lý tài khoản')}</title>
+      </Helmet>
+      <p className="mb-4 font-title text-xl">Danh sách người dùng</p>
       <div className="flex gap-2">
         <div className="relative mb-4">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">

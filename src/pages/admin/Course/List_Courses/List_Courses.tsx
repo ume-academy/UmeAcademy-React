@@ -1,6 +1,8 @@
+import { getTitleTab } from "@/contants/client";
 import { Modal, TreeSelect, TableColumnType, Table, message } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -70,7 +72,7 @@ const List_Courses = () => {
           style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
         },
         cancelButtonProps: {
-          style: { backgroundColor: '#e5e0e3', color: '#000' },
+          className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
         },
         cancelText: 'Hủy',
         centered: true,
@@ -212,10 +214,13 @@ const List_Courses = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{getTitleTab('Quản lý khóa học')}</title>
+      </Helmet>
       {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
         <div className="flex justify-between mb-4">
-          <p className="font-title text-2xl">Danh sách khóa học</p>
+          <p className="font-title text-xl">Danh sách khóa học</p>
           <CustomTreeSelect
             placeholder="Lọc theo trạng thái"
             value={selectedStatus}

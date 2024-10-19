@@ -31,6 +31,8 @@ import './scss/App.scss'
 import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
 import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
 import List_Transactions from './pages/admin/Transactions/List_Transactions/List_Transactions'
+import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
+import List_Role from './pages/admin/Role/List_Role/List_Role'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -84,13 +86,18 @@ function App() {
           <Route index element={<h1>Dashboard</h1>} />
 
           {/* Route tài khoản */}
-          <Route path='/admin/users' element={<List_Users/>} />
+          <Route path='/admin/users' element={<List_Users />} />
 
           {/* Route khóa học */}
           <Route path='/admin/courses' element={<List_Courses />} />
 
           {/* Route giao dịch */}
           <Route path='/admin/transactions' element={<List_Transactions />} />
+
+          {/* Route phân quyền */}
+          <Route path='/admin/roles' element={<List_Role />} />
+          <Route path='/admin/roles/create' element={<Form_Role />} />
+          <Route path='/admin/roles/update/:id' element={<Form_Role />} />
 
           {/* Route danh mục */}
           <Route path='/admin/catalogues' element={<List_Catalogues />} />
