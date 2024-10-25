@@ -86,6 +86,7 @@ const Voucher = () => {
     }, 2000);
   }
   return (
+    // Page thêm mới voucher cho khóa học
     <div className='h-full shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] py-12 px-14 rounded-lg border-[1px] border-transparent bg-[#fff] dark:bg-[#2b2838]'>
         <h4 className='text-[28px] font-title text-[#f66962] mb-6'>Mã giảm giá (voucher)</h4>
         <div className='mb-6'>
