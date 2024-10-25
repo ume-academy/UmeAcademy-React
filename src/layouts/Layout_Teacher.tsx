@@ -7,13 +7,26 @@ import Sidebar_Teacher from '../components/client/teacher/SidebarTeacher/Sidebar
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   const location = useLocation()
   const hideSideBar = routerConfig.hiddenSideberTeacher.includes(location.pathname)
+
+    //  Ẩn đi sidebar cho các route trong routerConfig ở file client.ts
+    const hideSideBarWithId = routerConfig.hiddenSideberTeacher.some((route) => {
+      const regex = new RegExp(`^${route.replace(":id", "[^/]+")}$`);
+      return regex.test(location.pathname);
+    });
+
+    const hidenHeaderFotterWithId = routerConfig.hidenHeaderFooter.some((route) => {
+      const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+      return regex.test(location.pathname)
+    })
+  
+
   return (
-    <div className='dark:bg-[#131022] bg-[#fafafa]'>
-      <Header />
-      <div className='py-[140px] w-[1280px] mx-auto'>
+    <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
+      {!hidenHeaderFotterWithId && <Header />}
+      <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] w-[1280px] mx-auto' } `}>
         <div className='flex gap-4'>
           {/* Sidebar */}
-          {!hideSideBar && (
+          {!(hideSideBar || hideSideBarWithId) && (
             <div className='w-[25%]'>
             <Sidebar_Teacher />
           </div>
@@ -22,7 +35,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
           <div className='flex-1'>{children || <Outlet />}</div>
         </div>
       </div>
-      <Footer />
+      {!hidenHeaderFotterWithId && <Footer />}
     </div>
   )
 }

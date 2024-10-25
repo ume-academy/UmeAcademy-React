@@ -1,7 +1,5 @@
 import { Avatar } from 'antd'
 import {
-  Boxes,
-  FileText,
   HandCoins,
   Rocket,
   Users,
@@ -13,9 +11,7 @@ import styles from './sidebarTeacher.module.scss'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
-  const handleClick = () => {
-    nav('/teacher/create-course')
-  }
+  
   return (
     <>
       <aside className='flex flex-col gap-6'>
@@ -37,8 +33,7 @@ const Sidebar_Teacher = () => {
           </div>
 
           <div className={`${styles['act']} p-6`}>
-            <Link to={`/teacher/create-course`}
-            // onClick={handleClick}
+            <Link to={`/teacher/form-course`}
               className='   flex
                             justify-center
                             py-3 
@@ -91,17 +86,6 @@ const Sidebar_Teacher = () => {
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to={'/teacher/my-students'}
-                    className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
-                    }
-                  >
-                    <Users />
-                    Danh sách học viên
-                  </NavLink>
-                </li>
 
                 <li>
                   <NavLink

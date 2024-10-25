@@ -1,0 +1,105 @@
+.ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+  color:#1e1e1e; // màu step đang focus
+}
+
+.ant-steps .ant-steps-item-wait>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title { 
+  color: #c1b6d6; // màu cho những step chưa được chọn qua
+}
+
+.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title { 
+  color:#685f78 ; // màu cho những step đã được đi qua
+}
+
+.ant-steps-item:hover .ant-steps-item-icon {
+  border-color: #d9d9d9 !important; /* Màu khi hover border step*/
+}
+
+.ant-steps-item:hover .ant-steps-item-title {
+  color: #685f78 !important; /* Màu text khi hover */
+}
+
+.ant-steps-item .ant-steps-item-icon .ant-steps-icon {
+  color: #fff !important; /* Màu của số 2  */
+}
+
+.ant-steps-item:hover .ant-steps-item-icon .ant-steps-icon {
+  color: #685f78 !important; /* Màu của số 2 khi hover */
+}
+
+.ant-steps .ant-steps-item-process .ant-steps-item-icon { 
+    background: #f66962; // màu bgr của step
+    border: #f66962;
+}
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #f66962;
+}
+
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon >.ant-steps-icon {
+  color: #fff;
+}
+
+.dark .ant-steps .ant-steps-item-tail::after {
+  background-color: #f0f0f0 !important; //màu đường kẻ của những bước đã chưa hoàn thành
+}
+
+.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
+  background-color: #f66962; // màu đường kẻ của những bước đã hoàn thành
+}
+
+
+// <==== Theme dark =====>
+.dark .ant-steps .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+  color:#b9b7c0; // màu step đang focus
+}
+
+
+.dark .ant-steps .ant-steps-item-wait>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title { 
+  color: #777779; // màu cho những step chưa được chọn qua
+}
+
+.dark .ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title { 
+  color:#94929b ; // màu cho những step đã được đi qua
+}
+
+.dark .ant-steps-item:hover .ant-steps-item-icon {
+  border-color: transparent !important; /* Màu khi hover border step*/
+}
+
+.dark .ant-steps-item:hover .ant-steps-item-title {
+  color: #b9b7c0 !important; /* Màu text khi hover */
+}
+
+.dark .ant-steps-item .ant-steps-item-icon .ant-steps-icon {
+  color: #fff !important; /* Màu của số 2  */
+}
+
+.dark .ant-steps-item:hover .ant-steps-item-icon .ant-steps-icon {
+  color: #b9b7c0 !important; /* Màu của số 2 khi hover */
+}
+
+.dark .ant-steps .ant-steps-item-process .ant-steps-item-icon { 
+    background: #f66962; // màu bgr của step
+    border: #f66962;
+}
+
+.dark .ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #f66962; //màu bgr của step đã hoàn thành
+  border: #f66962;
+}
+
+.dark .ant-steps .ant-steps-item-wait .ant-steps-item-icon {
+  background-color: #2b2838;
+}
+
+.dark .ant-steps .ant-steps-item-finish .ant-steps-item-icon >.ant-steps-icon {
+  color: #fff;
+}
+
+.dark .ant-steps .ant-steps-item-tail::after {
+  background-color: #685f78 !important; //màu đường kẻ của những bước đã chưa hoàn thành
+}
+
+.dark .ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
+  background-color: #f66962; // màu đường kẻ của những bước đã hoàn thành
+}
+

@@ -143,11 +143,11 @@ const Header = () => {
   const transperent = routerConfig.transparentHeader.includes(location.pathname)
 
 
-
   return (
     <>
       <div
-        className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${isScroll && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
+        className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${(isScroll || mode === 'teacher') && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} 
+        ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
       >
         <div className=' flex items-center justify-between w-[1280px] h-[80px] mx-auto'>
           <div className='flex justify-start items-center'>
@@ -157,25 +157,30 @@ const Header = () => {
                 <img src={logo} className='w-full h-full object-cover' alt='' width={100} height={50} />
               </Link>
             </div>
-            {/* search input */}
-            <div className='flex justify-between bg-white p-2 rounded-full dark:bg-[#3d3a4e]'>
-              <SearchOutlined style={{ color: '#f66962', marginRight: 10, paddingLeft: 10 }} />
-              <Input
-                type='text'
-                className='bg-transparent border-none w-[360px] focus:border-transparent mr-2 placeholder:text-[#b9b7c0] text-[#b9b7c0] hover:bg-transparent focus:bg-transparent'
-                placeholder='Tìm kiến khóa học, giảng viên,'
-              />
-              <TreeSelect
-                treeData={treeData}
-                className='bg-transparent max-w-[174px] mr-2 custom'
-                style={{ height: '32px' }}
-                dropdownClassName='custom-dropdown'
-                defaultValue={'-- Vui lòng chọn'}
-              />
-              <button className='bg-[#f66962] rounded-full w-[32px] hover:bg-[#fc7f50]'>
-                <ArrowRightOutlined style={{ color: 'white' }} />
-              </button>
-            </div>
+            {mode === 'student' && (
+              <>
+                {/* search input */}
+                <div className='flex justify-between bg-white p-2 rounded-full dark:bg-[#3d3a4e]'>
+                  <SearchOutlined style={{ color: '#f66962', marginRight: 10, paddingLeft: 10 }} />
+                  <Input
+                    type='text'
+                    className='bg-transparent border-none w-[360px] focus:border-transparent mr-2 placeholder:text-[#b9b7c0] 
+                    text-[#b9b7c0] hover:bg-transparent focus:bg-transparent'
+                    placeholder='Tìm kiến khóa học, giảng viên,'
+                  />
+                  <TreeSelect
+                    treeData={treeData}
+                    className='bg-transparent max-w-[174px] mr-2 custom'
+                    style={{ height: '32px' }}
+                    dropdownClassName='custom-dropdown'
+                    defaultValue={'-- Vui lòng chọn'}
+                  />
+                  <button className='bg-[#f66962] rounded-full w-[32px] hover:bg-[#fc7f50]'>
+                    <ArrowRightOutlined style={{ color: 'white' }} />
+                  </button>
+                </div>
+              </>
+             )}
           </div>
 
           <div className='flex justify-between '>
