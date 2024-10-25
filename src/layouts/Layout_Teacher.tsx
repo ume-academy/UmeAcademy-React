@@ -3,8 +3,11 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Footer from '../components/client/commonComponents/Footer/Footer'
 import Header from '../components/client/commonComponents/Header/Header'
 import Sidebar_Teacher from '../components/client/teacher/SidebarTeacher/Sidebar_Teacher'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion';
 
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
+  const [isVisible, setisVisible] = useState(false)
   const location = useLocation()
   const hideSideBar = routerConfig.hiddenSideberTeacher.includes(location.pathname)
 
@@ -19,7 +22,26 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
       return regex.test(location.pathname)
     })
   
-
+    useEffect(() => {
+      const toogleVisible = () => {
+        if(window.scrollY > 100) {
+          setisVisible(true)
+        }else{
+          setisVisible(false)
+        }
+      }
+  
+      window.addEventListener('scroll', toogleVisible)
+      return () => window.removeEventListener('scroll', toogleVisible)
+    }, [])
+  
+    // Hàm cuộn mượt về đầu trang
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
   return (
     <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
       {!hidenHeaderFotterWithId && <Header />}
@@ -36,6 +58,28 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
         </div>
       </div>
       {!hidenHeaderFotterWithId && <Footer />}
+      {isVisible && (
+          <motion.button
+          onClick={scrollToTop}
+          initial={{ opacity: 0, y: 100 }}  // Bắt đầu ở dưới
+          animate={{ opacity: 1, y: 0 }}    // Xuất hiện tại vị trí 0
+          whileHover={{ scale: 1.2 }}       // xác định trạng thái khi hover vào nút.
+          whileTap={{ scale: 0.9 }}         // Hiệu ứng sau khi click
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            padding: "0.5rem 0.8rem",
+            backgroundColor: "#f66962",
+            color: "#fff",
+            border: "none",
+            borderRadius: "0.5rem",
+            cursor: "pointer",
+          }}
+        >
+          ⬆ 
+        </motion.button>
+        )}
     </div>
   )
 }

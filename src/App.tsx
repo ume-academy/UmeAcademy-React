@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
@@ -36,7 +36,15 @@ import List_Role from './pages/admin/Role/List_Role/List_Role'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
+  // sử dụng để khi chuyển qua route khác scroll sẽ về đầu trang
+  const {pathname} = useLocation() 
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    })
+  }, [pathname])
+  
   return (
     <>
       <Routes>
