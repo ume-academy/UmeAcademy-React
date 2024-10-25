@@ -67,6 +67,7 @@ const Course_Management = () => {
             current={current}
             items={itemsStep_CourseManagement} // Các bước step được đặt trong contant client 
           />
+          {/* Nút gửi yêu cầu */}
           <button
             className={`flex justify-center items-center pl-4 group`}
             onClick={handleListStudent}
@@ -77,7 +78,7 @@ const Course_Management = () => {
               border-[2px] border-transparent group-hover:border-[#d9d9d9] group-hover:text-[#685f78] dark:group-hover:text-[#b9b7c0] dark:group-hover:border-transparent`}/>
             <p className={`font-desc text-[16px] group-hover:text-[#685f78] dark:group-hover:text-[#b9b7c0] ' ${extraSelected ? 'text-[#1e1e1e] dark:text-[#b9b7c0]' : 'text-[#c1b6d6] dark:text-[#777779]'}`}>Danh sách học viên</p>
           </button>
-          <div className="mt-12 px-4 py-2 rounded-lg cursor-pointer bg-[#f66962] text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]">Gửi đi xét duyệt</div>
+          <button className="mt-12 px-4 py-2 rounded-lg cursor-pointer bg-[#f66962] w-full text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]">Gửi đi xét duyệt</button>
         </div>
         <div className="">
           {current === 0 && (<Form_Course />)}
