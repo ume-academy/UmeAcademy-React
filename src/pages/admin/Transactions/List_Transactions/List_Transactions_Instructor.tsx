@@ -1,5 +1,5 @@
 import { getTitleTab } from "@/contants/client";
-import { message, Modal, Table, TreeSelect } from "antd";
+import { DatePicker, message, Modal, Table, Tag, TreeSelect } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -9,21 +9,61 @@ interface Transaction {
   id: number
   fullName: string,
   price: number,
-  created_at?: Date;
+  created_at?: string;
   status: number,
   withdrawal_method: string
 }
-const List_Transactions = () => {
+const List_Transactions_Instructor = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-
   const [isModal, setIsModal] = useState(false)
+  const [startDate, setStartDate] = useState<string | null>(null)
+  const [endDate, setEndDate] = useState<string | null>(null)
 
   const showModal = () => {
     setIsModal(true)
   }
 
+  const [data, setData] = useState<Transaction[]>([
+    {
+      id: 12323321,
+      fullName: "Vũ Ngọc Giao",
+      price: 30000000,
+      created_at: "2024-11-01",
+      status: 0,
+      withdrawal_method: "Chuyển khoản ngân hàng"
+    },
+    {
+      id: 12323221,
+      fullName: "Vũ Ngọc Giao",
+      price: 30000000,
+      created_at: "2024-12-01",
+      status: 1,
+      withdrawal_method: "Chuyển khoản ngân hàng"
+    }
+  ])
+  const filteredDate = (transaction: Transaction) => {
+    const createdAt = transaction.created_at ? new Date(transaction.created_at) : '';
+
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    return (
+      (!start || createdAt >= start) &&
+      (!end || createdAt <= end)
+    );
+  };
+
+  const filteredStatus = (transaction: Transaction) => {
+    return selectedStatus === undefined || transaction.status === Number(selectedStatus)
+  }
+
+  const filteredData = () => {
+    return data.filter(transaction => (
+      filteredDate(transaction) && filteredStatus(transaction)
+    ))
+
+
+  }
   const CustomTreeSelect = styled(TreeSelect)`
     .ant-select-selector {
       background-color: #fafafa !important;
@@ -40,66 +80,12 @@ const List_Transactions = () => {
       color: #e9ecef !important;
     }
   `;
-  const [data, setData] = useState<Transaction[]>([
-    {
-      id: 12323321,
-      fullName: "Vũ Ngọc Giao",
-      price: 30000000,
-      created_at: new Date(),
-      status: 0,
-      withdrawal_method: "Chuyển khoản ngân hàng"
-    }
-  ])
-  const filteredData = data.filter(transaction => selectedStatus === undefined || transaction.status === Number(selectedStatus))
-  const handleChangeStatus = (id: number, value: number) => {
-    Modal.confirm({
-      title: (
-        <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
-      ),
-      content: (
-        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
-          Bạn có chắc chắn muốn <span className='font-desc'>"{value === 1 ? "phê duyệt" : "từ chối"}"</span> khoản rút này không?
-        </p>
-      ),
-      okText: 'Đồng ý',
-      okType: 'danger',
-      okButtonProps: {
-        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
-      },
-      cancelButtonProps: {
-        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
-      },
-      cancelText: 'Hủy',
-      centered: true,
-      maskClosable: false,
-      icon: null,
-      width: 600,
-      onOk: () => {
-        setConfirmLoading(true); // Set loading state
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            setData(preData =>
-              preData.map(t => t.id === id ? { ...t, status: value } : t)
-            )
-
-            messageApi.open({
-              type: 'success',
-              content: `${value === 1 ? "Phê duyệt" : "Từ chối"} khóa học thành công!`,
-            });
-
-            setConfirmLoading(false); // Stop loading
-            resolve(undefined);
-          }, 2000); // Giả lập thời gian xử lý
-        });
-      }
-    });
-  }
   const columns = [
     {
       title: "Stt",
       key: 'index',
       dataIndex: "index",
-      render: (_: any, record: any, index: number) => (<p>{index + 1}</p>),
+      render: (_: any, __: any, index: number) => (<p>{index + 1}</p>),
       width: 60
     },
     {
@@ -151,55 +137,61 @@ const List_Transactions = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (status: number, record: any) => {
-        if (status === 0) {
-          return (
-            <CustomTreeSelect
-              value='Chờ phê duyệt'
-              treeDefaultExpandAll
-              className="w-[140px] mt-1"
-              onChange={(value) => handleChangeStatus(record.id, value ? 1 : 2)}
-              treeData={[
-                { value: true, title: <span className="text-green-500">Phê duyệt</span> },
-                { value: false, title: <span className="text-[#ff4667]">Từ chối</span> }
-              ]}
-            />
-          );
-        } else if (status === 1) {
-          return <span className="text-green-500">Đã phê duyệt</span>;
-        } else if (status === 2) {
-          return <span className="text-red-500">Đã bị từ chối</span>;
-        }
-      },
+      render: (status: 0 | 1 | 2) => (
+        <Tag className="text-sm py-1 px-2" color={status === 0 ? "blue" : status === 1 ? "green" : "red"}>
+          {
+            status === 0 ? "Chờ phê duyệt" : status === 1 ? "Đã phê duyệt" : "Đã từ chối"
+          }
+        </Tag>
+      ),
       width: 100
     }
   ]
 
   return (
     <div>
-      {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4 ">
-      <Helmet>
-        <title>{getTitleTab('Quản lý giao dịch')}</title>
-      </Helmet>
+        <Helmet>
+          <title>{getTitleTab('Quản lý giao dịch')}</title>
+        </Helmet>
         <div className="flex justify-between mb-4">
-          <p className="font-title text-xl">Danh sách giao dịch</p>
-          <CustomTreeSelect
-            placeholder="Lọc theo trạng thái"
-            value={selectedStatus}
-            onChange={(value) => setSelectedStatus(value as string)}
-            className="w-40 h-10"
-            treeData={[
-              { value: 0, title: 'Chờ phê duyệt' },
-              { value: 1, title: 'Đã phê duyệt' },
-              { value: 2, title: 'Đã từ chối' }
-            ]}
-            allowClear
-          />
+          <p className="font-title text-xl">Danh sách giao dịch của giảng viên</p>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <DatePicker
+                value={startDate}
+                className="dark:bg-[#2b2838] bg-white h-9"
+                placeholder='Ngày bắt đầu '
+                onChange={(date) => setStartDate(date)}
+              />
+              <p>
+                -
+              </p>
+              <DatePicker
+                value={endDate}
+                className="dark:bg-[#2b2838] bg-white h-9"
+                placeholder='Ngày kết thúc '
+                onChange={(date) => setEndDate(date)}
+
+              />
+            </div>
+            <CustomTreeSelect
+              placeholder="Lọc theo trạng thái"
+              value={selectedStatus}
+              onChange={(value) => setSelectedStatus(value as string)}
+              className="w-40 h-10"
+              treeData={[
+                { value: 0, title: 'Chờ phê duyệt' },
+                { value: 1, title: 'Đã phê duyệt' },
+                { value: 2, title: 'Đã từ chối' }
+              ]}
+              allowClear
+            />
+          </div>
         </div>
         <Table
           columns={columns}
-          dataSource={filteredData} />
+          dataSource={filteredData()} />
       </div>
       {isModal && (
         <Modal
@@ -231,4 +223,4 @@ const List_Transactions = () => {
   )
 }
 
-export default List_Transactions
+export default List_Transactions_Instructor
