@@ -74,7 +74,7 @@ const Card = ({
         )}
 
         <div className="space-y-5 mt-4">
-          <h3 className="text-[17px] dark:hover:text-[#ff5364] w-[90%] line-clamp-2">
+          <h3 className="text-[17px] h-12 dark:hover:text-[#ff5364] w-[90%] line-clamp-2">
             {title}
           </h3>
           <div className="flex justify-between items-center border-b border-b-gray-500 pb-4">
