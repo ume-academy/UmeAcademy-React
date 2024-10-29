@@ -128,12 +128,13 @@ const List_Catalogues = () => {
   return (
     <>
       {contextHolder}
-      <div className="heading flex justify-between items-center pb-4 ">
-        <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>Danh sách danh mục khóa học</h5>
+      <div className="p-4">
+        <div className="heading flex justify-between items-center pb-4 ">
+          <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>Danh sách danh mục khóa học</h5>
 
-        <Link
-          to={'/admin/catalogues/create'}
-          className='
+          {/* <Link
+            to={'/admin/catalogues/create'}
+            className='
             border-none 
             py-1 px-4
             flex
@@ -144,14 +145,23 @@ const List_Catalogues = () => {
             text-white
             hover:bg-[#ee9aa8]
             hover:text-black'
-        >
-          <PlusCircleOutlined />
-          Thêm mới
-        </Link>
-      </div>
+          >
+            <PlusCircleOutlined />
+            Thêm mới
+          </Link> */}
 
-      <div className="content">
-        <Table dataSource={dataSource} columns={columns} className='table' />
+          <Link
+            to={'/admin/catalogues/create'}
+            className='border border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-3'
+          >
+            <PlusCircleOutlined />
+            Thêm mới
+          </Link>
+        </div>
+
+        <div className="content">
+          <Table dataSource={dataSource} columns={columns} className='table' />
+        </div>
       </div>
     </>
   )

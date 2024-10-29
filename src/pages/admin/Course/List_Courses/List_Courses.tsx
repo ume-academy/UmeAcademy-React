@@ -219,7 +219,7 @@ const List_Courses = () => {
       </Helmet>
       {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between items-center pb-4">
           <p className="font-title text-xl">Danh sách khóa học</p>
           <CustomTreeSelect
             placeholder="Lọc theo trạng thái"

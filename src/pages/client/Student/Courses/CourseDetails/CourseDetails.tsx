@@ -550,7 +550,9 @@ const CourseDetails = () => {
                       </button>
                     </div>
 
-                    <button className={`${styles['enrollBtn']} rounded-full py-2`}>Xem ngay</button>
+                    <button className={`${styles['enrollBtn']} rounded-full py-2`}>
+                      <Link to={`/course/:id/lesson`} className='hover:text-[#F66962]'>Xem ngay</Link>
+                    </button>
                   </div>
                 </div>
               </div>

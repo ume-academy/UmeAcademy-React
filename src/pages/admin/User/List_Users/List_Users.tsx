@@ -182,7 +182,7 @@ const List_Users = () => {
       width: 110,
       render: (record) => (
         <div>
-          <Link to={`/admin/user-detail/${record.id}`}>
+          <Link to={`/admin/users/${record.id}`}>
             <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
           </Link>
         </div>

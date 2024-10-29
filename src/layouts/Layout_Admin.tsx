@@ -36,7 +36,7 @@ const Layout_Admin: React.FC = () => {
             }}
 
           >
-            <div className="bg-[#EEEEEE] p-4 rounded-lg dark:bg-[#2B2838]">
+            <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">
               <Outlet />
             </div>
           </div>

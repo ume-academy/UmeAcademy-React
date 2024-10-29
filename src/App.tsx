@@ -36,6 +36,8 @@ import Form_Payment_Method from './pages/admin/Payment_Method/Form_Payment_Metho
 import List_Payment_Method from './pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
 import List_Transactions_Student from './pages/admin/Transactions/List_Transactions/List_Transactions_Student'
 import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
+import Details_User from './pages/admin/User/Details_User/Details_User'
+
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -99,6 +101,8 @@ function App() {
 
           {/* Route tài khoản */}
           <Route path='/admin/users' element={<List_Users />} />
+          <Route path='/admin/users/:id' element={<Details_User />} />
+
 
           {/* Route khóa học */}
           <Route path='/admin/courses' element={<List_Courses />} />
