@@ -1,10 +1,18 @@
 import { useContext, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import Lesson from './components/client/student/Lesson/Lesson'
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
+import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import Lesson from './components/client/student/Lesson/Lesson'
-import Layout_Admin from './layouts/Layout_Admin'
+import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
+import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
+import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
+import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
+import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
+import List_Role from './pages/admin/Role/List_Role/List_Role'
+import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
+import List_Users from './pages/admin/User/List_Users/List_Users'
 import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
 import Login from './pages/auth/Login/Login'
 import Register from './pages/auth/Register/Register'
@@ -25,14 +33,6 @@ import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
-import List_Users from './pages/admin/User/List_Users/List_Users'
-import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
-import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
-import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
-import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
-import List_Transactions from './pages/admin/Transactions/List_Transactions/List_Transactions'
-import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
-import List_Role from './pages/admin/Role/List_Role/List_Role'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -101,7 +101,7 @@ function App() {
           <Route path='/admin/courses' element={<List_Courses />} />
 
           {/* Route giao dịch */}
-          <Route path='/admin/transactions' element={<List_Transactions />} />
+          <Route path='/admin/transactions/instructor' element={<List_Transactions_Instructor />} />
 
           {/* Route phân quyền */}
           <Route path='/admin/roles' element={<List_Role />} />
