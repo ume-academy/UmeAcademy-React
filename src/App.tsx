@@ -33,6 +33,7 @@ import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
+import List_Transactions_Student from './pages/admin/Transactions/List_Transactions/List_Transactions_Student'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -102,7 +103,8 @@ function App() {
 
           {/* Route giao dịch */}
           <Route path='/admin/transactions/instructor' element={<List_Transactions_Instructor />} />
-
+          <Route path='/admin/transactions/student' element={<List_Transactions_Student />} />
+          
           {/* Route phân quyền */}
           <Route path='/admin/roles' element={<List_Role />} />
           <Route path='/admin/roles/create' element={<Form_Role />} />

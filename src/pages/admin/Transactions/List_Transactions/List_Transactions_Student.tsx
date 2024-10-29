@@ -13,7 +13,7 @@ interface Transaction {
   status: number,
   withdrawal_method: string
 }
-const List_Transactions_Instructor = () => {
+const List_Transactions_Student = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined);
   const [isModal, setIsModal] = useState(false)
   const [startDate, setStartDate] = useState<string | null>(null)
@@ -223,4 +223,4 @@ const List_Transactions_Instructor = () => {
   )
 }
 
-export default List_Transactions_Instructor
+export default List_Transactions_Student
