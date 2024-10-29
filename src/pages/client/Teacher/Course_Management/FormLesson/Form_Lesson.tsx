@@ -1,16 +1,23 @@
 import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from "@ant-design/icons";
-import { Button, Collapse, CollapseProps, Input, message, Modal } from "antd";
+import { Collapse, CollapseProps, Input, message, Modal, Tooltip, UploadFile } from "antd";
 import Upload, { UploadProps } from "antd/es/upload/Upload";
 import { ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
-import  './Form_Lesson_Antd.scss'
+import './Form_Lesson_Antd.scss';
 interface Props  {
   theme : 'dark' | 'light',
   id?: number,
-  
 }
 
 const FormLesson = ({theme, id} : Props) => {
+  // <==== State cho Upload video===>
+  const [fileList, setFileList] = useState<UploadFile[] >([])
+
+  // <==== Hàm này để setFileList khi đã có video thì sẽ ẩn button upload đi ===>
+  const handleUploadFile: UploadProps['onChange'] = ({file,fileList: newFileList}) => {
+    setFileList(newFileList);
+  }
+
   // State để set loading cho comfirm
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -139,11 +146,19 @@ const FormLesson = ({theme, id} : Props) => {
       children: (
         <>
           <div>
-            <div className="grid grid-cols-[11.5fr_0.5fr] gap-4 w-full mb-5">
-              <input
-                className="flex w-full rounded-md border-[1px] border-[#d9d9d9] dark:border-[#c7c7c740] h-[40px] bg-white dark:bg-[#212529]  text-sm text-gray-400 file:h-[100%] file:mr-2 file:border-0 file:bg-[#ebf0f5] dark:file:bg-[#2b3035] file:text-[#000000E0] dark:file:text-[#b9b7c0] file:text-[12px] file:font-desc file:text-sm "
-                type="file"
-              />
+            <div className="grid grid-cols-[11.5fr_0.5fr] gap-4 w-full mb-5 min-h-6">
+              <Upload 
+                listType="picture"
+                fileList={fileList}
+                maxCount={1}
+                onChange={handleUploadFile}
+                showUploadList={{showRemoveIcon: false}}
+                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                > 
+                  {fileList.length === 0 && (
+                    <button className="w-[800px] border-[2px] px-4 py-1 border-[#ff5364] rounded-lg text-[12px] text-[#ff5364] font-subtitle"><UploadOutlined size={22} style={{ color: '#f66962',marginRight:8 }} />Upload</button>
+                  )}
+                </Upload>
               <DeleteOutlined onClick={() => handleChangeDeleteChapter(2)} className="flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]" />
             </div>
             <Upload {...propsUpload}>

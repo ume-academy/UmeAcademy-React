@@ -1,5 +1,5 @@
 import { logo } from '@/contants/client';
-import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, PieChartOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, PieChartOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { BookUser, FileUser, HandCoins, LibraryBig, PercentCircle, ShieldAlert, Users } from 'lucide-react';
@@ -40,8 +40,8 @@ const Sidebar_Admin = () => {
       getItem(<NavLink to={'/admin/transactions/instructor'}>Giảng viên</NavLink>, '7', <BookUser  size={15}/>),
       getItem(<NavLink to={'/admin/transactions/student'}>Học viên</NavLink>, '8', <FileUser size={15}/>),
     ]),
-    getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
-
+    getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert  size={15} />),
+    getItem(<NavLink to={'/admin/list-payment-method'}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
   ];
 
   return (

@@ -1,18 +1,10 @@
 import { useContext, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import Lesson from './components/client/student/Lesson/Lesson'
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
-import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
-import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
-import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
-import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
-import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
-import List_Role from './pages/admin/Role/List_Role/List_Role'
-import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
-import List_Users from './pages/admin/User/List_Users/List_Users'
+import Lesson from './components/client/student/Lesson/Lesson'
+import Layout_Admin from './layouts/Layout_Admin'
 import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
 import Login from './pages/auth/Login/Login'
 import Register from './pages/auth/Register/Register'
@@ -33,7 +25,17 @@ import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
+import List_Users from './pages/admin/User/List_Users/List_Users'
+import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
+import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
+import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
+import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
+import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
+import List_Role from './pages/admin/Role/List_Role/List_Role'
+import Form_Payment_Method from './pages/admin/Payment_Method/Form_Payment_Method/Form_Payment_Method'
+import List_Payment_Method from './pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
 import List_Transactions_Student from './pages/admin/Transactions/List_Transactions/List_Transactions_Student'
+import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -117,6 +119,12 @@ function App() {
 
           {/* Route % hoa hồng */}
           <Route path='/admin/commission-rate/update' element={<Commission_Rate />} />
+
+          {/* Route phương thức thanh toán */}
+          <Route path='/admin/list-payment-method' element={<List_Payment_Method />} />
+          <Route path='/admin/form-payment-method' element={<Form_Payment_Method />} />
+          <Route path='/admin/form-payment-method/:id' element={<Form_Payment_Method />} />
+
         </Route>
 
         {/* <===== Auth =====> */}
