@@ -48,7 +48,7 @@ const Form_Payment_Method = () => {
   return (
     <div>
       <Helmet>
-        <title>{getTitleTab('Thêm mới phương thức')}</title>
+        <title>{getTitleTab(id ? 'Cập nhật phương thức thanh toán' : 'Thêm mới phương thức thanh toán')}</title>
       </Helmet>
       <Form layout='vertical' form={form} onFinish={onFinish} style={{ maxWidth: '100%' }}>
         <div className='flex justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7'>
