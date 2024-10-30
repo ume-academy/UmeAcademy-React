@@ -1,15 +1,3 @@
-// Tabs antd phần Profile
-//  <====== Bắt đầu ======>
-// :where(.css-dev-only-do-not-override-5wsri9)[class^="ant-tabs"] [class^="ant-tabs"],
-// :where(.css-dev-only-do-not-override-5wsri9)[class*=" ant-tabs"] [class^="ant-tabs"] {
-//   // box-sizing: border-box;
-//   flex: 1;
-//   // text-align: center;
-//   font-weight: 500;
-//   font-size: 16px;
-//   margin: 0;
-// }
-
 // deploy
 [class^="ant-tabs"] [class^="ant-tabs"],
 [class*=" ant-tabs"] [class^="ant-tabs"] {
@@ -48,6 +36,7 @@
 // reset margin
 .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
   margin: 0;
+  // border-bottom: 2px solid #B9B7C0;
 }
 
 // activeTab
@@ -59,9 +48,24 @@
   color: #F84563;
 }
 
+// .ant-tabs .ant-tabs-tab {
+//   // color: #B9B7C0;
+
+
+// }
+
+// .ant-tabs {
+//   .ant-tabs-tab+.ant-tabs-tab {
+//     margin: 0;
+//     // border-bottom: 2px solid #e5e7eb;z
+//   }
+// }
+
 
 .dark .ant-tabs .ant-tabs-tab {
   color: #B9B7C0;
+  border-bottom: 2px solid #DCE0EB;
+  border-top: 1px solid #DCE0EB;
 
 }
 
@@ -99,3 +103,67 @@
 }
 
 //  <====== Kết thúc ======>
+
+
+@media (max-width: 768px) {
+
+  .tabsBar {
+
+    .ant-tabs-nav .ant-tabs-nav-list,
+    .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+      position: relative;
+      display: flex;
+      transition: opacity 0.3s;
+      flex-direction: column;
+    }
+  }
+
+}
+
+@media (max-width: 768px) {
+  .ant-tabs .ant-tabs-tab+.ant-tabs-tab-active {
+    margin: 0;
+    // border-bottom: 2px solid red;
+    background-color: #F84563;
+    color: white;
+  }
+
+  .ant-tabs .ant-tabs-tab+.ant-tabs-tab {
+    margin: 0;
+  }
+
+  .ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
+    color: #e5e7eb;
+    // border-bottom: 2px solid;
+
+    background-color: #F84563;
+    color: white;
+  }
+
+  .ant-tabs {
+    .ant-tabs-tab+.ant-tabs-tab {
+      margin: 0;
+      // border-bottom: 2px solid #e5e7eb;z
+      // border-top: 2px solid #DCE0EB;
+      border: none;
+    }
+  }
+
+
+  .dark .ant-tabs .ant-tabs-tab {
+    color: #B9B7C0;
+    // border-bottom: 2px solid #DCE0EB;
+    // border-top: 1px solid #DCE0EB;
+    border: none;
+
+  }
+
+  // activeTab
+  .dark .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #e5e7eb !important;
+  }
+
+  .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: white !important;
+  }
+}

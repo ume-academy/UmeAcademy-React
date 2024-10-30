@@ -8,7 +8,8 @@ const Setting = ({ props }: any) => {
 
     return (
         <>
-            <div className="w-[1280px] mx-auto ">
+            {/* w-[1280px] */}
+            <div className="mb-20 container mx-auto ">
                 <div className={`${styles['parent']} rounded-xl dark:text-[#B9B7C0] dark:border-none dark:bg-[#2B2838]`}>
                     <div className={`${styles['heading']} p-6`}>
                         <h3 className="font-title text-2xl">Cài đặt</h3>
@@ -16,9 +17,8 @@ const Setting = ({ props }: any) => {
                     </div>
 
                     <div className={`${styles['content']}`}>
-
                         <div className="">
-                            <Tabs defaultActiveKey="1">
+                            <Tabs defaultActiveKey="1" className="tabsBar">
                                 <Tabs.TabPane
                                     tab={
                                         <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
@@ -30,7 +30,22 @@ const Setting = ({ props }: any) => {
                                 >
                                     {/* Nội dung tab 1 */}
                                     <div className={`${styles['tabContent']} dark:text-[#B9B7C0] `}>
-                                        <div className={`${styles['info']} flex space-x-4 p-6`}>
+                                        <div 
+                                          className={`${styles['info']} 
+                                          flex 
+                                          flex-col 
+                                          justify-center 
+                                          items-center 
+
+                                          space-x-0
+                                          p-6
+
+                                          md:flex-row 
+                                          md:justify-start 
+                                          md:items-start 
+                                          md:space-x-4
+                                        `}
+                                        >
                                             <div className="avt">
                                                 <Avatar size={120} src={props.avatar} className="border-[#F84563]" />
                                             </div>
@@ -60,7 +75,7 @@ const Setting = ({ props }: any) => {
                                             </div>
 
                                             <form className={`${styles['formContent']} space-y-6`}>
-                                                <div className={`${styles['formGrid']}`}>
+                                                <div className={`${styles['formGrid']} flex flex-col md:flex-row`}>
                                                     <div className={`${styles['formGroup']}`}>
                                                         <label>
                                                             Họ
@@ -82,7 +97,7 @@ const Setting = ({ props }: any) => {
                                                     </div>
                                                 </div>
 
-                                                <div className={`${styles['formGrid']}`}>
+                                                <div className={`${styles['formGrid']} flex flex-col md:flex-row`}>
                                                     <div className={`${styles['formGroup']}`}>
                                                         <label>
                                                             Tên hiển thị
@@ -118,7 +133,7 @@ const Setting = ({ props }: any) => {
 
                                                 <div className={`${styles['btnGroup']}`}>
 
-                                                    <button>Cập nhật thông tin</button>
+                                                    <button className="w-full md:w-[20%]">Cập nhật thông tin</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -140,7 +155,7 @@ const Setting = ({ props }: any) => {
                                         <div className={`${styles['form']} flex space-x-4 p-6`}>
 
                                             <form className={`${styles['formContent']} space-y-6`}>
-                                                <div className={`${styles['formGroup']} w-[50%]`}>
+                                                <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
                                                     <label>
                                                         Mật khẩu hiện tại
                                                     </label>
@@ -148,7 +163,7 @@ const Setting = ({ props }: any) => {
                                                     <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
                                                 </div>
 
-                                                <div className={`${styles['formGroup']} w-[50%]`}>
+                                                <div className={`${styles['formGroup']} w-full md:w-[50%]`}>
                                                     <label>
                                                         Mật khẩu mới
                                                     </label>
@@ -156,7 +171,7 @@ const Setting = ({ props }: any) => {
                                                     <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
                                                 </div>
 
-                                                <div className={`${styles['formGroup']} w-[50%]`}>
+                                                <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
                                                     <label>
                                                         Nhâp lại mật khẩu mới
                                                     </label>
@@ -166,7 +181,7 @@ const Setting = ({ props }: any) => {
 
                                                 <div className={`${styles['btnGroup']}`}>
 
-                                                    <button>Cập nhật mật khẩu</button>
+                                                    <button className="my-4 w-full md:w-[20%]">Cập nhật mật khẩu</button>
                                                 </div>
                                             </form>
                                         </div>

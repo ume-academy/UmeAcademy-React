@@ -504,7 +504,7 @@ const CourseDetails = () => {
                     <div className={`${styles['origin']}`}>$90.00</div>
                   </div>
 
-                  <div className={`${styles['btns']} space-y-3`}>
+                  <div className={`${styles['btns']} space-y-6`}>
                     {/* fav */}
                     <div className={`${styles['btnsGroup']} space-x-4`}>
                       <button
@@ -550,9 +550,26 @@ const CourseDetails = () => {
                       </button>
                     </div>
 
-                    <button className={`${styles['enrollBtn']} rounded-full py-2`}>
+                    {/* <button className={`${styles['enrollBtn']} rounded-full py-2`}>
                       <Link to={`/course/:id/lesson`} className='hover:text-[#F66962]'>Xem ngay</Link>
-                    </button>
+                    </button> */}
+                    <div className="">
+                      <Link
+                        to={`/course/:id/lesson`}
+                        className='
+                        bg-[#159f46] 
+                          py-3 
+                          rounded-full 
+                        text-white 
+                          hover:text-black
+                          hover:bg-[#7b9885]
+                      '
+                      >
+                        <button className={`${styles['enrollBtn']} `}>
+                          Xem ngay
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
