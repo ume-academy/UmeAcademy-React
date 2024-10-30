@@ -102,7 +102,7 @@ const List_Catalogues = () => {
       key: 'createdAt',
     },
     {
-      title: 'Tools',
+      title: 'Chức năng',
       render: ((_: any, item: any) => (
         <div className="flex items-center justify-center">
           <Link to={`/admin/catalogues/update/${item.id}`}>

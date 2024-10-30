@@ -1,9 +1,8 @@
-import { Outlet, useLocation } from 'react-router-dom'
-import Footer from '../components/client/commonComponents/Footer/Footer'
-import Header from '../components/client/commonComponents/Header/Header'
-import { routerConfig } from '../contants/client'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion';
+import { Outlet, useLocation } from 'react-router-dom'
+import { routerConfig } from '../contants/client'
+import Footer from '@/components/client/commonComponents/Footer/Footer'
 
 const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
   const [isVisible, setisVisible] = useState(false)
