@@ -37,19 +37,28 @@
   border: 1px solid #e9ecef;
 }
 
-/* Viền cho nút "Trước" và "Sau" */
-.ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-.ant-pagination .ant-pagination-next .ant-pagination-item-link {
-  border: 1px solid #685f78;
+/* Hover cho nút Previous và Next */
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link {
+  background-color: transparent !important; /* Màu nền cam khi hover */
+  border-color: #ff4667; /* Màu viền cam khi hover */
+  color: #ff4667; /* Màu chữ trắng khi hover */
 }
 
-.dark .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-.dark .ant-pagination .ant-pagination-next .ant-pagination-item-link {
-  border: 1px solid #685f78;
+/* Để bỏ màu nền xám mặc định */
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
+  background-color: transparent; /* Loại bỏ nền xám mặc định */
+  border-color: #e9ecef; /* Giữ viền xám mặc định */
+  color: #ff4667 !important; /* Màu chữ trắng khi hover */
+
 }
 
 /* Màu cho biểu tượng SVG trong pagination */
 .ant-pagination .anticon svg {
-  color: #685f78 !important;
+  color: #ff4667 !important;
 }
-/* ====== Kết thúc pagination ====== */
+.ant-pagination .ant-pagination-item:not(.ant-pagination-item-active) a {
+  color: #ff4667; /* Màu chữ mặc định */
+  border-radius: 6px;
+}

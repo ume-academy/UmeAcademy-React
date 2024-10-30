@@ -3,7 +3,7 @@ import { logo } from '../../../../contants/client'
 
 const Footer = () => {
   return (
-    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] max-w-full mx-auto min-h-[400px] text-[14px] sm:max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] pt-10 lg:p-0 p-6 '>
+    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] max-w-full mx-auto min-h-[350px] text-[14px] sm:max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] pt-10 lg:p-0 p-6 '>
       <div className='w-full flex flex-wrap justify-between gap-6'>
         <div className='flex flex-col  md:w-[100%] lg:w-[37%]'>
           <div className='flex items-center mb-3'>
@@ -16,7 +16,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className='flex gap-20 flex-wrap justify-between lg:w-auto md:w-[100%]'>
+        <div className='flex gap-6 md:gap-20 flex-wrap justify-between lg:w-auto md:w-[100%]'>
           <div className='w-[45%] md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Dành cho Giảng viên</h2>
             <ul className='space-y-3 sm:space-y-5'>
