@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { routerConfig } from '../contants/client'
+import { useEffect, useState } from 'react'
 import Footer from '@/components/client/commonComponents/Footer/Footer'
+import Header from '@/components/client/commonComponents/Header/Header'
+import Header_Mobile_Tablet from '@/components/client/commonComponents/Header/Header_Mobile_Tablet/Header_Mobile_Tablet'
 
 const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
   const [isVisible, setisVisible] = useState(false)
@@ -37,8 +39,8 @@ const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div>
       <div className='dark:bg-[#131022] min-h-screen flex flex-col'>
-        {/* {!hidenHeaderFotter && <Header />} */}
-        <main className='flex-grow mt-16 md:mt-40 mb-10 md:mb-20'>{children || <Outlet />}</main>
+        {!hidenHeaderFotter && (<><Header /> <Header_Mobile_Tablet /></>)}
+        <main className='flex-grow'>{children || <Outlet />}</main>
         {!hidenHeaderFotter && <Footer />}
         {isVisible && (
           <motion.button

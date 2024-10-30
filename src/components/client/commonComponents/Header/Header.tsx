@@ -2,20 +2,19 @@ import { logo, routerConfig } from '@/contants/client'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import {
-  ArrowRightOutlined,
   HistoryOutlined,
   LogoutOutlined,
   MoonFilled,
-  SearchOutlined,
   StarOutlined,
   SunFilled,
   UserOutlined,
   WalletOutlined
 } from '@ant-design/icons'
-import { Avatar, Dropdown, Input, MenuProps, Space, TreeSelect } from 'antd'
+import { Avatar, Dropdown, MenuProps, Space } from 'antd'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
+import Search from './Search/Search'
 
 const Header = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
@@ -53,20 +52,7 @@ const Header = () => {
     }
   }, [])
 
-  const treeData = [
-    {
-      value: 'parent 1',
-      title: 'parent 1'
-    },
-    {
-      value: 'parent 2',
-      title: 'parent 2'
-    },
-    {
-      value: 'parent 3',
-      title: 'parent 3'
-    }
-  ]
+
 
   const items: MenuProps['items'] = [
     {
@@ -149,7 +135,7 @@ const Header = () => {
         className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${(isScroll || mode === 'teacher') && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} 
         ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
       >
-        <div className=' flex items-center justify-between w-[1280px] h-[80px] mx-auto'>
+        <div className='hidden lg:flex items-center justify-between lg:w-[1280px] h-[80px] mx-auto'>
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>
@@ -160,25 +146,7 @@ const Header = () => {
             {mode === 'student' && (
               <>
                 {/* search input */}
-                <div className='flex justify-between bg-white p-2 rounded-full dark:bg-[#3d3a4e]'>
-                  <SearchOutlined style={{ color: '#f66962', marginRight: 10, paddingLeft: 10 }} />
-                  <Input
-                    type='text'
-                    className='bg-transparent border-none w-[360px] focus:border-transparent mr-2 placeholder:text-[#b9b7c0] 
-                    text-[#b9b7c0] hover:bg-transparent focus:bg-transparent'
-                    placeholder='Tìm kiến khóa học, giảng viên,'
-                  />
-                  <TreeSelect
-                    treeData={treeData}
-                    className='bg-transparent max-w-[174px] mr-2 custom'
-                    style={{ height: '32px' }}
-                    dropdownClassName='custom-dropdown'
-                    defaultValue={'-- Vui lòng chọn'}
-                  />
-                  <button className='bg-[#f66962] rounded-full w-[32px] hover:bg-[#fc7f50]'>
-                    <ArrowRightOutlined style={{ color: 'white' }} />
-                  </button>
-                </div>
+                <Search />
               </>
              )}
           </div>

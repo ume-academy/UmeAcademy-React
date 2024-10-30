@@ -5,6 +5,7 @@ import Header from '../components/client/commonComponents/Header/Header'
 import Sidebar_Teacher from '../components/client/teacher/SidebarTeacher/Sidebar_Teacher'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
+import Header_Mobile_Tablet from '@/components/client/commonComponents/Header/Header_Mobile_Tablet/Header_Mobile_Tablet'
 
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   const [isVisible, setisVisible] = useState(false)
@@ -45,6 +46,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
       {!hidenHeaderFotterWithId && <Header />}
+      <Header_Mobile_Tablet />
       <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] w-[1280px] mx-auto' } `}>
         <div className='flex gap-4'>
           {/* Sidebar */}
