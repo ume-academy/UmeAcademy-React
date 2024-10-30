@@ -34,7 +34,7 @@ const Course_Payment_Method = () => {
       },
       centered: true,
       maskClosable: false,
-      width: 600,
+      width: 400,
       icon: null, // Bỏ biểu tượng trong modal
       onOk: () => {
         setConfirmLoading(true);
@@ -52,11 +52,11 @@ const Course_Payment_Method = () => {
   }
 
   return (
-    <div className="max-w-full sm:max-w-[768px] md:max-w-[1024px] md:p-10 lg:max-w-[1280px] mx-auto mt-40 mb-20 text-[#685f78] dark:text-[#B9B7C0]">
+    <div className="max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-40 mb-20 text-[#685f78] dark:text-[#B9B7C0]">
       <Helmet>
         <title>{getTitleTab("Thanh toán khóa học")}</title>
       </Helmet>
-      <div className="flex flex-wrap justify-between sm:justify-center flex-col lg:flex-row gap-5">
+      <div className="flex flex-wrap justify-between sm:justify-center flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[59%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl mb-7">
           <p className="font-title text-2xl border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6">
             Phương thức thanh toán
@@ -116,7 +116,7 @@ const Course_Payment_Method = () => {
               <input
                 type="text"
                 placeholder="Mã giảm giá"
-                className="border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg lg:w-[70%] w-[75%]"
+                className="border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[70%] "
               />
               <button
                 type="button"

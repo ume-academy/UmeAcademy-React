@@ -25,23 +25,23 @@ export const routerConfig = {
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
-export const isMyCoursesPage = location.pathname === "/teacher/my-courses";
+export const isMyCoursesPage = location.pathname === '/teacher/my-courses'
 export const getButtonDetails = (pathname: string) => {
-  const isHistoryLesson = pathname === "/purchased-courses";
+  const isHistoryLesson = pathname === '/purchased-courses'
 
-  let buttonText = "Mua ngay";
-  let targetPath = "/purchase-page";
+  let buttonText = 'Mua ngay'
+  let targetPath = '/course-payment-method'
 
   if (isHistoryLesson) {
-    buttonText = "Hoàn tiền";
-    targetPath = "/refund-page";
+    buttonText = 'Hoàn tiền'
+    targetPath = '/refund-page'
   } else if (isMyCoursesPage) {
-    buttonText = "Xóa";
-    targetPath = "/delete-course";
+    buttonText = 'Xóa'
+    targetPath = '/delete-course'
   }
 
-  return { buttonText, targetPath };
-};
+  return { buttonText, targetPath }
+}
 
 //icon vector cho Top Category homePage
 export const ruler = '/assets/images/client/HomeIconVector/ruler.png'
@@ -62,12 +62,12 @@ export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/e
 // Tiêu đề các bước trong quản trị khóa học
 export const itemsStep_CourseManagement = [
   {
-    title: 'Trang tổng quan',
+    title: 'Trang tổng quan'
   },
   {
-    title: 'Chương trình giảng dạy',
+    title: 'Chương trình giảng dạy'
   },
   {
-    title: 'Giảm giá',
-  },
+    title: 'Giảm giá'
+  }
 ]
