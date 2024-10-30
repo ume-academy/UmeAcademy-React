@@ -70,14 +70,14 @@ const Wallet_History = () => {
       title: 'Mã giao dịch',
       dataIndex: 'id',
       key: 'id',
-      width: 150
+      width: 130
     },
     {
       title: 'Loại giao dịch',
       dataIndex: 'type',
       key: 'type',
       width: 130,
-      render: (type: string) => <div className='text-[16px]'>{type}</div>
+      render: (type: string) => <div className='text-sm md:text-[16px]'>{type}</div>
     },
     {
       title: 'Phương thức thanh toán',
@@ -90,7 +90,7 @@ const Wallet_History = () => {
       dataIndex: 'date',
       key: 'date',
       width: 140,
-      render: (date: string) => <div className='text-[16px]'>{date}</div>
+      render: (date: string) => <div className='text-sm md:text-[16px]'>{date}</div>
     },
     {
       title: 'Số tiền',
@@ -98,7 +98,7 @@ const Wallet_History = () => {
       key: 'amount',
       width: 140,
       render: (amount: string) => (
-        <span className='text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
+        <span className= 'text-sm md:text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
           {formatCurrency(amount)}
         </span>
       )
@@ -112,29 +112,28 @@ const Wallet_History = () => {
   ]
 
   return (
-    <div className='w-[1280px] mx-auto mt-40 mb-40'>
-      <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg shadow-lg'>
-        <p className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Ví Ume</p>
-        <div className='flex justify-between items-center p-6'>
+    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto md:mb-10'>
+      <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg shadow-lg'>
+        <p className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-2 md:p-6'>Ví Ume</p>
+        <div className='flex flex-wrap justify-between items-center p-2 md:p-6'>
           <div className='flex gap-4 items-center'>
-            <div className='relative flex items-center'>
-              <WalletFilled className='text-[#ff5364] text-[50px]' />
-              <span className='absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]'>UME</span>
+            <div className='flex items-center'>
+              <WalletFilled className='text-[#ff5364] text-4xl md:text-5xl lg:text-[50px] ' />
             </div>
             <div>
-              <p className='text-[15px]'>Số dư hiện tại</p>
-              <p className='text-[18px] font-semibold dark:hover:text-white'>Bạn đang có: 1.000.000.000 ₫</p>
+              <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
+              <p className='text-xs md:text-lg  dark:hover:text-white'>Bạn đang có: <strong>1.000.000.000 ₫</strong></p>
             </div>
           </div>
           <button onClick={openModal}
-            className='bg-[#ff5364] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white' >
+            className='bg-[#ff5364] border border-[#ff5364] text-white py-1 px-4 md:py-2 md:px-6 text-[11px] md:text-[15px] hover:border hover:text-[#ff5364] rounded-lg hover:border-[#ff5364] hover:bg-white' >
             Nạp tiền
           </button>
         </div>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[46%] p-7">
+          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[90%] md:w-[60%] p-7">
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
@@ -143,7 +142,7 @@ const Wallet_History = () => {
             <h2 className="font-subtitle mb-4">Nạp tiền vào ví Ume</h2>
             <p className='text-[16px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
             <form>
-            <div className="mb-6 text-[15px] space-y-2">
+              <div className="mb-6 text-[15px] space-y-2">
                 <label>
                   Số tiền
                 </label>
@@ -162,13 +161,13 @@ const Wallet_History = () => {
               <div className="flex justify-start text-[16px] gap-4">
                 <button
                   type="submit"
-                  className="bg-[#ff4667] border border-[#ff4667] text-white py-2 px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white">
+                  className="bg-[#ff4667] border border-[#ff4667] text-white  hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white text-[11px] md:text-[15px]  py-1 px-4 md:py-2 md:px-6">
                   Nạp tiền
                 </button>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className=" text-[#ff4667] py-2 px-4 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white">
+                  className=" text-[#ff4667]  rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white text-[11px] md:text-[15px]  py-1 px-7 md:py-2 md:px-10">
                   Hủy
                 </button>
               </div>
@@ -177,15 +176,16 @@ const Wallet_History = () => {
         </div>
       )}
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử giao dịch</h2>
+        <h2 className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-2 md:p-6'>Lịch sử giao dịch</h2>
         <Table
           columns={columns}
           dataSource={wallet}
           pagination={false}
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-6 '
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-0 md:p-6 '
+          scroll={{ x: 966 }}
         />
       </div>
-      <div className='flex justify-end mt-6'>
+      <div className='flex justify-end mt-10'>
         <Pagination defaultCurrent={1} total={22} />
       </div>
     </div>

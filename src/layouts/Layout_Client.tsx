@@ -39,7 +39,7 @@ const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
     <div>
       <div className='dark:bg-[#131022] min-h-screen flex flex-col'>
         {/* {!hidenHeaderFotter && <Header />} */}
-        <main className='flex-grow'>{children || <Outlet />}</main>
+        <main className='flex-grow mt-16 md:mt-40 mb-10 md:mb-20'>{children || <Outlet />}</main>
         {!hidenHeaderFotter && <Footer />}
         {isVisible && (
           <motion.button

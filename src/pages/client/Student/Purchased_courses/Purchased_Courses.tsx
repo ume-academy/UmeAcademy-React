@@ -79,7 +79,7 @@ const Purchased_Courses = () => {
   ];
 
   return (
-    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-40  mb-20 text-[#685f78] dark:text-[#B9B7C0]'>
+    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0]'>
       <Helmet>
         <title>{getTitleTab('Khóa học đã mua')}</title>
       </Helmet>
@@ -108,7 +108,7 @@ const Purchased_Courses = () => {
           />
         ))}
       </motion.div>
-      <div className='flex justify-center mt-10'>
+      <div className='flex justify-end mt-10'>
         <Pagination defaultCurrent={1} total={20} />
       </div>
     </div>
