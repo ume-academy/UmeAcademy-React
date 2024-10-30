@@ -169,7 +169,7 @@ const Register = () => {
             <div className=''>
               <p>
                 Đã có tài khoản? Đăng nhập ngay{' '}
-                <Link to={'/register'} className='font-subtitle text-[#FF875A]'>
+                <Link to={'/login'} className='font-subtitle text-[#FF875A]'>
                   tại đây
                 </Link>
               </p>

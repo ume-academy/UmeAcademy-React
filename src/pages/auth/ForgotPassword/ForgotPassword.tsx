@@ -43,14 +43,6 @@ const ForgotPassword = () => {
     // alert(index)
   }
 
-  // const prev = () => {
-  //     if (index === 0) {
-  //         setIndex(dataCarousel.length - 1); // index = 0 => set index = độ dài mảng
-  //     } else {
-  //         setIndex(index - 1); // Nếu không, giảm chỉ số đi 1
-  //     }
-  // }
-
   useEffect(() => {
     const interval = setInterval(() => {
       next()
@@ -68,19 +60,29 @@ const ForgotPassword = () => {
       </Helmet>
 
       <div className={`${styles['parent']} flex `}>
-        <div
-          className={`${styles['left']} dark:bg-[#131022] dark:bg-none dark:text-[#B9B7C0] flex flex-col space-y-4 justify-between`}
-        >
-          <img src={dataCarousel[index].path} alt='' />
+        <div className="hidden md:block flex-1">
+          <div
+            className={`${styles['left']} dark:bg-[#131022] dark:bg-none dark:text-[#B9B7C0] flex flex-col space-y-4 justify-between`}
+          >
+            <img src={dataCarousel[index].path} alt='' />
 
-          <div className='text-center'>
-            <h1 className='text-2xl font-title'>{dataCarousel[index].title}</h1>
-            <p className='text-md dark:text-[#B9B7C0] text-[#22100d]'>{dataCarousel[index].description}</p>
+            <div className='text-center'>
+              <h1 className='text-2xl font-title'>{dataCarousel[index].title}</h1>
+              <p className='text-md dark:text-[#B9B7C0] text-[#22100d]'>{dataCarousel[index].description}</p>
+            </div>
           </div>
         </div>
 
         <div className={`${styles['right']} dark:text-[#B9B7C0] dark:bg-[#2b2838]  bg-[#fff]`}>
-          <div className={`${styles['top']} p-20 space-y-6`}>
+          <div
+            className={`${styles['top']} 
+            p-5 
+            md:p-10 
+            lg:p-10
+            xl:p-20 
+            space-y-6
+          `}
+          >
             <div className={`${styles['heading']} flex justify-between items-center`}>
               <div className={`${styles['logo']} text-3xl font-title`}>
                 <Link to={'/'}>
