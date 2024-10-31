@@ -1,5 +1,6 @@
 import { EnvironmentFilled, MailFilled, PhoneFilled } from '@ant-design/icons'
 import { logo } from '../../../../contants/client'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -20,22 +21,18 @@ const Footer = () => {
           <div className='w-[45%] md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Dành cho Giảng viên</h2>
             <ul className='space-y-3 sm:space-y-5'>
-              <li><a href='#' className='hover:text-[#dc3545]'>Hồ sơ</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Đăng nhập</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Đăng ký</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Giảng viên</a></li>
-              <li><a href='/dashboard' className='hover:text-[#dc3545]'>Bảng điều khiển</a></li>
+              <li><Link to='#' className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
+              <li><Link to='/login' className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
+              <li><Link to='/register' className='hover:text-[#dc3545]'>Đăng ký</Link></li>
             </ul>
           </div>
 
           <div className='w-[45%] md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Dành cho Học viên</h2>
             <ul className='space-y-3 sm:space-y-5'>
-              <li><a href='#' className='hover:text-[#dc3545]'>Hồ sơ</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Đăng nhập</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Đăng ký</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Học viên</a></li>
-              <li><a href='#' className='hover:text-[#dc3545]'>Bảng điều khiển</a></li>
+              <li><Link to='/profile' className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
+              <li><Link to='/login' className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
+              <li><Link to='/register' className='hover:text-[#dc3545]'>Đăng ký</Link></li>
             </ul>
           </div>
 
@@ -61,9 +58,9 @@ const Footer = () => {
 
       <div className='mt-10 pt-5 text-center flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0'>
         <ul className='flex items-center space-x-2'>
-          <li><a href='#'>Điều khoản</a></li>
+          <li><Link to='#'>Điều khoản</Link></li>
           <li>|</li>
-          <li><a href='#'>Quyền riêng tư</a></li>
+          <li><Link to='#'>Quyền riêng tư</Link></li>
         </ul>
         <p>© 2024 Ume Academy. Bản quyền thuộc về Ume Academy.</p>
       </div>

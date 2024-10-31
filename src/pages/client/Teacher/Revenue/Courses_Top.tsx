@@ -16,36 +16,35 @@ const Courses_Top = () => {
       dataIndex: 'course',
       key: 'course',
       render: (text: string, record: Course) => (
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center w-[300px] md:w-[456px] lg:w-[550px]">
           <img
             src={record.image}
             alt="Course"
-            className="w-[100px] rounded-lg"
+            className="w-[66px] md:w-[80px] lg:w-[100px] rounded-lg"
           />
-          <Link to={`/courses/${record.id}`} className=" hover:text-[#f84563] text-[17px]">
+          <Link to={`/courses/${record.id}`} className=" hover:text-[#f84563] text-sm md:text-[16px]">
             {text}
           </Link>
         </div>
       ),
-      width: 600,
     },
     {
       title: 'Lượt bán',
       dataIndex: 'sales',
       key: 'sales',
-      render: (sales: number) => <span>{sales}</span>,
-      width: 150,
+      render: (sales: number) => <span className=''>{sales}</span>,
+      width: 100
     },
+
     {
       title: 'Doanh thu',
       dataIndex: 'revenue',
       key: 'revenue',
       render: (revenue: number) => (
-        <p className='text-[16px]'>
+        <p className='md:w-[100px] lg:w-[180px]'>
           {revenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
         </p>
       ),
-      width: 200,
     },
   ];
 
@@ -88,22 +87,21 @@ const Courses_Top = () => {
   ];
 
   return (
-    <div>
-      <div className="mt-5 border border-[#e9ecef] rounded-lg dark:border-transparent text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
-        <div className="border-b border-[#e9ecef] dark:border-[#5a5a5a]  ">
-          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
-            Top 5 khóa học bán chạy nhất
-          </p>
-        </div>
-        <div className="p-6">
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-            rowKey="id"
-            className="border dark:border-transparent rounded-lg"
-          />
-        </div>
+    <div className="mt-5 border border-[#e9ecef] rounded-lg dark:border-transparent text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
+      <div className="border-b border-[#e9ecef] dark:border-[#5a5a5a]  ">
+        <p className="p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
+          Top 5 khóa học bán chạy nhất
+        </p>
+      </div>
+      <div className="p-4 lg:p-6">
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          rowKey="id"
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0]'
+          scroll={{ x: 670 }}
+        />
       </div>
     </div>
   );
