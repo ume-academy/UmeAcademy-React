@@ -98,7 +98,7 @@ const Wallet_History = () => {
       key: 'amount',
       width: 140,
       render: (amount: string) => (
-        <span className= 'text-sm md:text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
+        <span className='text-sm md:text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
           {formatCurrency(amount)}
         </span>
       )
@@ -118,7 +118,7 @@ const Wallet_History = () => {
         <div className='flex flex-wrap justify-between items-center p-2 md:p-6'>
           <div className='flex gap-4 items-center'>
             <div className='flex items-center'>
-              <WalletFilled className='text-[#ff5364] text-4xl md:text-5xl lg:text-[50px] ' />
+              <WalletFilled className='text-[#ff5364] text-4xl md:text-5xl lg:text-[50px]' />
             </div>
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
@@ -133,14 +133,14 @@ const Wallet_History = () => {
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[90%] md:w-[60%] p-7">
+          <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] text-xl rounded-lg  relative w-[90%] md:w-[70%] lg:w-[50%] p-6">
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
               <X size={16} />
             </button>
             <h2 className="font-subtitle mb-4">Nạp tiền vào ví Ume</h2>
-            <p className='text-[16px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
+            <p className='text-sm lg:text-[16px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
             <form>
               <div className="mb-6 text-[15px] space-y-2">
                 <label>

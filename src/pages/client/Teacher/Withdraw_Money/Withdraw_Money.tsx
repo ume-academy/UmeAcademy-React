@@ -51,15 +51,15 @@ const Withdraw_Money = () => {
       title: 'Phương thức',
       dataIndex: 'method',
       key: 'method',
-      width: 200,
-      render: (type: string) => <div className='text-[16px]'>{type}</div>
+      width: 190,
+      render: (type: string) => <div className='text-sm lg:text-[16px]'>{type}</div>
     },
     {
-      title: 'Thời gian yêu cầu',
+      title: 'Thời gian',
       dataIndex: 'date',
       key: 'date',
       width: 120,
-      render: (date: string) => <div className='text-[16px]'>{date}</div>
+      render: (date: string) => <div className='text-sm lg:text-[16px]'>{date}</div>
     },
     {
       title: 'Số tiền',
@@ -67,7 +67,7 @@ const Withdraw_Money = () => {
       key: 'amount',
       width: 120,
       render: (amount: string) => (
-        <span className='text-[16px]'>
+        <span className='text-sm lg:text-[16px]'>
           {formatCurrency(amount)}
         </span>
       )
@@ -77,7 +77,7 @@ const Withdraw_Money = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status: '0' | '1') => (
-        <Tag className='text-[16px] py-2 min-w-[110px] text-center' color={status === '1' ? 'green' : 'volcano'}>
+        <Tag className='text-sm lg:text-[16px] py-1 lg:py-2 min-w-[90px] lg:min-w-[110px] text-center' color={status === '1' ? 'green' : 'volcano'}>
           {status === '1' ? 'Thành công' : 'Thất bại'}
         </Tag>
       ),
@@ -86,26 +86,25 @@ const Withdraw_Money = () => {
   ];
 
   return (
-    <div>
+    <div className='md:flex md:flex-col md:justify-center lg:flex-none max-w-[400px] md:max-w-[800px] lg:mx-0 lg:max-w-full lg:p-0 p-4'>
       <Helmet>
         <title>{getTitleTab('Rút tiền')}</title>
       </Helmet>
       <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg'>
-        <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6 font-title text-2xl'>Ví Ume</p>
-        <div className='flex justify-between items-center p-6'>
+        <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6 font-title text-xl md:text-2xl'>Ví Ume</p>
+        <div className='flex justify-between items-center p-4 lg:p-6'>
           <div className='flex gap-4 items-center font-subtitle'>
-            <div className='relative flex items-center'>
-              <WalletFilled className='text-[#ff4667] text-[50px]' />
-              <span className='absolute top-[-3px] left-2 text-[#fff] font-bold text-[10px]'>UME</span>
+            <div>
+              <WalletFilled className='text-[#ff4667] text-4xl md:text-5xl lg:text-[50px]' />
             </div>
             <div>
-              <p>Số dư hiện tại</p>
-              <p className='dark:hover:text-white'>Bạn đang có: 1000.000.000₫</p>
+              <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
+              <p className='text-xs md:text-lg  dark:hover:text-white'>Bạn đang có: <strong>1.000.000.000 ₫</strong></p>
             </div>
           </div>
           <button
             onClick={openModal}
-            className='bg-[#ff4667] text-white h-10 px-6 text-[15px] hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'>
+            className='bg-[#ff4667] text-white py-2 px-2 md:py-2 md:px-6 text-[11px] md:text-[15px] hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'>
             Yêu cầu rút tiền
           </button>
         </div>
@@ -113,15 +112,15 @@ const Withdraw_Money = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] text-[#685f78] dark:bg-[#2b2838] bg-white  text-xl rounded-lg  relative w-[46%] p-6">
+          <div className="dark:text-[#B9B7C0] text-[#685f78] dark:bg-[#2b2838] bg-white  text-xl rounded-lg  relative w-[90%] md:w-[70%] lg:w-[50%] p-6">
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
               <X size={16} />
             </button>
             <h2 className="font-subtitle mb-4">Yêu cầu rút tiền</h2>
-            <p className='text-[16px] font-subtitle mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
-            <div className='text-[16px] flex justify-between items-center mb-4'>
+            <p className='text-sm lg:text-[16px] font-subtitle mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
+            <div className='text-sm lg:text-[16px] flex justify-between items-center mb-4'>
               <div>
                 <p>Số dư hiện tại</p>
                 <p className='text-[#ff4667]'>1000.000.000₫</p>
@@ -154,13 +153,13 @@ const Withdraw_Money = () => {
               <div className="flex justify-start text-[16px] gap-4">
                 <button
                   type="submit"
-                  className="bg-[#ff4667] border border-[#ff4667] text-white py-2 px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white">
+                  className="bg-[#ff4667] border border-[#ff4667] text-white text-[11px] md:text-[15px] py-1 px-4 md:py-2 md:px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white">
                   Gửi yêu cầu
                 </button>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className=" text-[#ff4667] py-2 px-4 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white">
+                  className=" text-[#ff4667] text-[11px] md:text-[15px]  py-1 px-9 md:py-2 md:px-12 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white">
                   Hủy
                 </button>
               </div>
@@ -171,16 +170,17 @@ const Withdraw_Money = () => {
 
 
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử rút tiền</h2>
+        <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>Lịch sử rút tiền</h2>
         <Table
           columns={columns}
           dataSource={withdraw}
           pagination={false}
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-6 '
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
+          scroll={{ x: 670 }}
         />
       </div>
 
-      <div className='flex justify-end mt-6'>
+      <div className='flex justify-end mt-10'>
         <Pagination defaultCurrent={1} total={22} />
       </div>
     </div>

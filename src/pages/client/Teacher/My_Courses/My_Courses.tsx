@@ -82,9 +82,9 @@ const My_Courses = () => {
       <Helmet>
         <title>{getTitleTab('Danh sách khóa học')}</title>
       </Helmet>
-      <div className=" border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white  max-w-[400px] md:max-w-[800px] p-4 lg:p-0  lg:max-w-full ">
+      <div className=" border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white  max-w-[400px] md:max-w-[800px] p-4 lg:p-0 lg:max-w-full ">
         <div className="border-b border-[#e9ecef]  dark:border-[#5a5a5a]">
-          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title">
+          <p className="p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title">
             Các khóa học của tôi
           </p>
         </div>
@@ -92,7 +92,7 @@ const My_Courses = () => {
           initial={{ y: 100, opacity: 0 }}
           animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
           transition={{ duration: 1, ease: easeInOut }}
-          ref={bottomRef} className="flex flex-wrap gap-10 justify-center md:justify-between md:gap-0  p-4">
+          ref={bottomRef} className="flex flex-wrap gap-10 justify-center md:justify-between lg:gap-2  p-3">
           {cardData.map((data, index) => (
             <Card
               key={index} // Sử dụng index hoặc id của khóa học để đảm bảo mỗi thẻ có một key duy nhất
