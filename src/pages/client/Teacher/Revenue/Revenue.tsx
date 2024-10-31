@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import './DatePickerAntd.scss'
 const Revenue = () => {
   return (
-    <div className="text-[16px]">
+    <div className="md:flex md:flex-col md:justify-center lg:flex-none max-w-[400px] md:max-w-[800px] lg:mx-0 lg:max-w-full lg:p-0 p-4 mb-10 md:mt-0 md:mb-0 ">
       <Helmet>
         <title>{getTitleTab('Doanh thu')}</title>
       </Helmet>
@@ -16,35 +16,34 @@ const Revenue = () => {
             Thu Nhập
           </p>
         </div>
-        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
+        <div className="p-4 lg:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className=" p-4 lg:p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Doanh thu</h3>
-              <HandCoins className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">40.000.000đ</h1>
+              <HandCoins className=" lg:w-8 lg:h-8  text-[#f24f3a]" /></div>
+            <h1 className="md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">40.000.000đ</h1>
             <p className="">Kiếm tiền trong tháng này</p>
           </div>
 
-          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
+          <div className=" p-4 lg:p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Sinh viên</h3>
-              <Users className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">12000</h1>
+              <Users className=" lg:w-8 lg:h-8  text-[#f24f3a]" /></div>
+            <h1 className="md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">12000</h1>
             <p className="">Sinh viên mới trong tháng này</p>
           </div>
 
-          <div className=" p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
+          <div className=" p-4 lg:p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Xếp hạng khóa học</h3>
-              <Star className="w-8 h-8  text-[#f24f3a]" /></div>
-            <h1 className="text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">4.8</h1>
+              <Star className=" lg:w-8 lg:h-8  text-[#f24f3a]" /></div>
+            <h1 className="md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]">4.8</h1>
             <p className="">Đánh giá tháng này</p>
           </div>
         </div>
         <Chart />
       </div>
       <Courses_Top />
-
     </div>
   );
 };

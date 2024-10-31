@@ -37,8 +37,8 @@ const Card = ({
   };
 
   return (
-    <Link to={`/course/${id}`}>
-      <div className="group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer">
+    <div className="group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer">
+      <Link to={`/course/${id}`} className="group hover:text-white">
         <div className="relative">
           <div className="rounded-[10px] overflow-hidden">
             <motion.img
@@ -59,7 +59,7 @@ const Card = ({
             <div className="flex items-center">
               <img src={instructorImage} className="w-12 h-12 rounded-full" />
               <div className="ml-3">
-                <p className="dark:hover:text-[#ff5364] text-[16px]">{instructorName}</p>
+                <p className="hover:text-[#ff5364] text-[16px]">{instructorName}</p>
                 <p className="">Giảng viên</p>
               </div>
             </div>
@@ -74,7 +74,7 @@ const Card = ({
         )}
 
         <div className="space-y-5 mt-4">
-          <h3 className="text-[17px] h-12 dark:hover:text-[#ff5364] w-[90%] line-clamp-2">
+          <h3 className="text-[17px] h-12 hover:text-[#ff5364] w-[90%] line-clamp-2">
             {title}
           </h3>
           <div className="flex justify-between items-center border-b border-b-gray-500 pb-4">
@@ -87,21 +87,22 @@ const Card = ({
               <span>{duration}</span>
             </div>
           </div>
-
-          <div className="flex justify-between items-center">
-            <span className="text-[11px] space-x-2">
-              <Rate allowHalf defaultValue={rating} className="text-[11px] group-hover:text-white" />
-              <span>{rating.toFixed(1)} (15)</span>
-            </span>
-            <Link to={targetPath}>
-              <button className="border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]">
-                {buttonText}
-              </button>
-            </Link>
-          </div>
         </div>
+      </Link>
+
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-[11px] space-x-2">
+          <Rate allowHalf defaultValue={rating} className="text-[11px] group-hover:text-white" />
+          <span>{rating.toFixed(1)} (15)</span>
+        </span>
+        <Link to={targetPath}>
+          <button className="border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]">
+            {buttonText}
+          </button>
+        </Link>
       </div>
-    </Link>
+
+    </div>
   );
 };
 
