@@ -12,12 +12,12 @@ const Revenue = () => {
       </Helmet>
       <div className=" border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white">
         <div className="border-b border-[#e9ecef]  dark:border-[#5a5a5a]">
-          <p className="p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
+          <p className="p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78] text-2xl font-title">
             Thu Nhập
           </p>
         </div>
         <div className="p-4 lg:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className=" p-4 lg:p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
+          <div className="p-4 lg:p-6 space-y-2 rounded-lg border border-[#e9ecef] dark:border-[#5a5a5a] ">
             <div className="flex justify-between">
               <h3 className="">Doanh thu</h3>
               <HandCoins className=" lg:w-8 lg:h-8  text-[#f24f3a]" /></div>
