@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion'
-import { Outlet, useLocation } from 'react-router-dom'
-import { routerConfig } from '../contants/client'
-import { useEffect, useState } from 'react'
 import Footer from '@/components/client/commonComponents/Footer/Footer'
 import Header from '@/components/client/commonComponents/Header/Header'
 import Header_Mobile_Tablet from '@/components/client/commonComponents/Header/Header_Mobile_Tablet/Header_Mobile_Tablet'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+import { routerConfig } from '../contants/client'
 
 const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
   const [isVisible, setisVisible] = useState(false)

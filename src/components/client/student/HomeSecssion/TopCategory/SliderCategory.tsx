@@ -5,6 +5,8 @@ import 'swiper/css/pagination'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import './SliderCategory.scss'
+import { useMediaQuery } from 'react-responsive'
+import { useIsMobile, useIsTablet } from '@/contants/client'
 
 const images = [
   {
@@ -93,19 +95,24 @@ const SliderCategory = () => {
   const ref = useRef(null)
   const isInview = useInView(ref, { amount: 0.1, once: true })
 
+  // Hàm này được tạo trong contants dùng để bắt kích thước màn hình
+  const isMobile = useIsMobile()
+  const isTablet = useIsTablet()
+  const slidesPerView = isMobile ? 1 : isTablet ? 2 : 4 // dùng chung cho slidesPerView và slidesPerGroup
+
   return (
     <motion.div
       initial={{ y: 100, opacity: 0 }}
       animate={isInview ? { y: 0, opacity: 100 } : {}}
       transition={{ duration: 1, ease: easeInOut }}
       ref={ref}
-      className=''
+      className='px-[16px] lg:px-0'
     >
       <Swiper
         spaceBetween={30}
-        slidesPerView={4}
+        slidesPerView={slidesPerView}
         pagination={{ clickable: true }}
-        slidesPerGroup={4}
+        slidesPerGroup={slidesPerView}
         modules={[Pagination, Autoplay]}
         loop={true}
         speed={1300}

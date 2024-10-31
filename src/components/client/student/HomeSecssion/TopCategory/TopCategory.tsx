@@ -41,7 +41,7 @@ const TopCategory = () => {
             animate={isTopInView ? { y: 0, opacity: 100 } : {}}
             transition={{ duration: 1, ease: easeInOut }}
             ref={topRef}
-            className='grid grid-cols-4 gap-7 relative mt-[-60px]'
+            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 px-[16px] lg:px-0 relative mt-[-60px]'
           >
             {/* Số lượng khóa học */}
             <motion.div
@@ -118,7 +118,7 @@ const TopCategory = () => {
           animate={isMiddleInView ? { y: 0, opacity: 100 } : {}}
           transition={{ duration: 1, ease: easeInOut }}
           ref={middleRef}
-          className='flex justify-between items-center mb-[18px] pt-[80px]'
+          className='flex justify-between items-center mb-[18px] pt-[80px] px-[16px] lg:px-0'
         >
           <div className=''>
             <p className='text-[#f66962] mb-[18px] text-[18px] font-subtitle'>Khóa học yêu thích</p>
@@ -126,7 +126,7 @@ const TopCategory = () => {
           </div>
           <Link
             to={``}
-            className='mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#392c7d] px-[15px] py-[10px] hover:bg-[#917cf6] hover:border-transparent dark:hover:text-[#fff] hover:text-[#fff]'
+            className='mr-[20px] text-center border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#392c7d] px-[15px] py-[10px] hover:bg-[#917cf6] hover:border-transparent dark:hover:text-[#fff] hover:text-[#fff]'
           >
             Tất cả các danh mục
           </Link>
@@ -136,7 +136,7 @@ const TopCategory = () => {
           animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
           transition={{ duration: 1, ease: easeInOut }}
           ref={bottomRef}
-          className='max-w-[700px] text-[#685f78] dark:text-[#B9B7C0] mb-[80px]'
+          className='max-w-[700px] text-[#685f78] dark:text-[#B9B7C0] mb-[80px] px-[16px] lg:px-0'
         >
           {' '}
           Khám phá danh mục hàng đầu với những khóa học chất lượng cao, được thiết kế để giúp bạn nâng cao kỹ năng và

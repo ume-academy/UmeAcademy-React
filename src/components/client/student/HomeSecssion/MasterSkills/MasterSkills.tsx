@@ -32,7 +32,7 @@ const MasterSkills = () => {
 
   return (
     <div>
-      <div className='max-w-[1280px] mx-auto py-[80px] grid grid-cols-2'>
+      <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] pb-0 lg:pb-[80px] grid md:grid-cols-1 lg:grid-cols-2 px-[16px] lg:px-0 '>
         <div className=''>
           <motion.div
             initial={{ y: 100, opacity: 0 }}
@@ -63,7 +63,7 @@ const MasterSkills = () => {
             animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
             transition={{ duration: 1, ease: easeInOut }}
             ref={bottomRef}
-            className='grid grid-cols-2 gap-6'
+            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'
           >
             <motion.div
               initial={{ y: 0 }}
@@ -205,9 +205,9 @@ const MasterSkills = () => {
           animate={isTopInView ? { y: 0, opacity: 100 } : {}}
           transition={{ duration: 1, ease: easeInOut }}
           ref={topRef}
-          className='justify-self-end place-items-end'
+          className=' md:justify-self-center md:place-items-end lg:justify-self-end lg:place-items-end '
         >
-          <img className='max-w-[526px]' src={imageMasterSkills} alt='' />
+          <img className='max-w-[320px] mt-6 lg:max-w-[526px] lg:mt-0' src={imageMasterSkills} alt='' />
         </motion.div>
       </div>
     </div>

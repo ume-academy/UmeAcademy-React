@@ -1,10 +1,14 @@
+import { useMediaQuery } from "react-responsive"
+
+// Sử dụng cho reponsive bắt kích thước màn hình
+export const useIsMobile = () => useMediaQuery({ query: '(max-width: 768px)' })   
+export const useIsTablet = () => useMediaQuery({ query: '(max-width: 1024px)' })
+
 // Sử dụng cho helmet của react: Thay đổi tab khi chuyển trang
 const baseTitleTab = 'UMECADEMY'
 export const getTitleTab = (prefix: string) => {
   return prefix ? `${prefix} | ${baseTitleTab}` : baseTitleTab
 }
-
-// Auth
 
 // img carousel
 export const imgCarousel = '/assets/images/client/auth/login_banner.png'

@@ -36,7 +36,7 @@ const FeaturedCourses = () => {
           } dark:bg-[#131022] dark:bg-none`}
       >
         <div className={`min-h-[100vh] bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}>
-          <div className='w-[1280px] mx-auto pt-[80px]'>
+          <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] px-[16px] lg:px-0'>
             <motion.div
               initial={{ y: 100, opacity: 0 }}
               animate={isTopInView ? { y: 0, opacity: 100 } : {}}
@@ -50,7 +50,7 @@ const FeaturedCourses = () => {
               </div>
               <Link
                 to={``}
-                className='mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#392c7d] px-[15px] py-[10px] hover:bg-[#917cf6] hover:border-transparent dark:hover:text-[#fff] hover:text-[#fff]'
+                className='mr-[20px] border-[2px] min-w-[140px] text-center transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#392c7d] px-[15px] py-[10px] hover:bg-[#917cf6] hover:border-transparent dark:hover:text-[#fff] hover:text-[#fff]'
               >
                 Tất cả các khóa học
               </Link>
@@ -71,7 +71,7 @@ const FeaturedCourses = () => {
               animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
               transition={{ duration: 1, ease: easeInOut }}
               ref={bottomRef}
-              className='grid grid-cols-4 gap-7'
+              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-7'
             >
               <Card {...cardData} />
               <Card {...cardData} />
