@@ -112,7 +112,7 @@ const Wallet_History = () => {
   ]
 
   return (
-    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto md:mb-10'>
+    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
       <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg shadow-lg'>
         <p className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-2 md:p-6'>Ví Ume</p>
         <div className='flex flex-wrap justify-between items-center p-2 md:p-6'>

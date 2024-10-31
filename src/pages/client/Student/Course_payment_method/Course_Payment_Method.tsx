@@ -52,7 +52,7 @@ const Course_Payment_Method = () => {
   }
 
   return (
-    <div className="max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0]">
+    <div className="max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20">
       <Helmet>
         <title>{getTitleTab("Thanh toán khóa học")}</title>
       </Helmet>
