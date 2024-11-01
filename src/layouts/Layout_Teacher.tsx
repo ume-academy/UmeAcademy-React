@@ -45,7 +45,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
       {!hidenHeaderFotterWithId && (<><Header /> <Header_Mobile_Tablet /></>)}
-      <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'pt-28 mb-20 -mt-6 lg:pt-36'} flex justify-center`}>
+      <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'pt-28 mb-20 -mt-6 lg:pt-36'} flex justify-center`}> 
         <div className='lg:w-[1280px] mx-auto'>
           <div className='flex gap-4'>
             {/* Sidebar */}
