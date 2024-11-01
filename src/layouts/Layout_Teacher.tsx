@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Footer from '../components/client/commonComponents/Footer/Footer'
 import Header from '../components/client/commonComponents/Header/Header'
+import Sidebar_Teacher from '@/components/client/teacher/SidebarTeacher/Sidebar_Teacher'
 
 const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   const [isVisible, setisVisible] = useState(false)
@@ -43,18 +44,18 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
     })
   }
   return (
-    <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
-      {!hidenHeaderFotterWithId && (<><Header /> <Header_Mobile_Tablet /></>)}
-      <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'pt-28 mb-20 -mt-6 lg:pt-36'} flex justify-center`}>
-        <div className='lg:w-[1280px] mx-auto'>
-          <div className='flex gap-4'>
-            {/* Sidebar */}
-            {/* {!(hideSideBar || hideSideBarWithId) && (
-              <div className="w-[25%]">
-                <Sidebar_Teacher />
-              </div>
-            )} */}
-            <div className='w-auto lg:w-[75%]'>{children || <Outlet />}</div>
+    <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}><div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
+    {!hidenHeaderFotterWithId && ((<><Header /> <Header_Mobile_Tablet /></>))}
+    <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] w-[1280px] mx-auto' } `}>
+      <div className='flex gap-4'>
+        {/* Sidebar */}
+        {!(hideSideBar || hideSideBarWithId) && (
+          <div className='w-[25%]'>
+          <Sidebar_Teacher />
+        </div>
+        )}
+
+        <div className='flex-1'>{children || <Outlet />}</div>
           </div>
         </div>
       </div>

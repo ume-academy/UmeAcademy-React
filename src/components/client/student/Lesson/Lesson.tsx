@@ -1,18 +1,21 @@
 import { DownOutlined, LeftOutlined, MenuOutlined, MoonFilled, PlayCircleFilled, SunFilled } from '@ant-design/icons'
 import { Progress } from 'antd'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, X } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { getTitleTab, logo } from '../../../../contants/client'
+import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../contants/client'
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
 import style from './Lesson.module.scss'
 
 const Lesson = () => {
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
 
+  // Sử dụng để kiểm tra kích thước màn hình rồi render element
+  const isMobile = useIsMobile()
+  const isTablet = useIsTablet()
   // State đóng mở sidebar
-  const [isOpenSideBar, setIsSideBar] = useState(false)
+  const [isOpenSideBar, setIsSideBar] = useState(isMobile || isTablet ? true : false)
 
   // State cho đóng mở subMenu
   const [isOpen, setIsOpen] = useState(false)
@@ -188,6 +191,36 @@ const Lesson = () => {
         { id: 1, title: 'Phát triển tư duy phân tích', duration: '7.30' },
         { id: 2, title: 'Giải quyết vấn đề hiệu quả', duration: '7.40' }
       ]
+    },
+    {
+      id: 11,
+      title: 'Chương 11: Kỹ năng quản lý thời gian',
+      completedLessons: '5/7',
+      duration: '12.50',
+      lessons: [
+        { id: 1, title: 'Lập kế hoạch công việc', duration: '6.20' },
+        { id: 2, title: 'Ưu tiên và sắp xếp công việc', duration: '6.30' }
+      ]
+    },
+    {
+      id: 12,
+      title: 'Chương 12: Giao tiếp và truyền đạt',
+      completedLessons: '8/8',
+      duration: '14.20',
+      lessons: [
+        { id: 1, title: 'Kỹ năng lắng nghe', duration: '7.00' },
+        { id: 2, title: 'Truyền đạt ý tưởng hiệu quả', duration: '7.20' }
+      ]
+    },
+    {
+      id: 13,
+      title: 'Chương 13: Quản lý căng thẳng',
+      completedLessons: '6/6',
+      duration: '13.00',
+      lessons: [
+        { id: 1, title: 'Hiểu và kiểm soát căng thẳng', duration: '6.30' },
+        { id: 2, title: 'Kỹ thuật thư giãn', duration: '6.30' }
+      ]
     }
   ]
 
@@ -196,29 +229,31 @@ const Lesson = () => {
       <div className=''>
         <Helmet>
           <style>{`
-                        body {
-                        overflow: hidden;
-                        }
-                    `}</style>
+                   body {
+                   overflow: hidden;
+                   }
+                `}</style>
           <title>{getTitleTab('Bài học')}</title>
         </Helmet>
         {/* header */}
         <div className='bg-[#3d3a4e] h-[60px] flex items-center justify-between'>
           <div className='flex items-center h-full '>
-            <div className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#0000001a] h-full flex items-center'>
+            <Link to={`/course/1`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#0000001a] h-full flex items-center'>
               <LeftOutlined style={{ fontSize: 20, color: '#fff' }} />
-            </div>
-            <Link className='h-[60%]  flex items-center mr-3' to={`/`}>
+            </Link>
+            {!isMobile && (
+              <Link className='h-[60%]  flex items-center mr-3' to={`/`}>
               <img className='h-full' src={logo} alt='' />
             </Link>
-            <h1 className='font-title text-[#fff] mt-[4px] h-full flex items-center text-[18px] '>
+            )}
+            <h1 className='font-title text-[#fff] mt-[4px] h-full flex items-center text-[14px] lg:text-[18px] '>
               Thế giới đa chiều - vũ trụ song song
             </h1>
           </div>
           <div className='flex items-center'>
             <Progress
               className='mr-4'
-              size={42}
+              size={40}
               type='circle'
               strokeWidth={5}
               trailColor='#4d4f50'
@@ -226,8 +261,9 @@ const Lesson = () => {
               percent={80}
               format={(percent) => <p className='text-[#fff] font-desc text-[12px]'>{percent} %</p>}
             />
-            <p className='text-[#fff] pr-5 text-[12px] mt-[2px]'>23/120 bài học</p>
-            <button
+            {!isMobile && (<>
+              <p className='text-[#fff] pr-5 text-[12px] mt-[2px]'>23/120 bài học</p>
+              <button
               className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'
               onClick={toggleTheme}
             >
@@ -237,20 +273,8 @@ const Lesson = () => {
                 <SunFilled style={{ color: '#808080', fontSize: 16 }} />
               )}
             </button>
-            {/* <MenuOutlined onClick={() => toggleSideBar()} style={{marginRight: 20, color:'#fff'}}/> */}
-            {isOpenSideBar ? (
-              <MenuOutlined
-                onClick={() => toggleSideBar()}
-                className='transition-all duration-300 ease-in-out'
-                style={{ marginRight: 20, color: '#fff' }}
-              />
-            ) : (
-              <ChevronRight
-                onClick={() => toggleSideBar()}
-                className='transition-all duration-300 ease-in-out'
-                style={{ marginRight: 20, color: '#fff' }}
-              />
-            )}
+            </>)}
+            
           </div>
         </div>
 
@@ -262,7 +286,7 @@ const Lesson = () => {
           >
             <iframe
               width='100%'
-              height='532'
+              height={isMobile ? '300' : '532'} //532 cho pc
               src='https://www.youtube.com/embed/6BvmfGS47Do?si=GWXiAiWUdeh1skuM'
               title='YouTube video player'
               frameBorder='0'
@@ -273,15 +297,20 @@ const Lesson = () => {
 
           {/* sidebar */}
           <div
-            className={`w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
+            className={`absolute top-0 right-0 left-0 z-50 lg:z-0 lg:relative lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
           >
             <div className=''>
-              <h2 className='bg-[#fff] dark:bg-[#131022] dark:text-[#b9b7c0] px-[16px] py-[12px] font-title text-[18px]'>
-                Nội dung khóa học
-              </h2>
+              <div className='flex bg-[#fff] dark:bg-[#131022]  justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
+                <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>
+                  Nội dung khóa học
+                </h2>
+                {(isMobile || isTablet) && (
+                   <button onClick={() => toggleSideBar()} className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'><X color={theme === 'light' ? '#333' : '#fff'} size={16}/></button>
+                )}
+              </div>
               <div className='max-h-screen overflow-y-auto'>
                 {/* đoạn này thay đổi chiều cao thanh cuộn */}
-                <ul className='mb-[162px]'>
+                <ul className='mb-[50px] lg:mb-[162px]'>
                   {items.map((item, key) => (
                     <li className='bg-[#f7f8fa] dark:bg-[#131022]' onClick={toggleSubMenu} key={key}>
                       <div className='hover:bg-[#edeff1] dark:hover:bg-[#413655] px-[20px] py-[8px] border-b-[#dedfe0] dark:border-gray-700 border-b-[1px] '>
@@ -322,13 +351,29 @@ const Lesson = () => {
           </div>
 
           {/* prev and next bottom*/}
-          <div className='fixed bottom-0 left-0 right-0 bg-[#fff] dark:bg-[#131022] h-[50px] flex items-center justify-end px-10 shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
-            <div className=''>
+          <div className='fixed bottom-0 left-0 right-0 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
+            <div className=""></div>
+            <div className='flex items-center'>
               <button className={`${style['buttonPrev']} mr-3 text-[14px] dark:bg-transparent font-title`}>
                 Bài trước
               </button>
               <button className={`${style['buttonNext']} text-[14px] font-title`}>Bài tiếp theo</button>
             </div>
+            <div className="">
+              {isOpenSideBar ? (
+                <MenuOutlined
+                  onClick={() => toggleSideBar()}
+                  className='transition-all duration-300 ease-in-out '
+                  style={{color: `${theme === 'light' ? '#333' : '#fff'}`}}
+                />
+              ) : (
+                <ChevronRight
+                  onClick={() => toggleSideBar()}
+                  className='transition-all duration-300 ease-in-out'
+                  style={{color: `${theme === 'light' ? '#333' : '#fff'}`}}
+                />
+              )}
+              </div>
           </div>
         </div>
       </div>
