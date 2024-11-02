@@ -22,18 +22,16 @@ jobs:
     - name: Build project
       run: npm run build
     
-    - name: Deploy to Ubuntu server
-      uses: appleboy/ssh-action@master
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /var/www/UmeAcademy-React/
-          git pull origin develop
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          npm install
-          npm run build
-          sudo systemctl restart nginx
-          echo "Deployment completed successfully."
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Add server to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy with rsync
+      run: |
+        rsync -avz --delete ./dist/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/UmeAcademy-React
