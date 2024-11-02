@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] max-w-full mx-auto min-h-[350px] text-[14px] sm:max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] pt-10 lg:p-0 p-6 '>
-      <div className='w-full flex flex-wrap justify-between gap-6'>
-        <div className='flex flex-col  md:w-[100%] lg:w-[37%]'>
+    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] min-h-[350px] text-[14px] max-w-full'>
+      <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto flex flex-wrap justify-between gap-6 lg:p-0 p-6'>
+        <div className='flex flex-col md:w-[100%] lg:w-[37%]'>
           <div className='flex items-center mb-3'>
             <img src={logo} alt='' className='w-[200px] md:w-[266px]' />
           </div>
@@ -56,7 +56,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className='mt-10 pt-5 text-center flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0'>
+      <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto lg:p-0 p-6 mt-0 lg:mt-14 text-center flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0'>
         <ul className='flex items-center space-x-2'>
           <li><Link to='#'>Điều khoản</Link></li>
           <li>|</li>
