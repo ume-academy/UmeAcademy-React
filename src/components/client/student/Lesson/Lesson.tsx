@@ -258,7 +258,7 @@ const Lesson = () => {
               strokeWidth={5}
               trailColor='#4d4f50'
               strokeColor={'#f66962'}
-              percent={80}
+              percent={60}
               format={(percent) => <p className='text-[#fff] font-desc text-[12px]'>{percent} %</p>}
             />
             {!isMobile && (<>
@@ -297,9 +297,9 @@ const Lesson = () => {
 
           {/* sidebar */}
           <div
-            className={`absolute top-0 right-0 left-0 z-50 lg:z-0 lg:relative lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
+            className={` lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
           >
-            <div className=''>
+            <div className=' bg-[#fff] dark:bg-[#131022] absolute top-0 right-0 left-0 bottom-0 z-50 lg:relative  lg:z-0 '>
               <div className='flex bg-[#fff] dark:bg-[#131022]  justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
                 <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>
                   Nội dung khóa học
@@ -308,9 +308,9 @@ const Lesson = () => {
                    <button onClick={() => toggleSideBar()} className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'><X color={theme === 'light' ? '#333' : '#fff'} size={16}/></button>
                 )}
               </div>
-              <div className='max-h-screen overflow-y-auto'>
+              <div className='max-h-[80vh] md:max-h-[100vh] lg:max-h-screen overflow-y-auto'>
                 {/* đoạn này thay đổi chiều cao thanh cuộn */}
-                <ul className='mb-[50px] lg:mb-[162px]'>
+                <ul className='lg:mb-[162px]'>
                   {items.map((item, key) => (
                     <li className='bg-[#f7f8fa] dark:bg-[#131022]' onClick={toggleSubMenu} key={key}>
                       <div className='hover:bg-[#edeff1] dark:hover:bg-[#413655] px-[20px] py-[8px] border-b-[#dedfe0] dark:border-gray-700 border-b-[1px] '>
@@ -351,7 +351,7 @@ const Lesson = () => {
           </div>
 
           {/* prev and next bottom*/}
-          <div className='fixed bottom-0 left-0 right-0 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
+          <div className='absolute bottom-0 left-0 right-0 z-30 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
             <div className=""></div>
             <div className='flex items-center'>
               <button className={`${style['buttonPrev']} mr-3 text-[14px] dark:bg-transparent font-title`}>
