@@ -21,7 +21,7 @@ const Setting = ({ props }: any) => {
                             <Tabs defaultActiveKey="1" className="tabsBar">
                                 <Tabs.TabPane
                                     tab={
-                                        <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
+                                        <div className="flex items-center justify-center gap-3">
                                             <EditFilled />
                                             Chỉnh sửa thông tin
                                         </div>
@@ -56,7 +56,7 @@ const Setting = ({ props }: any) => {
                                                     <p>Nên chọn ảnh có định dạng PNG, JPG hoặc JPEG và không quá 800px</p>
                                                 </div>
 
-                                                <div className={`${styles['act']} dark:text-[#000]  space-x-3`}>
+                                                <div className={`${styles['act']} dark:text-[#000] space-x-3`}>
                                                     <button>
                                                         <CloudUploadOutlined />
                                                     </button>
@@ -133,7 +133,7 @@ const Setting = ({ props }: any) => {
 
                                                 <div className={`${styles['btnGroup']}`}>
 
-                                                    <button className="w-full md:w-[20%]">Cập nhật thông tin</button>
+                                                    <button className="w-full md:w-auto">Cập nhật thông tin</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -143,7 +143,7 @@ const Setting = ({ props }: any) => {
 
                                 <Tabs.TabPane
                                     tab={
-                                        <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
+                                        <div className="flex items-center justify-center gap-3">
                                             <LockFilled />
                                             Thay đổi mật khẩu
                                         </div>

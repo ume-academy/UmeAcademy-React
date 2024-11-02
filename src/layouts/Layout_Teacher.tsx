@@ -46,11 +46,11 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}><div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
     {!hidenHeaderFotterWithId && ((<><Header /> <Header_Mobile_Tablet /></>))}
-    <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] w-[1280px] mx-auto' } `}>
-      <div className='flex gap-4'>
+    <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] max-w-[1280px] mx-auto' } `}>
+      <div className='flex flex-col lg:flex-row gap-4'>
         {/* Sidebar */}
         {!(hideSideBar || hideSideBarWithId) && (
-          <div className='w-[25%]'>
+          <div className='p-4 w-[100%] lg:w-[25%] lg:p-0'>
           <Sidebar_Teacher />
         </div>
         )}

@@ -70,7 +70,7 @@ const CourseDetails = () => {
               <div className='flex items-center space-x-6'>
                 {item.isPreview && (
                   <div className=''>
-                    <p className='underline hover:text-[#f66962]' onClick={() => handlePreviewClick(item.path)}>
+                    <p className='underline hover:text-[#f66962] text-[13px] md:text-[16px]' onClick={() => handlePreviewClick(item.path)}>
                       Xem trước
                     </p>
                     <Modal
@@ -167,11 +167,11 @@ const CourseDetails = () => {
       <Helmet>
         <title>{getTitleTab('Chi tiết khóa học')}</title>
       </Helmet>
-      <div className={`${styles['wrapper']} `}>
+      <div className={`${styles['wrapper']} space-y-6 md:space-y-0`}>
         <div
           className={`${styles['overviewTeacher']} bg-[url(/assets/images/client/Course/inner-banner.png)] dark:text-[#B9B7C0] pt-[160px] pb-[80px]`}
         >
-          <div className='w-[1280px] mx-auto'>
+          <div className='container mx-auto'>
             <div className='flex flex-col'>
               <div className={`${styles['introduce']} flex justify-between items-start`}>
                 <div className='flex items-start gap-4'>
@@ -201,15 +201,15 @@ const CourseDetails = () => {
                   <h2>Khóa học phát triển web hoàn chỉnh 2.0</h2>
                 </div>
 
-                <div className='description'>
+                <div className='description text-justify text-sm md:text-md'>
                   <p>
                     Học phát triển web bằng cách xây dựng 25 trang web và ứng dụng di động bằng HTML, CSS, Javascript,
                     PHP, Python, MySQL và nhiều hơn nữa!
                   </p>
                 </div>
 
-                <div className='flex items-center space-x-4'>
-                  <div className='flex items-center space-x-4'>
+                <div className='flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
+                  <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
                     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
                         opacity='0.4'
@@ -229,11 +229,10 @@ const CourseDetails = () => {
                         fill='#F66962'
                       />
                     </svg>
-
                     <p>12+ bài học</p>
                   </div>
 
-                  <div className='flex items-center space-x-4'>
+                  <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
                     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
                         d='M12 13.75C11.59 13.75 11.25 13.41 11.25 13V8C11.25 7.59 11.59 7.25 12 7.25C12.41 7.25 12.75 7.59 12.75 8V13C12.75 13.41 12.41 13.75 12 13.75Z'
@@ -253,11 +252,10 @@ const CourseDetails = () => {
                         fill='#FFB54A'
                       />
                     </svg>
-
                     <p>10 giờ 56 phút 32 giây</p>
                   </div>
 
-                  <div className='flex items-center space-x-4'>
+                  <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
                     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
                         opacity='0.4'
@@ -288,7 +286,6 @@ const CourseDetails = () => {
                         fill='#FF875A'
                       />
                     </svg>
-
                     <p>32 học viên đã tham gia</p>
                   </div>
                 </div>
@@ -297,7 +294,7 @@ const CourseDetails = () => {
           </div>
         </div>
 
-        <div className='w-[1280px] mx-auto'>
+        <div className='container mx-auto'>
           <div className={`${styles['content']} py-12 flex space-x-6`}>
             <div className={`${styles['left']} space-y-6`}>
               {/* Overview */}
@@ -307,7 +304,7 @@ const CourseDetails = () => {
                 </div>
 
                 {/* Mô tả khóa học */}
-                <div className={`${styles['courseDescription']} dark:text-[#B9B7C0] space-y-4`}>
+                <div className={`${styles['courseDescription']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
                   <h6 className='font-title'>Mô tả khóa học</h6>
 
                   <div className='space-y-4'>
@@ -327,7 +324,7 @@ const CourseDetails = () => {
                 </div>
 
                 {/* Đối tượng học viên */}
-                <div className={`${styles['courseOutcomes']} dark:text-[#B9B7C0] space-y-4`}>
+                <div className={`${styles['courseOutcomes']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
                   <h6 className='font-title'>Nhận được gì sau khi hoàn thành khóa học?</h6>
 
                   <div className={`${styles['groupItems']} space-x-6`}>
@@ -352,7 +349,7 @@ const CourseDetails = () => {
                 </div>
 
                 {/* Yêu cầu */}
-                <div className={`${styles['require']} dark:text-[#B9B7C0] space-y-4`}>
+                <div className={`${styles['require']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
                   <h6 className='font-title'>Yêu cầu</h6>
 
                   <div className='pl-4'>
@@ -369,8 +366,8 @@ const CourseDetails = () => {
               </div>
 
               {/* Lessson */}
-              <div className={`${styles['lesson']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
-                <div className={`${styles['heading']} flex justify-between items-center `}>
+              <div className={`${styles['lesson']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-2 md:space-y-4`}>
+                <div className={`${styles['heading']} flex justify-between items-center pb-2`}>
                   <h5 className='font-title dark:text-[#B9B7C0] text-[#392c7d]'>Nội dung khóa học</h5>
 
                   {/* Tổng số bài giảng, thời gian của khóa học */}
@@ -389,21 +386,33 @@ const CourseDetails = () => {
               </div>
 
               {/* Feedback */}
-              <div className={`${styles['feedback']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
+              <div className={`${styles['feedback']} dark:bg-[#2B2838] p-6 bg-white rounded-xl space-y-2 md:space-y-4`}>
                 <div className={`${styles['heading']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
                   <h5>Đánh giá</h5>
                 </div>
 
                 <div className={`${styles['content']}`}>
-                  <div className={`${styles['info']} flex justify-between items-center pb-4`}>
-                    <div className={`${styles['infoLeft']} flex items-start space-x-3`}>
+                  <div 
+                  className={`${styles['info']} 
+                    flex 
+                    flex-col 
+                    justify-start 
+                    items-start 
+                    space-y-2 
+                    md:space-y-0 
+                    md:justify-between 
+                    md:items-center 
+                    md:flex-row 
+                    pb-4
+                  `}>
+                    <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
                       <div className={`${styles['avt']}`}>
-                        <Avatar size={60} src={'https://i.pravatar.cc/300'} />
+                        <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] '/>
                       </div>
 
                       <div className=''>
-                        <div className='name font-title text-lg '>
-                          <Link to={''} className='text-white hover:text-[#f66962]'>
+                        <div className='name font-title text-sm md:text-lg '>
+                          <Link to={''} className='text-white hover:text-[#f66962] text-sm md:text-md'>
                             Nicole Brown
                           </Link>
                         </div>
@@ -420,7 +429,7 @@ const CourseDetails = () => {
                   </div>
 
                   <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                    <p className='italic text-justify py-6'>
+                    <p className='italic text-justify py-3 text-sm md:text-lg md:py-6'>
                       "Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
                       từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
                       cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
@@ -446,7 +455,7 @@ const CourseDetails = () => {
                 <div className={`${styles['content']}`}>
                   <form action=''>
                     <div className='flex flex-col space-y-4'>
-                      <div className={`${styles['formGroup']} space-x-4`}>
+                      <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
                         <input
                           type='text'
                           placeholder='Tên hiển thị'

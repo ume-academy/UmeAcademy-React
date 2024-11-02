@@ -18,11 +18,11 @@ const Sidebar_Teacher = () => {
         <div className={`${styles['introduce']} dark:bg-[#2b2838] bg-[#fff] dark:border-transparent border border-[#e9ecef]`}>
           <div className={`${styles['top']} bg-[#f84563]`}>
             <div className={`${styles['avt']}`}>
-              <Avatar size={100} src='https://i.pravatar.cc/300' className='border-4 border-white' />
+              <Avatar src='https://i.pravatar.cc/300' className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] lg:w-[100px] lg:h-[100px] border-4 border-white' />
             </div>
           </div>
 
-          <div className={`${styles['info']} bg-transparent pt-16`}>
+          <div className={`${styles['info']} bg-transparent pt-16 md:pt-32 lg:pt-16`}>
             <div className='name'>
               <h4 className='font-title text-2xl dark:text-[#efeff2]'>Eugene Andre</h4>
             </div>
@@ -53,7 +53,7 @@ const Sidebar_Teacher = () => {
           </div>
         </div>
 
-        <div className={`${styles['menuItems']} min-h-screen p-6 dark:bg-[#2b2838] bg-[#fff]  dark:border-transparent border border-[#e9ecef]`}>
+        <div className={`${styles['menuItems']} h-auto lg:min-h-screen p-6 dark:bg-[#2b2838] bg-[#fff]  dark:border-transparent border border-[#e9ecef]`}>
           {/* Management */}
           <div className=''>
             <div className={`${styles['heading']}`}>
