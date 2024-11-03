@@ -238,13 +238,16 @@ const Lesson = () => {
         {/* header */}
         <div className='bg-[#3d3a4e] h-[60px] flex items-center justify-between'>
           <div className='flex items-center h-full '>
-            <Link to={`/course/1`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#0000001a] h-full flex items-center'>
+            <Link
+              to={`/course/1`}
+              className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#0000001a] h-full flex items-center'
+            >
               <LeftOutlined style={{ fontSize: 20, color: '#fff' }} />
             </Link>
             {!isMobile && (
               <Link className='h-[60%]  flex items-center mr-3' to={`/`}>
-              <img className='h-full' src={logo} alt='' />
-            </Link>
+                <img className='h-full' src={logo} alt='' />
+              </Link>
             )}
             <h1 className='font-title text-[#fff] mt-[4px] h-full flex items-center text-[14px] lg:text-[18px] '>
               Thế giới đa chiều - vũ trụ song song
@@ -258,23 +261,24 @@ const Lesson = () => {
               strokeWidth={5}
               trailColor='#4d4f50'
               strokeColor={'#f66962'}
-              percent={60}
+              percent={90}
               format={(percent) => <p className='text-[#fff] font-desc text-[12px]'>{percent} %</p>}
             />
-            {!isMobile && (<>
-              <p className='text-[#fff] pr-5 text-[12px] mt-[2px]'>23/120 bài học</p>
-              <button
-              className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'
-              onClick={toggleTheme}
-            >
-              {theme === 'light' ? (
-                <MoonFilled rotate={10} style={{ color: '#fff', fontSize: 16 }} />
-              ) : (
-                <SunFilled style={{ color: '#808080', fontSize: 16 }} />
-              )}
-            </button>
-            </>)}
-            
+            {!isMobile && (
+              <>
+                <p className='text-[#fff] pr-5 text-[12px] mt-[2px]'>23/120 bài học</p>
+                <button
+                  className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'
+                  onClick={toggleTheme}
+                >
+                  {theme === 'light' ? (
+                    <MoonFilled rotate={10} style={{ color: '#fff', fontSize: 16 }} />
+                  ) : (
+                    <SunFilled style={{ color: '#808080', fontSize: 16 }} />
+                  )}
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -297,20 +301,23 @@ const Lesson = () => {
 
           {/* sidebar */}
           <div
-            className={` lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
+            className={`lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
           >
-            <div className=' bg-[#fff] dark:bg-[#131022] absolute top-0 right-0 left-0 bottom-0 z-50 lg:relative  lg:z-0 '>
-              <div className='flex bg-[#fff] dark:bg-[#131022]  justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
-                <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>
-                  Nội dung khóa học
-                </h2>
+            <div className='bg-[#fff] dark:bg-[#131022] absolute top-0 right-0 left-0 bottom-0 z-50 lg:relative lg:z-0'>
+              <div className='flex bg-[#fff] dark:bg-[#131022] justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
+                <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>Nội dung khóa học</h2>
                 {(isMobile || isTablet) && (
-                   <button onClick={() => toggleSideBar()} className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'><X color={theme === 'light' ? '#333' : '#fff'} size={16}/></button>
+                  <button
+                    onClick={() => toggleSideBar()}
+                    className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'
+                  >
+                    <X color={theme === 'light' ? '#333' : '#fff'} size={16} />
+                  </button>
                 )}
               </div>
               <div className='max-h-[80vh] md:max-h-[100vh] lg:max-h-screen overflow-y-auto'>
                 {/* đoạn này thay đổi chiều cao thanh cuộn */}
-                <ul className='lg:mb-[162px]'>
+                <ul className='mb-[20px] lg:mb-[162px]'>
                   {items.map((item, key) => (
                     <li className='bg-[#f7f8fa] dark:bg-[#131022]' onClick={toggleSubMenu} key={key}>
                       <div className='hover:bg-[#edeff1] dark:hover:bg-[#413655] px-[20px] py-[8px] border-b-[#dedfe0] dark:border-gray-700 border-b-[1px] '>
@@ -349,31 +356,31 @@ const Lesson = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* prev and next bottom*/}
-          <div className='absolute bottom-0 left-0 right-0 z-30 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
-            <div className=""></div>
-            <div className='flex items-center'>
-              <button className={`${style['buttonPrev']} mr-3 text-[14px] dark:bg-transparent font-title`}>
-                Bài trước
-              </button>
-              <button className={`${style['buttonNext']} text-[14px] font-title`}>Bài tiếp theo</button>
-            </div>
-            <div className="">
-              {isOpenSideBar ? (
-                <MenuOutlined
-                  onClick={() => toggleSideBar()}
-                  className='transition-all duration-300 ease-in-out '
-                  style={{color: `${theme === 'light' ? '#333' : '#fff'}`}}
-                />
-              ) : (
-                <ChevronRight
-                  onClick={() => toggleSideBar()}
-                  className='transition-all duration-300 ease-in-out'
-                  style={{color: `${theme === 'light' ? '#333' : '#fff'}`}}
-                />
-              )}
-              </div>
+        {/* prev and next bottom*/}
+        <div className='fixed bottom-0 left-0 right-0 z-30 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
+          <div className=''></div>
+          <div className='flex items-center'>
+            <button className={`${style['buttonPrev']} mr-3 text-[14px] dark:bg-transparent font-title`}>
+              Bài trước
+            </button>
+            <button className={`${style['buttonNext']} text-[14px] font-title`}>Bài tiếp theo</button>
+          </div>
+          <div className=''>
+            {isOpenSideBar ? (
+              <MenuOutlined
+                onClick={() => toggleSideBar()}
+                className='transition-all duration-300 ease-in-out '
+                style={{ color: `${theme === 'light' ? '#333' : '#fff'}` }}
+              />
+            ) : (
+              <ChevronRight
+                onClick={() => toggleSideBar()}
+                className='transition-all duration-300 ease-in-out'
+                style={{ color: `${theme === 'light' ? '#333' : '#fff'}` }}
+              />
+            )}
           </div>
         </div>
       </div>
