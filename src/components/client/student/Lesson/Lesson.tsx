@@ -258,7 +258,7 @@ const Lesson = () => {
               strokeWidth={5}
               trailColor='#4d4f50'
               strokeColor={'#f66962'}
-              percent={60}
+              percent={70}
               format={(percent) => <p className='text-[#fff] font-desc text-[12px]'>{percent} %</p>}
             />
             {!isMobile && (<>
@@ -295,63 +295,46 @@ const Lesson = () => {
             ></iframe>
           </div>
 
-          {/* sidebar */}
-          <div
-            className={` lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
-          >
-            <div className=' bg-[#fff] dark:bg-[#131022] absolute top-0 right-0 left-0 bottom-0 z-50 lg:relative  lg:z-0 '>
-              <div className='flex bg-[#fff] dark:bg-[#131022]  justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
-                <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>
-                  Nội dung khóa học
-                </h2>
-                {(isMobile || isTablet) && (
-                   <button onClick={() => toggleSideBar()} className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'><X color={theme === 'light' ? '#333' : '#fff'} size={16}/></button>
-                )}
-              </div>
-              <div className='max-h-[80vh] md:max-h-[100vh] lg:max-h-screen overflow-y-auto'>
-                {/* đoạn này thay đổi chiều cao thanh cuộn */}
-                <ul className='lg:mb-[162px]'>
-                  {items.map((item, key) => (
-                    <li className='bg-[#f7f8fa] dark:bg-[#131022]' onClick={toggleSubMenu} key={key}>
-                      <div className='hover:bg-[#edeff1] dark:hover:bg-[#413655] px-[20px] py-[8px] border-b-[#dedfe0] dark:border-gray-700 border-b-[1px] '>
-                        <div className='flex justify-between'>
-                          <h4 className='font-title mb-1.5 text-[14px] dark:text-[#b9b7c0]'>1. {item.title}</h4>
-                          <DownOutlined
-                            className={`transition-all dark:text-[#b9b7c0] duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-                            style={{ fontSize: 14 }}
-                          />
-                        </div>
-                        <div className='flex text-[12px]'>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{item.completedLessons}</span>
-                          <div className='border-l-[0.5px] border-[#29303b] mt-[4px] mb-[4px] mx-1.5 dark:border-[#b9b7c0]'></div>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{item.duration}</span>
-                        </div>
-                      </div>
-                      <ul className={`text-[14px] transition-all duration-1000 ${isOpen ? 'block' : 'hidden'}`}>
-                        {item.lessons.map((lesson) => (
-                          <li
-                            className={`px-[28px] py-[8px] dark:bg-[#1b172f] hover:bg-[#edeff1] dark:hover:bg-[#413655]`}
-                          >
-                            <h4 className='mb-2 dark:text-[#b9b7c0] font-subtitle'>{lesson.title}</h4>
-                            <div className='flex text-[11px]'>
-                              <PlayCircleFilled
-                                className='dark:text-[#edeff1]'
-                                style={{ fontSize: 12, color: '#888888' }}
-                              />
-                              <span className='inline text-[#29303b] ml-1 dark:text-[#b9b7c0]'>{item.duration}</span>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
+
+{/* sidebar */}
+<div
+  className={`lg:w-[25%] border-l-[1px] border-[#dedfe0] dark:border-gray-700 ${isOpenSideBar ? 'hidden' : 'block'}`}
+>
+  <div className='bg-[#fff] dark:bg-[#131022] absolute top-0 right-0 left-0 bottom-0 z-50 lg:relative lg:z-0'>
+    <div className='flex bg-[#fff] dark:bg-[#131022] justify-between items-center pl-[16px] pr-[12px] lg:px-[16px] py-[12px]'>
+      <h2 className='font-title text-[18px] dark:text-[#b9b7c0]'>
+        Nội dung khóa học
+      </h2>
+      {(isMobile || isTablet) && (
+        <button onClick={() => toggleSideBar()} className='text-[#333] dark:text-[#fff] bg-[#eceef1] dark:bg-[#1b172f] rounded-full p-1.5'>
+          <X color={theme === 'light' ? '#333' : '#fff'} size={16} />
+        </button>
+      )}
+    </div>
+    <div className='max-h-[80vh] md:max-h-[100vh] lg:max-h-screen overflow-y-auto'>
+      {/* đoạn này thay đổi chiều cao thanh cuộn */}
+      <ul className='mb-[20px] lg:mb-[162px]'>
+        {items.map((item, key) => (
+          <li className='bg-[#f7f8fa] dark:bg-[#131022]' onClick={toggleSubMenu} key={key}>
+            <div className='hover:bg-[#edeff1] dark:hover:bg-[#413655] px-[20px] py-[8px] border-b-[#dedfe0] dark:border-gray-700 border-b-[1px]'>
+              <div className='flex justify-between'>
+                <h4 className='font-title mb-1.5 text-[14px] dark:text-[#b9b7c0]'>1. {item.title}</h4>
+                <DownOutlined
+                  className={`transition-all dark:text-[#b9b7c0] duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+                />
               </div>
             </div>
-          </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
 
-          {/* prev and next bottom*/}
-          <div className='absolute bottom-0 left-0 right-0 z-30 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
+          
+        </div>
+        {/* prev and next bottom*/}
+        <div className='fixed bottom-0 left-0 right-0 z-30 bg-[#fff] dark:bg-[#131022] h-[50px] px-[20px] flex items-center justify-between shadow-[15px_4px_23px_rgba(0,0,0,0.10)]'>
             <div className=""></div>
             <div className='flex items-center'>
               <button className={`${style['buttonPrev']} mr-3 text-[14px] dark:bg-transparent font-title`}>
@@ -375,7 +358,6 @@ const Lesson = () => {
               )}
               </div>
           </div>
-        </div>
       </div>
     </>
   )
