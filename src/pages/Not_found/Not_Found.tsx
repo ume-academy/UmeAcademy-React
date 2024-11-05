@@ -1,20 +1,24 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { imgNF, logo } from '@/contants/client'
+import { getTitleTab, imgNF, logo } from '@/contants/client'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
+import { Helmet } from 'react-helmet'
 
 const Not_Found = () => {
   const { mode } = useContext(ModeUserContext) as ModeUserType
 
   return (
-    <div className={`w-full h-screen ${`bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`}`}>
+    <div className={`w-full h-screen p-6 md:p-0 ${`bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`}`}>
+      <Helmet>
+        <title>{getTitleTab('Lỗi 404 - Trang không tìm thấy')}</title>
+      </Helmet>
       <div
-        className={`pt-8 flex flex-col items-center justify-center text-center bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}
+        className={`pt-4 md:pt-28 lg:pt-8 flex flex-col items-center justify-center text-center bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}
       >
         <Link to={mode === 'student' ? '/' : '/'}>
-          <img src={logo} alt='' className='w-52 mb-10 ' />
+          <img src={logo} alt='' className='w-52 md:w-72 mb-10' />
         </Link>
-        <img src={imgNF} alt='' className='w-[550px] mb-10' />
+        <img src={imgNF} alt='' className='w-[333px] md:w-[550px] mb-10' />
         <p className='text-[#ed4e37] text-4xl mb-2'>Ôi không! Lỗi 404</p>
         <p className='mb-10 font-sans'>Không tìm thấy trang bạn yêu cầu. Cầu mong thần lực sẽ ở bên bạn!</p>
         <Link to={mode === 'student' ? '/' : '/'}>
