@@ -32,6 +32,7 @@ const List_Students = () => {
       title: 'Tên học viên',
       dataIndex: 'name',
       key: 'name',
+      minWidth: 200,
     },
     {
       title: 'Thumbnail',
@@ -70,20 +71,22 @@ const List_Students = () => {
         <title>{getTitleTab('Danh sách học viên')}</title>
       </Helmet>
 
-      <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
-        <div className={`${styles['heading']} dark:border-b-[#5a5a5a] border-b-[#e9ecef] dark:text-[#b9b7c0] text-[#685f78] font-title text-2xl p-6`}>
-          <h3>Danh sách học viên</h3>
+      <div className="p-4 md:p-4 lg:p-0">
+        <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
+          <div className={`${styles['heading']} dark:border-b-[#5a5a5a] border-b-[#e9ecef] dark:text-[#b9b7c0] text-[#685f78] font-title text-2xl p-6`}>
+            <h3>Danh sách học viên</h3>
+          </div>
+
+          <div className={`${styles['content']} p-6 `} style={{ overflowX: 'auto' }}>
+            <Table dataSource={dataSource} columns={columns} pagination={false} className='dark:bg-[#2b2838] dark:text-[#B9B7C0]' />
+          </div>
         </div>
 
-        <div className={`${styles['content']} p-6`}>
-          <Table dataSource={dataSource} columns={columns} pagination={false}  className='dark:bg-[#2b2838] dark:text-[#B9B7C0]' />
+        <div className="flex justify-between items-center my-6 text-sm">
+          <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
+
+          <Pagination />
         </div>
-      </div>
-
-      <div className="flex justify-between items-center my-6 text-sm">
-        <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
-
-        <Pagination />
       </div>
     </>
   )

@@ -11,7 +11,7 @@ import styles from './sidebarTeacher.module.scss'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
-  
+
   return (
     <>
       <aside className='flex flex-col gap-6'>
@@ -86,6 +86,17 @@ const Sidebar_Teacher = () => {
                   </NavLink>
                 </li>
 
+                <li>
+                  <NavLink
+                    to={'/teacher/my-students'}
+                    className={({ isActive }) =>
+                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
+                    }
+                  >
+                    <Users />
+                    Danh sách học viên của tôi
+                  </NavLink>
+                </li>
 
                 <li>
                   <NavLink

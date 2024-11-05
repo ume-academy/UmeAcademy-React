@@ -50,8 +50,8 @@ const Form_Course = () => {
   }
 
   return (
-    <>
-      <div className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] py-12 px-14' : 'p-14'} rounded-lg dark:bg-[#2b2838]`}>
+    <div className='px-[16px]'>
+      <div className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] py-12' : 'p-6 lg:p-14'} rounded-lg dark:bg-[#2b2838]`}>
         <div className=''>
           <h4 className='text-[28px] font-title text-[#f66962] mb-6'>{id ? 'Cập nhật khóa học' : 'Tạo khóa học mới'}</h4>
 
@@ -154,20 +154,20 @@ const Form_Course = () => {
           </div>
 
           {/* Nút */}
-          <div className='flex justify-between'>
+          <div className='flex flex-col md:flex-row md:justify-between lg:flex-row lg:justify-between'>
             <Link
               to={`/`}
-              className='w-[180px] flex justify-center border-[1px] font-title border-[#685f78] text-[#fff] bg-[#685f78] p-2.5 rounded-lg hover:bg-transparent hover:text-[#685f78]'
+              className='w-full md:w-[180px] lg:w-[180px] mb-5  md:mb-0 lg:mb-0 flex justify-center border-[1px] font-title border-[#685f78] text-[#fff] bg-[#685f78] p-2.5 rounded-lg hover:bg-transparent hover:text-[#685f78]'
             >
               Quay lại
             </Link>
-            <button onClick={() => handleClick()} className='w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'>
+            <button onClick={() => handleClick()} className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'>
               {loading ? <LoadingOutlined/> : (id ? 'Lưu' : 'Thêm mới khóa học')}
             </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
