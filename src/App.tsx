@@ -19,7 +19,7 @@ import Course_Management from './pages/client/Teacher/Course_Management/Course_M
 import Form_Course from './pages/client/Teacher/Form_Course/Form_Course'
 import My_Courses from './pages/client/Teacher/My_Courses/My_Courses'
 import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor'
-import Payment_Methods from './pages/client/Teacher/PaymentMethods/Payment_Methods'
+import Payment_Methods from './pages/client/Teacher/Payment_Methods/Payment_Methods'
 import Revenue from './pages/client/Teacher/Revenue/Revenue'
 import List_Students from './pages/client/Teacher/Students/List_Students'
 import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'

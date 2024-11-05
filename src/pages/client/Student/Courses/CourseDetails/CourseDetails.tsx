@@ -171,7 +171,7 @@ const CourseDetails = () => {
         <div
           className={`${styles['overviewTeacher']} bg-[url(/assets/images/client/Course/inner-banner.png)] dark:text-[#B9B7C0] pt-[160px] pb-[80px]`}
         >
-          <div className='container mx-auto'>
+          <div className='max-w-[1280px] mx-auto'>
             <div className='flex flex-col'>
               <div className={`${styles['introduce']} flex justify-between items-start`}>
                 <div className='flex items-start gap-4'>
@@ -294,7 +294,7 @@ const CourseDetails = () => {
           </div>
         </div>
 
-        <div className='container mx-auto'>
+        <div className='max-w-[1280px] mx-auto'>
           <div className={`${styles['content']} py-12 flex space-x-6`}>
             <div className={`${styles['left']} space-y-6`}>
               {/* Overview */}
