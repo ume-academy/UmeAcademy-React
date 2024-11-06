@@ -52,13 +52,13 @@ const Course_Payment_Method = () => {
   }
 
   return (
-    <div className="max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20">
+    <div className="max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20">
       <Helmet>
         <title>{getTitleTab("Thanh toán khóa học")}</title>
       </Helmet>
       <div className="flex flex-wrap justify-between sm:justify-center flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-[59%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl mb-7">
-          <p className="font-title text-2xl border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6">
+          <p className="font-title text-2xl border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6">
             Phương thức thanh toán
           </p>
           <Radio.Group onChange={onChange} value={selectedMethod} className="pl-6 pt-14 pb-14 w-full space-y-6">
@@ -101,8 +101,8 @@ const Course_Payment_Method = () => {
 
         {/* Phần Chi tiết */}
         <form className="w-full lg:w-[39%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7">
-          <p className="text-2xl font-title border-b border-[#e9ecef] dark:border-[#5a5a5a] p-6">Chi tiết</p>
-          <div className="space-y-3 p-6">
+          <p className="text-2xl font-title border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6">Chi tiết</p>
+          <div className="space-y-3 p-4 md:p-6">
             <p className="text-lg font-medium h-11">Thông tin về thiết kế bằng UI/UX</p>
             <p className="text-[14px]">Giảng viên: <span>DaddyGiao</span></p>
             <div className="flex justify-between text-[14px]">

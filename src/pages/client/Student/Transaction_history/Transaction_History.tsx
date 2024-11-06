@@ -85,18 +85,18 @@ const Transaction_History = () => {
   ]
 
   return (
-    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
       <Helmet>
         <title>{getTitleTab('Lịch sử giao dịch')}</title>
       </Helmet>
       <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg border border-[#e9ecef] dark:border-none'>
-        <h2 className='font-title text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-6'>Lịch sử đơn hàng</h2>
+        <h2 className='font-title text-2xl border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6'>Lịch sử đơn hàng</h2>
         <Table
           dataSource={transactions}
           columns={columns}
           pagination={false}
           rowKey='id'
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-0 md:p-6 '
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 md:p-6 '
           scroll={{ x: 966 }}
         />
       </div>
