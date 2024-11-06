@@ -112,10 +112,10 @@ const Wallet_History = () => {
   ]
 
   return (
-    <div className='max-w-full sm:max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
       <div className='mb-6 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg shadow-lg'>
-        <p className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-2 md:p-6'>Ví Ume</p>
-        <div className='flex flex-wrap justify-between items-center p-2 md:p-6'>
+        <p className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 md:p-6'>Ví Ume</p>
+        <div className='flex flex-wrap justify-between items-center p-4 md:p-6'>
           <div className='flex gap-4 items-center'>
             <div className='flex items-center'>
               <WalletFilled className='text-[#ff5364] text-4xl md:text-5xl lg:text-[50px]' />
@@ -176,12 +176,12 @@ const Wallet_History = () => {
         </div>
       )}
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-2 md:p-6'>Lịch sử giao dịch</h2>
+        <h2 className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 md:p-6'>Lịch sử giao dịch</h2>
         <Table
           columns={columns}
           dataSource={wallet}
           pagination={false}
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-0 md:p-6 '
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 md:p-6 '
           scroll={{ x: 966 }}
         />
       </div>
