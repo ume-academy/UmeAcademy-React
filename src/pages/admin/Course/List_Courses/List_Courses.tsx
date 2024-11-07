@@ -53,6 +53,7 @@ const List_Courses = () => {
   const filteredData = data.filter(course =>
     selectedStatus === undefined || course.status === Number(selectedStatus)
   );
+
   const handleChangeStatus = (id: number, value: number) => {
     const currentCourse = data.find(course => course.id === id);
 
@@ -68,19 +69,8 @@ const List_Courses = () => {
         ),
         okText: 'Đồng ý',
         okType: 'danger',
-        okButtonProps: {
-          style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
-        },
-        cancelButtonProps: {
-          className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
-        },
-        cancelText: 'Hủy',
-        centered: true,
-        maskClosable: false,
-        icon: null,
-        width: 600,
         onOk: () => {
-          setConfirmLoading(true); // Set loading state
+          setConfirmLoading(true);
           return new Promise((resolve) => {
             setTimeout(() => {
               setData(prevData =>
@@ -94,24 +84,25 @@ const List_Courses = () => {
                 content: `${value === 1 ? "Phê duyệt" : "Từ chối"} khóa học thành công!`,
               });
 
-              setConfirmLoading(false); // Stop loading
+              setConfirmLoading(false);
               resolve(undefined);
-            }, 2000); // Giả lập thời gian xử lý
+            }, 2000);
           });
-        }
+        },
+        cancelText: 'Hủy',
+        centered: true,
+        maskClosable: false,
+        icon: null,
+        width: 600,
       });
     } else {
       Modal.warning({
         title: "Cảnh báo",
         content: "Trạng thái này không thể thay đổi.",
         okText: 'Đồng ý',
-        okButtonProps: {
-          style: { backgroundColor: '#F84563', color: '#fff' }, // Thêm style cho nút OK trong cảnh báo
-        },
       });
     }
   };
-
 
   const CustomTreeSelect = styled(TreeSelect)`
     .ant-select-selector {
@@ -122,11 +113,10 @@ const List_Courses = () => {
       background-color: #131022 !important;
       border: 1px solid #c7c7c740 !important;
     }
-    .ant-select-selector .ant-select-selection-placeholder {
-      color: #6e82a3 !important;
-    }
-    .dark & .ant-select-selector .ant-select-selection-placeholder {
-      color: #e9ecef !important;
+    @media (max-width: 768px) {
+      .ant-select-selector {
+        width: 100% !important;
+      }
     }
   `;
 
@@ -135,33 +125,37 @@ const List_Courses = () => {
       title: "Stt",
       key: "stt",
       render: (_, record, index: number) => <div>{index + 1}</div>,
-      width: 50
+      width: 50,
+      responsive: ["md"],
     },
     {
       title: "Ảnh",
       dataIndex: "thumbnail",
       key: "thumbnail",
       render: (thumbnail) => <img src={thumbnail} alt="Course thumbnail" width={100} />,
-      width: 80
+      width: 80,
+      responsive: ["sm"],
     },
     {
       title: "Tên khóa học",
       dataIndex: "title",
       key: "title",
-      width: 250
+      width: 250,
     },
     {
       title: "Tác giả",
       dataIndex: "author",
       key: "author",
-      width: 150
+      width: 150,
+      responsive: ["md"],
     },
     {
       title: "Số tiền",
       dataIndex: "price",
       key: "price",
-      render: (price) => <div>{price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>, // Format price
-      width: 100
+      render: (price) => <div>{price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>,
+      width: 100,
+      responsive: ["md"],
     },
     {
       title: "Ngày tạo",
@@ -170,7 +164,8 @@ const List_Courses = () => {
       render: (created_at) => (
         <div>{created_at ? new Date(created_at).toLocaleDateString('vi-VN') : "N/A"}</div>
       ),
-      width: 150
+      width: 150,
+      responsive: ["lg"],
     },
     {
       title: "Trạng thái",
@@ -181,8 +176,6 @@ const List_Courses = () => {
           return (
             <CustomTreeSelect
               value='Chờ phê duyệt'
-              treeDefaultExpandAll
-              className="w-[140px] mt-1"
               onChange={(value) => handleChangeStatus(record.id, value ? 1 : 2)}
               treeData={[
                 { value: true, title: <span className="text-green-500">Phê duyệt</span> },
@@ -196,19 +189,17 @@ const List_Courses = () => {
           return <span className="text-red-500">Đã bị từ chối</span>;
         }
       },
-      width: 150
+      width: 150,
     },
     {
       title: "Chi tiết",
       key: "actions",
-      width: 80,
       render: (record) => (
-        <div>
-          <Link to={`/admin/course-detail/${record.id}`}>
-            <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
-          </Link>
-        </div>
+        <Link to={`/admin/course-detail/${record.id}`}>
+          <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
+        </Link>
       ),
+      width: 80,
     }
   ];
 
@@ -219,13 +210,13 @@ const List_Courses = () => {
       </Helmet>
       {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
-        <div className="flex justify-between items-center pb-4">
+        <div className="flex flex-wrap justify-between items-center pb-4">
           <p className="font-title text-xl">Danh sách khóa học</p>
           <CustomTreeSelect
             placeholder="Lọc theo trạng thái"
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value as string)}
-            className="w-40 h-10"
+            className="w-40 h-10 mt-4 md:mt-0"
             treeData={[
               { value: 0, title: 'Chờ phê duyệt' },
               { value: 1, title: 'Đã phê duyệt' },
@@ -234,16 +225,18 @@ const List_Courses = () => {
             allowClear
           />
         </div>
-        <Table
-          columns={columns}
-          pagination={false}
-          rowKey="id"
-          dataSource={filteredData}
-        />
+        <div className="overflow-x-auto">
+          <Table
+            columns={columns}
+            pagination={false}
+            rowKey="id"
+            dataSource={filteredData}
+            scroll={{ x: "max-content" }}
+          />
+        </div>
       </div>
     </>
   );
-
 }
 
 export default List_Courses;
