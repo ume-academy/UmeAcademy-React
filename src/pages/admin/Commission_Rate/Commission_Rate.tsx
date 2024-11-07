@@ -49,7 +49,9 @@ const Commission_Rate = () => {
             bg-[#F84563] 
             text-white
             hover:bg-[#ee9aa8]
-            hover:text-black'
+            hover:text-black
+              w-[100%]
+              md:w-auto'
               >
                 Cập nhật tỷ lệ hoa hồng
               </button>

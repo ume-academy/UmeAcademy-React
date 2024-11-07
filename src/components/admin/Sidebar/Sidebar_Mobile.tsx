@@ -24,6 +24,7 @@ const Sidebar_Mobile: React.FC<Sidebar_Props> = ({ collapsed, onCollapse, items 
         style={{ maxWidth: '90vw' }} // Đảm bảo chiều rộng tối đa trên mobile là 80% màn hình
         className="sidebar block sm:block md:hidden min-h-screen absolute z-50"
         theme="dark"
+        trigger={null}
       >
         <div className="flex justify-center p-4 bg-[#001529]" >
           <Link to={'/admin'} className="font-title">ADMINISTRATOR</Link>
