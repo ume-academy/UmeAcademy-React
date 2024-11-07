@@ -1,8 +1,8 @@
-import { BackwardFilled, CheckOutlined } from '@ant-design/icons';
+import { CheckOutlined } from '@ant-design/icons';
 import { Form, Input } from 'antd';
+import { MoveLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './catalogForm.scss';
-import { MoveLeft } from 'lucide-react';
 
 const Catalog_Form_Submit = () => {
 
@@ -24,9 +24,27 @@ const Catalog_Form_Submit = () => {
 
           <Link
             to={'/admin/catalogues'}
-            className='py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
+            className='
+            border 
+            border-[#F84563] 
+            py-2
+            px-3
+            w-auto
+            rounded-md 
+            bg-[#F84563] 
+            md:w-[15%] 
+            flex 
+            justify-center 
+            items-center 
+            text-white 
+            hover:bg-white 
+            hover:border-[#F84563] 
+            hover:text-[#F84563] 
+            
+            md:py-2 md:px-5
+            '
           >
-            <MoveLeft />
+            <MoveLeft size={16}/>
             <span className='ml-2'>Quay lại</span>
           </Link>
         </div>
@@ -50,23 +68,9 @@ const Catalog_Form_Submit = () => {
             </Form.Item>
 
             <Form.Item>
-              {/* <button
-                type='submit'
-                className='
-              border-none 
-              py-1 px-4
-              rounded-md
-            bg-[#F84563] 
-            text-white
-            hover:bg-[#ee9aa8]
-            hover:text-black'
-              >
-                {id ? 'Cập nhật bản ghi' : 'Thêm mới bản ghi'}
-              </button> */}
-
               <button
                 type='submit'
-                className='py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]'
+                className='py-2 px-4 w-full flex items-center justify-center md:justify-start md:w-auto  rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563]  gap-2 border hover:border-[#F84563] border-[#F84563]'
               >
                 <CheckOutlined />
                 {id ? 'Cập nhật bản ghi' : 'Thêm mới bản ghi'}

@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Table } from 'antd';
+import { Button, message, Modal, Pagination, Table } from 'antd';
 import { Pen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -95,6 +95,7 @@ const List_Catalogues = () => {
       title: 'Tên danh mục',
       dataIndex: 'name',
       key: 'name',
+      minWidth: 200,
     },
     {
       title: 'Ngày tạo',
@@ -128,39 +129,51 @@ const List_Catalogues = () => {
   return (
     <>
       {contextHolder}
-      <div className="p-4">
+      <div className="p-4 md:p-6">
         <div className="heading flex justify-between items-center pb-4 ">
-          <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>Danh sách danh mục khóa học</h5>
-
-          {/* <Link
-            to={'/admin/catalogues/create'}
-            className='
-            border-none 
-            py-1 px-4
-            flex
-            items-center
-            gap-3
-            rounded-md
-            bg-[#F84563] 
-            text-white
-            hover:bg-[#ee9aa8]
-            hover:text-black'
-          >
-            <PlusCircleOutlined />
-            Thêm mới
-          </Link> */}
+          <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78] w-[60%] md:w-full'>Danh sách danh mục khóa học</h5>
 
           <Link
             to={'/admin/catalogues/create'}
-            className='border border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-3'
+            className='
+            border 
+            border-[#F84563] 
+            py-2
+            px-3
+            w-auto
+            rounded-md 
+            bg-[#F84563] 
+            md:w-[15%] 
+            flex 
+            justify-center 
+            items-center 
+            text-white 
+            hover:bg-white 
+            hover:border-[#F84563] 
+            hover:text-[#F84563] 
+            gap-3
+            md:py-2 md:px-5
+            '
           >
             <PlusCircleOutlined />
             Thêm mới
           </Link>
         </div>
 
-        <div className="content">
-          <Table dataSource={dataSource} columns={columns} className='table' />
+        <div className='content' style={{ overflowX: 'auto' }}>
+          {/* <Table dataSource={dataSource} columns={columns} className='table' /> */}
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+            className='table dark:bg-[#2b2838] dark:text-[#B9B7C0]'
+          />
+        </div>
+
+        <div className="flex justify-between items-center my-6 text-sm">
+          <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
+
+          <Pagination />
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
-import { Form, Input, InputNumber } from "antd";
-import './commissionRateAntd.scss'
+import { Form, Input } from "antd";
+import './commissionRateAntd.scss';
 
 const Commission_Rate = () => {
 
