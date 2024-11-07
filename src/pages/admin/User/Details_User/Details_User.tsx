@@ -1,11 +1,18 @@
 import Card, { CardProps } from '@/components/client/commonComponents/Card/Card';
 import { getTitleTab } from '@/contants/client';
 import { EditFilled, FileDoneOutlined, HistoryOutlined } from '@ant-design/icons';
-import { Avatar, Tabs } from 'antd';
+import { Avatar, Pagination, Table, Tabs, Tag } from 'antd';
 import { Helmet } from 'react-helmet';
 import styles from './detailsUser.module.scss';
 import './detailsUserAntd.scss';
-import List_Transactions_Instructor from '../../Transactions/List_Transactions/List_Transactions_Instructor';
+
+interface Transaction {
+  id: number
+  courseName: string
+  date: string
+  price: string
+  status: '0' | '1'
+}
 
 const Details_User = () => {
 
@@ -21,6 +28,86 @@ const Details_User = () => {
     rating: 5,
   };
 
+  // Transaction history
+  const transactions: Transaction[] = [
+    {
+      id: 2643,
+      courseName: 'Xây dựng Website Thực tế với HTML5 và CSS3',
+      date: '10/12/2024',
+      price: '340.000',
+      status: '0'
+    },
+    {
+      id: 2644,
+      courseName: 'Thiết kế từ A đến Z (2024): Trở thành nhà thiết kế ứng dụng',
+      date: '10/11/2024',
+      price: '340.000',
+      status: '0'
+    },
+    {
+      id: 2645,
+      courseName: 'Hướng dẫn Cơ bản về Angular',
+      date: '10/10/2024',
+      price: '340.000',
+      status: '1'
+    },
+    {
+      id: 2646,
+      courseName: 'Xây dựng Website Thực tế với HTML5 và CSS3',
+      date: '14/12/2024',
+      price: '340.000',
+      status: '0'
+    }
+  ]
+
+  const columns = [
+    {
+      title: 'STT',
+      key: 'stt',
+      width: 50,
+      render: (_: any, __: any, index: number) => index + 1,
+      align: 'center' as const
+
+    },
+    {
+      title: 'Mã đơn hàng',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text: string) => `#${text}`,
+      minWidth: 120,
+      align: 'center' as const
+    },
+    {
+      title: 'Tên khóa học',
+      dataIndex: 'courseName',
+      key: 'courseName',
+      minWidth: 200
+    },
+    {
+      title: 'Ngày',
+      dataIndex: 'date',
+      key: 'date'
+    },
+    {
+      title: 'Giá',
+      dataIndex: 'price',
+      key: 'price',
+      render: (text: string) => `${text} ₫`,
+      minWidth: 120,
+      align: 'center' as const
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: '0' | '1') => (
+        <Tag className='text-[15px] py-2 px-6 min-w-[132px] text-center' color={status === '1' ? 'green' : 'volcano'}>
+          {status === '1' ? 'Hoàn thành' : 'Đang chờ'}
+        </Tag>
+      )
+    }
+  ]
+
   return (
     <div className="">
       <Helmet>
@@ -34,11 +121,11 @@ const Details_User = () => {
         <div className={`${styles['content']}`}>
 
           <div className="">
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" className="tabsBar">
               {/* Thông tin tài khoản */}
               <Tabs.TabPane
                 tab={
-                  <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
+                  <div className="flex items-center justify-center gap-3">
                     <EditFilled />
                     Chỉnh sửa thông tin
                   </div>
@@ -47,7 +134,7 @@ const Details_User = () => {
               >
                 {/* Nội dung tab 1 */}
                 <div className={`${styles['tabContent']} dark:text-[#B9B7C0] `}>
-                  <div className={`${styles['info']} flex items-center space-x-4 p-6`}>
+                  <div className={`${styles['info']} flex flex-col md:flex-row items-center space-y-4 space-x-4 md:space-y-0 px-0 py-4 md:px-6`}>
                     <div className="avt">
                       <Avatar size={120} src={''} className="border-[#F84563]" />
                     </div>
@@ -56,26 +143,16 @@ const Details_User = () => {
                       <div className="">
                         <h2 className="font-title text-xl">Ảnh đại diện</h2>
                       </div>
-
-                      {/* <div className={`${styles['act']} dark:text-[#000]  space-x-3`}>
-                        <button>
-                          <CloudUploadOutlined />
-                        </button>
-
-                        <button>
-                          <DeleteOutlined />
-                        </button>
-                      </div> */}
                     </div>
                   </div>
 
                   <div className={`${styles['form']} flex space-x-4 p-6`}>
                     <div className={`${styles['heading']} pb-6`}>
-                      <h2 className="font-title text-2xl">Thông tin cá nhân</h2>
+                      <h2 className="font-title text-lg md:text-2xl">Thông tin cá nhân</h2>
                     </div>
 
-                    <div className="flex flex-col gap-4">
-                      <div className="flex">
+                    <div className="flex flex-col gap-2 md:gap-4">
+                      <div className="flex flex-col md:flex-row gap-2">
                         {/* Fullname */}
                         <div className="flex-1 flex gap-2">
                           <span className='font-title'>Họ và tên: </span>
@@ -91,7 +168,7 @@ const Details_User = () => {
                         </div>
                       </div>
 
-                      <div className="flex">
+                      <div className="flex flex-col md:flex-row gap-2">
                         {/* Phone number */}
                         <div className="flex-1 flex gap-2">
                           <span className='font-title'>Số điện thoại: </span>
@@ -123,7 +200,7 @@ const Details_User = () => {
               {/* Lịch sử giao dịch */}
               <Tabs.TabPane
                 tab={
-                  <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
+                  <div className="flex items-center justify-center gap-3">
                     <HistoryOutlined />
                     Lịch sử giao dịch
                   </div>
@@ -131,49 +208,32 @@ const Details_User = () => {
                 key="2"
               >
                 {/* Nội dung tab 2 */}
-                <div className={`${styles['tabContent']} p-6 dark:text-[#B9B7C0]`}>
-                  {/* <div className={`${styles['form']} flex space-x-4 p-6`}>
+                <div className={`${styles['tabContent']} dark:text-[#B9B7C0] `}>
 
-                    <form className={`${styles['formContent']} space-y-6`}>
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Mật khẩu hiện tại
-                        </label>
-
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                  <div className="p-4 md:p-4 lg:p-0">
+                    <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
+                      <div className={`${styles['heading']} dark:border-b-[#5a5a5a] border-b-[#e9ecef] dark:text-[#b9b7c0] text-[#685f78] font-title text-lg md:text-2xl pb-4`}>
+                        <h3>Danh sách học viên</h3>
                       </div>
 
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Mật khẩu mới
-                        </label>
-
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                      <div className={`${styles['content']}`} style={{ overflowX: 'auto' }}>
+                        <Table dataSource={transactions} columns={columns} pagination={false} className='dark:bg-[#2b2838] dark:text-[#B9B7C0]' />
                       </div>
+                    </div>
 
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Nhâp lại mật khẩu mới
-                        </label>
+                    <div className="flex justify-between items-center my-6 text-sm">
+                      <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
 
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
-                      </div>
-
-                      <div className={`${styles['btnGroup']}`}>
-
-                        <button>Cập nhật mật khẩu</button>
-                      </div>
-                    </form>
-                  </div> */}
-
-                  <List_Transactions_Instructor />
+                      <Pagination />
+                    </div>
+                  </div>
                 </div>
               </Tabs.TabPane>
 
               {/* Khóa học đã mua */}
               <Tabs.TabPane
                 tab={
-                  <div className="flex items-center justify-center gap-3 hover:text-[#F84563]">
+                  <div className="flex items-center justify-center gap-3">
                     <FileDoneOutlined />
                     Khóa học đã mua
                   </div>
@@ -181,51 +241,18 @@ const Details_User = () => {
                 key="3"
               >
                 {/* Nội dung tab 2 */}
-                <div className={`${styles['tabContent']} p-6 dark:text-[#B9B7C0]`}>
-                  {/* <div className={`${styles['form']} flex space-x-4 p-6`}>
-
-                    <form className={`${styles['formContent']} space-y-6`}>
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Mật khẩu hiện tại
-                        </label>
-
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
-                      </div>
-
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Mật khẩu mới
-                        </label>
-
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
-                      </div>
-
-                      <div className={`${styles['formGroup']} w-[50%]`}>
-                        <label>
-                          Nhâp lại mật khẩu mới
-                        </label>
-
-                        <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
-                      </div>
-
-                      <div className={`${styles['btnGroup']}`}>
-
-                        <button>Cập nhật mật khẩu</button>
-                      </div>
-                    </form>
-                  </div> */}
-
+                <div className={`${styles['tabContent']} p-4 md:p-6 dark:text-[#B9B7C0]`}>
                   <div className="heading">
-                    <h5 className="font-title text-xl">Danh sách khóa học đã mua</h5>
+                    <h5 className="font-title text-lg md:text-2xl">Danh sách khóa học đã mua</h5>
                   </div>
 
-                  <div className="grid grid-cols-3 justify-between gap-6 py-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center w-full gap-4 py-4 md:gap-6 md:py-6">
                     <Card {...cardData} />
                     <Card {...cardData} />
                     <Card {...cardData} />
                     <Card {...cardData} />
                   </div>
+
                 </div>
               </Tabs.TabPane>
             </Tabs>
