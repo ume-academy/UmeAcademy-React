@@ -1,6 +1,6 @@
 import { getTitleTab } from "@/contants/client";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Table, TableColumnsType } from "antd"
+import { Button, message, Modal, Table, TableColumnsType } from "antd";
 import { Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -52,6 +52,7 @@ const List_Role = () => {
       ]
     }
   ]);
+
   const columns: TableColumnsType<Role> = [
     {
       title: "Stt",
@@ -83,16 +84,16 @@ const List_Role = () => {
     {
       title: 'Tools',
       render: ((_: any, item: any) => (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-2">
           <Link to={`/admin/roles/update/${item.id}`}>
-            <Button type='primary' className='ml-2'>
+            <Button type='primary'>
               <Pen size={20} />
             </Button>
           </Link>
 
           <Button
             type='primary'
-            danger className='ml-2'
+            danger
             onClick={() => handleRemove(item)}
           >
             <Trash2 size={20} />
@@ -101,8 +102,8 @@ const List_Role = () => {
       )),
       align: 'center' as const,
     },
-  ]
-  // Xóa bản ghi
+  ];
+
   const handleRemove = (item: any) => {
     Modal.confirm({
       title: (
@@ -115,40 +116,32 @@ const List_Role = () => {
       ),
       okText: 'Đồng ý',
       okType: 'danger',
-      okButtonProps: { // Sửa dấu '=' thành ':'
-        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }, // Màu nền, viền và chữ nút OK
-      },
-      cancelButtonProps: { // Sửa dấu '=' thành ':'
-        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
       },
       cancelText: 'Hủy',
       centered: true,
       maskClosable: false,
       width: 600,
-      icon: null, // Bỏ biểu tượng trong modal
+      icon: null,
       onOk: () => {
         setConfirmLoading(true);
         return new Promise((resolve) => {
           setTimeout(() => {
-            // Logic
             console.log('Đã xóa bản ghi với ID:', item?.id);
 
-            // Alert 
             messageApi.open({
               type: 'success',
               content: 'Xóa thành công!',
             });
 
-            // Dừng loading
             setConfirmLoading(false);
             resolve(undefined);
           }, 2000);
         });
       }
     });
-
-  }
-
+  };
 
   return (
     <div>
@@ -157,25 +150,26 @@ const List_Role = () => {
       </Helmet>
       {contextHolder}
       <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
-        <div className="flex justify-between items-center pb-4">
-          <p className="font-title text-xl">Danh sách phân quyền</p>
+        <div className="flex flex-col md:flex-row justify-between items-center pb-4">
+          <p className="font-title text-lg md:text-xl">Danh sách phân quyền</p>
           <Link
             to={'/admin/roles/create'}
-            className='border border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-3'
+            className='border border-[#F84563] py-2 px-4 md:px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-2 md:gap-3'
           >
             <PlusCircleOutlined />
-            Thêm mới
+            <span className="hidden sm:inline">Thêm mới</span>
           </Link>
         </div>
         <Table
           columns={columns}
-          pagination={false}
+          pagination={{ responsive: true }}
           rowKey="id"
           dataSource={data}
+          scroll={{ x: "max-content" }}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default List_Role
+export default List_Role;

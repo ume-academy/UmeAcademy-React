@@ -21,7 +21,7 @@ const Form_Role = () => {
       setLoading(false);
     }
   };
-  
+
   const permissions = [
     {
       title: 'Quản lý tài khoản',
@@ -43,35 +43,25 @@ const Form_Role = () => {
     }
   ];
 
-
-
   return (
     <div>
       <Helmet>
         <title>{getTitleTab('Quản lý phân quyền')}</title>
       </Helmet>
-      <Form
-        layout='vertical'
-        form={form}
-        onFinish={onFinish}
-        style={{ maxWidth: '100%' }}
-      >
-        <div className="flex justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7">
-          <h5 className='font-title text-xl'>
-            {id ? 'Cập nhật quyền' : 'Thêm mới quyền'}
-          </h5>
-
-          <div className='flex items-center gap-2'>
+      <Form layout="vertical" form={form} onFinish={onFinish} style={{ maxWidth: "100%" }}>
+        <div className="flex flex-wrap gap-y-2 justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7">
+          <h5 className="font-title text-xl">{id ? 'Cập nhật quyền' : 'Thêm mới quyền'}</h5>
+          <div className="flex items-center gap-2">
             <Link
-              to={'/admin/roles'}
-              className='py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
+              to={"/admin/roles"}
+              className="py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]"
             >
               <MoveLeft />
-              <span className='ml-2'>Quay lại</span>
+              <span className="ml-2">Quay lại</span>
             </Link>
             <button
-              type='submit'
-              className='py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]'
+              type="submit"
+              className="py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]"
             >
               {isLoading ? <LoadingOutlined /> : <CheckOutlined />}
               {id ? 'Cập nhật quyền' : 'Thêm mới quyền'}
@@ -79,30 +69,26 @@ const Form_Role = () => {
           </div>
         </div>
 
-
-        <div className='w-full flex justify-between items-start'>
-          <div className='w-[48%] p-10 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg '>
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 items-start">
+          <div className="w-full md:w-1/2 p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg">
             <Form.Item
               name="name"
-              label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên quyền</span>}
-              rules={[{ required: true, message: 'Vui lòng nhập tên quyền!' }]}
+              label={<span className="dark:text-[#b9b7c0] text-[#685f78]">Tên quyền</span>}
+              rules={[{ required: true, message: "Vui lòng nhập tên quyền!" }]}
             >
-              <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78]' />
+              <Input className="formInput p-2 dark:text-[#b9b7c0] text-[#685f78]" />
             </Form.Item>
             <Form.Item
               name="description"
-              label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Mô tả</span>}
+              label={<span className="dark:text-[#b9b7c0] text-[#685f78]">Mô tả</span>}
             >
-              <Input.TextArea className='formInput dark:text-[#b9b7c0] text-[#685f78]' />
+              <Input.TextArea className="formInput dark:text-[#b9b7c0] text-[#685f78]" />
             </Form.Item>
           </div>
 
-          <div className='w-[50%]  pt-10 pl-20  bg-white dark:bg-[#2b2838] rounded-lg'>
+          <div className="w-full md:w-1/2 p-4 bg-white dark:bg-[#2b2838] rounded-lg">
             {permissions.map((permission) => (
-              <Form.Item
-                key={permission.title}
-                label={<span className='dark:text-[#b9b7c0] text-[#685f78] text-[15px]'>{permission.title}</span>}
-              >
+              <Form.Item key={permission.title} label={<span className="dark:text-[#b9b7c0] text-[#685f78] text-[15px]">{permission.title}</span>}>
                 {permission.subPermissions.map((subPermission) => (
                   <div className="pl-4 p-1" key={subPermission.value}>
                     <Checkbox>{subPermission.label}</Checkbox>
@@ -110,9 +96,7 @@ const Form_Role = () => {
                 ))}
               </Form.Item>
             ))}
-
           </div>
-
         </div>
       </Form>
     </div>
