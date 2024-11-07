@@ -1,40 +1,82 @@
 import Footer_Admin from '@/components/admin/Footer/Footer_Admin';
 import Header_Admin from '@/components/admin/Header/Header_Admin';
 import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
+import Sidebar_Mobile_Admin from '@/components/admin/Sidebar/Sidebar_Mobile';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
-import { Layout } from 'antd';
-import React, { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, PieChartOutlined } from '@ant-design/icons';
+import { Layout, MenuProps } from 'antd';
+import { BookUser, FileUser, HandCoins, LibraryBig, PercentCircle, ShieldAlert, Users } from 'lucide-react';
+import React, { useContext, useState } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 
 const { Content } = Layout;
 
+type MenuItem = Required<MenuProps>['items'][number];
 
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
 
 
 const Layout_Admin: React.FC = () => {
 
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
+  const [collapsed, setCollapsed] = useState(false);
+
+  const items: MenuItem[] = [
+    getItem(<NavLink to={'/admin'} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
+    getItem(<NavLink to={'/admin/users'}>Tài khoản</NavLink>, '2', <Users size={15} />),
+    getItem('Danh mục khóa học', 'sub1', <AppstoreOutlined />, [
+      getItem(<NavLink to={'/admin/catalogues'}>Danh sách danh mục</NavLink>, '3', <BarsOutlined />),
+      getItem(<NavLink to={'/admin/catalogues/create'}>Thêm mới danh mục</NavLink>, '4', <AppstoreAddOutlined />),
+    ]),
+    getItem(<NavLink to={'/admin/courses'}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
+    getItem(<NavLink to={'/admin/commission-rate/update'}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
+    getItem('Danh mục giao dịch', 'sub2', <HandCoins size={15} />, [
+      getItem(<NavLink to={'/admin/transactions/instructor'}>Giảng viên</NavLink>, '7', <BookUser size={15} />),
+      getItem(<NavLink to={'/admin/transactions/student'}>Học viên</NavLink>, '8', <FileUser size={15} />),
+    ]),
+    getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
+    getItem(<NavLink to={'/admin/list-payment-method'}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
+  ];
+
+  const handleCollapse = (isCollapsed: any) => {
+    setCollapsed(isCollapsed);
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }} >
       {/* Sidebar Admin */}
-      <Sidebar_Admin />
+      <Sidebar_Admin items={items} />
       {/* End Sidebar Admin */}
+
+      <Sidebar_Mobile_Admin collapsed={collapsed} onCollapse={handleCollapse} items={items}/>
       <Layout>
 
         {/* Header Admin */}
-        <Header_Admin toggleTheme={toggleTheme} theme={theme} />
+        <Header_Admin toggleTheme={toggleTheme} theme={theme} collapsed={collapsed} onCollapse={handleCollapse} />
         {/* End Header Admin */}
 
         <Content className='dark:bg-[#131022] py-2 dark:text-[#b9b7c0]'>
           <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              // background: '#f84563',
-              // borderRadius: borderRadiusLG,
-            }}
+            // style={{
+            //   padding: 24,
+            //   minHeight: 360,
+            //   // background: '#f84563',
+            //   // borderRadius: borderRadiusLG,
+            // }}
 
+            className='p-4 md:p-6'
           >
             <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">
               <Outlet />

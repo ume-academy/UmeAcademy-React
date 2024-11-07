@@ -704,7 +704,8 @@
 
     .content {
       display: flex !important;
-      flex-direction: column !important;
+      flex-direction: column-reverse !important;
+      
       padding: 0 16px;
 
       .left {
@@ -807,13 +808,14 @@
           // color: #000;
           border: 1px solid #e9ecef;
           padding: 16px;
+          
 
           .heading {
             font-size: 16px;
             // color: #392c7d;
           }
 
-          .content {
+          .contentFeedback {
             padding: 0;
 
             .info {

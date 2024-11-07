@@ -1,55 +1,23 @@
 import { logo } from '@/contants/client';
-import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, PieChartOutlined } from "@ant-design/icons";
-import { Menu, MenuProps } from "antd";
+import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { BookUser, FileUser, HandCoins, LibraryBig, PercentCircle, ShieldAlert, Users } from 'lucide-react';
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import './sidebarAntd.scss';
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
+type Sidebar_Props = {
+  items: any
 }
 
-const Sidebar_Admin = () => {
+const Sidebar_Admin: React.FC<Sidebar_Props> = ({ items }) => {
 
   const [collapsed, setCollapsed] = useState(false);
-
-  const items: MenuItem[] = [
-    getItem(<NavLink to={'/admin'} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
-    getItem(<NavLink to={'/admin/users'}>Tài khoản</NavLink>, '2', <Users size={15} />),
-    getItem('Danh mục khóa học', 'sub1', <AppstoreOutlined />, [
-      getItem(<NavLink to={'/admin/catalogues'}>Danh sách danh mục</NavLink>, '3', <BarsOutlined />),
-      getItem(<NavLink to={'/admin/catalogues/create'}>Thêm mới danh mục</NavLink>, '4', <AppstoreAddOutlined />),
-    ]),
-    getItem(<NavLink to={'/admin/courses'}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
-    getItem(<NavLink to={'/admin/commission-rate/update'}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
-    getItem('Danh mục giao dịch', 'sub2', <HandCoins size={15} />, [
-      getItem(<NavLink to={'/admin/transactions/instructor'}>Giảng viên</NavLink>, '7', <BookUser  size={15}/>),
-      getItem(<NavLink to={'/admin/transactions/student'}>Học viên</NavLink>, '8', <FileUser size={15}/>),
-    ]),
-    getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert  size={15} />),
-    getItem(<NavLink to={'/admin/list-payment-method'}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
-  ];
 
   return (
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      className='sidebar bg-[#001529]'
+      className='sidebar bg-[#001529] hidden md:block '
       width={270}
     >
       <div className="flex justify-center p-4 bg-[#001529]" >

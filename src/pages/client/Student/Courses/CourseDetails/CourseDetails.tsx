@@ -391,7 +391,7 @@ const CourseDetails = () => {
                   <h5>Đánh giá</h5>
                 </div>
 
-                <div className={`${styles['content']}`}>
+                <div className={`${styles['contentFeedback']}`}>
                   <div 
                   className={`${styles['info']} 
                     flex 
@@ -412,7 +412,7 @@ const CourseDetails = () => {
 
                       <div className=''>
                         <div className='name font-title text-sm md:text-lg '>
-                          <Link to={''} className='text-white hover:text-[#f66962] text-sm md:text-md'>
+                          <Link to={''} className=' hover:text-[#f66962] text-sm md:text-md'>
                             Nicole Brown
                           </Link>
                         </div>
