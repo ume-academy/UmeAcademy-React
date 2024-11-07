@@ -155,8 +155,8 @@ const List_Transactions_Instructor = () => {
         </Helmet>
       <div className="flex flex-col lg:flex-row lg:justify-between mb-4">
         <p className="text-xl font-semibold">Danh sách giao dịch của giảng viên</p>
-        <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
-          <div className="flex gap-2 items-center mt-4 md:mt-0">
+        <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0">
+          <div className="flex gap-2 items-center">
             <DatePicker
               value={startDate}
               placeholder="Ngày bắt đầu"
@@ -190,7 +190,6 @@ const List_Transactions_Instructor = () => {
         columns={columns}
         dataSource={filteredData()}
         scroll={{ x: "max-content" }}
-        className="dark:text-gray-300"
       />
 
       {isModal && (
