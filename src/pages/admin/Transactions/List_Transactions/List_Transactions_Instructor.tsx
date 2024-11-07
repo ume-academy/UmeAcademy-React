@@ -1,5 +1,5 @@
 import { getTitleTab } from "@/contants/client";
-import { DatePicker, message, Modal, Table, Tag, TreeSelect } from "antd";
+import { DatePicker, Modal, Table, Tag, TreeSelect } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -149,26 +149,25 @@ const List_Transactions_Instructor = () => {
   ]
 
   return (
-    <div className="p-4 dark:bg-gray-800 bg-white rounded-lg">
+    <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
       <Helmet>
-        <title>Quản lý giao dịch</title>
-      </Helmet>
-
+          <title>{getTitleTab('Quản lý giao dịch')}</title>
+        </Helmet>
       <div className="flex flex-col lg:flex-row lg:justify-between mb-4">
-        <p className="text-xl font-semibold dark:text-gray-300 text-gray-700">Danh sách giao dịch của giảng viên</p>
+        <p className="text-xl font-semibold">Danh sách giao dịch của giảng viên</p>
         <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
           <div className="flex gap-2 items-center mt-4 md:mt-0">
             <DatePicker
               value={startDate}
               placeholder="Ngày bắt đầu"
-              className="dark:bg-gray-900 bg-white h-9"
+              className="dark:bg-[#2b2838] bg-white h-9"
               onChange={setStartDate}
             />
             <span className="hidden sm:block">-</span>
             <DatePicker
               value={endDate}
               placeholder="Ngày kết thúc"
-              className="dark:bg-gray-900 bg-white h-9"
+              className="dark:bg-[#2b2838] bg-white h-9"
               onChange={setEndDate}
             />
           </div>
