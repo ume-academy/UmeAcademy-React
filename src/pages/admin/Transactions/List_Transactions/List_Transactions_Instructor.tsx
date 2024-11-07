@@ -92,7 +92,7 @@ const List_Transactions_Instructor = () => {
       title: "Mã giao dịch",
       key: 'id',
       dataIndex: "id",
-      width: 100
+      width: 120
     },
     {
       title: "Họ và tên",
@@ -131,7 +131,7 @@ const List_Transactions_Instructor = () => {
           <Info size={14} />
         </div>
       ),
-      width: 200
+      width: 220
     },
     {
       title: "Trạng thái",
@@ -149,76 +149,76 @@ const List_Transactions_Instructor = () => {
   ]
 
   return (
-    <div>
-      <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4 ">
-        <Helmet>
-          <title>{getTitleTab('Quản lý giao dịch')}</title>
-        </Helmet>
-        <div className="flex justify-between mb-4">
-          <p className="font-title text-xl">Danh sách giao dịch của giảng viên</p>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <DatePicker
-                value={startDate}
-                className="dark:bg-[#2b2838] bg-white h-9"
-                placeholder='Ngày bắt đầu '
-                onChange={(date) => setStartDate(date)}
-              />
-              <p>
-                -
-              </p>
-              <DatePicker
-                value={endDate}
-                className="dark:bg-[#2b2838] bg-white h-9"
-                placeholder='Ngày kết thúc '
-                onChange={(date) => setEndDate(date)}
+    <div className="p-4 dark:bg-gray-800 bg-white rounded-lg">
+      <Helmet>
+        <title>Quản lý giao dịch</title>
+      </Helmet>
 
-              />
-            </div>
-            <CustomTreeSelect
-              placeholder="Lọc theo trạng thái"
-              value={selectedStatus}
-              onChange={(value) => setSelectedStatus(value as string)}
-              className="w-40 h-10"
-              treeData={[
-                { value: 0, title: 'Chờ phê duyệt' },
-                { value: 1, title: 'Đã phê duyệt' },
-                { value: 2, title: 'Đã từ chối' }
-              ]}
-              allowClear
+      <div className="flex flex-col lg:flex-row lg:justify-between mb-4">
+        <p className="text-xl font-semibold dark:text-gray-300 text-gray-700">Danh sách giao dịch của giảng viên</p>
+        <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center">
+          <div className="flex gap-2 items-center mt-4 md:mt-0">
+            <DatePicker
+              value={startDate}
+              placeholder="Ngày bắt đầu"
+              className="dark:bg-gray-900 bg-white h-9"
+              onChange={setStartDate}
+            />
+            <span className="hidden sm:block">-</span>
+            <DatePicker
+              value={endDate}
+              placeholder="Ngày kết thúc"
+              className="dark:bg-gray-900 bg-white h-9"
+              onChange={setEndDate}
             />
           </div>
+          <CustomTreeSelect
+            placeholder="Lọc theo trạng thái"
+            value={selectedStatus}
+            onChange={(value) => setSelectedStatus(value as string)}
+            className="w-full sm:w-40 h-10"
+            treeData={[
+              { value: 0, title: 'Chờ phê duyệt' },
+              { value: 1, title: 'Đã phê duyệt' },
+              { value: 2, title: 'Đã từ chối' },
+            ]}
+            allowClear
+          />
         </div>
-        <Table
-          columns={columns}
-          dataSource={filteredData()} />
       </div>
+
+      <Table
+        columns={columns}
+        dataSource={filteredData()}
+        scroll={{ x: "max-content" }}
+        className="dark:text-gray-300"
+      />
+
       {isModal && (
         <Modal
-          title={<span className='text-red-500 font-title'>Thông tin phương thức thanh toán</span>}
+          title={<span className="text-red-500 font-semibold">Thông tin phương thức thanh toán</span>}
           visible={isModal}
           closable={false}
           footer={null}
-          centered={true}
+          centered
           width={500}
         >
-          <div className='dark:text-[#b9b7c0] text-[#685f78] space-y-2'>
+          <div className="dark:text-gray-300 text-gray-700 space-y-2">
             <p className="font-semibold">Họ và tên: <span className="font-normal">Vũ Ngọc Giao</span></p>
             <p className="font-semibold">Phương thức: <span className="font-normal">Chuyển khoản ngân hàng</span></p>
             <p className="font-semibold">Ngân hàng hưởng thụ: <span className="font-normal">MB Bank</span></p>
             <p className="font-semibold">Số tài khoản: <span className="font-normal">998111999</span></p>
-
             <div className="flex justify-end mt-4">
               <button
                 onClick={() => setIsModal(false)}
-                className="hover:bg-[#F84563] border border-[#F84563] hover:text-white text-[#F84563] bg-white px-6 py-1 rounded-lg transition-all duration-300 ease-in-out">
+                className="px-6 py-1 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300"
+              >
                 Đóng
               </button>
             </div>
           </div>
         </Modal>
       )}
-
     </div>
   )
 }
