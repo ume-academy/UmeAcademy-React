@@ -23,8 +23,8 @@ const List_Users = () => {
   ]);
 
   const [searchText, setSearchText] = useState<string>("");
-  const [selectedRole, setSelectedRole] = useState<number | undefined>(undefined); // Lọc vai trò
-  const [selectedStatus, setSelectedStatus] = useState<number | undefined>(undefined); // Lọc trạng thái
+  const [selectedRole, setSelectedRole] = useState<number | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = useState<number | undefined>(undefined);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -44,7 +44,7 @@ const List_Users = () => {
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
       },
       cancelButtonProps: { 
-        className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
+        className: "custom-cancel-btn",
       },
       cancelText: 'Hủy',
       centered: true,
@@ -105,7 +105,6 @@ const List_Users = () => {
     setSearchText(value);
   };
 
-  // Lọc dữ liệu dựa trên vai trò và trạng thái từ TreeSelect
   const filteredData = data.filter(user => {
     const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
     const isMatchingRole = selectedRole === undefined || user.role === selectedRole;
@@ -138,7 +137,7 @@ const List_Users = () => {
       dataIndex: "created_at",
       key: "created_at",
       render: (created_at) => (
-        <div>{created_at ? new Date(created_at).toLocaleDateString() : "vi-VN"}</div>
+        <div>{created_at ? new Date(created_at).toLocaleDateString("vi-VN") : ""}</div>
       ),
       width: 150
     },
@@ -166,7 +165,7 @@ const List_Users = () => {
         <CustomTreeSelect
           value={record.role}
           treeDefaultExpandAll
-          className="w-[120px]"
+          className="w-full md:w-32"
           onChange={(value) => handleChangeRole(record.id, value as number)}
           treeData={[
             { value: 1, title: <span className="text-[#ff4667]">Admin</span> },
@@ -196,8 +195,8 @@ const List_Users = () => {
         <title>{getTitleTab('Quản lý tài khoản')}</title>
       </Helmet>
       <p className="mb-4 font-title text-xl">Danh sách người dùng</p>
-      <div className="flex gap-2">
-        <div className="relative mb-4">
+      <div className="flex flex-wrap gap-2">
+        <div className="relative mb-4 w-full md:w-1/3 lg:w-1/4">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
             <Search size={20} />
           </span>
@@ -205,27 +204,25 @@ const List_Users = () => {
             placeholder="Tìm theo email"
             value={searchText}
             onChange={(e) => handleSearch(e.target.value)}
-            className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] py-2 pl-10 rounded-lg w-60'
+            className="border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] py-2 pl-10 rounded-lg w-full"
           />
         </div>
-        {/* Lọc theo Trạng thái */}
         <CustomTreeSelect
           placeholder="Lọc theo trạng thái"
           value={selectedStatus}
           onChange={(value) => setSelectedStatus(value as number)}
-          className="mb-4 w-40 h-10"
+          className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
           treeData={[
             { value: 0, title: 'Khóa' },
             { value: 1, title: 'Mở' }
           ]}
           allowClear
         />
-        {/* Lọc theo Vai trò */}
         <CustomTreeSelect
           placeholder="Lọc theo vai trò"
           value={selectedRole}
           onChange={(value) => setSelectedRole(value as number)}
-          className="mb-4 w-40 h-10"
+          className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
           treeData={[
             { value: 1, title: 'Admin' },
             { value: 0, title: 'User' }
@@ -238,7 +235,9 @@ const List_Users = () => {
         pagination={false}
         dataSource={filteredData}
         rowKey="id"
+        scroll={{ x: "max-content" }}
       />
+      {contextHolder}
     </div>
   );
 };
