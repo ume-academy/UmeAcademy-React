@@ -37,6 +37,7 @@ import List_Payment_Method from './pages/admin/Payment_Method/List_Payment_Metho
 import List_Transactions_Student from './pages/admin/Transactions/List_Transactions/List_Transactions_Student'
 import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
 import Details_User from './pages/admin/User/Details_User/Details_User'
+import Profile_Teacher from './pages/client/Teacher/Profile_Teacher/Profile_Teacher'
 
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
               </Layout_Client>
             ) : (
               <Layout_Client>
-                <Profile />
+                <Profile_Teacher />
               </Layout_Client>
             )
           }

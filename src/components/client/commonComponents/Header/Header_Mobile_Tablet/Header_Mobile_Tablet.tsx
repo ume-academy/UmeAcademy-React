@@ -109,6 +109,7 @@ const Header_Mobile_Tablet = () => {
                 </>
               )}
               
+              <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to='/profile'>Hồ sơ</Link>
               
               <button className='w-full flex justify-start px-3 py-2 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]'>Đăng xuất</button>
               {/*<===== KHÔNG ĐƯỢC XÓA Dùng cho đăng kí đăng nhập ====> */}

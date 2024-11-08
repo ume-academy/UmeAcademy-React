@@ -148,7 +148,7 @@ const Details_User = () => {
 
                   <div className={`${styles['form']} flex space-x-4 p-6`}>
                     <div className={`${styles['heading']} pb-6`}>
-                      <h2 className="font-title text-lg md:text-2xl">Thông tin cá nhân</h2>
+                      <h3 className="font-title text-lg md:text-2xl">Thông tin cá nhân</h3>
                     </div>
 
                     <div className="flex flex-col gap-2 md:gap-4">
@@ -211,7 +211,7 @@ const Details_User = () => {
                 <div className={`${styles['tabContent']} dark:text-[#B9B7C0] `}>
 
                   <div className="p-4 md:p-4 lg:p-0">
-                    <div className={`${styles['parent']} dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
+                    <div className={`${styles['parent']} p-4 dark:border-transparent dark:bg-[#2B2838] bg-white border border-[#e9ecef] rounded-xl`}>
                       <div className={`${styles['heading']} dark:border-b-[#5a5a5a] border-b-[#e9ecef] dark:text-[#b9b7c0] text-[#685f78] font-title text-lg md:text-2xl pb-4`}>
                         <h3>Danh sách học viên</h3>
                       </div>
