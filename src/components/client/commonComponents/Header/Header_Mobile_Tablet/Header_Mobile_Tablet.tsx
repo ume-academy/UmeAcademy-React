@@ -7,7 +7,7 @@ import { AlignJustify, X } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { Link, useNavigate } from 'react-router-dom'
-import './Header_Mobile_Tablet_Antd.scss'
+import styled from 'styled-components'
 
 const Header_Mobile_Tablet = () => {
   const nav = useNavigate()
@@ -68,6 +68,21 @@ const Header_Mobile_Tablet = () => {
     setOpen(false);
   };
 
+  const CustomDrawer = styled(Drawer)`
+  .ant-drawer-header { 
+    padding: 16px 24px 16px 12px;
+  }
+
+  .dark .ant-drawer-header {
+    background-color: red;
+  }
+
+  .ant-drawer-body {
+    background: #f66962;
+    padding: 0;
+  }
+  `
+
   return (
     // bg-red-400 md:bg-blue-400
     <div>
@@ -81,11 +96,11 @@ const Header_Mobile_Tablet = () => {
               <Button className='bg-transparent border-none shadow-none p-2' onClick={showDrawer}>
                 <AlignJustify  color='#f66962' size={26} />
               </Button>
-            <Drawer
+            <CustomDrawer
               title={
                     <div className='flex items-center justify-between'>
                       <img src={logo} className='w-[140px] h-[38px] object-cover' alt='' width={100} height={50} />
-                      <X className='mt-1' size={26} color={theme === 'light' ? '#333' : '#fff'} onClick={onClose} />
+                      <X className='mt-1' size={26} color={'#333'} onClick={onClose} />
                     </div>
               }
               placement={placement}
@@ -115,7 +130,7 @@ const Header_Mobile_Tablet = () => {
               {/*<===== KHÔNG ĐƯỢC XÓA Dùng cho đăng kí đăng nhập ====> */}
               {/* <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to='/login'>Đăng nhập</Link>
               <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to='/register'>Đăng ký</Link> */}
-            </Drawer>
+            </CustomDrawer>
           </div>
 
           {/* div Logo */}

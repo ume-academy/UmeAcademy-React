@@ -1,9 +1,10 @@
 import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from "@ant-design/icons";
-import { Collapse, CollapseProps, Input, message, Modal, Tooltip, UploadFile } from "antd";
+import { Collapse, CollapseProps, Input, message, Modal, UploadFile } from "antd";
 import Upload, { UploadProps } from "antd/es/upload/Upload";
 import { ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 import './Form_Lesson_Antd.scss';
+
 interface Props  {
   theme : 'dark' | 'light',
   id?: number,
@@ -156,13 +157,13 @@ const FormLesson = ({theme, id} : Props) => {
                 action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                 > 
                   {fileList.length === 0 && (
-                    <button className="w-[800px] border-[2px] px-4 py-1 border-[#ff5364] rounded-lg text-[12px] text-[#ff5364] font-subtitle"><UploadOutlined size={22} style={{ color: '#f66962',marginRight:8 }} />Upload</button>
+                    <button className="w-[30vh] lg:w-[800px] border-[2px] px-4 py-1 border-[#ff5364] rounded-lg text-[12px] text-[#ff5364] font-subtitle"><UploadOutlined size={22} style={{ color: '#f66962',marginRight:8 }} />Upload</button>
                   )}
                 </Upload>
               <DeleteOutlined onClick={() => handleChangeDeleteChapter(2)} className="flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]" />
             </div>
             <Upload {...propsUpload}>
-              <button className="flex items-center justify-center border-[2px] rounded-lg border-[#ff5364] text-[#ff5364] text-[12px] px-2 py-1 font-subtitle"><Plus size={12} color="#ff5364" className="mr-1" /> Tài nguyên</button>
+              <button className="w-[30vh] lg:w-[800px]  flex items-center justify-center border-[2px] rounded-lg border-[#ff5364] text-[#ff5364] text-[12px] px-2 py-1 font-subtitle"><Plus size={12} color="#ff5364" className="mr-1" /> Tài nguyên</button>
             </Upload>
           </div>
       </>
@@ -209,7 +210,8 @@ const FormLesson = ({theme, id} : Props) => {
   // <==== Kết thúc collapse cha ====>
 
   return (
-    <div className='shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] rounded-lg py-12 px-14 min-h-[460px] flex flex-col justify-between dark:bg-[#2b2838]'>
+    <div className="px-[16px]">
+      <div className='shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] rounded-lg p-[16px] lg:p-14 min-h-[460px] flex flex-col justify-between dark:bg-[#2b2838]'>
         <h4 className='text-[28px] font-title text-[#f66962] mb-6'>Chương trình giảng dạy</h4>
         <div className="flex-grow">
           <Collapse
@@ -227,6 +229,7 @@ const FormLesson = ({theme, id} : Props) => {
         <div className="flex justify-end mt-12">
             <button onClick={() => handleFormChapter()} className=" w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]">thêm phần</button>
         </div> 
+    </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ModeProvider>
         <ThemeProvider >
-          <ConfigProvider theme={{hashed: false}}>
+          <ConfigProvider theme={{hashed: false}} wave={{disabled: true}} >
             <App />
           </ConfigProvider>
         </ThemeProvider>

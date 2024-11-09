@@ -17,7 +17,7 @@ export const logo = '/assets/images/client/Logo/logo.png' //biến dùng cho log
 
 export const backgroundImageCommon = '/assets/images/client/homeBGR/banner.png' //biến dùng cho bgr dùng chung
 
-export const imageIntroduce = '/assets/images/client/homeBGR/introduce.png' //biến dùng cho bgr dùng chung
+export const imageIntroduce = '/assets/images/client/homeBGR/introduce.webp' //biến dùng cho bgr dùng chung
 
 export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png' //biến dùng cho bgr dùng chung
 
@@ -66,7 +66,10 @@ export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/e
 // Tiêu đề các bước trong quản trị khóa học
 export const itemsStep_CourseManagement = [
   {
-    title: 'Trang tổng quan'
+    title: 'Tổng quan'
+  },
+  {
+    title: 'Mục tiêu'
   },
   {
     title: 'Chương trình giảng dạy'

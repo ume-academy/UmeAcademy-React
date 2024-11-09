@@ -139,8 +139,8 @@ const Header = () => {
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>
-              <Link to={mode === 'student' ? `/` : '/'}>
-                <img src={logo} className='w-full h-full object-cover' alt='' width={100} height={50} />
+              <Link to={mode === 'student' ? `http://localhost:5173/` : 'http://localhost:5173/'}>
+                <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
             {mode === 'student' && (
@@ -227,15 +227,13 @@ const Header = () => {
 
             {/* dropdown */}
             <Dropdown menu={{ items }} trigger={['click']} placement='topRight' overlayStyle={{}}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
+                <Space className='' onClick={(e) => e.preventDefault()}>
                   <Avatar
                     size={50}
                     className='border-[2px] border-[#b9b7c0]'
                     src={`https://cdn.tuoitre.vn/thumb_w/480/2019/4/2/img3288-1554167712373426332952-1554167744717309258379-1554199988684557173348.png`}
                   />
                 </Space>
-              </a>
             </Dropdown>
             {/* Khi có data thật đây là nút Đăng ký đăng nhập */}
             {/* <Link to={`/login`} className="mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]">Đăng Nhập</Link> */}

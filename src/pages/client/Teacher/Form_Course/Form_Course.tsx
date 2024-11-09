@@ -34,8 +34,8 @@ const Form_Course = () => {
   `
 
   // state loading khi click nút
-  const [loading, setLoading] = useState(false)
   const nav = useNavigate()
+  const [loading, setLoading] = useState(false)
   const handleClick = () => {
     setLoading(true)
     // Giả lập quá trình chờ dữ liệu tải
@@ -51,7 +51,7 @@ const Form_Course = () => {
 
   return (
     <div className='px-[16px]'>
-      <div className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)] py-12' : 'p-6 lg:p-14'} rounded-lg dark:bg-[#2b2838]`}>
+      <div className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)]' : ''} p-[16px] lg:p-14 rounded-lg dark:bg-[#2b2838]`}>
         <div className=''>
           <h4 className='text-[28px] font-title text-[#f66962] mb-6'>{id ? 'Cập nhật khóa học' : 'Tạo khóa học mới'}</h4>
 
@@ -142,6 +142,17 @@ const Form_Course = () => {
             </Dragger>
           </div>
           
+          {/* Tóm tắt */}
+          <div className='mb-6'>
+            <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tóm tắt khóa học</label>
+            <textarea
+              className='mt-3 py-[6px] px-[16px] w-full  bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
+              h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+              focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] min-h-[150px] rounded-lg leading-[1.5]'
+              placeholder='Mô tả'
+            />
+          </div>
+
           {/* Mô tả */}
           <div className='mb-6'>
             <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>
