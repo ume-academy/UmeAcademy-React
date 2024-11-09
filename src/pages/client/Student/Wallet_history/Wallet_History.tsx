@@ -182,7 +182,7 @@ const Wallet_History = () => {
           dataSource={wallet}
           pagination={false}
           className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 md:p-6 '
-          scroll={{ x: 966 }}
+          scroll={{ x: 670 }}
         />
       </div>
       <div className='flex justify-end mt-10'>

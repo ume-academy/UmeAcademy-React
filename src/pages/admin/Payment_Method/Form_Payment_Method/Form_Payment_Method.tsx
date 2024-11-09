@@ -51,13 +51,13 @@ const Form_Payment_Method = () => {
         <title>{getTitleTab(id ? 'Cập nhật phương thức thanh toán' : 'Thêm mới phương thức thanh toán')}</title>
       </Helmet>
       <Form layout='vertical' form={form} onFinish={onFinish} style={{ maxWidth: '100%' }}>
-        <div className='flex justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7'>
+        <div className='flex justify-between flex-col items-start md:flex-col lg:flex-row lg:items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7 md:mb-7 lg:mb-0'>
           <h5 className='font-title text-xl'>{id ? 'Cập nhật phương thức thanh toán' : 'Thêm mới phương thức thanh toán'}</h5>
 
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-2 mt-4 md:mt-4 lg:mt-0'>
             <Link
               to={'/admin/list-payment-method'}
-              className='py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
+              className='py-2 px-2 md:px-4 lg:px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
             >
               <MoveLeft />
               <span className='ml-2'>Quay lại</span>
@@ -72,7 +72,7 @@ const Form_Payment_Method = () => {
         </div>
 
         <div className='w-full'>
-          <div className='p-10 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg'>
+          <div className='p-4 md:p-4 lg:p-10 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg'>
             <Form.Item
               name='name'
               label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên phương thức</span>}
@@ -117,14 +117,15 @@ const Form_Payment_Method = () => {
                 rules={[{ required: true, message: 'Vui lòng nhập dữ liệu bổ sung!' }]}
                 className='mb-8'
               >
-                <div className="flex">
-                <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78] w-[96%]' /> 
+                <div className="flex justify-between">
+                <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78] w-[90%] md:w-[94%] lg:w-[96%]' /> 
                 <div className="flex justify-end w-[4%]">
                   <button 
+                  className='lg:px-4'
                   type='button'
                   onClick={() => removeExtraField(key)}
                   >
-                    <DeleteOutlined className=' dark:text-[#f66962]'/>
+                    <DeleteOutlined className='text-[18px] md:text-[18px] lg:text-[16px] dark:text-[#f66962]'/>
                   </button>
                 </div>
                 </div>

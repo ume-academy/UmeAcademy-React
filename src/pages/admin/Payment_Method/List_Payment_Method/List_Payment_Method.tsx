@@ -73,17 +73,18 @@ const List_Payment_Method = () => {
       <Helmet>
         <title>{getTitleTab('Quản lý phương thức thanh toán')}</title>
       </Helmet>
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-between flex-col md:flex-row lg:flex-row mb-4">
           <p className="font-title text-xl">Danh sách phương thức thanh toán</p>
           <Link
             to={'/admin/form-payment-method'}
-            className='border border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-3'
+            className='border mt-4 md:mt-0 lg:mt-0 w-[140px] flex justify-center items-center border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] gap-3'
           >
             <PlusCircleOutlined />
             Thêm mới
           </Link>
         </div>
       <Table
+        scroll={{ x: 966 }}
         dataSource={data}
         columns={columns}
         pagination={false}
