@@ -1,5 +1,5 @@
 import { HeartOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
-import { Avatar, GetProp, Menu, MenuProps, Modal, Rate } from 'antd'
+import { Avatar, FloatButton, GetProp, Menu, MenuProps, Modal, Rate } from 'antd'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
@@ -585,421 +585,261 @@ const CourseDetails = () => {
 
                 {/* modal feedback */}
                 <Modal
-                  // title="Modal 1000px width"
                   centered
                   open={feedbackOpen}
                   onOk={() => setFeedbackOpen(false)}
                   onCancel={() => setFeedbackOpen(false)}
                   width={1000}
                   footer={null}
-                  style={{ height: '100vh' }}
+                  className="md:h-auto h-[100vh] pb-2 md:pb-0" // h-auto cho màn hình lớn và 100vh cho mobile
                 >
-                  <div>
+                  <div className="h-auto md:h-[500px]">
                     <div className="headingFeedbackModal dark:text-[#B9B7C0] text-[#392c7d] font-subtitle">
-                      <h5 className='flex items-center gap-2'><StarFilled className='text-yellow-400' /> 4,6/5 . 324 lượt đánh giá</h5>
+                      <h5 className="text-md md:text-lg flex items-center gap-2">
+                        <StarFilled className="text-yellow-400" /> 4,6/5 sao trên 324 lượt đánh giá
+                      </h5>
                     </div>
 
-                    <div className="contentFeedbackModal  flex flex-col md:flex-row items-stretch py-6">
+                    <div className="contentFeedbackModal flex flex-col md:flex-row items-stretch py-6">
                       {/* rating chart */}
                       <div className="left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]">
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
-                            <Rate disabled value={5} className='min-w-[140px]' />
+                            <Rate disabled value={5} className="min-w-[140px]" />
                             <span>71%</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Rate disabled value={4} className='min-w-[140px]' />
+                            <Rate disabled value={4} className="min-w-[140px]" />
                             <span>24%</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Rate disabled value={3} className='min-w-[140px]' />
+                            <Rate disabled value={3} className="min-w-[140px]" />
                             <span>3%</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Rate disabled value={2} className='min-w-[140px]' />
+                            <Rate disabled value={2} className="min-w-[140px]" />
                             <span>1%</span>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Rate disabled value={1} className='min-w-[140px] text-yellow-200' />
+                            <Rate disabled value={1} className="min-w-[140px] text-yellow-200" />
                             <span>1%</span>
                           </div>
                         </div>
 
                         <div className="">
                           <form action="">
-                            <input type="text" placeholder='Tìm kiếm đánh giá' className='border p-2 w-full' />
+                            <input type="text" placeholder="Tìm kiếm đánh giá" className="border p-2 w-full" />
                           </form>
                         </div>
                       </div>
 
-                      <div className="right flex-1 p-0 md:p-6">
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
+                      <div className="right flex-1 p-0 md:p-6 relative w-full h-[480px]">
+                        <div className="flex-1 overflow-y-auto h-full px-0 md:px-4">
+                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                            <div
+                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                            >
+                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                <div className={`${styles['avt']}`}>
+                                  <Avatar
+                                    src={'https://i.pravatar.cc/300'}
+                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                  />
                                 </div>
 
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
+                                <div className="">
+                                  <div className="name font-title text-sm md:text-lg">
+                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                      Nicole Brown
+                                    </Link>
+                                  </div>
 
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
+                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                    {/* feedback at */}
+                                    <span>1 tháng trước</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
-                                </div>
-
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
-
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
-                                </div>
-                              </div>
+                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                Cristian!
+                              </p>
                             </div>
                           </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
+                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                            <div
+                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                            >
+                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                <div className={`${styles['avt']}`}>
+                                  <Avatar
+                                    src={'https://i.pravatar.cc/300'}
+                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                  />
                                 </div>
 
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
+                                <div className="">
+                                  <div className="name font-title text-sm md:text-lg">
+                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                      Nicole Brown
+                                    </Link>
+                                  </div>
 
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
+                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                    {/* feedback at */}
+                                    <span>1 tháng trước</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
-                                </div>
-
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
-
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
-                                </div>
-                              </div>
+                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                Cristian!
+                              </p>
                             </div>
                           </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
+                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                            <div
+                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                            >
+                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                <div className={`${styles['avt']}`}>
+                                  <Avatar
+                                    src={'https://i.pravatar.cc/300'}
+                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                  />
                                 </div>
 
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
+                                <div className="">
+                                  <div className="name font-title text-sm md:text-lg">
+                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                      Nicole Brown
+                                    </Link>
+                                  </div>
 
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
+                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                    {/* feedback at */}
+                                    <span>1 tháng trước</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
-                                </div>
-
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
-
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
-                                </div>
-                              </div>
+                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                Cristian!
+                              </p>
                             </div>
                           </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
+                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                            <div
+                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                            >
+                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                <div className={`${styles['avt']}`}>
+                                  <Avatar
+                                    src={'https://i.pravatar.cc/300'}
+                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                  />
                                 </div>
 
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
+                                <div className="">
+                                  <div className="name font-title text-sm md:text-lg">
+                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                      Nicole Brown
+                                    </Link>
+                                  </div>
 
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
+                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                    {/* feedback at */}
+                                    <span>1 tháng trước</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                          <div
-                            className={`${styles['info']} 
-                              flex 
-                              flex-col 
-                              justify-start 
-                              items-start 
-                              space-y-2 
-                              md:space-y-0 
-                              md:justify-between 
-                              md:items-center 
-                              md:flex-row 
-                            `}>
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                              <div className={`${styles['avt']}`}>
-                                <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px] ' />
-                              </div>
-
-                              <div className=''>
-                                <div className='name font-title text-sm md:text-lg '>
-                                  <Link to={''} className=' hover:text-[#f66962] text-md md:text-md'>
-                                    Nicole Brown
-                                  </Link>
-                                </div>
-
-                                <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={4.5} className='text-[16px]' />
-
-                                  {/* feedback at */}
-                                  <span>1 tháng trước</span>
-                                </div>
-                              </div>
+                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                Cristian!
+                              </p>
                             </div>
                           </div>
 
-                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                            <p className='text-justify py-3 text-sm md:text-md md:py-6'>
-                              Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                              từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                              cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                              Cristian!
-                            </p>
+                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                            <div
+                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                            >
+                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                <div className={`${styles['avt']}`}>
+                                  <Avatar
+                                    src={'https://i.pravatar.cc/300'}
+                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                  />
+                                </div>
+
+                                <div className="">
+                                  <div className="name font-title text-sm md:text-lg">
+                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                      Nicole Brown
+                                    </Link>
+                                  </div>
+
+                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                    {/* feedback at */}
+                                    <span>1 tháng trước</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                Cristian!
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </Modal>
+
+
               </div>
 
               {/* Post Comment */}

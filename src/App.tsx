@@ -38,6 +38,7 @@ import List_Transactions_Student from './pages/admin/Transactions/List_Transacti
 import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
 import Details_User from './pages/admin/User/Details_User/Details_User'
 import Profile_Teacher from './pages/client/Teacher/Profile_Teacher/Profile_Teacher'
+import List_Refund from './pages/admin/Refund/List_Refund/List_Refund'
 
 
 function App() {
@@ -130,6 +131,10 @@ function App() {
           <Route path='/admin/list-payment-method' element={<List_Payment_Method />} />
           <Route path='/admin/form-payment-method' element={<Form_Payment_Method />} />
           <Route path='/admin/form-payment-method/:id' element={<Form_Payment_Method />} />
+
+          {/* Route danh sách sản phẩm hoàn tiền */}
+          <Route path='/admin/refund-courses' element={<List_Refund />} />
+
 
         </Route>
 

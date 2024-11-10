@@ -4,6 +4,8 @@ import { Pen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './listCatalogues.scss';
+import { Helmet } from 'react-helmet';
+import { getTitleTab } from '@/contants/client';
 
 const List_Catalogues = () => {
 
@@ -30,10 +32,10 @@ const List_Catalogues = () => {
       ),
       okText: 'Đồng ý',
       okType: 'danger',
-      okButtonProps: { // Sửa dấu '=' thành ':'
-        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }, // Màu nền, viền và chữ nút OK
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
       },
-      cancelButtonProps: { // Sửa dấu '=' thành ':'
+      cancelButtonProps: {
         className: "custom-cancel-btn", // Thêm lớp CSS tùy chỉnh
       },
       cancelText: 'Hủy',
@@ -129,6 +131,9 @@ const List_Catalogues = () => {
   return (
     <>
       {contextHolder}
+      <Helmet>
+        <title>{getTitleTab('Danh sách danh mục')}</title>
+      </Helmet>
       <div className="p-4 md:p-6">
         <div className="heading flex justify-between items-center pb-4 ">
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78] w-[60%] md:w-full'>Danh sách danh mục khóa học</h5>

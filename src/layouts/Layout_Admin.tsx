@@ -3,7 +3,7 @@ import Header_Admin from '@/components/admin/Header/Header_Admin';
 import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
 import Sidebar_Mobile_Admin from '@/components/admin/Sidebar/Sidebar_Mobile';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
-import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, PieChartOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, HistoryOutlined, PieChartOutlined } from '@ant-design/icons';
 import { Layout, MenuProps } from 'antd';
 import { BookUser, FileUser, HandCoins, LibraryBig, PercentCircle, ShieldAlert, Users } from 'lucide-react';
 import React, { useContext, useState } from 'react';
@@ -48,6 +48,7 @@ const Layout_Admin: React.FC = () => {
     ]),
     getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
     getItem(<NavLink to={'/admin/list-payment-method'}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
+    getItem(<NavLink to={'/admin/refund-courses'}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
   ];
 
   const handleCollapse = (isCollapsed: any) => {
@@ -69,13 +70,6 @@ const Layout_Admin: React.FC = () => {
 
         <Content className='dark:bg-[#131022] py-2 dark:text-[#b9b7c0]'>
           <div
-            // style={{
-            //   padding: 24,
-            //   minHeight: 360,
-            //   // background: '#f84563',
-            //   // borderRadius: borderRadiusLG,
-            // }}
-
             className='p-4 md:p-6'
           >
             <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">

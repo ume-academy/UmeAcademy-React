@@ -3,6 +3,8 @@ import { Form, Input } from 'antd';
 import { MoveLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './catalogForm.scss';
+import { Helmet } from 'react-helmet';
+import { getTitleTab } from '@/contants/client';
 
 const Catalog_Form_Submit = () => {
 
@@ -16,6 +18,9 @@ const Catalog_Form_Submit = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{getTitleTab(id ? 'Cập nhật danh mục' : 'Sản phẩm danh mục')}</title>
+      </Helmet>
       <div className="p-4">
         <div className="heading flex justify-between items-center pb-4">
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>
@@ -44,7 +49,7 @@ const Catalog_Form_Submit = () => {
             md:py-2 md:px-5
             '
           >
-            <MoveLeft size={16}/>
+            <MoveLeft size={16} />
             <span className='ml-2'>Quay lại</span>
           </Link>
         </div>
