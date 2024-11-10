@@ -129,16 +129,16 @@
         border: 1px solid #e9ecef;
 
 
-        .heading {
+        .headingFeedback {
           font-size: 18px;
           // color: #392c7d;
           font-size: 18px;
         }
 
-        .content {
-          .info {
-            border-bottom: 1px solid #e2e2e2;
-          }
+        .contentFeedback {
+          // .info {
+          //   // border-bottom: 1px solid #e2e2e2;
+          // }
 
           .text {
             p {
@@ -463,12 +463,12 @@
           border: 1px solid #e9ecef;
           padding: 16px;
 
-          .heading {
-            font-size: 18px;
+          .headingFeedback {
+            font-size: 14px;
             // color: #392c7d;
           }
 
-          .content {
+          .contentFeedback {
             padding: 0;
 
             .info {

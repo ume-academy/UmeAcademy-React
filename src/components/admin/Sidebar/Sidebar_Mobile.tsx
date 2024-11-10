@@ -3,6 +3,7 @@ import Sider from "antd/es/layout/Sider";
 import React from "react";
 import { Link } from "react-router-dom";
 import './sidebarAntd.scss';
+import { CloseOutlined } from "@ant-design/icons";
 
 type Sidebar_Props = {
   collapsed: any,
@@ -26,8 +27,12 @@ const Sidebar_Mobile: React.FC<Sidebar_Props> = ({ collapsed, onCollapse, items 
         theme="dark"
         trigger={null}
       >
-        <div className="flex justify-center p-4 bg-[#001529]" >
+        <div className="flex justify-between p-4 bg-[#001529]" >
           <Link to={'/admin'} className="font-title">ADMINISTRATOR</Link>
+
+          <span onClick={() => onCollapse(true)}>
+            <CloseOutlined />
+          </span>
         </div>
         <Menu mode="inline" theme="dark" defaultSelectedKeys={['4']} items={items} onClick={() => onCollapse(true)} />
       </Sider>
