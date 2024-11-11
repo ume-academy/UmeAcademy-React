@@ -39,6 +39,7 @@ import List_Transactions_Instructor from './pages/admin/Transactions/List_Transa
 import Details_User from './pages/admin/User/Details_User/Details_User'
 import Profile_Teacher from './pages/client/Teacher/Profile_Teacher/Profile_Teacher'
 import List_Refund from './pages/admin/Refund/List_Refund/List_Refund'
+import Search from './pages/client/Student/Search/Search'
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
             <Route path='/course-payment-method' element={<Course_Payment_Method />} />
             <Route path='/course/:id' element={<CourseDetails />} />
             <Route path='/course/:id/lesson' element={<Lesson />} />
+            <Route path='/search' element={<Search />} />
           </Route>
         ) : (
           <>
