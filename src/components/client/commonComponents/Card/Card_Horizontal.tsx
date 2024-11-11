@@ -77,7 +77,7 @@ const Card_Horizontal = ({
             </div>
 
             <div className="space-y-5">
-              <h3 className="text-[17px] h-12 hover:text-[#ff5364] w-[90%] line-clamp-2 py-4">
+              <h3 className="text-[17px] h-12 hover:text-[#ff5364] w-[90%] md:w-full line-clamp-2 py-4">
                 {title}
               </h3>
               <div className="flex items-center gap-4 pb-4">

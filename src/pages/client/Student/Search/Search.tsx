@@ -2,8 +2,17 @@ import { CardProps } from '@/components/client/commonComponents/Card/Card';
 import Card_Horizontal from '@/components/client/commonComponents/Card/Card_Horizontal';
 import { Checkbox, Form } from 'antd';
 import { Filter } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Search = () => {
+
+  const location = useLocation();
+
+  const queryURL = new URLSearchParams(location.search);
+
+  const query = queryURL.get('q');
+
+  // console.log(queryURL.get('q'))
 
   //data card
   const cardData: CardProps = {
@@ -21,16 +30,21 @@ const Search = () => {
 
   return (
     <div className='py-24 max-w-[1280px] mx-auto px-4 md:px-0'>
-      <div className="flex flex-col md:flex-row gap-8 md:gap-6 ">
+      <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-6 ">
         <div className="left w-full md:w-[70%] space-y-4">
-          <Card_Horizontal {...cardData} />
+          <div className="">
+            <h5 className='font-title text-md md:text-xl dark:text-[#B9B7C0] pt-2'>Kết quả tìm kiếm cho: <span>"{query}"</span></h5>
+          </div>
 
-          <Card_Horizontal {...cardData} />
+          <div className="space-y-4 md:space-y-6">
+            <Card_Horizontal {...cardData} />
 
-          <Card_Horizontal {...cardData} />
+            <Card_Horizontal {...cardData} />
 
-          <Card_Horizontal {...cardData} />
+            <Card_Horizontal {...cardData} />
 
+            <Card_Horizontal {...cardData} />
+          </div>
         </div>
 
 
@@ -39,13 +53,13 @@ const Search = () => {
             layout="horizontal"
             className='space-y-4 md:space-y-6'
           >
-            <div className="heading flex items-center gap-2">
+            <div className="heading flex items-center gap-2 dark:text-[#B9B7C0]">
               <Filter size={24} />
-              <h5 className='font-title text-md md:text-xl'>Bộ lọc</h5>
+              <h5 className='font-title text-md md:text-xl '>Bộ lọc</h5>
             </div>
 
             <div className="p-4 border border-grey-200 rounded-md text-md md:text-lg">
-              <div className="font-semibold">
+              <div className="font-semibold dark:text-[#B9B7C0]">
                 Danh mục khóa học
               </div>
 
@@ -85,7 +99,7 @@ const Search = () => {
             </div>
 
             <div className="p-4 border border-grey-200 rounded-md text-md md:text-lg">
-              <div className="font-semibold">
+              <div className="font-semibold dark:text-[#B9B7C0]">
                 Danh mục giảng viên
               </div>
 
@@ -109,7 +123,7 @@ const Search = () => {
             </div>
 
             <div className="p-4 border border-grey-200 rounded-md text-md md:text-lg">
-              <div className="font-semibold">
+              <div className="font-semibold dark:text-[#B9B7C0]">
                 Giá tiền
               </div>
 
