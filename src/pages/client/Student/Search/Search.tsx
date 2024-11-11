@@ -34,7 +34,7 @@ const Search = () => {
         </div>
 
 
-        {/* <div className="right w-full md:w-[30%]">
+        <div className="right w-full md:w-[30%]">
           <Form
             layout="horizontal"
             className='space-y-4 md:space-y-6'
@@ -128,7 +128,7 @@ const Search = () => {
               </div>
             </div>
           </Form>
-        </div> */}
+        </div>
       </div>
     </div>
   )
