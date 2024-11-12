@@ -138,9 +138,9 @@ const List_Transactions_Student = () => {
       dataIndex: "status",
       key: "status",
       render: (status: 0 | 1 | 2) => (
-        <Tag className="text-sm py-1 px-2" color={status === 0 ? "blue" : status === 1 ? "green" : "red"}>
+        <Tag className="text-sm py-1 px-2 min-w-[120px] text-center" color={status === 0 ? "blue" : status === 1 ? "green" : "red"}>
           {
-            status === 0 ? "Chờ phê duyệt" : status === 1 ? "Đã phê duyệt" : "Đã từ chối"
+            status === 0 ? "Chưa thanh toán" : status === 1 ? "Đã thanh toán" : "Đã từ chối"
           }
         </Tag>
       ),
@@ -176,8 +176,8 @@ const List_Transactions_Student = () => {
             onChange={(value) => setSelectedStatus(value as string)}
             className="w-full sm:w-40 h-10"
             treeData={[
-              { value: 0, title: 'Chờ phê duyệt' },
-              { value: 1, title: 'Đã phê duyệt' },
+              { value: 0, title: 'Chưa thanh toán' },
+              { value: 1, title: 'Đã thanh toán' },
               { value: 2, title: 'Đã từ chối' },
             ]}
             allowClear

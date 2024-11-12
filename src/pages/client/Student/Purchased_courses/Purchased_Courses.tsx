@@ -8,7 +8,6 @@ import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
-  //data card
   const cardData: CardProps[] = [
     {
       image: 'https://i.pravatar.cc/150?img=1',
@@ -20,6 +19,7 @@ const Purchased_Courses = () => {
       lessonCount: '12+ Bài học',
       duration: '9h 30p',
       rating: 5,
+      purchaseDate: "9/11/2024"
     },
     {
       image: 'https://i.pravatar.cc/150?img=2',
@@ -31,6 +31,8 @@ const Purchased_Courses = () => {
       lessonCount: '15+ Bài học',
       duration: '10h 0p',
       rating: 4.8,
+      purchaseDate: "9/11/2024"
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=3',
@@ -42,6 +44,8 @@ const Purchased_Courses = () => {
       lessonCount: '10+ Bài học',
       duration: '8h 45p',
       rating: 4.5,
+      purchaseDate: "9/11/2024"
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=4',
@@ -53,6 +57,8 @@ const Purchased_Courses = () => {
       lessonCount: '20+ Bài học',
       duration: '12h 15p',
       rating: 4.9,
+      purchaseDate: "9/11/2024"
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=5',
@@ -64,6 +70,8 @@ const Purchased_Courses = () => {
       lessonCount: '18+ Bài học',
       duration: '7h 30p',
       rating: 4.6,
+      purchaseDate: "9/11/2024"
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=6',
@@ -75,6 +83,7 @@ const Purchased_Courses = () => {
       lessonCount: '10+ Bài học',
       duration: '6h 0p',
       rating: 4.3,
+      purchaseDate: "9/11/2024"
     },
   ];
 
@@ -95,16 +104,8 @@ const Purchased_Courses = () => {
       >
         {cardData.map((data, index) => (
           <Card
-            key={index} // Sử dụng index hoặc id của khóa học để đảm bảo mỗi thẻ có một key duy nhất
-            image={data.image}
-            title={data.title}
-            instructorName={data.instructorName}
-            instructorImage={data.instructorImage}
-            price={data.price}
-            originalPrice={data.originalPrice}
-            lessonCount={data.lessonCount}
-            duration={data.duration}
-            rating={data.rating}
+            key={index}
+            {...data} 
           />
         ))}
       </motion.div>

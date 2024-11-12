@@ -1,9 +1,11 @@
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { Rate } from "antd";
+import { Modal, Rate, Select, TreeSelect } from "antd";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails, isMyCoursesPage } from "@/contants/client";
+import { getButtonDetails, isHistoryLesson, isMyCoursesPage } from "@/contants/client";
+import { CircleAlert } from "lucide-react";
+import styled from "styled-components";
 
 export interface CardProps {
   image: string;
@@ -15,6 +17,7 @@ export interface CardProps {
   lessonCount: string;
   duration: string;
   rating: number;
+  purchaseDate: string
 }
 
 const Card = ({
@@ -27,13 +30,86 @@ const Card = ({
   lessonCount,
   duration,
   rating,
+  purchaseDate
 }: CardProps) => {
   const [heart, setHeart] = useState(false);
   const location = useLocation();
   const id = 1
-  const { buttonText, targetPath } = getButtonDetails(location.pathname);
+  const { buttonText, targetPath } = getButtonDetails();
+  const [modalType, setModalType] = useState<'refund' | 'delete' | null>(null)
+
   const handleClick = () => {
     setHeart(!heart);
+  };
+  const CustomTreeSelect = styled(TreeSelect)`
+  .ant-select-selector {
+    width: 100% !important; /* Đảm bảo chiều rộng 100% */
+    background-color: #fafafa !important;
+    border: 1px solid #c1c9d2 !important;
+  }
+  .dark & .ant-select-selector {
+    background-color: #131022 !important;
+    border: 1px solid #c7c7c740 !important;
+  }
+  .ant-select-selector .ant-select-selection-placeholder {
+    color: #6e82a3 !important;
+  }
+  .dark & .ant-select-selector .ant-select-selection-placeholder {
+    color: #e9ecef !important;
+  }
+`;
+
+  const handleOpenModal = (type: "refund" | "delete") => {
+    if (!isHistoryLesson && !isMyCoursesPage) {
+      return;
+    }
+    setModalType(type);
+    Modal.confirm({
+      title: (
+        <p className='text-red-500 font-title text-[16px] md:text-lg'>
+          {modalType === 'refund' ? "Yêu cầu hoàn tiền khóa học" : "Yêu cầu xóa khóa học"}
+        </p>
+      ),
+      content: (
+        <div className=" dark:text-[#b9b7c0] text-[#685f78]">
+          <div className="flex items-start gap-4 mb-4">
+            <img src={image} alt="" className="w-24 md:w-28 h-auto" />
+            <div className="text-[15px] md:text-[17px] md:space-y-1">
+              <p className="text-[16px] md:text-xl line-clamp-2">{title}</p>
+              <p>Giá: {price}</p>
+              <p>Thời gian mua: {purchaseDate}</p>
+            </div>
+          </div>
+          <div className="w-full space-y-1">
+            <CustomTreeSelect
+              treeDefaultExpandAll
+              className="w-full h-10 md:h-11 text-[15px] md:text-[17px]"
+              placeholder="Lý do hoàn tiền"
+              treeData={[
+                { value: 0, title: <span className="text-green-500">Như chim cút</span> },
+              ]}
+            />
+            <div className="flex items-center gap-2 text-sm md:text-[16px]">
+              <CircleAlert size={14} />
+              <p>Số tiền sẽ được hoàn về ví Ume</p>
+            </div>
+          </div>
+        </div>
+      ),
+      okText: 'Hoàn tiền',
+      okType: 'danger',
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
+      },
+      cancelButtonProps: {
+        className: "custom-cancel-btn",
+      },
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null,
+    });
   };
 
   return (
@@ -96,12 +172,13 @@ const Card = ({
           <span>{rating.toFixed(1)} (15)</span>
         </span>
         <Link to={targetPath}>
-          <button className="border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]">
+          <button
+            onClick={() => handleOpenModal(buttonText === "Hoàn tiền" ? "refund" : "delete")}
+            className="border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]">
             {buttonText}
           </button>
         </Link>
       </div>
-
     </div>
   );
 };

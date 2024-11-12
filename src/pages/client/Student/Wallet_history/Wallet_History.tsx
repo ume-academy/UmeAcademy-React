@@ -6,6 +6,7 @@ import { CircleAlert, X } from 'lucide-react'
 
 interface WalletTransaction {
   id: string
+  courseName: string
   type: string
   method: string
   date: string
@@ -16,6 +17,7 @@ interface WalletTransaction {
 const wallet: WalletTransaction[] = [
   {
     id: 'dh73232đww33',
+    courseName: "React cho người mới bắt đầu",
     type: 'Mua hàng',
     date: '10/12/2024',
     method: 'Chuyển khoản ngân hàng',
@@ -24,6 +26,7 @@ const wallet: WalletTransaction[] = [
   },
   {
     id: 'dh73232đww33',
+    courseName: 'Xây dựng Website Thực tế với HTML5 và CSS3',
     type: 'Hoàn tiền',
     method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
@@ -32,6 +35,7 @@ const wallet: WalletTransaction[] = [
   },
   {
     id: 'dh73232đww33',
+    courseName: 'Hướng dẫn Cơ bản về Angular',
     type: 'Nạp tiền',
     method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
@@ -40,6 +44,7 @@ const wallet: WalletTransaction[] = [
   },
   {
     id: 'dh73232đww33',
+    courseName: 'Hướng dẫn Cơ bản về Angular',
     type: 'Mua hàng',
     method: 'Chuyển khoản ngân hàng',
     date: '10/12/2024',
@@ -77,20 +82,27 @@ const Wallet_History = () => {
       dataIndex: 'type',
       key: 'type',
       width: 130,
-      render: (type: string) => <div className='text-sm md:text-[16px]'>{type}</div>
+      render: (type: string) => <div className='text-sm md:text-[15px]'>{type}</div>
+    },
+    {
+      title: 'Tên khóa học',
+      dataIndex: 'courseName',
+      key: 'courseName',
+      width: 200,
+      render: (courseName: string) => <div className='text-sm md:text-[15px]'>{courseName}</div>
     },
     {
       title: 'Phương thức thanh toán',
       dataIndex: 'method',
       key: 'method',
-      width: 160
+      width: 180
     },
     {
       title: 'Ngày',
       dataIndex: 'date',
       key: 'date',
       width: 140,
-      render: (date: string) => <div className='text-sm md:text-[16px]'>{date}</div>
+      render: (date: string) => <div className='text-sm md:text-[15px]'>{date}</div>
     },
     {
       title: 'Số tiền',
@@ -98,7 +110,7 @@ const Wallet_History = () => {
       key: 'amount',
       width: 140,
       render: (amount: string) => (
-        <span className='text-sm md:text-[16px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
+        <span className='text-sm md:text-[15px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
           {formatCurrency(amount)}
         </span>
       )
@@ -107,7 +119,7 @@ const Wallet_History = () => {
       title: 'Ghi chú',
       dataIndex: 'note',
       key: 'note',
-      width: 200
+      width: 180
     }
   ]
 
@@ -140,7 +152,7 @@ const Wallet_History = () => {
               <X size={16} />
             </button>
             <h2 className="font-subtitle mb-4">Nạp tiền vào ví Ume</h2>
-            <p className='text-sm lg:text-[16px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
+            <p className='text-sm lg:text-[15px] mb-4'>Việc nạp tiền vào ví Ume của bạn thật đơn giản và thuận tiện. Hãy kiểm tra thông báo giao dịch để theo dõi hoạt động nạp tiền của bạn nhé!</p>
             <form>
               <div className="mb-6 text-[15px] space-y-2">
                 <label>
@@ -158,7 +170,7 @@ const Wallet_History = () => {
                   <p className="dark:text-white text-[#685f78]">100.000đ</p>
                 </div>
               </div>
-              <div className="flex justify-start text-[16px] gap-4">
+              <div className="flex justify-start text-[15px] gap-4">
                 <button
                   type="submit"
                   className="bg-[#ff4667] border border-[#ff4667] text-white  hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white text-[11px] md:text-[15px]  py-1 px-4 md:py-2 md:px-6">
