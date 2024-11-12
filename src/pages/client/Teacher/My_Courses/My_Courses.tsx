@@ -19,6 +19,8 @@ const My_Courses = () => {
       lessonCount: '12+ Bài học',
       duration: '9h 30p',
       rating: 5,
+      purchaseDate: ""
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=2',
@@ -30,6 +32,8 @@ const My_Courses = () => {
       lessonCount: '15+ Bài học',
       duration: '10h 0p',
       rating: 4.8,
+      purchaseDate: ""
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=3',
@@ -41,6 +45,8 @@ const My_Courses = () => {
       lessonCount: '10+ Bài học',
       duration: '8h 45p',
       rating: 4.5,
+      purchaseDate: ""
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=4',
@@ -52,6 +58,8 @@ const My_Courses = () => {
       lessonCount: '20+ Bài học',
       duration: '12h 15p',
       rating: 4.9,
+      purchaseDate: ""
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=5',
@@ -63,6 +71,8 @@ const My_Courses = () => {
       lessonCount: '18+ Bài học',
       duration: '7h 30p',
       rating: 4.6,
+      purchaseDate: ""
+
     },
     {
       image: 'https://i.pravatar.cc/150?img=6',
@@ -74,6 +84,8 @@ const My_Courses = () => {
       lessonCount: '10+ Bài học',
       duration: '6h 0p',
       rating: 4.3,
+      purchaseDate: ""
+
     },
   ];
 
@@ -95,16 +107,8 @@ const My_Courses = () => {
           ref={bottomRef} className="flex flex-wrap gap-10 justify-center md:justify-between lg:gap-2  p-3">
           {cardData.map((data, index) => (
             <Card
-              key={index} // Sử dụng index hoặc id của khóa học để đảm bảo mỗi thẻ có một key duy nhất
-              image={data.image}
-              title={data.title}
-              instructorName={data.instructorName}
-              instructorImage={data.instructorImage}
-              price={data.price}
-              originalPrice={data.originalPrice}
-              lessonCount={data.lessonCount}
-              duration={data.duration}
-              rating={data.rating}
+              key={index}
+              {...data}
             />
           ))}
         </motion.div>

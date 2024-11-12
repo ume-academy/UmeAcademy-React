@@ -1,5 +1,5 @@
 import { getTitleTab } from "@/contants/client";
-import { Modal, TreeSelect, TableColumnType, Table, message } from "antd";
+import { Modal, TreeSelect, TableColumnType, Table, message, Tag } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -54,55 +54,55 @@ const List_Courses = () => {
     selectedStatus === undefined || course.status === Number(selectedStatus)
   );
 
-  const handleChangeStatus = (id: number, value: number) => {
-    const currentCourse = data.find(course => course.id === id);
+  // const handleChangeStatus = (id: number, value: number) => {
+  //   const currentCourse = data.find(course => course.id === id);
 
-    if (currentCourse && currentCourse.status === 0) {
-      Modal.confirm({
-        title: (
-          <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
-        ),
-        content: (
-          <p className='dark:text-[#b9b7c0] text-[#685f78]'>
-            Bạn có chắc chắn muốn <span className='font-desc'>"{value === 1 ? "phê duyệt" : "từ chối"}"</span> khóa học này không?
-          </p>
-        ),
-        okText: 'Đồng ý',
-        okType: 'danger',
-        onOk: () => {
-          setConfirmLoading(true);
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              setData(prevData =>
-                prevData.map(course =>
-                  course.id === id ? { ...course, status: value } : course
-                )
-              );
+  //   if (currentCourse && currentCourse.status === 0) {
+  //     Modal.confirm({
+  //       title: (
+  //         <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
+  //       ),
+  //       content: (
+  //         <p className='dark:text-[#b9b7c0] text-[#685f78]'>
+  //           Bạn có chắc chắn muốn <span className='font-desc'>"{value === 1 ? "phê duyệt" : "từ chối"}"</span> khóa học này không?
+  //         </p>
+  //       ),
+  //       okText: 'Đồng ý',
+  //       okType: 'danger',
+  //       onOk: () => {
+  //         setConfirmLoading(true);
+  //         return new Promise((resolve) => {
+  //           setTimeout(() => {
+  //             setData(prevData =>
+  //               prevData.map(course =>
+  //                 course.id === id ? { ...course, status: value } : course
+  //               )
+  //             );
 
-              messageApi.open({
-                type: 'success',
-                content: `${value === 1 ? "Phê duyệt" : "Từ chối"} khóa học thành công!`,
-              });
+  //             messageApi.open({
+  //               type: 'success',
+  //               content: `${value === 1 ? "Phê duyệt" : "Từ chối"} khóa học thành công!`,
+  //             });
 
-              setConfirmLoading(false);
-              resolve(undefined);
-            }, 2000);
-          });
-        },
-        cancelText: 'Hủy',
-        centered: true,
-        maskClosable: false,
-        icon: null,
-        width: 600,
-      });
-    } else {
-      Modal.warning({
-        title: "Cảnh báo",
-        content: "Trạng thái này không thể thay đổi.",
-        okText: 'Đồng ý',
-      });
-    }
-  };
+  //             setConfirmLoading(false);
+  //             resolve(undefined);
+  //           }, 2000);
+  //         });
+  //       },
+  //       cancelText: 'Hủy',
+  //       centered: true,
+  //       maskClosable: false,
+  //       icon: null,
+  //       width: 600,
+  //     });
+  //   } else {
+  //     Modal.warning({
+  //       title: "Cảnh báo",
+  //       content: "Trạng thái này không thể thay đổi.",
+  //       okText: 'Đồng ý',
+  //     });
+  //   }
+  // };
 
   const CustomTreeSelect = styled(TreeSelect)`
     .ant-select-selector {
@@ -171,24 +171,31 @@ const List_Courses = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (status, record) => {
-        if (status === 0) {
-          return (
-            <CustomTreeSelect
-              value='Chờ phê duyệt'
-              onChange={(value) => handleChangeStatus(record.id, value ? 1 : 2)}
-              treeData={[
-                { value: true, title: <span className="text-green-500">Phê duyệt</span> },
-                { value: false, title: <span className="text-[#ff4667]">Từ chối</span> }
-              ]}
-            />
-          );
-        } else if (status === 1) {
-          return <span className="text-green-500">Đã phê duyệt</span>;
-        } else if (status === 2) {
-          return <span className="text-red-500">Đã bị từ chối</span>;
-        }
-      },
+      // render: (status, record) => {
+      //   if (status === 0) {
+      //     return (
+      //       <CustomTreeSelect
+      //         value='Chờ phê duyệt'
+      //         onChange={(value) => handleChangeStatus(record.id, value ? 1 : 2)}
+      //         treeData={[
+      //           { value: true, title: <span className="text-green-500">Phê duyệt</span> },
+      //           { value: false, title: <span className="text-[#ff4667]">Từ chối</span> }
+      //         ]}
+      //       />
+      //     );
+      //   } else if (status === 1) {
+      //     return <span className="text-green-500">Đã phê duyệt</span>;
+      //   } else if (status === 2) {
+      //     return <span className="text-red-500">Đã bị từ chối</span>;
+      //   }
+      // },
+      render: (status: 0 | 1 | 2) => (
+        <Tag className="text-sm py-1 px-2 min-w-[110px] text-center" color={status === 0 ? "blue" : status === 1 ? "green" : "red"}>
+          {
+            status === 0 ? "Chưa phê duyệt" : status === 1 ? "Đã phê duyệt" : "Đã từ chối"
+          }
+        </Tag>
+      ),
       width: 150,
     },
     {

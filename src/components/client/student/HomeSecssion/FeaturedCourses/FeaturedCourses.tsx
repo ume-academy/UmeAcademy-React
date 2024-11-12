@@ -28,6 +28,7 @@ const FeaturedCourses = () => {
     lessonCount: '12+ Bài học',
     duration: '9h 30p',
     rating: 5,
+    purchaseDate: ""
   };
   return (
     <div className=''>

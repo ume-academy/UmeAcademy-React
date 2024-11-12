@@ -1,7 +1,7 @@
-import { useMediaQuery } from "react-responsive"
+import { useMediaQuery } from 'react-responsive'
 
 // Sử dụng cho reponsive bắt kích thước màn hình
-export const useIsMobile = () => useMediaQuery({ query: '(max-width: 768px)' })   
+export const useIsMobile = () => useMediaQuery({ query: '(max-width: 768px)' })
 export const useIsTablet = () => useMediaQuery({ query: '(max-width: 1024px)' })
 
 // Sử dụng cho helmet của react: Thay đổi tab khi chuyển trang
@@ -30,20 +30,19 @@ export const routerConfig = {
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
 export const isMyCoursesPage = location.pathname === '/teacher/my-courses'
-export const getButtonDetails = (pathname: string) => {
-  const isHistoryLesson = pathname === '/purchased-courses'
+export const isHistoryLesson = location.pathname === '/purchased-courses'
 
+export const getButtonDetails = () => {
   let buttonText = 'Mua ngay'
   let targetPath = '/course-payment-method'
 
   if (isHistoryLesson) {
     buttonText = 'Hoàn tiền'
-    targetPath = '/refund-page'
+    targetPath = '/purchased-courses'
   } else if (isMyCoursesPage) {
     buttonText = 'Xóa'
-    targetPath = '/delete-course'
+    targetPath = '/teacher/my-courses'
   }
-
   return { buttonText, targetPath }
 }
 

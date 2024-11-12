@@ -25,11 +25,12 @@ const Search = () => {
     lessonCount: '12+ Bài học',
     duration: '9h 30p',
     rating: 5,
+    purchaseDate:''
   };
 
 
   return (
-    <div className='py-24 max-w-[1280px] mx-auto px-4 md:px-0'>
+    <div className='py-[160px] max-w-[1280px] mx-auto px-4 md:px-0'>
       <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-6 ">
         <div className="left w-full md:w-[70%] space-y-4">
           <div className="">
