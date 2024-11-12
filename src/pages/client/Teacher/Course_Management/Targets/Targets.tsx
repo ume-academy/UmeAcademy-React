@@ -1,8 +1,10 @@
+import { routerConfigAdmin } from '@/contants/admin'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Plus, Trash } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const Targets = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
@@ -10,6 +12,13 @@ const Targets = () => {
   const [benefits, setBenefits] = useState<string[]>(['', '', '', ''])
 
   const [isHovered, setIsHovered] = useState(false);
+
+  // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
+  const location = useLocation()
+  const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
+    const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+    return regex.test(location.pathname)
+  })
 
   // Hàm xử lý sự kiện hover
   const handleMouseEnter = () => {
@@ -90,16 +99,18 @@ const Targets = () => {
                 {requiments.map((input, index) => (
                   <div className='flex items-center justify-between w-[100%]' key={index + 1}>
                     <Input
-                      styles={{ count: { color: `${theme === 'light' ? '#6e82a3' : '#b9b7c0'}` } }}
-                      count={{ show: true, max: 160 }}
+                      // styles={{ count: { color: `${theme === 'light' ? '#6e82a3' : '#b9b7c0'}` } }}
+                      // count={{ show: true, max: 160 }}
                       value={input}
+                      disabled={hideCourseFunction}
                       onChange={(e) => handleInputChange('requiment', index, e.target.value)}
                       placeholder='Tiêu đề khóa học'
                       className='mt-3 w-[90%] md:w-[94%] lg:w-[94%] py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                       h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-transparent 
                       focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                     />
-                    <Button
+                    {!hideCourseFunction && (
+                      <Button
                       style={{background: 'transparent'}}
                       className='border-none mt-2.5 px-0 py-0 md:px-[8px] md:py-[4px] lg:px-[15px] lg:py-[4px] w-[5%] bg-transparent outline-none focus-visible:outline-none'
                       onClick={() => handleRemoveInput('requiment', index)}
@@ -107,14 +118,15 @@ const Targets = () => {
                     >
                       <Trash strokeWidth={3} color={theme === 'light' ? '#333' : '#b9b7c0'} />
                     </Button>
+                    )}
                   </div>
                 ))}
-                <h4
+                {!hideCourseFunction && (<h4
                   onClick={() => handleAddInput('requiment')}
                   className='flex mt-4 items-center cursor-pointer text-[#f66962] font-subtitle hover:text-[#da554e]'
                 >
                   <Plus strokeWidth={2.5} style={{ marginRight: 4 }} size={16} /> Bổ sung mục tiêu
-                </h4>
+                </h4>)}
               </Form.Item>
 
               {/* Lợi ích */}
@@ -129,16 +141,18 @@ const Targets = () => {
                 {benefits.map((input, index) => (
                   <div className='flex items-center justify-between w-[100%]' key={index + 1}>
                     <Input
-                      styles={{ count: { color: `${theme === 'light' ? '#6e82a3' : '#b9b7c0'}` } }}
-                      count={{ show: true, max: 160 }}
+                      // styles={{ count: { color: `${theme === 'light' ? '#6e82a3' : '#b9b7c0'}` } }}
+                      // count={{ show: true, max: 160 }}
                       value={input}
+                      disabled={hideCourseFunction}
                       onChange={(e) => handleInputChange('benefit', index, e.target.value)}
                       placeholder='Tiêu đề khóa học'
                       className='mt-3 w-[90%] md:w-[94%] lg:w-[94%] py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                       h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-transparent 
                       focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                     />
-                    <Button
+                    {!hideCourseFunction && (
+                      <Button
                       style={{background: 'transparent'}}
                       className='border-none mt-2.5 px-0 py-0 lg:px-[15px] lg:py-[4px] w-[5%] bg-transparent outline-none focus-visible:outline-none'
                       onClick={() => handleRemoveInput('benefit', index)}
@@ -146,15 +160,18 @@ const Targets = () => {
                     >
                       <Trash strokeWidth={3} color={theme === 'light' ? '#333' : '#b9b7c0'} />
                     </Button>
+                    )}
                   </div>
                 ))}
-                <h4
+                {!hideCourseFunction && (<h4
                   onClick={() => handleAddInput('benefit')}
                   className='flex mt-4 items-center cursor-pointer text-[#f66962] font-subtitle hover:text-[#da554e]'
                 >
                   <Plus strokeWidth={2.5} style={{ marginRight: 4 }} size={16} /> Bổ sung mục tiêu
-                </h4>
+                </h4>)}
               </Form.Item>
+
+              {!hideCourseFunction && (
               <div className="flex justify-end">
               <Button
                 onMouseEnter={handleMouseEnter}
@@ -166,7 +183,7 @@ const Targets = () => {
               >
                 {loading ? <LoadingOutlined /> : 'Lưu'}
               </Button>
-              </div>
+              </div>)}
             </Form>
           </div>
         </div>

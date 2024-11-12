@@ -90,12 +90,25 @@ function App() {
             {/* Teacher */}
             <Route path='/' element={<Layout_Teacher />}>
               <Route index element={<Revenue />} />
+              {/* Route lần đầu trở thành teacher */}
               <Route path='/teacher/new-instructor' element={<New_Instructor />} />
+
+              {/* Route danh sách học viên */}
               <Route path='/teacher/my-students' element={<List_Students />} />
+
+              {/* Route danh sách khóa học giảng viên tạo */}
               <Route path='/teacher/my-courses' element={<My_Courses />} /> 
+
+              {/* Route thêm phương thức thanh toán */}
               <Route path='/teacher/payment-methods' element={<Payment_Methods />} />
+
+              {/* Route ví và rút tiền */}
               <Route path='/teacher/withdraw-money' element={<Withdraw_Money />} />
+
+              {/* Route Tạo mới khóa học */}
               <Route path='/teacher/form-course' element={<Form_Course />} />
+
+              {/* Route quản lý khóa học */}
               <Route path='/teacher/course-management/:id' element={<Course_Management />}/>
             </Route>
           </>
@@ -110,7 +123,8 @@ function App() {
 
 
           {/* Route khóa học */}
-          <Route path='/admin/courses' element={<List_Courses />} />
+          <Route path='/admin/courses' element={<List_Courses />} /> 
+          <Route path='/admin/check-course/:id' element={<Course_Management />} />
 
           {/* Route giao dịch */}
           <Route path='/admin/transactions/instructor' element={<List_Transactions_Instructor />} />

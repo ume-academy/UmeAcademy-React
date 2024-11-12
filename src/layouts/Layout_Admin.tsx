@@ -2,12 +2,13 @@ import Footer_Admin from '@/components/admin/Footer/Footer_Admin';
 import Header_Admin from '@/components/admin/Header/Header_Admin';
 import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
 import Sidebar_Mobile_Admin from '@/components/admin/Sidebar/Sidebar_Mobile';
+import { routerConfigAdmin } from '@/contants/admin';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
 import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, HistoryOutlined, PieChartOutlined } from '@ant-design/icons';
 import { Layout, MenuProps } from 'antd';
 import { BookUser, FileUser, HandCoins, LibraryBig, PercentCircle, ShieldAlert, Users } from 'lucide-react';
 import React, { useContext, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -29,6 +30,13 @@ function getItem(
 
 
 const Layout_Admin: React.FC = () => {
+
+  // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
+  const location = useLocation();
+  const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
+    const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+    return regex.test(location.pathname)
+  })
 
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const [collapsed, setCollapsed] = useState(false);
@@ -70,7 +78,14 @@ const Layout_Admin: React.FC = () => {
 
         <Content className='dark:bg-[#131022] py-2 dark:text-[#b9b7c0]'>
           <div
-            className='p-4 md:p-6'
+            // style={{
+            //   padding: 24,
+            //   minHeight: 360,
+            //   // background: '#f84563',
+            //   // borderRadius: borderRadiusLG,
+            // }}
+
+            className={`${!hideCourseFunction ? 'p-4 md:p-6' : 'p-0 lg:p-4'}`}
           >
             <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">
               <Outlet />

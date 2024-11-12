@@ -202,7 +202,7 @@ const List_Courses = () => {
       title: "Chi tiết",
       key: "actions",
       render: (record) => (
-        <Link to={`/admin/course-detail/${record.id}`}>
+        <Link to={`/admin/check-course/${record.id}`}>
           <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
         </Link>
       ),

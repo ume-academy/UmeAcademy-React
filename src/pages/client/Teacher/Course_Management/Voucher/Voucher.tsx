@@ -1,8 +1,9 @@
+import { routerConfigAdmin } from '@/contants/admin'
 import { LoadingOutlined } from '@ant-design/icons'
 import { DatePicker, Input, message } from 'antd'
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-
+import { useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+import './Voucher_Antd.scss'
 type CourseData = {
   course: string
   students: number
@@ -55,6 +56,13 @@ const formatDate = (dateString: string) => {
 }
 
 const Voucher = () => {
+  // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
+  const location = useLocation()
+  const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
+    const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+    return regex.test(location.pathname)
+  })
+
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
 
@@ -94,6 +102,7 @@ const Voucher = () => {
           <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mã giảm giá</label>
           <Input
             type='text'
+            disabled={hideCourseFunction}
             className='mt-3 py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
             h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
             focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
@@ -104,6 +113,7 @@ const Voucher = () => {
           <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Phần trăm muốn giảm (%)</label>
           <Input
             type='text'
+            disabled={hideCourseFunction}
             className='mt-3 py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
             h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
             focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
@@ -114,6 +124,7 @@ const Voucher = () => {
           <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Số lượng</label>
           <Input
             type='number'
+            disabled={hideCourseFunction}
             className='mt-3 py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
             h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
             focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
@@ -123,6 +134,7 @@ const Voucher = () => {
         <div className='text-[14px] space-x-2 flex items-center w-[100%] mb-16'>
           <DatePicker
             format='DD/MM/YYYY'
+            disabled={hideCourseFunction}
             value={startDate}
             onChange={(date) => setStartDate(date)}
             className='w-[50%] mt-3 py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
@@ -133,6 +145,7 @@ const Voucher = () => {
           <div>-</div>
           <DatePicker
             format='DD/MM/YYYY'
+            disabled={hideCourseFunction}
             value={endDate}
             onChange={(date) => setEndDate(date)}
             className='w-[50%] mt-3 py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
@@ -141,7 +154,8 @@ const Voucher = () => {
             placeholder='Ngày Kết thúc'
           />
         </div>
-        <div className='flex justify-end'>
+        {!hideCourseFunction && (
+          <div className='flex justify-end'>
           <button
             onClick={() => handleClick()}
             className='w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'
@@ -149,6 +163,7 @@ const Voucher = () => {
             {loading ? <LoadingOutlined /> : 'Lưu'}
           </button>
         </div>
+        )}
       </div>
     </div>
   )

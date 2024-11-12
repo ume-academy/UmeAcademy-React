@@ -1,0 +1,9 @@
+.dark .ant-picker-outlined.ant-picker-disabled:hover:not([disabled]), .ant-picker-outlined[disabled]:hover:not([disabled]) {
+  border: 1px solid #c7c7c740;
+  background: #131022;
+}
+
+.ant-picker-outlined.ant-picker-disabled:hover:not([disabled]), .ant-picker-outlined[disabled]:hover:not([disabled]) {
+  border: 1px solid #c1c9d2;
+  background: #fafafa;
+}
