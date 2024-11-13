@@ -23,9 +23,9 @@ const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collaps
   // console.log(open)
 
   return (
-    <Header className='p-4 md:p-6 dark:bg-[#2B2838] bg-[#eeeeee] flex justify-between items-center md:justify-end' >
+    <Header className='p-4 md:p-6 dark:bg-[#2B2838] bg-[#eeeeee] flex justify-between items-center lg:justify-end' >
 
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <div className="flex justify-center items-center" onClick={() => onCollapse(!collapsed)}>
           <button
             type="button"
@@ -40,7 +40,7 @@ const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collaps
         </div>
       </div>
 
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <a href="/">
           <img src="/assets/images/client/Logo/logo.png" className="w-[140px] h-[38px] object-cover" alt="" width="100" height="50" />
         </a>

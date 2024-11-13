@@ -10,14 +10,14 @@ type Sidebar_Props = {
 
 const Sidebar_Admin: React.FC<Sidebar_Props> = ({ items }) => {
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      className='sidebar bg-[#001529] hidden md:block '
+      className='sidebar bg-[#001529] hidden lg:block '
       width={270}
     >
       <div className="flex justify-center p-4 bg-[#001529]" >

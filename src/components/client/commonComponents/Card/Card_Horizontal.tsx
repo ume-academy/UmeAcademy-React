@@ -31,7 +31,9 @@ const Card_Horizontal = ({
   const [heart, setHeart] = useState(false);
   const location = useLocation();
   const id = 1
-  const { buttonText, targetPath } = getButtonDetails(location.pathname);
+  const { buttonText, targetPath } = getButtonDetails();
+  const [modalType, setModalType] = useState<'refund' | 'delete' | null>(null)
+
   const handleClick = () => {
     setHeart(!heart);
   };

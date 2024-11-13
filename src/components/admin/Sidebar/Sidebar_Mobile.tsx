@@ -2,7 +2,7 @@ import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import React from "react";
 import { Link } from "react-router-dom";
-import './sidebarAntd.scss';
+import './sidebarMobile.scss';
 import { CloseOutlined } from "@ant-design/icons";
 
 type Sidebar_Props = {
@@ -17,13 +17,13 @@ const Sidebar_Mobile: React.FC<Sidebar_Props> = ({ collapsed, onCollapse, items 
 
     <>
       <Sider
-        width={240} // Chiều rộng Sider khi mở ra
+        width={360} // Chiều rộng Sider khi mở ra
         collapsedWidth={collapsed ? 0 : 100} // Đặt collapsedWidth để rộng hơn một chút trên mobile
         breakpoint="lg"
         collapsed={collapsed}
         onCollapse={(isCollapsed) => onCollapse(isCollapsed)}
-        style={{ maxWidth: '90vw' }} // Đảm bảo chiều rộng tối đa trên mobile là 80% màn hình
-        className="sidebar block sm:block md:hidden min-h-screen absolute z-50"
+        style={{ minWidth: '360px', maxWidth: '360px', width: '360px' }}
+        className="sidebarMobile block sm:block lg:hidden min-h-screen fixed z-50 "
         theme="dark"
         trigger={null}
       >

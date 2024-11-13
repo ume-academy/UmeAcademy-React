@@ -78,13 +78,6 @@ const Layout_Admin: React.FC = () => {
 
         <Content className='dark:bg-[#131022] py-2 dark:text-[#b9b7c0]'>
           <div
-            // style={{
-            //   padding: 24,
-            //   minHeight: 360,
-            //   // background: '#f84563',
-            //   // borderRadius: borderRadiusLG,
-            // }}
-
             className={`${!hideCourseFunction ? 'p-4 md:p-6' : 'p-0 lg:p-4'}`}
           >
             <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">
