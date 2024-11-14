@@ -1,4 +1,4 @@
-import { getTitleTab } from "@/contants/client";
+import { getTitleTab } from "@/constants/client";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, message, Modal, Table, TableColumnsType } from "antd";
 import { Pen, Trash2 } from "lucide-react";

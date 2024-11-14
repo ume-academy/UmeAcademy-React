@@ -6,7 +6,7 @@ import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import './SliderCategory.scss'
 import { useMediaQuery } from 'react-responsive'
-import { useIsMobile, useIsTablet } from '@/contants/client'
+import { useIsMobile, useIsTablet } from '@/constants/client'
 
 const images = [
   {

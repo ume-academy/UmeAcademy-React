@@ -1,4 +1,4 @@
-import { routerConfigAdmin } from '@/contants/admin'
+import { routerConfigAdmin } from '@/constants/admin'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'

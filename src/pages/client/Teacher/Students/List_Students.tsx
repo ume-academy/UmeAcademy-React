@@ -2,7 +2,7 @@ import { Image, Pagination, Progress, Table } from 'antd';
 import styles from './listStudent.module.scss';
 import './listStudents.scss';
 import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 
 const List_Students = () => {
 

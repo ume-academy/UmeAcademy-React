@@ -1,4 +1,4 @@
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 import { LoadingOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Helmet } from "react-helmet";

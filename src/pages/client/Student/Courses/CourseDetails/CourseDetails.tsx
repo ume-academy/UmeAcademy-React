@@ -3,7 +3,7 @@ import { Avatar, FloatButton, GetProp, Menu, MenuProps, Modal, Rate } from 'antd
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { getTitleTab } from '../../../../../contants/client'
+import { getTitleTab } from '../../../../../constants/client'
 import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
 

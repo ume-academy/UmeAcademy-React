@@ -4,7 +4,7 @@ import { MoveLeft } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './Checkbox.scss'
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 import { Helmet } from 'react-helmet';
 const Form_Role = () => {
   const [form] = Form.useForm();

@@ -1,7 +1,7 @@
 import { StarFilled } from '@ant-design/icons'
 import { easeInOut, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { imageIntroduce, routerConfig, useIsMobile, useIsTablet } from '../../../../../contants/client'
+import { imageIntroduce, routerConfig, useIsMobile, useIsTablet } from '../../../../../constants/client'
 import Search from '@/components/client/commonComponents/Header/Search/Search'
 import { useMediaQuery } from 'react-responsive'
 

@@ -3,7 +3,7 @@ import { Pagination, Table, Tag } from 'antd';
 import { CircleAlert, Landmark, X } from 'lucide-react';
 import { useState } from 'react';
 import '@/scss/PaginationAntd.scss'
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 import { Helmet } from 'react-helmet';
 interface Withdraw {
   key: string;

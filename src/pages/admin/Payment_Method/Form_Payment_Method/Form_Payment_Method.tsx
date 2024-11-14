@@ -1,4 +1,4 @@
-import { getTitleTab } from '@/contants/client'
+import { getTitleTab } from '@/constants/client'
 import { CheckOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Form, Input, message } from 'antd'
 import { Asterisk, MoveLeft } from 'lucide-react'

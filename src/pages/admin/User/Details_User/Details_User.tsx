@@ -1,5 +1,5 @@
 import Card, { CardProps } from '@/components/client/commonComponents/Card/Card';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 import { EditFilled, FileDoneOutlined, HistoryOutlined } from '@ant-design/icons';
 import { Avatar, Pagination, Table, Tabs, Tag } from 'antd';
 import { Helmet } from 'react-helmet';

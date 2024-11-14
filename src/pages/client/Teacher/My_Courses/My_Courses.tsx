@@ -1,5 +1,5 @@
 import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
-import { getTitleTab } from '@/contants/client'
+import { getTitleTab } from '@/constants/client'
 import { Pagination } from 'antd'
 import { motion, easeInOut, useInView } from 'framer-motion'
 import { useRef } from "react"

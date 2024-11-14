@@ -5,7 +5,7 @@ import { ChevronRight, Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import './Form_Lesson_Antd.scss';
 import { useLocation } from "react-router-dom";
-import { routerConfigAdmin } from "@/contants/admin";
+import { routerConfigAdmin } from "@/constants/admin";
 import { ThemeContext, ThemeContextType } from "@/contexts/ThemeContext";
 
 interface Props  {

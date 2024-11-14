@@ -1,4 +1,4 @@
-import { getTitleTab } from "@/contants/client";
+import { getTitleTab } from "@/constants/client";
 import { Modal, TreeSelect, TableColumnType, Table, message, Tag } from "antd";
 import { Info } from "lucide-react";
 import { useState } from "react";

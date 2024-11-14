@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { routerConfig } from '../../../../../contants/client'
+import { routerConfig } from '../../../../../constants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'

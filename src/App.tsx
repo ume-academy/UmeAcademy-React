@@ -1,164 +1,60 @@
 import { useContext, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import { adminRoutes, authRoutes, notFoundRoutes, studentRoutes, teacherRoutes } from './constants/routes'
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
+import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import Lesson from './components/client/student/Lesson/Lesson'
-import Layout_Admin from './layouts/Layout_Admin'
-import ForgotPassword from './pages/auth/ForgotPassword/ForgotPassword'
-import Login from './pages/auth/Login/Login'
-import Register from './pages/auth/Register/Register'
-import Course_Payment_Method from './pages/client/Student/Course_payment_method/Course_Payment_Method'
-import CourseDetails from './pages/client/Student/Courses/CourseDetails/CourseDetails'
-import Home_Page from './pages/client/Student/Home_page/Home_Page'
-import Profile from './pages/client/Student/Profile/Profile'
-import Purchased_Courses from './pages/client/Student/Purchased_courses/Purchased_Courses'
-import Transaction_History from './pages/client/Student/Transaction_history/Transaction_History'
-import Wallet_History from './pages/client/Student/Wallet_history/Wallet_History'
-import Course_Management from './pages/client/Teacher/Course_Management/Course_Management'
-import Form_Course from './pages/client/Teacher/Form_Course/Form_Course'
-import My_Courses from './pages/client/Teacher/My_Courses/My_Courses'
-import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor'
-import Payment_Methods from './pages/client/Teacher/Payment_Methods/Payment_Methods'
-import Revenue from './pages/client/Teacher/Revenue/Revenue'
-import List_Students from './pages/client/Teacher/Students/List_Students'
-import Withdraw_Money from './pages/client/Teacher/Withdraw_Money/Withdraw_Money'
-import Not_Found from './pages/Not_found/Not_Found'
 import './scss/App.scss'
-import List_Users from './pages/admin/User/List_Users/List_Users'
-import Catalog_Form_Submit from './pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
-import List_Catalogues from './pages/admin/Catalogues/List_Catalogues/List_Catalogues'
-import List_Courses from './pages/admin/Course/List_Courses/List_Courses'
-import Commission_Rate from './pages/admin/Commission_Rate/Commission_Rate'
-import Form_Role from './pages/admin/Role/Form_Role/Form_Role'
-import List_Role from './pages/admin/Role/List_Role/List_Role'
-import Form_Payment_Method from './pages/admin/Payment_Method/Form_Payment_Method/Form_Payment_Method'
-import List_Payment_Method from './pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
-import List_Transactions_Student from './pages/admin/Transactions/List_Transactions/List_Transactions_Student'
-import List_Transactions_Instructor from './pages/admin/Transactions/List_Transactions/List_Transactions_Instructor'
-import Details_User from './pages/admin/User/Details_User/Details_User'
-import Profile_Teacher from './pages/client/Teacher/Profile_Teacher/Profile_Teacher'
-import List_Refund from './pages/admin/Refund/List_Refund/List_Refund'
-import Search from './pages/client/Student/Search/Search'
-
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
   // sử dụng để khi chuyển qua route khác scroll sẽ về đầu trang
-  const {pathname} = useLocation() 
+  const { pathname } = useLocation()
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
-    left: 0,
+      left: 0
     })
   }, [pathname])
-  
+
   return (
     <>
       <Routes>
-        {/* profile dùng chung student và teacher*/}
-        <Route
-          path='/profile'
-          element={
-            mode === 'student' ? (
-              <Layout_Client>
-                <Profile />
-              </Layout_Client>
-            ) : (
-              <Layout_Client>
-                <Profile_Teacher />
-              </Layout_Client>
-            )
-          }
-        />
-
         {mode === 'student' ? (
           <Route path='/' element={<Layout_Client />}>
-            {/* <===== Layout client =====> */}
-            <Route index element={<Home_Page />} />
-            <Route path='/transaction-history' element={<Transaction_History />} />
-            <Route path='/wallet-history' element={<Wallet_History />} />
-            <Route path='/purchased-courses' element={<Purchased_Courses />} />
-            <Route path='/course-payment-method' element={<Course_Payment_Method />} />
-            <Route path='/course/:id' element={<CourseDetails />} />
-            <Route path='/course/:id/lesson' element={<Lesson />} />
-            <Route path='/search' element={<Search />} />
+            {/* <===== student =====> */}
+            {studentRoutes.map((route, index) => (
+              <Route key={index} path={route.path} element={<route.element />} />
+            ))}
           </Route>
         ) : (
           <>
             {/* Teacher */}
             <Route path='/' element={<Layout_Teacher />}>
-              <Route index element={<Revenue />} />
-              {/* Route lần đầu trở thành teacher */}
-              <Route path='/teacher/new-instructor' element={<New_Instructor />} />
-
-              {/* Route danh sách học viên */}
-              <Route path='/teacher/my-students' element={<List_Students />} />
-
-              {/* Route danh sách khóa học giảng viên tạo */}
-              <Route path='/teacher/my-courses' element={<My_Courses />} /> 
-
-              {/* Route thêm phương thức thanh toán */}
-              <Route path='/teacher/payment-methods' element={<Payment_Methods />} />
-
-              {/* Route ví và rút tiền */}
-              <Route path='/teacher/withdraw-money' element={<Withdraw_Money />} />
-
-              {/* Route Tạo mới khóa học */}
-              <Route path='/teacher/form-course' element={<Form_Course />} />
-
-              {/* Route quản lý khóa học */}
-              <Route path='/teacher/course-management/:id' element={<Course_Management />}/>
+              {teacherRoutes.map((route, index) => (
+                <Route key={index} path={route.path} element={<route.element />} />
+              ))}
             </Route>
           </>
         )}
 
-        <Route path="/admin" element={<Layout_Admin />}>
+        {/* <===== Admin =====> */}
+        <Route path='/admin' element={<Layout_Admin />}>
           <Route index element={<h1>Dashboard</h1>} />
-
-          {/* Route tài khoản */}
-          <Route path='/admin/users' element={<List_Users />} />
-          <Route path='/admin/users/:id' element={<Details_User />} />
-
-
-          {/* Route khóa học */}
-          <Route path='/admin/courses' element={<List_Courses />} /> 
-          <Route path='/admin/check-course/:id' element={<Course_Management />} />
-
-          {/* Route giao dịch */}
-          <Route path='/admin/transactions/instructor' element={<List_Transactions_Instructor />} />
-          <Route path='/admin/transactions/student' element={<List_Transactions_Student />} />
-          
-          {/* Route phân quyền */}
-          <Route path='/admin/roles' element={<List_Role />} />
-          <Route path='/admin/roles/create' element={<Form_Role />} />
-          <Route path='/admin/roles/update/:id' element={<Form_Role />} />
-
-          {/* Route danh mục */}
-          <Route path='/admin/catalogues' element={<List_Catalogues />} />
-          <Route path='/admin/catalogues/create' element={<Catalog_Form_Submit />} />
-          <Route path='/admin/catalogues/update/:id' element={<Catalog_Form_Submit />} />
-
-          {/* Route % hoa hồng */}
-          <Route path='/admin/commission-rate/update' element={<Commission_Rate />} />
-
-          {/* Route phương thức thanh toán */}
-          <Route path='/admin/list-payment-method' element={<List_Payment_Method />} />
-          <Route path='/admin/form-payment-method' element={<Form_Payment_Method />} />
-          <Route path='/admin/form-payment-method/:id' element={<Form_Payment_Method />} />
-
-          {/* Route danh sách sản phẩm hoàn tiền */}
-          <Route path='/admin/refund-courses' element={<List_Refund />} />
-
-
+          {adminRoutes.map((route, index) => (
+            <Route key={index} path={route.path} element={<route.element />} />
+          ))}
         </Route>
 
         {/* <===== Auth =====> */}
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/forgot_password' element={<ForgotPassword />} />
-        <Route path='*' element={<Not_Found />} />
+        {authRoutes.map((route, index) => (
+          <Route key={index} path={route.path} element={<route.element />} />
+        ))}
+
+        {/* <===== NotFound =====> */}
+        <Route path={notFoundRoutes.path} element={<notFoundRoutes.element />} />
       </Routes>
     </>
   )

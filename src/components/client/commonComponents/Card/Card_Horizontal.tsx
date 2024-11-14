@@ -3,7 +3,8 @@ import { Rate } from "antd";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails, isMyCoursesPage } from "@/contants/client";
+import { getButtonDetails, isMyCoursesPage } from "@/constants/client";
+import { router } from "@/configs/routes";
 
 export interface CardProps {
   image: string;
@@ -40,7 +41,7 @@ const Card_Horizontal = ({
 
   return (
     <div className="group flex flex-col md:flex-row w-full dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer">
-      <Link to={`/course/${id}`} className="group flex flex-col md:flex-row gap-4 hover:text-white">
+      <Link to={`${router.courseDetail.replace(':id', id.toString())}`} className="group flex flex-col md:flex-row gap-4 hover:text-white">
         {/* Ảnh sp */}
         <div className="relative">
           <div className="rounded-[10px] overflow-hidden ">
@@ -112,7 +113,6 @@ const Card_Horizontal = ({
           )}
         </div>
       </div>
-
     </div>
   );
 };

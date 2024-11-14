@@ -1,5 +1,5 @@
 import Setting from "@/components/client/commonComponents/Setting/Setting"
-import { getTitleTab } from "@/contants/client"
+import { getTitleTab } from "@/constants/client"
 import { Helmet } from "react-helmet"
 
 const Profile = () => {

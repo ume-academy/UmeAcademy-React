@@ -2,7 +2,7 @@ import Footer_Admin from '@/components/admin/Footer/Footer_Admin';
 import Header_Admin from '@/components/admin/Header/Header_Admin';
 import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
 import Sidebar_Mobile_Admin from '@/components/admin/Sidebar/Sidebar_Mobile';
-import { routerConfigAdmin } from '@/contants/admin';
+import { routerConfigAdmin } from '@/constants/admin';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
 import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, HistoryOutlined, PieChartOutlined } from '@ant-design/icons';
 import { Layout, MenuProps } from 'antd';

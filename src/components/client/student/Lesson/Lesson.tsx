@@ -4,7 +4,7 @@ import { ChevronRight, X } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../contants/client'
+import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constants/client'
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
 import style from './Lesson.module.scss'
 

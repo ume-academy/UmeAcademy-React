@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './sidebarAntd.scss';
 import { CloseOutlined } from "@ant-design/icons";
+import { prefixAdmin } from "@/configs/routes";
 
 type Sidebar_Props = {
   collapsed: any,
@@ -28,7 +29,7 @@ const Sidebar_Mobile: React.FC<Sidebar_Props> = ({ collapsed, onCollapse, items 
         trigger={null}
       >
         <div className="flex justify-between p-4 bg-[#001529]" >
-          <Link to={'/admin'} className="font-title">ADMINISTRATOR</Link>
+          <Link to={`${prefixAdmin}`} className="font-title">ADMINISTRATOR</Link>
 
           <span onClick={() => onCollapse(true)}>
             <CloseOutlined />

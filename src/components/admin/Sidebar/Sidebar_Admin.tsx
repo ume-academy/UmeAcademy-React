@@ -1,4 +1,4 @@
-import { logo } from '@/contants/client';
+import { logo } from '@/constants/client';
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";

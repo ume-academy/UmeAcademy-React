@@ -1,4 +1,4 @@
-import { routerConfigAdmin } from '@/contants/admin'
+import { routerConfigAdmin } from '@/constants/admin'
 import { LoadingOutlined } from '@ant-design/icons'
 import { DatePicker, Input, message } from 'antd'
 import { useState } from 'react'

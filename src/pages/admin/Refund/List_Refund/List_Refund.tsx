@@ -2,7 +2,7 @@ import { message, Pagination, Table, Tag } from 'antd';
 import { useState } from 'react';
 import './listRefundAntd.scss';
 import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 
 const List_Refund = () => {
 

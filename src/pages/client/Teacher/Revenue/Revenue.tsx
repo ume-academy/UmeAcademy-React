@@ -1,7 +1,7 @@
 import { HandCoins, Star, Users } from "lucide-react";
 import Chart from "./Chart";
 import Courses_Top from "./Courses_Top";
-import { getTitleTab } from "@/contants/client";
+import { getTitleTab } from "@/constants/client";
 import { Helmet } from "react-helmet";
 import './DatePickerAntd.scss'
 const Revenue = () => {

@@ -2,7 +2,7 @@ import { Form, Input, Radio } from 'antd';
 import './paymentMethodAntd.scss'; // SCSS cho thành phần này
 import styles from './paymentMethods.module.scss';
 import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 
 const Payment_Methods = () => {
 

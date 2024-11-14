@@ -1,5 +1,5 @@
 import Header_Mobile_Tablet from '@/components/client/commonComponents/Header/Header_Mobile_Tablet/Header_Mobile_Tablet'
-import { routerConfig } from '@/contants/client'
+import { routerConfig } from '@/constants/client'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
@@ -7,7 +7,7 @@ import Footer from '../components/client/commonComponents/Footer/Footer'
 import Header from '../components/client/commonComponents/Header/Header'
 import Sidebar_Teacher from '@/components/client/teacher/SidebarTeacher/Sidebar_Teacher'
 
-const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
+const Layout_Teacher = () => {
   const [isVisible, setisVisible] = useState(false)
   const location = useLocation()
   const hideSideBar = routerConfig.hiddenSideberTeacher.includes(location.pathname)
@@ -55,7 +55,7 @@ const Layout_Teacher = ({ children }: { children?: React.ReactNode }) => {
         </div>
         )}
 
-        <div className='flex-1'>{children || <Outlet />}</div>
+        <div className='flex-1'><Outlet /></div>
           </div>
         </div>
       </div>

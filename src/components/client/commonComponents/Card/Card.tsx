@@ -3,7 +3,7 @@ import { Modal, Rate, Select, TreeSelect } from "antd";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails, isHistoryLesson, isMyCoursesPage } from "@/contants/client";
+import { getButtonDetails, isHistoryLesson, isMyCoursesPage } from "@/constants/client";
 import { CircleAlert } from "lucide-react";
 import styled from "styled-components";
 

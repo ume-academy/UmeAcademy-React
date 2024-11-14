@@ -4,9 +4,9 @@ import Header_Mobile_Tablet from '@/components/client/commonComponents/Header/He
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { routerConfig } from '../contants/client'
+import { routerConfig } from '../constants/client'
 
-const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
+const Layout_Client = () => {
   const [isVisible, setisVisible] = useState(false)
   const location = useLocation()
 
@@ -40,7 +40,7 @@ const Layout_Client = ({ children }: { children?: React.ReactNode }) => {
     <div>
       <div className='dark:bg-[#131022] min-h-screen flex flex-col'>
         {!hidenHeaderFotter && (<><Header /> <Header_Mobile_Tablet /></>)}
-        <main className='flex-grow'>{children || <Outlet />}</main>
+        <main className='flex-grow'><Outlet /></main>
         {!hidenHeaderFotter && <Footer />}
         {isVisible && (
           <motion.button

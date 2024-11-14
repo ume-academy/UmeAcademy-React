@@ -1,7 +1,7 @@
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { medal, ruler, tutor, university } from '../../../../../contants/client'
+import { medal, ruler, tutor, university } from '../../../../../constants/client'
 import SliderCategory from './SliderCategory'
 
 const TopCategory = () => {

@@ -1,4 +1,4 @@
-import { logo, routerConfig } from '@/contants/client'
+import { logo, routerConfig } from '@/constants/client'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import {

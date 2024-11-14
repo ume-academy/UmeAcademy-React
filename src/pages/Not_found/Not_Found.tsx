@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { getTitleTab, imgNF, logo } from '@/contants/client'
+import { getTitleTab, imgNF, logo } from '@/constants/client'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import { Helmet } from 'react-helmet'
 

@@ -4,7 +4,7 @@ import FeaturedCourses from '@/components/client/student/HomeSecssion/FeaturedCo
 import { Introduce } from '@/components/client/student/HomeSecssion/Introduce/Introduce'
 import MasterSkills from '@/components/client/student/HomeSecssion/MasterSkills/MasterSkills'
 import TopCategory from '@/components/client/student/HomeSecssion/TopCategory/TopCategory'
-import { getTitleTab } from '@/contants/client'
+import { getTitleTab } from '@/constants/client'
 
 
 const Home_Page = () => {

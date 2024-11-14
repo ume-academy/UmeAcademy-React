@@ -1,5 +1,5 @@
 import ProfileTeacher from '@/components/client/teacher/Profile/ProfileTeacher'
-import { getTitleTab } from '@/contants/client'
+import { getTitleTab } from '@/constants/client'
 import { Helmet } from 'react-helmet'
 
 const Profile_Teacher = () => {
@@ -24,7 +24,7 @@ const Profile_Teacher = () => {
         <title>{getTitleTab('Hồ sơ giảng viên')}</title>
       </Helmet>
 
-      <div className='pt-[120px] md:pt-[160px]'>
+      <div className=''>
         <ProfileTeacher props={user}/>
       </div>
     </>

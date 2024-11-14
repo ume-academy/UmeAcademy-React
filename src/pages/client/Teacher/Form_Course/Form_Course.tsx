@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
 import { useState } from 'react'
-import { routerConfigAdmin } from '@/contants/admin'
+import { routerConfigAdmin } from '@/constants/admin'
 import TextArea from 'antd/es/input/TextArea'
 
 const Form_Course = () => {

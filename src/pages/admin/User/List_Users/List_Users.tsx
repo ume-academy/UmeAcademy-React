@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import './List_User_Antd.scss';
-import { getTitleTab } from "@/contants/client";
+import { getTitleTab } from "@/constants/client";
 import { Helmet } from "react-helmet";
 
 interface User {

@@ -1,3 +1,4 @@
+import { router } from '@/configs/routes'
 import { useMediaQuery } from 'react-responsive'
 
 // Sử dụng cho reponsive bắt kích thước màn hình
@@ -25,7 +26,7 @@ export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png
 export const routerConfig = {
   transparentHeader: ['/'],
   hidenHeaderFooter: ['/course/:id/lesson', '/teacher/course-management/:id'],
-  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/form-course', '/teacher/course-management/:id']
+  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/form-course', '/teacher/course-management/:id' ]
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher

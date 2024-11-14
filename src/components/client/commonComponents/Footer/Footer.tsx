@@ -1,5 +1,5 @@
 import { EnvironmentFilled, MailFilled, PhoneFilled } from '@ant-design/icons'
-import { logo } from '../../../../contants/client'
+import { logo } from '../../../../constants/client'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {

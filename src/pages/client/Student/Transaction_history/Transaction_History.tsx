@@ -1,4 +1,4 @@
-import { getTitleTab } from '@/contants/client'
+import { getTitleTab } from '@/constants/client'
 import { Table, Pagination, Tag } from 'antd'
 import { Helmet } from 'react-helmet'
 import '@/scss/TableAntd.scss'

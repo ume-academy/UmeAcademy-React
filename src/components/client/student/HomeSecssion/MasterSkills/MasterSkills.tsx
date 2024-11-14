@@ -1,6 +1,6 @@
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
-import { imageMasterSkills } from '../../../../../contants/client'
+import { imageMasterSkills } from '../../../../../constants/client'
 
 const MasterSkills = () => {
   // Sử dụng để bắt sự kiện hover vào card thông tin

@@ -1,4 +1,4 @@
-import { itemsStep_CourseManagement, useIsMobile, useIsTablet } from '@/contants/client';
+import { itemsStep_CourseManagement, useIsMobile, useIsTablet } from '@/constants/client';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
 import { MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons';
 import { Drawer, Steps, Tooltip, TreeSelect } from 'antd';
@@ -12,7 +12,7 @@ import List_Students from '../Students/List_Students';
 import './Course_Management_Antd.scss'
 import styled from 'styled-components';
 import Targets from './Targets/Targets';
-import { routerConfigAdmin } from '@/contants/admin';
+import { routerConfigAdmin } from '@/constants/admin';
 import { TreeNode } from 'antd/es/tree-select';
 
 const Course_Management = () => {

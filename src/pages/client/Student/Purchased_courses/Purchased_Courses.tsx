@@ -1,7 +1,7 @@
 import { motion, easeInOut, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
-import { getTitleTab } from '../../../../contants/client'
+import { getTitleTab } from '../../../../constants/client'
 import { Pagination } from 'antd'
 import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
 

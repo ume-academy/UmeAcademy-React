@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet'
-import { getTitleTab, vmpayLogo } from '../../../../contants/client'
+import { getTitleTab, vmpayLogo } from '../../../../constants/client'
 import { BookFilled, WalletFilled } from '@ant-design/icons'
 import { Radio, Modal } from 'antd'
 import { useState } from 'react'

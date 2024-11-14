@@ -4,7 +4,7 @@ import { MoveLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import './catalogForm.scss';
 import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 
 const Catalog_Form_Submit = () => {
 

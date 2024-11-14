@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './listCatalogues.scss';
 import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/contants/client';
+import { getTitleTab } from '@/constants/client';
 
 const List_Catalogues = () => {
 
