@@ -3,7 +3,7 @@ import { Rate } from "antd";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails, isMyCoursesPage } from "@/constants/client";
+import { getButtonDetails } from "@/constants/client";
 import { router } from "@/configs/routes";
 
 export interface CardProps {
@@ -33,7 +33,7 @@ const Card_Horizontal = ({
   const location = useLocation();
   const id = 1
   const { buttonText, targetPath } = getButtonDetails();
-  const [modalType, setModalType] = useState<'refund' | 'delete' | null>(null)
+  const isMyCoursesPage = location.pathname === `${router.myCourses}`
 
   const handleClick = () => {
     setHeart(!heart);

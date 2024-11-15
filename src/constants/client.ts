@@ -1,5 +1,6 @@
 import { router } from '@/configs/routes'
 import { useMediaQuery } from 'react-responsive'
+import { useLocation } from 'react-router-dom'
 
 // Sử dụng cho reponsive bắt kích thước màn hình
 export const useIsMobile = () => useMediaQuery({ query: '(max-width: 768px)' })
@@ -26,23 +27,21 @@ export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png
 export const routerConfig = {
   transparentHeader: ['/'],
   hidenHeaderFooter: ['/course/:id/lesson', '/teacher/course-management/:id'],
-  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/form-course', '/teacher/course-management/:id' ]
+  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/form-course', '/teacher/course-management/:id']
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
-export const isMyCoursesPage = location.pathname === '/teacher/my-courses'
-export const isHistoryLesson = location.pathname === '/purchased-courses'
-
 export const getButtonDetails = () => {
+  const location = useLocation()
   let buttonText = 'Mua ngay'
-  let targetPath = '/course-payment-method'
+  let targetPath = `${router.coursePaymentMethod}`
 
-  if (isHistoryLesson) {
+  if (location.pathname === `${router.purchasedCourses}`) {
     buttonText = 'Hoàn tiền'
-    targetPath = '/purchased-courses'
-  } else if (isMyCoursesPage) {
+    targetPath = `${router.purchasedCourses}`
+  } else if (location.pathname === `${router.myCourses}`) {
     buttonText = 'Xóa'
-    targetPath = '/teacher/my-courses'
+    targetPath = `${router.myCourses}`
   }
   return { buttonText, targetPath }
 }

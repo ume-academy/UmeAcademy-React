@@ -60,7 +60,6 @@ export const teacherRoutes = [
   { path: router.formCourse, element: Form_Course },
   { path: router.courseManagement, element: Course_Management },
   { path: router.profileTeacher, element: Profile_Teacher },
-
 ]
 
 
@@ -88,7 +87,7 @@ export const adminRoutes = [
 
 // Routes cho auth
 export const authRoutes = [
-  { path: router.login, element: Login },
+  { path: router.login, element: Login }, 
   { path: router.register, element: Register },
   { path: router.forgot_password, element: ForgotPassword },
 
