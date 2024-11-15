@@ -3,7 +3,7 @@ import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Plus, Trash } from 'lucide-react'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const Targets = () => {
@@ -19,15 +19,6 @@ const Targets = () => {
     const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
     return regex.test(location.pathname)
   })
-
-  // Hàm xử lý sự kiện hover
-  const handleMouseEnter = () => {
-    setIsHovered(true); // Cập nhật state khi hover vào
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false); // Cập nhật state khi rời khỏi
-  };
 
 
   // Hàm này để lưu lại index và value của input rồi set lại state
@@ -174,12 +165,13 @@ const Targets = () => {
               {!hideCourseFunction && (
               <div className="flex justify-end">
               <Button
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 style={{border: '2px solid #ff5364', color: `${isHovered === false ? '#fff' : '#ff5364'}` }}
                 onClick={() => onsubmit()}
                 htmlType='submit'
                 className='w-full md:w-[180px] lg:w-[180px] font-title bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
+                disabled={loading}
               >
                 {loading ? <LoadingOutlined /> : 'Lưu'}
               </Button>

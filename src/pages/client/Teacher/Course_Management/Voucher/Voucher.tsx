@@ -1,6 +1,6 @@
 import { routerConfigAdmin } from '@/constants/admin'
 import { LoadingOutlined } from '@ant-design/icons'
-import { DatePicker, Input, message } from 'antd'
+import { Button, DatePicker, Input, message } from 'antd'
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import './Voucher_Antd.scss'
@@ -56,6 +56,17 @@ const formatDate = (dateString: string) => {
 }
 
 const Voucher = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+    // Hàm xử lý sự kiện hover
+    const handleMouseEnter = () => {
+      setIsHovered(true); // Cập nhật state khi hover vào
+    };
+  
+    const handleMouseLeave = () => {
+      setIsHovered(false); // Cập nhật state khi rời khỏi
+    };
+
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
   const location = useLocation()
   const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
@@ -156,12 +167,16 @@ const Voucher = () => {
         </div>
         {!hideCourseFunction && (
           <div className='flex justify-end'>
-          <button
+          <Button
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             onClick={() => handleClick()}
-            className='w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'
+            style={{border: '2px solid #ff5364', color: `${isHovered === false ? '#fff' : '#ff5364'}` }}
+            className='w-full md:w-[180px] lg:w-[180px] font-title bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
+            disabled={loading}
           >
             {loading ? <LoadingOutlined /> : 'Lưu'}
-          </button>
+          </Button>
         </div>
         )}
       </div>

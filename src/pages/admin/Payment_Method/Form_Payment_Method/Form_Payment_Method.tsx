@@ -1,6 +1,7 @@
+import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import { CheckOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Form, Input, message } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import { Asterisk, MoveLeft } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -15,7 +16,6 @@ interface Payment_MethodType {
 const Form_Payment_Method = () => {
   const { id } = useParams()
   const [form] = Form.useForm()
-  const [isLoading, setLoading] = useState(false)
   const [extraFields, setExtraFields] = useState<number[]>([]); // State để quản lý các ô input bổ sung
   const [errorMsg, setErrorMsg] = useState(''); // Thêm state để quản lý thông báo lỗi
 
@@ -27,10 +27,16 @@ const Form_Payment_Method = () => {
     setExtraFields(extraFields.filter((fields) =>  fields !== id ))
   }
 
+  const [isHoveredSubmit, setIsHoveredSubmit] = useState(false);
+  const [isHoveredSupplement, setIsHoveredSupplement] = useState(false);
+  const [loading, setLoading] = useState(false)
+
   const onFinish = async (values: any) => {
     try {
       setLoading(true);
       // Giả lập quá trình chờ dữ liệu tải
+      const values = await form.validateFields();
+      console.log(values)
       await new Promise((resolve) => setTimeout(resolve, 2000));
       
       if (id) {
@@ -56,18 +62,23 @@ const Form_Payment_Method = () => {
 
           <div className='flex items-center gap-2 mt-4 md:mt-4 lg:mt-0'>
             <Link
-              to={'/admin/list-payment-method'}
+              to={`${router.listPaymentMethod}`}
               className='py-2 px-2 md:px-4 lg:px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
             >
               <MoveLeft />
               <span className='ml-2'>Quay lại</span>
             </Link>
-            <button
-              className='py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]'
-            >
-              {isLoading ? <LoadingOutlined /> : <CheckOutlined />}
-              {id ? 'Cập nhật phương thức' : 'Thêm mới phương thức'}
-            </button>
+            <Button
+              onMouseEnter={() => setIsHoveredSubmit(true)}
+              onMouseLeave={() => setIsHoveredSubmit(false)}
+              style={{border: '1px solid #ff5364', color: `${isHoveredSubmit === false ? '#fff' : '#ff5364'}` }}
+              htmlType='submit'
+              className='w-full md:w-[180px] lg:w-[180px] bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
+              disabled={loading}
+              >
+                {loading ? <LoadingOutlined /> : <CheckOutlined />}
+                {id ? 'Cập nhật phương thức' : 'Thêm mới phương thức'}
+            </Button>
           </div>
         </div>
 
@@ -132,13 +143,16 @@ const Form_Payment_Method = () => {
               </Form.Item>
             ))}
 
-            <button
-              type="button"
+            <Button
+              onMouseEnter={() => setIsHoveredSupplement(true)}
+              onMouseLeave={() => setIsHoveredSupplement(false)}
+              style={{border: '1px solid #ff5364', color: `${isHoveredSupplement === false ? '#fff' : '#ff5364'}` }}
+              htmlType="button"
               onClick={addExtraField}
-              className='py-2 px-4 mt-12 rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]'
+              className='p-5 mt-12 bg-[#ff5364] text-[#fff] rounded-lg hover:text-[#ff5364] hover:bg-transparent'
             >
               Bổ sung
-            </button>
+            </Button>
           </div>
         </div>
       </Form>

@@ -9,17 +9,23 @@ import './Form_Course.scss'
 import { useState } from 'react'
 import { routerConfigAdmin } from '@/constants/admin'
 import TextArea from 'antd/es/input/TextArea'
+import { routerConfigTeacher } from '@/constants/client'
+import { router } from '@/configs/routes'
 
 const Form_Course = () => {
   const {id} = useParams()
 
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
   const location = useLocation()
-  const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
+  const hideCourseFunctionAdmin = routerConfigAdmin.hideCourseFunction.some((route) => {
     const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
     return regex.test(location.pathname)
   })
 
+  const hideCourseFunctionTeacher = routerConfigTeacher.hiddenButtonComeBack.some((route) => {
+    const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+    return regex.test(location.pathname)
+  })
 
   // Custom lại thẻ select
   const CustomTreeSelect = styled(TreeSelect)`
@@ -55,15 +61,15 @@ const Form_Course = () => {
       if(id){
         alert("Cập nhật thành công")
       }else{
-        nav('/teacher/course-management/1')
+        nav(`${router.courseManagement}`)
       }
     }, 2000);
   }
   
   // Điều kiện rending text cho thẻ title H1
-  const textH1 = id && !hideCourseFunction
+  const textH1 = id && !hideCourseFunctionAdmin
     ? 'Cập nhật khóa học' 
-    : hideCourseFunction 
+    : hideCourseFunctionAdmin 
     ? 'Tổng quan khóa học' 
     : 'Thêm mới khóa học'
 
@@ -82,7 +88,7 @@ const Form_Course = () => {
               h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
               focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
               placeholder='Tiêu đề khóa học'
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             />
           </div>
 
@@ -95,7 +101,7 @@ const Form_Course = () => {
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               placeholder='Vui lòng chọn'
               showSearch
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             >
               <TreeNode value='jav' title='Jav' />
               <TreeNode value='forn' title='Forn Hub' />
@@ -111,7 +117,7 @@ const Form_Course = () => {
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               placeholder='Vui lòng chọn--'
               showSearch
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             >
               <TreeNode value='jav' title='Jav' />
               <TreeNode value='forn' title='Forn Hub' />
@@ -130,7 +136,7 @@ const Form_Course = () => {
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               placeholder='Vui lòng chọn--'
               showSearch
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             >
               <TreeNode value='jav' title='Jav' />
               <TreeNode value='forn' title='Forn Hub' />
@@ -140,7 +146,7 @@ const Form_Course = () => {
           {/* Video giới thiệu */}
           <div className='mb-6'>
             <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Video giới thiệu</label>
-            <Dragger name='file' action={``} listType='picture' maxCount={1} style={{marginTop: 12, padding: 18}} disabled={hideCourseFunction}>
+            <Dragger name='file' action={``} listType='picture' maxCount={1} style={{marginTop: 12, padding: 18}} disabled={hideCourseFunctionAdmin}>
               <p className='ant-upload-drag-icon'>
                 <UploadOutlined style={{ color: '#f66962' }} />
               </p>
@@ -156,7 +162,7 @@ const Form_Course = () => {
           {/* Ảnh bìa */}
           <div className='mb-6'>
             <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ảnh bìa khóa học</label>
-            <Dragger name='file' action={``} listType='picture' maxCount={1} style={{marginTop: 12, padding: 18}} disabled={hideCourseFunction}>
+            <Dragger name='file' action={``} listType='picture' maxCount={1} style={{marginTop: 12, padding: 18}} disabled={hideCourseFunctionAdmin}>
               <p className='ant-upload-drag-icon'>
                 <UploadOutlined style={{ color: '#f66962' }} />
               </p>
@@ -176,7 +182,7 @@ const Form_Course = () => {
               h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
               focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
               placeholder='Mô tả'
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             />
           </div>
 
@@ -189,20 +195,22 @@ const Form_Course = () => {
               h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
               focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
               placeholder='Mô tả'
-              disabled={hideCourseFunction}
+              disabled={hideCourseFunctionAdmin}
             />
           </div>
 
-          {!hideCourseFunction ? (
+          {!hideCourseFunctionAdmin ? (
             <>
               {/* Nút */}
-          <div className='flex flex-col md:flex-row md:justify-between lg:flex-row lg:justify-between'>
-            <Link
-              to={`/`}
-              className='w-full md:w-[180px] lg:w-[180px] mb-5  md:mb-0 lg:mb-0 flex justify-center border-[1px] font-title border-[#685f78] text-[#fff] bg-[#685f78] p-2.5 rounded-lg hover:bg-transparent hover:text-[#685f78]'
-            >
-              Quay lại
-            </Link>
+          <div className={`flex flex-col md:flex-row md:justify-between lg:flex-row ${hideCourseFunctionTeacher ? 'lg:justify-end': 'lg:justify-between'}`}>
+            {!hideCourseFunctionTeacher && (
+              <Link
+                to={`${router.home}`}
+                className='w-full md:w-[180px] lg:w-[180px] mb-5  md:mb-0 lg:mb-0 flex justify-center border-[1px] font-title border-[#685f78] text-[#fff] bg-[#685f78] p-2.5 rounded-lg hover:bg-transparent hover:text-[#685f78]'
+              >
+                Quay lại
+              </Link>
+            )}
             <button onClick={() => handleClick()} className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'>
               {loading ? <LoadingOutlined/> : (id ? 'Lưu' : 'Thêm mới khóa học')}
             </button>

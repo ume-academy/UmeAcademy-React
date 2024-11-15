@@ -1,3 +1,4 @@
+import { router } from '@/configs/routes';
 import { getTitleTab } from '@/constants/client';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Table, TableColumnType } from 'antd';
@@ -47,7 +48,7 @@ const List_Payment_Method = () => {
       title: 'Hành động',
       render: ((_: any, item: any) => (
         <div className="flex items-center justify-center">
-          <Link to={`/admin/form-payment-method/${item.id}`}>
+          <Link to={`${router.paymentMethodUpdate.replace(':id', item.id)}`}>
             <Button type='primary' className='ml-2'>
               <Pen size={20} />
             </Button>
@@ -76,7 +77,7 @@ const List_Payment_Method = () => {
       <div className="flex justify-between flex-col md:flex-row lg:flex-row mb-4">
           <p className="font-title text-xl">Danh sách phương thức thanh toán</p>
           <Link
-            to={'/admin/form-payment-method'}
+            to={`${router.paymentMethodCreate}`}
             className='border mt-4 md:mt-0 lg:mt-0 w-[140px] flex justify-center items-center border-[#F84563] py-2 px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] gap-3'
           >
             <PlusCircleOutlined />

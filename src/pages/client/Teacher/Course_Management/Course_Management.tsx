@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import Targets from './Targets/Targets';
 import { routerConfigAdmin } from '@/constants/admin';
 import { TreeNode } from 'antd/es/tree-select';
+import { router } from '@/configs/routes';
 
 const Course_Management = () => {
   const [openDrawer, setOpenDrawer] = useState(false); // State để kiểm soát việc mở và đóng drawer
@@ -89,7 +90,7 @@ const Course_Management = () => {
       {!hideCourseFunction && (
         <div className='fixed top-0 right-0 left-0 z-50 bg-[#3d3a4e] h-[70px] flex items-center justify-between'>
           <div className='flex items-center h-full'>
-            <Link to={`/teacher/my-courses`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#3b3657] hover:text-[#fff] h-full flex items-center text-[#fff]'>
+            <Link to={`${router.myCourses}`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#3b3657] hover:text-[#fff] h-full flex items-center text-[#fff]'>
             <ChevronLeft strokeWidth={3} size={18} /><p className=' hidden lg:block text-[14px]'>Quay lại khóa học</p>
             </Link>
             
@@ -126,7 +127,7 @@ const Course_Management = () => {
                 treeDataSimpleMode
                 style={{ width: '50%', marginTop: 12, height: 44 }}
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                placeholder='Vui lòng chọn--'
+                placeholder='Vui lòng xác nhận--'
               >
                 <TreeNode value='jav' title='Xác nhận duyệt' />
                 <TreeNode value='forn' title='Từ chối' />

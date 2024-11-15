@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom'
 import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constants/client'
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
 import style from './Lesson.module.scss'
+import { router } from '@/configs/routes'
 
 const Lesson = () => {
+  const id_Fake = 5
+
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
 
   // Sử dụng để kiểm tra kích thước màn hình rồi render element
@@ -239,13 +242,13 @@ const Lesson = () => {
         <div className='bg-[#3d3a4e] h-[60px] flex items-center justify-between'>
           <div className='flex items-center h-full '>
             <Link
-              to={`/course/1`}
+              to={`${router.courseDetail.replace(':id', id_Fake.toString())}`}
               className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#0000001a] h-full flex items-center'
             >
               <LeftOutlined style={{ fontSize: 20, color: '#fff' }} />
             </Link>
             {!isMobile && (
-              <Link className='h-[60%]  flex items-center mr-3' to={`/`}>
+              <Link className='h-[60%]  flex items-center mr-3' to={`${router.home}`}>
                 <img className='h-full' src={logo} alt='' />
               </Link>
             )}

@@ -1,3 +1,5 @@
+import { router } from "@/configs/routes";
+
 export const routerConfigAdmin = {
-  hideCourseFunction: ['/admin/check-course/:id']
+  hideCourseFunction: [`${router.checkCourse}`]
 }

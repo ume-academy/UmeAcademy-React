@@ -25,9 +25,9 @@ export const imageMasterSkills = '/assets/images/client/homeBGR/masterSkills.png
 
 // biến này dùng để thay đổi css cho phù hợp với từng router
 export const routerConfig = {
-  transparentHeader: ['/'],
-  hidenHeaderFooter: ['/course/:id/lesson', '/teacher/course-management/:id'],
-  hiddenSideberTeacher: ['/teacher/new-instructor', '/teacher/form-course', '/teacher/course-management/:id']
+  transparentHeader: [`${router.home}`],
+  hidenHeaderFooter: [`${router.lesson}`, `${router.courseManagement}`],
+  hiddenSideberTeacher: [`${router.newInstructor}`, `${router.formCourse}`, `${router.courseManagement}`]
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
@@ -61,6 +61,10 @@ export const bankLogo = '/assets/images/client/payment/bank.jpg'
 export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/error-01.png'
 
 // <===== Teacher =====>
+
+export const routerConfigTeacher = {
+  hiddenButtonComeBack: [`${router.courseManagement}`],
+}
 
 // Tiêu đề các bước trong quản trị khóa học
 export const itemsStep_CourseManagement = [

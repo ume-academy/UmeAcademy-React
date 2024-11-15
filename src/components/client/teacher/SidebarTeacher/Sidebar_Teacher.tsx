@@ -8,7 +8,7 @@ import {
 } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
-import { router } from '@/configs/routes'
+import { router } from '@/configs/routes';
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
@@ -34,7 +34,7 @@ const Sidebar_Teacher = () => {
           </div>
 
           <div className={`${styles['act']} p-6`}>
-            <Link to={`/teacher/form-course`}
+            <Link to={`${router.formCourse}`}
               className='   flex
                             justify-center
                             py-3 

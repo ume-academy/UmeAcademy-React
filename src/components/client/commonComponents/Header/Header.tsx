@@ -15,6 +15,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
+import { router } from '@/configs/routes'
 
 const Header = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
@@ -71,39 +72,37 @@ const Header = () => {
         </div>
       )
     },
-    {
-      key: '1',
-      label: (
-        <Link to='/profile'>
-          <UserOutlined className='mr-2' />
-          Hồ sơ
-        </Link>
-      )
-    },
     // Chỉ hiển thị key 2-4 nếu mode === 'student'
     // Không thêm mục nào nếu mode không phải là 'student'
     ...(mode === 'student'
-      ? [2, 3, 4].map((key) => ({
+      ? [1, 3, 4].map((key) => ({
         key: `${key}`,
         label: (() => {
           switch (key) {
-            case 2:
+            case 1:
               return (
-                <Link to='/wallet-history'>
-                  <HistoryOutlined className='mr-2' />
-                  Lịch sử giao dịch
+                <Link to={`${router.profileStudent}`}>
+                  <UserOutlined className='mr-2' />
+                  Hồ sơ
                 </Link>
-              );
+              )
+            // case 2:
+            //   return (
+            //     <Link to={`${router.walletHistory}`}>
+            //       <HistoryOutlined className='mr-2' />
+            //       Lịch sử giao dịch
+            //     </Link>
+            //   );
             case 3:
               return (
-                <Link to='/purchased-courses'>
+                <Link to={`${router.purchasedCourses}`}>
                   <StarOutlined className='mr-2' />
                   Danh sách đã mua
                 </Link>
               );
             case 4:
               return (
-                <Link className='flex justify-start items-center' to='/wallet-history'>
+                <Link className='flex justify-start items-center' to={`${router.walletHistory}`}>
                   <WalletOutlined className='mr-2' style={{ width: 16, height: 16 }} />
                   Ví Ume
                 </Link>
@@ -113,9 +112,24 @@ const Header = () => {
           }
         })()
       }))
-      : []),
+      : [1].map((key) => ({
+        key: `${key}`,
+        label: (() => {
+          switch (key) {
+            case 1:
+              return (
+                <Link to={`${router.profileTeacher}`}>
+                  <UserOutlined className='mr-2' />
+                  Hồ sơ
+                </Link>
+              )
+            default:
+              return null;
+          }
+        })()
+      }))),
     {
-      key: '5',
+      key: '',
       label: (
         <button className='border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]'>
           <LogoutOutlined className='mr-2' />
@@ -139,7 +153,7 @@ const Header = () => {
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>
-              <Link to={mode === 'student' ? `http://localhost:5173/` : 'http://localhost:5173/'}>
+              <Link to={mode === 'student' ? `${router.home}` : `${router.home}`}>
                 <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
@@ -236,8 +250,8 @@ const Header = () => {
                 </Space>
             </Dropdown>
             {/* Khi có data thật đây là nút Đăng ký đăng nhập */}
-            {/* <Link to={`/login`} className="mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]">Đăng Nhập</Link> */}
-            {/* <Link to={`/register`} className="mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#22100d] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]">Đăng Ký</Link> */}
+            {/* <Link to={`${router.login}`} className="mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]">Đăng Nhập</Link> */}
+            {/* <Link to={`${router.register}`} className="mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#22100d] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]">Đăng Ký</Link> */}
           </div>
         </div>
       </div>
