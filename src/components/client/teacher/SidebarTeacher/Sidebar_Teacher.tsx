@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
+import { router } from '@/configs/routes'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
@@ -64,7 +65,7 @@ const Sidebar_Teacher = () => {
               <ul className='space-y-4 text-[#685f78] dark:text-[#B9B7C0]'>
                 <li>
                   <NavLink
-                    to={'/'}
+                    to={router.home}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
@@ -76,7 +77,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/teacher/my-courses'}
+                    to={router.myCourses}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
@@ -88,7 +89,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/teacher/my-students'}
+                    to={router.listStudents}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
@@ -100,7 +101,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/teacher/withdraw-money'}
+                    to={router.withdrawMoney}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
@@ -112,7 +113,7 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={'/teacher/payment-methods'}
+                    to={router.paymentMethods}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }

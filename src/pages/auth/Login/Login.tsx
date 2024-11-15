@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { imgCarousel, getTitleTab, logo } from '../../../constants/client'
 import { FacebookFilled, GoogleCircleFilled } from '@ant-design/icons'
+import { router } from '@/configs/routes'
 
 const Login = () => {
   const [index, setIndex] = useState(0)
@@ -85,13 +86,13 @@ const Login = () => {
           >
             <div className={`${styles['heading']} flex justify-between items-center`}>
               <div className={`${styles['logo']} text-3xl font-title`}>
-                <Link to={'/'}>
+                <Link to={router.home}>
                   <img src={logo} alt='' width={150} />
                 </Link>
               </div>
 
               <div className=''>
-                <Link to={'/'} className='underline text-gray-400'>
+                <Link to={router.home} className='underline text-gray-400'>
                   Quay lại trang chủ
                 </Link>
               </div>
@@ -124,7 +125,7 @@ const Login = () => {
                 </div>
 
                 <div className=''>
-                  <Link to={'/forgot_password'} className=''>
+                  <Link to={router.forgot_password} className=''>
                     Quên mật khẩu?
                   </Link>
                 </div>
@@ -165,7 +166,7 @@ const Login = () => {
             <div className=''>
               <p>
                 Chưa có tài khoản? Đăng ký ngay{' '}
-                <Link to={'/register'} className='font-subtitle text-[#FF875A]'>
+                <Link to={router.register} className='font-subtitle text-[#FF875A]'>
                   tại đây
                 </Link>
               </p>

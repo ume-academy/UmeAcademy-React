@@ -1,5 +1,6 @@
+import { router } from '@/configs/routes'
 import { HeartOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
-import { Avatar, FloatButton, GetProp, Menu, MenuProps, Modal, Rate } from 'antd'
+import { Avatar, GetProp, Menu, MenuProps, Modal, Rate } from 'antd'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
@@ -19,6 +20,9 @@ const CourseDetails = () => {
     setCurrentVideoPath(path) // Cập nhật đường dẫn video hiện tại
     setModal2Open(true)
   }
+
+  // fake id
+  const id = '1'
 
   const data = [
     {
@@ -169,6 +173,7 @@ const CourseDetails = () => {
       <Helmet>
         <title>{getTitleTab('Chi tiết khóa học')}</title>
       </Helmet>
+      
       <div className={`${styles['wrapper']} space-y-6 md:space-y-0`}>
         <div
           className={`${styles['overviewTeacher']} bg-[url(/assets/images/client/Course/inner-banner.png)] dark:text-[#B9B7C0] pt-[160px] pb-[80px]`}
@@ -959,12 +964,9 @@ const CourseDetails = () => {
                       </button>
                     </div>
 
-                    {/* <button className={`${styles['enrollBtn']} rounded-full py-2`}>
-                      <Link to={`/course/:id/lesson`} className='hover:text-[#F66962]'>Xem ngay</Link>
-                    </button> */}
-                    <div className="">
+                    <div className="">     
                       <Link
-                        to={`/course/:id/lesson`}
+                        to={router.lesson.replace(':id', id)}
                         className='
                         bg-[#159f46] 
                           py-3 

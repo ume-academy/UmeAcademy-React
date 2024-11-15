@@ -1,11 +1,12 @@
+import { router } from '@/configs/routes';
+import { getTitleTab } from '@/constants/client';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Pagination, Table } from 'antd';
 import { Pen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import './listCatalogues.scss';
-import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/constants/client';
 
 const List_Catalogues = () => {
 
@@ -108,7 +109,7 @@ const List_Catalogues = () => {
       title: 'Chức năng',
       render: ((_: any, item: any) => (
         <div className="flex items-center justify-center">
-          <Link to={`/admin/catalogues/update/${item.id}`}>
+          <Link to={`${router.cataloguesUpdate.replace(':id', item.id)}`}>
             <Button type='primary' className='ml-2'>
               <Pen size={20} />
             </Button>
@@ -139,7 +140,7 @@ const List_Catalogues = () => {
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78] w-[60%] md:w-full'>Danh sách danh mục khóa học</h5>
 
           <Link
-            to={'/admin/catalogues/create'}
+            to={router.cataloguesCreate}
             className='
             border 
             border-[#F84563] 
@@ -148,7 +149,7 @@ const List_Catalogues = () => {
             w-auto
             rounded-md 
             bg-[#F84563] 
-            md:w-[15%] 
+            md:w-[25%] 
             flex 
             justify-center 
             items-center 
@@ -158,6 +159,7 @@ const List_Catalogues = () => {
             hover:text-[#F84563] 
             gap-3
             md:py-2 md:px-5
+            lg:w-[20%]
             '
           >
             <PlusCircleOutlined />

@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import './catalogForm.scss';
 import { Helmet } from 'react-helmet';
 import { getTitleTab } from '@/constants/client';
+import { router } from '@/configs/routes';
 
 const Catalog_Form_Submit = () => {
 
@@ -28,7 +29,7 @@ const Catalog_Form_Submit = () => {
           </h5>
 
           <Link
-            to={'/admin/catalogues'}
+            to={router.listCatalogues}
             className='
             border 
             border-[#F84563] 
@@ -37,7 +38,7 @@ const Catalog_Form_Submit = () => {
             w-auto
             rounded-md 
             bg-[#F84563] 
-            md:w-[15%] 
+            md:w-[20%] 
             flex 
             justify-center 
             items-center 
@@ -46,8 +47,8 @@ const Catalog_Form_Submit = () => {
             hover:border-[#F84563] 
             hover:text-[#F84563] 
             
-            md:py-2 md:px-5
-            '
+            md:py-2 md:px-5 md:gap-2
+            lg:w-[15%]'
           >
             <MoveLeft size={16} />
             <span className='ml-2'>Quay lại</span>

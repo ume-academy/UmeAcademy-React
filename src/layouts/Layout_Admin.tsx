@@ -2,6 +2,7 @@ import Footer_Admin from '@/components/admin/Footer/Footer_Admin';
 import Header_Admin from '@/components/admin/Header/Header_Admin';
 import Sidebar_Admin from '@/components/admin/Sidebar/Sidebar_Admin';
 import Sidebar_Mobile_Admin from '@/components/admin/Sidebar/Sidebar_Mobile';
+import { router } from '@/configs/routes';
 import { routerConfigAdmin } from '@/constants/admin';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
 import { AppstoreAddOutlined, AppstoreOutlined, BarsOutlined, CreditCardOutlined, HistoryOutlined, PieChartOutlined } from '@ant-design/icons';
@@ -42,21 +43,21 @@ const Layout_Admin: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   const items: MenuItem[] = [
-    getItem(<NavLink to={'/admin'} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
-    getItem(<NavLink to={'/admin/users'}>Tài khoản</NavLink>, '2', <Users size={15} />),
+    getItem(<NavLink to={router.dashBoard} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
+    getItem(<NavLink to={router.users}>Tài khoản</NavLink>, '2', <Users size={15} />),
     getItem('Danh mục khóa học', 'sub1', <AppstoreOutlined />, [
-      getItem(<NavLink to={'/admin/catalogues'}>Danh sách danh mục</NavLink>, '3', <BarsOutlined />),
-      getItem(<NavLink to={'/admin/catalogues/create'}>Thêm mới danh mục</NavLink>, '4', <AppstoreAddOutlined />),
+      getItem(<NavLink to={router.listCatalogues}>Danh sách danh mục</NavLink>, '3', <BarsOutlined />),
+      getItem(<NavLink to={router.cataloguesCreate}>Thêm mới danh mục</NavLink>, '4', <AppstoreAddOutlined />),
     ]),
-    getItem(<NavLink to={'/admin/courses'}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
-    getItem(<NavLink to={'/admin/commission-rate/update'}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
+    getItem(<NavLink to={router.coursesList}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
+    getItem(<NavLink to={router.commissionRateUpdate}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
     getItem('Danh mục giao dịch', 'sub2', <HandCoins size={15} />, [
-      getItem(<NavLink to={'/admin/transactions/instructor'}>Giảng viên</NavLink>, '7', <BookUser size={15} />),
-      getItem(<NavLink to={'/admin/transactions/student'}>Học viên</NavLink>, '8', <FileUser size={15} />),
+      getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '7', <BookUser size={15} />),
+      getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '8', <FileUser size={15} />),
     ]),
-    getItem(<NavLink to={'/admin/roles'}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
-    getItem(<NavLink to={'/admin/list-payment-method'}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
-    getItem(<NavLink to={'/admin/refund-courses'}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
+    getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
+    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
+    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
   ];
 
   const handleCollapse = (isCollapsed: any) => {

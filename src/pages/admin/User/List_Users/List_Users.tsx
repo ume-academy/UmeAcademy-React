@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import './List_User_Antd.scss';
 import { getTitleTab } from "@/constants/client";
 import { Helmet } from "react-helmet";
+import { router } from "@/configs/routes";
 
 interface User {
   id: number;
@@ -181,7 +182,7 @@ const List_Users = () => {
       width: 110,
       render: (record) => (
         <div>
-          <Link to={`/admin/users/${record.id}`}>
+          <Link to={`${router.userDetail.replace(':id', record.id)}`}>
             <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
           </Link>
         </div>
