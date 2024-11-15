@@ -4,7 +4,7 @@ import styles from './profileTeacher.module.scss';
 
 const ProfileTeacher = ({ props }: any) => {
   return (
-    <div className="max-w-[1280px] mx-auto p-4 lg:p-6">
+    <div className="max-w-[1280px] mx-auto px-4 lg:px-6">
       <div className={`${styles['parent']} rounded-xl dark:text-[#B9B7C0] dark:border-none dark:bg-[#2B2838]`}>
         <div className={`${styles['heading']} p-4 md:p-6`}>
           <h3 className="font-title text-2xl">Cài đặt</h3>
