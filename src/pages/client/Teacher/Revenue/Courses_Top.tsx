@@ -1,3 +1,4 @@
+import { router } from '@/configs/routes';
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -10,22 +11,24 @@ const Courses_Top = () => {
     image: string;
   }
 
+  const id = 1
+
   const columns = [
     {
       title: 'Khóa học',
       dataIndex: 'course',
       key: 'course',
       render: (text: string, record: Course) => (
-        <div className="flex gap-4 items-center w-[300px] md:w-[456px] lg:w-[550px]">
+        <Link to={`${router.courseDetail.replace(':id', String(id))}`} className="hover:text-[#f84563] flex gap-4 items-center w-[300px] md:w-[456px] lg:w-[550px]">
           <img
             src={record.image}
             alt="Course"
             className="w-[66px] md:w-[80px] lg:w-[100px] rounded-lg"
           />
-          <Link to={`/courses/${record.id}`} className=" hover:text-[#f84563] text-sm md:text-[16px]">
+          <div className=" text-sm md:text-[16px]">
             {text}
-          </Link>
-        </div>
+          </div>
+        </Link>
       ),
     },
     {

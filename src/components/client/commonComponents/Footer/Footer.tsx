@@ -1,6 +1,7 @@
 import { EnvironmentFilled, MailFilled, PhoneFilled } from '@ant-design/icons'
 import { logo } from '../../../../constants/client'
 import { Link } from 'react-router-dom'
+import { router } from '@/configs/routes'
 
 const Footer = () => {
   return (
@@ -21,18 +22,18 @@ const Footer = () => {
           <div className='w-[45%] md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Dành cho Giảng viên</h2>
             <ul className='space-y-3 sm:space-y-5'>
-              <li><Link to='#' className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
-              <li><Link to='/login' className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
-              <li><Link to='/register' className='hover:text-[#dc3545]'>Đăng ký</Link></li>
+              <li><Link to={router.profileTeacher} className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
+              <li><Link to={router.login} className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
+              <li><Link to={router.register} className='hover:text-[#dc3545]'>Đăng ký</Link></li>
             </ul>
           </div>
 
           <div className='w-[45%] md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Dành cho Học viên</h2>
             <ul className='space-y-3 sm:space-y-5'>
-              <li><Link to='/profile' className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
-              <li><Link to='/login' className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
-              <li><Link to='/register' className='hover:text-[#dc3545]'>Đăng ký</Link></li>
+              <li><Link to={router.profileStudent} className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
+              <li><Link to={router.login} className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
+              <li><Link to={router.register} className='hover:text-[#dc3545]'>Đăng ký</Link></li>
             </ul>
           </div>
 

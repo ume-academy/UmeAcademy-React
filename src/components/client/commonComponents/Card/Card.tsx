@@ -1,10 +1,11 @@
+import { router } from "@/configs/routes";
+import { getButtonDetails } from "@/constants/client";
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { Modal, Rate, Select, TreeSelect } from "antd";
-import { useState } from "react";
+import { Modal, Rate, TreeSelect } from "antd";
 import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails, isHistoryLesson, isMyCoursesPage } from "@/constants/client";
 import { CircleAlert } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 export interface CardProps {
@@ -19,7 +20,22 @@ export interface CardProps {
   rating: number;
   purchaseDate: string
 }
-
+const CustomTreeSelect = styled(TreeSelect)`
+.ant-select-selector {
+  width: 100% !important; /* Đảm bảo chiều rộng 100% */
+  background-color: #fafafa !important;
+  border: 1px solid #c1c9d2 !important;
+}
+.dark & .ant-select-selector {
+  background-color: #131022 !important;
+  border: 1px solid #c7c7c740 !important;
+}
+.ant-select-selector .ant-select-selection-placeholder {
+  color: #6e82a3 !important;
+}
+.dark & .ant-select-selector .ant-select-selection-placeholder {
+  color: #e9ecef !important;
+}`
 const Card = ({
   image,
   title,
@@ -33,41 +49,25 @@ const Card = ({
   purchaseDate
 }: CardProps) => {
   const [heart, setHeart] = useState(false);
-  const location = useLocation();
   const id = 1
   const { buttonText, targetPath } = getButtonDetails();
-  const [modalType, setModalType] = useState<'refund' | 'delete' | null>(null)
+  const location = useLocation()
+
+  const isMyCoursesPage = location.pathname === `${router.myCourses}`
+  const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
   const handleClick = () => {
     setHeart(!heart);
   };
-  const CustomTreeSelect = styled(TreeSelect)`
-  .ant-select-selector {
-    width: 100% !important; /* Đảm bảo chiều rộng 100% */
-    background-color: #fafafa !important;
-    border: 1px solid #c1c9d2 !important;
-  }
-  .dark & .ant-select-selector {
-    background-color: #131022 !important;
-    border: 1px solid #c7c7c740 !important;
-  }
-  .ant-select-selector .ant-select-selection-placeholder {
-    color: #6e82a3 !important;
-  }
-  .dark & .ant-select-selector .ant-select-selection-placeholder {
-    color: #e9ecef !important;
-  }
-`;
 
   const handleOpenModal = (type: "refund" | "delete") => {
     if (!isHistoryLesson && !isMyCoursesPage) {
       return;
     }
-    setModalType(type);
     Modal.confirm({
       title: (
         <p className='text-red-500 font-title text-[16px] md:text-lg'>
-          {modalType === 'refund' ? "Yêu cầu hoàn tiền khóa học" : "Yêu cầu xóa khóa học"}
+          {type === 'refund' ? "Yêu cầu hoàn tiền khóa học" : "Yêu cầu xóa khóa học"}
         </p>
       ),
       content: (
@@ -77,26 +77,28 @@ const Card = ({
             <div className="text-[15px] md:text-[17px] md:space-y-1">
               <p className="text-[16px] md:text-xl line-clamp-2">{title}</p>
               <p>Giá: {price}</p>
-              <p>Thời gian mua: {purchaseDate}</p>
+              <p>{type === 'refund' ? 'Thời gian mua:' : 'Thời gian tạo:'} {type === 'refund' ? purchaseDate : '02/11/2024'}</p>
             </div>
           </div>
           <div className="w-full space-y-1">
             <CustomTreeSelect
               treeDefaultExpandAll
               className="w-full h-10 md:h-11 text-[15px] md:text-[17px]"
-              placeholder="Lý do hoàn tiền"
+              placeholder={type === 'refund' ? "Lý do hoàn tiền khóa học" : "Lý do xóa khóa học"}
               treeData={[
                 { value: 0, title: <span className="text-green-500">Như chim cút</span> },
               ]}
             />
-            <div className="flex items-center gap-2 text-sm md:text-[16px]">
-              <CircleAlert size={14} />
-              <p>Số tiền sẽ được hoàn về ví Ume</p>
-            </div>
+            {!isMyCoursesPage &&
+              (<div className="flex items-center gap-2 text-sm md:text-[16px]">
+                <CircleAlert size={14} />
+                <p>Số tiền sẽ được hoàn về ví Ume</p>
+              </div>
+              )}
           </div>
         </div>
       ),
-      okText: 'Hoàn tiền',
+      okText: type === 'refund' ? 'Hoàn tiền' : 'Xóa',
       okType: 'danger',
       okButtonProps: {
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
@@ -114,7 +116,7 @@ const Card = ({
 
   return (
     <div className="group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer">
-      <Link to={`/course/${id}`} className="group hover:text-white">
+      <Link to={`${router.courseDetail.replace(':id', String(id))}`} className="group hover:text-white">
         <div className="relative">
           <div className="rounded-[10px] overflow-hidden">
             <motion.img
