@@ -1,5 +1,6 @@
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
+import useLoading from '@/hooks/useLoading'
 import { CheckOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Asterisk, MoveLeft } from 'lucide-react'
@@ -29,26 +30,19 @@ const Form_Payment_Method = () => {
 
   const [isHoveredSubmit, setIsHoveredSubmit] = useState(false);
   const [isHoveredSupplement, setIsHoveredSupplement] = useState(false);
-  const [loading, setLoading] = useState(false)
-
+  const {loading , startLoading , stopLoading} = useLoading()
+  console.log(loading)
   const onFinish = async (values: any) => {
     try {
-      setLoading(true);
+      startLoading();
       // Giả lập quá trình chờ dữ liệu tải
       const values = await form.validateFields();
-      console.log(values)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      if (id) {
-        message.success('Cập nhật thành công');
-      } else {
-        message.success('Thêm mới thành công');
-      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      stopLoading() 
+      message.success(`${id ? 'Cập nhật thành công' : 'Thêm mới thành công'}`);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    } 
   }
 
   return (

@@ -1,5 +1,6 @@
 import { routerConfigAdmin } from '@/constants/admin'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import useLoading from '@/hooks/useLoading'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Plus, Trash } from 'lucide-react'
@@ -10,7 +11,7 @@ const Targets = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const [requiments, setRequiments] = useState<string[]>(['', '', '', ''])
   const [benefits, setBenefits] = useState<string[]>(['', '', '', ''])
-
+  const { loading, startLoading, stopLoading} = useLoading()
   const [isHovered, setIsHovered] = useState(false);
 
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
@@ -53,16 +54,16 @@ const Targets = () => {
     })
   }
 
-  const [loading, setLoading] = useState(false)
+
 
   const onsubmit = () => {
-    setLoading(true)
+    startLoading()
     // Giả lập quá trình chờ dữ liệu tải
     setTimeout(() => {
-      setLoading(false)
+
       if (benefits && requiments) {
     console.log(requiments, benefits)
-
+        stopLoading()
         message.success('Lưu thành công')
       } else {
         message.error('Lưu thất bại')
