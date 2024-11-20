@@ -1,5 +1,6 @@
 
-import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 
 export const baseUrl = fetchBaseQuery({
     baseUrl: 'https://umeacademy.me/api/v1',

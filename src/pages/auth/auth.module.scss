@@ -31,7 +31,7 @@
     .form {
       .formGroup {
         width: 100%;
-
+        
         .input {
           width: 100%;
           border: 2px solid #f5c8c1;
@@ -39,8 +39,9 @@
           outline: none;
 
           &:focus {
-            border: 2px solid #ff875a;
+            border: 2px solid #ff875a ;
           }
+
         }
 
         .btn {
@@ -56,6 +57,22 @@
           }
         }
       }
+    }
+
+    .ant-input-outlined,
+    .ant-input-outlined:hover{
+      border: 2px solid #f5c8c1;
+    }
+
+    .ant-input-outlined:focus,
+    .ant-input-outlined:focus-within {
+      border: 2px solid #ff875a;
+    }
+
+    .customInput::placeholder {
+      color: #9ca3af;  // Màu sắc placeholder
+      font-size: 14px;  // Kích thước chữ của placeholder
+      font-style: italic;  // Kiểu chữ
     }
   }
 }
