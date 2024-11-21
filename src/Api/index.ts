@@ -1,16 +1,54 @@
+import { RootState } from '@/redux/store';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+
 
 export const baseUrl = fetchBaseQuery({
   baseUrl: 'https://umeacademy.me/api/v1',
-  prepareHeaders: (headers) => {
+  prepareHeaders: (headers, { getState }) => {
 
-    const token = localStorage.getItem('accessToken');
-    console.log('Token:', token);
+    const token = (getState() as RootState).auth.accessToken
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
     headers.set('Content-Type', 'application/json');
     return headers;
-  }
+  },
 });
+
+
+
+// export const baseQueryWithReauth = async (arg , api, extraOptions) => {
+  
+//   const apiClient = axios.create({
+//     baseURL: 'https://umeacademy.me/api/v1',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+
+//   const result = await baseUrl(arg, api, extraOptions)
+
+//   //Kiểm tra lỗi 401 và thực hiện refresh token
+//   if(result.error?.status === 401) {
+//     try {
+//       const refresh_Token = Cookies.get('refresh_Token')
+//       const authorization = localStorage.getItem('access_Token')
+//       if(!refresh_Token) {
+//         throw new Error('Không có refresh token');
+//       }
+
+//       const res = await apiClient.post('/auth/refreshToken', {
+//         Authorization: authorization,
+//         Cookie: refresh_Token
+//       })
+
+
+//     } catch (error) {
+      
+//     }
+//   }
+// }

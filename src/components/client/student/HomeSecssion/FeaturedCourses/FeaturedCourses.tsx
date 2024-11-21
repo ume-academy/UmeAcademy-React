@@ -19,10 +19,6 @@ const FeaturedCourses = () => {
   const isMiddleInView = useInView(middleRef, { amount: 0.1, once: true })
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
-  //Chưa có đăng nhập lên lưu tạm token ở đây, Token hết hạn sau 1 tiếng
-  const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdW1lYWNhZGVteS5tZS9hcGkvdjEvYXV0aC9sb2dpbi9lbWFpbCIsImlhdCI6MTczMjIwMzQ5MCwiZXhwIjoxNzMyMjA3MDkwLCJuYmYiOjE3MzIyMDM0OTAsImp0aSI6IldYN0g1UllwNTJVV1ZHeTUiLCJzdWIiOiIxMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hL4NPKyZu8FWAccqJLSP-liyKOAE-Bw2d4AhmnhmNk8'
-  localStorage.setItem('accessToken', token)
 
   //data card
   const { data: data1 } = useGetInfoCourseByIdQuery(24)

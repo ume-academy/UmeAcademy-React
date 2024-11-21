@@ -9,13 +9,13 @@ import { dataCarousel } from '@/constants/auth'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TRegister } from '@/interfaces/TAuth'
-import { useRegisterMutation } from '@/redux/slices/authApiSlice'
 import { FacebookFilled, GoogleCircleFilled, LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Helmet } from 'react-helmet'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
 import { TRegisterError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
+import { useRegisterMutation } from '@/redux/slices/auth/authApiSlice'
 
 const Register = () => {
   const [index, setIndex] = useState(0)
@@ -119,7 +119,7 @@ const Register = () => {
                       { required: true, message: 'Vui lòng nhập tên đầy đủ!' },
                       { max: 32, message: 'Tên đầy đủ không được vượt quá 64 ký tự' },
                       { 
-                        pattern: /^[a-zA-Zàáảãạäâấầẩẫậăắằẳẵặèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ\s]+$/, 
+                        pattern: /^[\p{L}\s]+$/u, 
                         message: 'Tên đầy đủ chỉ được chứa các ký tự chữ cái và dấu cách' 
                       }
                     ]}

@@ -6,10 +6,13 @@ export const prefixTeacher = '/teacher'
 export const router = {
   home: '/',
 
-  // Route auth  
+  // < ===== AUTH ===== >
   login: '/login',
   register: '/register',
   forgot_password: '/forgot_password',
+  verify_email: '/verify_email',
+  // verify_email: `/api/v1/auth/email/verify/:userId/:token`,
+
 
   // < ===== STUDENT ===== >
   profileStudent: '/profile',

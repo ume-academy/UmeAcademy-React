@@ -4,6 +4,8 @@ import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import { Helmet } from 'react-helmet'
 
 const Profile = () => {
+
+
   const { data, error } = useGetProfileQuery()
 
   //Lỗi liên quan đến token

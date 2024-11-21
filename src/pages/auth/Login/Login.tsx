@@ -1,40 +1,34 @@
 // img
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 // css
 import styles from '../auth.module.scss'
 
 //
-import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
-import { imgCarousel, getTitleTab, logo } from '../../../constants/client'
-import { FacebookFilled, GoogleCircleFilled } from '@ant-design/icons'
 import { router } from '@/configs/routes'
+import { dataCarousel } from '@/constants/auth'
+import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import useLoading from '@/hooks/useLoading'
+import { TLogin, TResponseLogin } from '@/interfaces/TAuth'
+import { useLoginMutation } from '@/redux/slices/auth/authApiSlice'
+import { setToken } from '@/redux/slices/auth/authSlice'
+import { FacebookFilled, GoogleCircleFilled, LoadingOutlined } from '@ant-design/icons'
+import { Button, Form, Input, message } from 'antd'
+import { Helmet } from 'react-helmet'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { getTitleTab, logo } from '../../../constants/client'
 
 const Login = () => {
+  const { theme } = useContext(ThemeContext) as ThemeContextType
+  const { loading, startLoading, stopLoading} = useLoading()
+  const [ login ] = useLoginMutation()
+  const [ form ] = Form.useForm()
+  const dispatch = useDispatch()
+  const nav = useNavigate()
   const [index, setIndex] = useState(0)
 
-  const dataCarousel = [
-    {
-      id: 1,
-      path: imgCarousel,
-      title: 'Chào mừng bạn đến với UmeAcademy',
-      description: 'Hãy đăng ký tài khoản để trải nghiệm những khóa học tốt nhất'
-    },
-    {
-      id: 2,
-      path: imgCarousel,
-      title: 'Đăng ký ngay hôm nay',
-      description: 'Để nhận những thông báo mới nhất từ chúng tôi'
-    },
-    {
-      id: 3,
-      path: imgCarousel,
-      title: 'Với +2000 bài học ở mọi lĩnh vực',
-      description: 'Cùng UmeAcademy, chinh phục tri thức, xây dựng tương lai'
-    }
-  ]
-
+  
   const next = () => {
     if (index === dataCarousel.length - 1) {
       setIndex(0) // Nếu đã đến cuối mảng, quay lại chỉ số 0
@@ -42,7 +36,6 @@ const Login = () => {
       setIndex(index + 1) // Nếu chưa đến cuối mảng, tăng chỉ số thêm 1
     }
   }
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,6 +46,27 @@ const Login = () => {
       clearInterval(interval) // Clear interval khi component bị hủy
     }
   }, [index])
+
+  const onfinish = async (data: TLogin) => {
+    try {
+      startLoading()
+      console.log(1)
+      const {access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
+
+      dispatch(setToken({
+        accessToken: access_token, 
+        refreshToken: refresh_token, 
+        expiresIn: expires_in
+      }))
+      stopLoading()
+      message.success('Đăng nhập thành công')
+      nav(router.home)
+    } catch (error) {
+      stopLoading()
+      message.error('Tài khoản hoặc mật khẩu không chính xác.')
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -103,39 +117,59 @@ const Login = () => {
                 <h1 className='text-2xl'>Đăng nhập</h1>
               </div>
 
-              <form className={`${styles['form']} space-y-7`}>
-                <div className={`${styles['formGroup']} space-y-2`}>
-                  <label>
-                    Email <span className='text-red-500'>*</span>
-                  </label>
-                  <input
-                    className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
-                    placeholder='Địa chỉ email'
-                  />
+              <Form form={form} layout='vertical' onFinish={onfinish} className={`${styles['form']} space-y-7`}>
+                <div className={`${styles['formGroup']} space-y-4`}>
+                  <Form.Item
+                    name='email'
+                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Email</h6>}
+                    rules={[
+                      { required: true, message: 'Vui lòng nhập địa chỉ email!'},
+                      { type: 'email', message: 'Email không đúng định dạng'}
+                    ]}
+                  >
+                    <Input
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}`}}
+                      className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
+                      placeholder='Nhập địa chỉ email'
+                    />
+                  </Form.Item>
                 </div>
 
                 <div className={`${styles['formGroup']} space-y-2`}>
-                  <label>
-                    Mật khẩu <span className='text-red-500'>*</span>
-                  </label>
-                  <input
-                    className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
-                    placeholder='Nhập mật khẩu'
-                  />
+                  <Form.Item
+                    name='password'
+                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Mật khẩu</h6>}
+                    rules={[
+                      { required: true, message: 'Vui lòng nhập mật khẩu' },
+                      { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
+                      { max: 32, message: 'Mật khẩu không được vượt quá 32 ký tự' },
+                      {
+                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        message: 'Mật khẩu bao gồm a-z, A-Z, 0-9 và phải chứa ít nhất một ký tự đặc biệt.'
+                      }
+                    ]}
+                  >
+                    <Input.Password
+                      
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
+                      className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
+                      placeholder='Nhập mật khẩu'
+                    />
+                  </Form.Item>
                 </div>
 
                 <div className=''>
-                  <Link to={router.forgot_password} className=''>
+                  <Link to={router.forgot_password} className='text-[#B9B7C0] hover:text-[#ff875a]'>
                     Quên mật khẩu?
                   </Link>
                 </div>
 
                 <div className={`${styles['formGroup']} space-y-2`}>
-                  <button className={`${styles['btn']} font-subtitle text-lg text-white py-6 mt-6 rounded-md`}>
-                    Đăng nhập
-                  </button>
+                  <Button htmlType='submit' disabled={loading} className={`${styles['btn']} font-subtitle text-lg text-white py-8 mt-6 rounded-md`}>
+                    {loading ? <LoadingOutlined /> : 'Đăng nhập'}
+                  </Button>
                 </div>
-              </form>
+              </Form>
             </div>
           </div>
 

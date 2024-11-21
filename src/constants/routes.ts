@@ -34,6 +34,7 @@ import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import Not_Found from './../pages/Not_found/Not_Found';
 import Profile_Teacher from "@/pages/client/Teacher/Profile_Teacher/Profile_Teacher";
 import Profile from "@/pages/client/Student/Profile/Profile";
+import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email';
 
 
 // Routes cho student
@@ -90,7 +91,8 @@ export const authRoutes = [
   { path: router.login, element: Login }, 
   { path: router.register, element: Register },
   { path: router.forgot_password, element: ForgotPassword },
-
+  { path: router.verify_email, element: Veryfi_Email}
+  // { path: router.Email_Verification_Reminder, element: Home_Page}
 ]
 
 export const notFoundRoutes = {
