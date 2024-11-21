@@ -1,6 +1,6 @@
 import Setting from '@/components/client/commonComponents/Setting/Setting'
 import { getTitleTab } from '@/constants/client'
-import { useGetProfileQuery } from '@/redux/slice/profile/profileApiSlice'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import { Helmet } from 'react-helmet'
 
 const Profile = () => {
