@@ -19,7 +19,7 @@ export const router = {
   walletHistory : '/wallet-history',
   purchasedCourses: '/purchased-courses',
   transactionHistory: '/transaction-history',
-  coursePaymentMethod: '/course-payment-method',
+  coursePaymentMethod: '/course-payment-method/:id',
 
 
   // < ===== TEACHER ===== >

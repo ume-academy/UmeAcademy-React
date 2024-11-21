@@ -1,4 +1,5 @@
 import { baseUrl } from "@/Api";
+import { TCourse } from "@/interfaces/course";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const courseSlice = createApi({
@@ -10,7 +11,8 @@ export const courseSlice = createApi({
         //! GET INFO COURSE BY ID
         getInfoCourseById: builder.query({
             query: (courseId) => `/course/${courseId}/information`,
-            providesTags: ["CourseDetail"]
+            providesTags: ["CourseDetail"],
+            transformResponse: (res: { data: TCourse }) => res.data
         }),
 
         // ! GET CONTENT COURSE BY ID

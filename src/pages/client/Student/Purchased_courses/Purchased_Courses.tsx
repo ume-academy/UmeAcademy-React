@@ -3,89 +3,18 @@ import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../constants/client'
 import { Pagination } from 'antd'
-import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
+import Card from '@/components/client/commonComponents/Card/Card'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { TCourse } from '@/interfaces/course'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
-  const cardData: CardProps[] = [
-    {
-      image: 'https://i.pravatar.cc/150?img=1',
-      title: 'Thông tin về thiết kế bằng UI/UX',
-      instructorName: 'DaddyGiao',
-      instructorImage: 'https://i.pravatar.cc/150',
-      price: '1.000.000 đ',
-      originalPrice: '9.000.000 đ',
-      lessonCount: '12+ Bài học',
-      duration: '9h 30p',
-      rating: 5,
-      purchaseDate: "9/11/2024"
-    },
-    {
-      image: 'https://i.pravatar.cc/150?img=2',
-      title: 'Lập trình Web với React',
-      instructorName: 'NguyenVanA',
-      instructorImage: 'https://i.pravatar.cc/150?img=2',
-      price: '800.000 đ',
-      originalPrice: '4.000.000 đ',
-      lessonCount: '15+ Bài học',
-      duration: '10h 0p',
-      rating: 4.8,
-      purchaseDate: "9/11/2024"
+  const { data: data1 } = useGetInfoCourseByIdQuery(24)
+  const { data: data2 } = useGetInfoCourseByIdQuery(22)
 
-    },
-    {
-      image: 'https://i.pravatar.cc/150?img=3',
-      title: 'Cơ bản về Python',
-      instructorName: 'TruongThiB',
-      instructorImage: 'https://i.pravatar.cc/150?img=3',
-      price: '600.000 đ',
-      originalPrice: '3.500.000 đ',
-      lessonCount: '10+ Bài học',
-      duration: '8h 45p',
-      rating: 4.5,
-      purchaseDate: "9/11/2024"
-
-    },
-    {
-      image: 'https://i.pravatar.cc/150?img=4',
-      title: 'Thiết kế đồ họa với Photoshop',
-      instructorName: 'HoangVanC',
-      instructorImage: 'https://i.pravatar.cc/150?img=4',
-      price: '1.200.000 đ',
-      originalPrice: '5.000.000 đ',
-      lessonCount: '20+ Bài học',
-      duration: '12h 15p',
-      rating: 4.9,
-      purchaseDate: "9/11/2024"
-
-    },
-    {
-      image: 'https://i.pravatar.cc/150?img=5',
-      title: 'Marketing Online hiệu quả',
-      instructorName: 'LeThiD',
-      instructorImage: 'https://i.pravatar.cc/150?img=5',
-      price: '700.000 đ',
-      originalPrice: '3.200.000 đ',
-      lessonCount: '18+ Bài học',
-      duration: '7h 30p',
-      rating: 4.6,
-      purchaseDate: "9/11/2024"
-
-    },
-    {
-      image: 'https://i.pravatar.cc/150?img=6',
-      title: 'Xử lý dữ liệu với Excel',
-      instructorName: 'PhamVanE',
-      instructorImage: 'https://i.pravatar.cc/150?img=6',
-      price: '500.000 đ',
-      originalPrice: '2.500.000 đ',
-      lessonCount: '10+ Bài học',
-      duration: '6h 0p',
-      rating: 4.3,
-      purchaseDate: "9/11/2024"
-    },
-  ];
+  const course: TCourse = data1
+  const course2: TCourse = data2
 
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20'>
@@ -102,12 +31,10 @@ const Purchased_Courses = () => {
         ref={bottomRef}
         className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'
       >
-        {cardData.map((data, index) => (
-          <Card
-            key={index}
-            {...data} 
-          />
-        ))}
+        <Card {...course} />
+        <Card {...course2} />
+        <Card {...course} />
+        <Card {...course2} />
       </motion.div>
       <div className='flex justify-end mt-10'>
         <Pagination defaultCurrent={1} total={20} />
