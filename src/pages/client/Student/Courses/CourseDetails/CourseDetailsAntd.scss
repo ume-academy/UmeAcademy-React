@@ -215,3 +215,19 @@
   }
 
 }
+
+// .ant-collapse>.ant-collapse-item:last-child, .ant-collapse>.ant-collapse-item:first-child>.ant-collapse-header {
+//   border-radius: 8px 8px 0 0;
+// }
+
+.ant-collapse>.ant-collapse-item:last-child, .ant-collapse>.ant-collapse-item:last-child>.ant-collapse-header {
+  border-radius: 0 0 8px 8px;
+}
+
+// màu dropdown
+.dark .ant-collapse.ant-collapse-icon-position-end>.ant-collapse-item >.ant-collapse-header .ant-collapse-expand-icon {
+  order: 1;
+  padding-inline-end: 0;
+  padding-inline-start: 12px;
+  color: #B9B7C0;
+}

@@ -1,17 +1,32 @@
 import { router } from '@/configs/routes'
+import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/courseSlice'
 import { HeartOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
-import { Avatar, GetProp, Menu, MenuProps, Modal, Rate } from 'antd'
+import { Avatar, Collapse, Modal, Rate } from 'antd'
+import { format, formatDuration, intervalToDuration } from 'date-fns'
+import { vi } from 'date-fns/locale'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../../constants/client'
 import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
 
-type MenuItem = GetProp<MenuProps, 'items'>[number]
+// type MenuItem = GetProp<MenuProps, 'items'>[number]
 
 const CourseDetails = () => {
+
+  const { id } = useParams();
+
+  const { data: course, isLoading, isFetching, isError, error } = useGetInfoCourseByIdQuery(id);
+  const { data: courseContent } = useGetContentCourseByIdQuery(id);
+  const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
+
+
+
+  console.log(courseReviews)
+
   const [modal2Open, setModal2Open] = useState(false);
+
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const [currentVideoPath, setCurrentVideoPath] = useState('')
@@ -21,201 +36,222 @@ const CourseDetails = () => {
     setModal2Open(true)
   }
 
-  // fake id
-  const id = '1'
+  // const data = [
+  //   {
+  //     id: 1,
+  //     title: 'Bài 1: Giới thiệu về khóa học',
+  //     path: 'fAAHMwa8Q1o',
+  //     isPreview: true,
+  //     duration: '10:00'
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Bài 2: UI/UX là gì?',
+  //     path: 'KtdKvSa9Uc8',
+  //     isPreview: false,
+  //     duration: '12:00'
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Bài 3: Các kỹ năng cơ bản về UI/UX',
+  //     path: 'f-hXMC13udc',
+  //     isPreview: true,
+  //     duration: '16:00'
+  //   }
+  // ]
 
-  const data = [
-    {
-      id: 1,
-      title: 'Bài 1: Giới thiệu về khóa học',
-      path: 'fAAHMwa8Q1o',
-      isPreview: true,
-      duration: '10:00'
-    },
-    {
-      id: 2,
-      title: 'Bài 2: UI/UX là gì?',
-      path: 'KtdKvSa9Uc8',
-      isPreview: false,
-      duration: '12:00'
-    },
-    {
-      id: 3,
-      title: 'Bài 3: Các kỹ năng cơ bản về UI/UX',
-      path: 'f-hXMC13udc',
-      isPreview: true,
-      duration: '16:00'
-    }
-  ]
+  // const items: MenuItem[] = [
+  //   {
+  //     key: '1',
+  //     label: <span className='font-subtitle text-md'>Giới thiệu chung</span>,
+  //     children: [
+  //       ...data.map((item) => ({
+  //         key: item.id.toString(),
+  //         label: (
+  //           <div className={`${styles['lecture']} w-full flex justify-between items-center`}>
+  //             <div className='flex items-center space-x-3'>
+  //               <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  //                 <path
+  //                   d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
+  //                   fill='#FE893E'
+  //                 />
+  //                 <path
+  //                   opacity='0.4'
+  //                   d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
+  //                   fill='#FE893E'
+  //                 />
+  //               </svg>
 
-  const items: MenuItem[] = [
-    {
-      key: '1',
-      label: <span className='font-subtitle text-md'>Giới thiệu chung</span>,
-      children: [
-        ...data.map((item) => ({
-          key: item.id.toString(),
-          label: (
-            <div className={`${styles['lecture']} w-full flex justify-between items-center`}>
-              <div className='flex items-center space-x-3'>
-                <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path
-                    d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
-                    fill='#FE893E'
-                  />
-                  <path
-                    opacity='0.4'
-                    d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
-                    fill='#FE893E'
-                  />
-                </svg>
+  //               <p className='font-subtitle'>{item.title}</p>
+  //             </div>
 
-                <p className='font-subtitle'>{item.title}</p>
-              </div>
+  //             <div className='flex items-center space-x-6'>
+  //               {item.isPreview && (
+  //                 <div className=''>
+  //                   <p className='underline hover:text-[#f66962] text-[13px] md:text-[16px]' onClick={() => handlePreviewClick(item.path)}>
+  //                     Xem trước
+  //                   </p>
+  //                   <Modal
+  //                     title={
+  //                       <p className='text-center font-subtitle dark:bg-[#2B2838] dark:text-[#B9B7C0]'>Xem trước</p>
+  //                     }
+  //                     centered
+  //                     open={modal2Open}
+  //                     // onOk={() => setModal2Open(false)}
+  //                     onCancel={() => setModal2Open(false)}
+  //                     footer={null}
+  //                     className=''
+  //                   >
+  //                     <div className='mt-4'>
+  //                       <iframe
+  //                         src={`https://www.youtube.com/embed/${currentVideoPath}`}
+  //                         // frameborder="0"
+  //                         // allowfullscreen
+  //                         width={'100%'}
+  //                         height={250}
+  //                       />
+  //                     </div>
+  //                   </Modal>
+  //                 </div>
+  //               )}
+  //               <p>{item.duration}</p>
+  //             </div>
+  //           </div>
+  //         )
+  //       }))
+  //     ]
+  //   },
+  //   {
+  //     key: '2',
+  //     label: <span className='font-subtitle text-md'>Kỹ năng cơ bản UI/UX</span>,
+  //     children: [
+  //       ...data.map((item) => ({
+  //         key: item.id.toString(),
+  //         label: (
+  //           <div className={`${styles['lecture']} w-full flex justify-between items-center`}>
+  //             <div className='flex items-center space-x-3'>
+  //               <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  //                 <path
+  //                   d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
+  //                   fill='#FE893E'
+  //                 />
+  //                 <path
+  //                   opacity='0.4'
+  //                   d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
+  //                   fill='#FE893E'
+  //                 />
+  //               </svg>
 
-              <div className='flex items-center space-x-6'>
-                {item.isPreview && (
-                  <div className=''>
-                    <p className='underline hover:text-[#f66962] text-[13px] md:text-[16px]' onClick={() => handlePreviewClick(item.path)}>
-                      Xem trước
-                    </p>
-                    <Modal
-                      title={
-                        <p className='text-center font-subtitle dark:bg-[#2B2838] dark:text-[#B9B7C0]'>Xem trước</p>
-                      }
-                      centered
-                      open={modal2Open}
-                      // onOk={() => setModal2Open(false)}
-                      onCancel={() => setModal2Open(false)}
-                      footer={null}
-                      className=''
-                    >
-                      <div className='mt-4'>
-                        <iframe
-                          src={`https://www.youtube.com/embed/${currentVideoPath}`}
-                          // frameborder="0"
-                          // allowfullscreen
-                          width={'100%'}
-                          height={250}
-                        />
-                      </div>
-                    </Modal>
-                  </div>
-                )}
-                <p>{item.duration}</p>
-              </div>
-            </div>
-          )
-        }))
-      ]
-    },
-    {
-      key: '2',
-      label: <span className='font-subtitle text-md'>Kỹ năng cơ bản UI/UX</span>,
-      children: [
-        ...data.map((item) => ({
-          key: item.id.toString(),
-          label: (
-            <div className={`${styles['lecture']} w-full flex justify-between items-center`}>
-              <div className='flex items-center space-x-3'>
-                <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                  <path
-                    d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
-                    fill='#FE893E'
-                  />
-                  <path
-                    opacity='0.4'
-                    d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
-                    fill='#FE893E'
-                  />
-                </svg>
+  //               <p className='font-subtitle'>{item.title}</p>
+  //             </div>
 
-                <p className='font-subtitle'>{item.title}</p>
-              </div>
+  //             <div className='flex items-center space-x-6'>
+  //               {item.isPreview && (
+  //                 <div className=''>
+  //                   <p className='underline hover:text-[#f66962]' onClick={() => handlePreviewClick(item.path)}>
+  //                     Xem trước
+  //                   </p>
+  //                   <Modal
+  //                     title={<p className='text-center font-subtitle'>Xem trước</p>}
+  //                     centered
+  //                     open={modal2Open}
+  //                     // onOk={() => setModal2Open(false)}
+  //                     onCancel={() => setModal2Open(false)}
+  //                     footer={null}
+  //                   >
+  //                     <div className='mt-4'>
+  //                       <iframe
+  //                         src={`https://www.youtube.com/embed/${currentVideoPath}`}
+  //                         // frameborder="0"
+  //                         // allowfullscreen
+  //                         width={'100%'}
+  //                         height={250}
+  //                       />
+  //                     </div>
+  //                   </Modal>
+  //                 </div>
+  //               )}
+  //               <p>{item.duration}</p>
+  //             </div>
+  //           </div>
+  //         )
+  //       }))
+  //     ]
+  //   }
+  // ]
 
-              <div className='flex items-center space-x-6'>
-                {item.isPreview && (
-                  <div className=''>
-                    <p className='underline hover:text-[#f66962]' onClick={() => handlePreviewClick(item.path)}>
-                      Xem trước
-                    </p>
-                    <Modal
-                      title={<p className='text-center font-subtitle'>Xem trước</p>}
-                      centered
-                      open={modal2Open}
-                      // onOk={() => setModal2Open(false)}
-                      onCancel={() => setModal2Open(false)}
-                      footer={null}
-                    >
-                      <div className='mt-4'>
-                        <iframe
-                          src={`https://www.youtube.com/embed/${currentVideoPath}`}
-                          // frameborder="0"
-                          // allowfullscreen
-                          width={'100%'}
-                          height={250}
-                        />
-                      </div>
-                    </Modal>
-                  </div>
-                )}
-                <p>{item.duration}</p>
-              </div>
-            </div>
-          )
-        }))
-      ]
-    }
-  ]
+  // convert seconds to minutes
+  function formatTime(seconds: number) {
+    const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+    return formatDuration(duration, { locale: vi });
+  }
+
+  // convert seconds to min:sec
+  function formatToMinutesAndSeconds(seconds: number) {
+    const date = new Date(seconds * 1000); // Chuyển đổi thành milliseconds
+    return format(date, "m:ss");
+  }
+
+  // format ISO 
+  function formatDate(isoDate: string) {
+    const date = new Date(isoDate);
+    return format(date, "dd-MM-yyyy");
+  }
+
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>
 
   return (
     <>
       <Helmet>
         <title>{getTitleTab('Chi tiết khóa học')}</title>
       </Helmet>
-      
+
       <div className={`${styles['wrapper']} space-y-6 md:space-y-0`}>
         <div
           className={`${styles['overviewTeacher']} bg-[url(/assets/images/client/Course/inner-banner.png)] dark:text-[#B9B7C0] pt-[160px] pb-[80px]`}
         >
           <div className='max-w-[1280px] mx-auto'>
             <div className='flex flex-col'>
+
+              {/* Overview */}
               <div className={`${styles['introduce']} flex justify-between items-start`}>
-                <div className='flex items-start gap-4'>
+                <div className='flex items-center gap-4'>
                   <div className={`${styles['avt']}`}>
-                    <Avatar size={68} src={'https://i.pravatar.cc/300'} />
+                    <Avatar size={68} src={course?.data?.teacher?.avatar} />
                   </div>
 
                   <div className='info'>
+                    {/* Tên tác giả (giảng viên) */}
                     <Link to={''} className='font-title text-xl text-white hover:text-[#F6694F]'>
-                      Nicole Brown
+                      {course?.data?.teacher?.fullname}
                     </Link>
-                    <p className='text-sm'>UI/UX Designer</p>
+                    {/* <p className='text-sm'>UI/UX Designer</p> */}
                   </div>
 
-                  <div className='rating'>
+                  {/* rating course || rating teacher */}
+                  {/* <div className='rating'>
                     <Rate disabled defaultValue={4.5} />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className={`${styles['badgeCategory']} `}>
-                  <span className='rounded-full'>LẬP TRÌNH WEB</span>
+                  {/* Badge || category */}
+                  <span className='rounded-full'>{course?.data?.category?.name}</span>
                 </div>
               </div>
 
               <div className={`${styles['introduceCourse']} my-2 space-y-3`}>
+                {/* Tên khóa học */}
                 <div className={`${styles['title']}`}>
-                  <h2>Khóa học phát triển web hoàn chỉnh 2.0</h2>
+                  <h2>{course?.data?.name}</h2>
                 </div>
 
+                {/* Mô tả */}
                 <div className='description text-justify text-sm md:text-md'>
-                  <p>
-                    Học phát triển web bằng cách xây dựng 25 trang web và ứng dụng di động bằng HTML, CSS, Javascript,
-                    PHP, Python, MySQL và nhiều hơn nữa!
-                  </p>
+                  <p>{course?.data?.description}</p>
                 </div>
 
-                <div className='flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
+                <div className=' flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4'>
                   <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
                     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
@@ -236,7 +272,7 @@ const CourseDetails = () => {
                         fill='#F66962'
                       />
                     </svg>
-                    <p>12+ bài học</p>
+                    <p>Tổng {course?.data?.total_chapter} bài học</p>
                   </div>
 
                   <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
@@ -259,7 +295,7 @@ const CourseDetails = () => {
                         fill='#FFB54A'
                       />
                     </svg>
-                    <p>10 giờ 56 phút 32 giây</p>
+                    <p>{formatTime(course?.data?.duration)}</p>
                   </div>
 
                   <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
@@ -293,7 +329,7 @@ const CourseDetails = () => {
                         fill='#FF875A'
                       />
                     </svg>
-                    <p>32 học viên đã tham gia</p>
+                    <p>{course?.data?.total_student} học viên đã tham gia</p>
                   </div>
                 </div>
               </div>
@@ -378,477 +414,283 @@ const CourseDetails = () => {
                   <h5 className='font-title dark:text-[#B9B7C0] text-[#392c7d]'>Nội dung khóa học</h5>
 
                   {/* Tổng số bài giảng, thời gian của khóa học */}
-                  <p className={`${styles['infoLesson']} dark:text-[#B9B7C0] text-black`}>92 bài giảng, 10:56:32</p>
+                  <p className={`${styles['infoLesson']} dark:text-[#B9B7C0] text-black`}>
+                    {courseContent?.data?.total_chapter} bài giảng, {formatTime(courseContent?.data?.total_duration)}
+                  </p>
                 </div>
 
                 <div className={`${styles['content']}`}>
-                  <Menu
+                  {/* <Menu
                     mode='inline'
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
                     items={items}
                     className='flex flex-col space-y-3'
-                  />
+                  /> */}
+
+                  <Collapse expandIconPosition='end' >
+
+                    {
+                      courseContent?.data?.chapters?.map((chap: any, index: string) => (
+                        <Collapse.Panel
+                          header={
+                            <span className='font-subtitle dark:text-[#B9B7C0]'>
+                              {chap.name}
+                            </span>
+                          }
+                          key={index}
+                          className='bg-slate-200 dark:bg-[#585858] !rounded-t-lg'
+                        >
+                          {/* đổ lesson */}
+                          <div>
+                            {
+                              chap?.lessons?.map((item: any, indexItem: number) => (
+
+                                <div className={`${styles['lecture']} w-full flex justify-between items-center dark:text-[#B9B7C0]`} key={indexItem}>
+                                  <div className='flex items-center space-x-3'>
+                                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='httpwww.w3.org/2000/svg'>
+                                      <path
+                                        d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
+                                        fill='#FE893E'
+                                      />
+                                      <path
+                                        opacity='0.4'
+                                        d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
+                                        fill='#FE893E'
+                                      />
+                                    </svg>
+
+                                    <p className='font-subtitle'>{item?.name}</p>
+                                  </div>
+
+                                  <div className='flex items-center space-x-6'>
+                                    {item.is_preview && (
+                                      <div className=''>
+                                        <p className='cursor-pointer underline hover:text-[#f66962] text-[13px] md:text-[14px]' onClick={() => handlePreviewClick(item.path)}>
+                                          Xem trước
+                                        </p>
+                                        <Modal
+                                          title={
+                                            <p className='text-center font-subtitle dark:bg-[#2B2838] dark:text-[#B9B7C0]'>Xem trước</p>
+                                          }
+                                          centered
+                                          open={modal2Open}
+                                          onOk={() => setModal2Open(false)}
+                                          onCancel={() => setModal2Open(false)}
+                                          footer={null}
+                                          className=''
+                                        >
+                                          <div className='mt-4'>
+                                            <iframe
+                                              src={`httpswww.youtube.com/embed/${currentVideoPath}`}
+                                              // frameborder="0"
+                                              // allowfullscreen
+                                              width={'100%'}
+                                              height={250}
+                                            />
+                                          </div>
+                                        </Modal>
+                                      </div>
+                                    )}
+                                    <p>{formatToMinutesAndSeconds(item?.video_duration)}</p>
+                                  </div>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        </Collapse.Panel>
+                      ))
+                    }
+                  </Collapse>
                 </div>
               </div>
 
               {/* Feedback */}
               <div className={`${styles['feedback']} dark:bg-[#2B2838] p-6 bg-white rounded-xl space-y-2 md:space-y-4`}>
                 <div className={`${styles['headingFeedback']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
-                  <h5 className='flex items-center gap-2'><StarFilled className='text-yellow-400' /> 4,6/5 . 324 lượt đánh giá</h5>
-                </div>
-
-                <div className={`${styles['contentFeedback']} flex overflow-x-auto md:grid md:grid-cols-2 justify-between items-stretch gap-4`}>
-                  <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
-                    <div
-                      className={`${styles['infoFeedback']} 
-                    flex 
-                    flex-col 
-                    justify-start 
-                    items-start 
-                    space-y-2 
-                    md:space-y-0 
-                    md:justify-between 
-                    md:items-center 
-                    md:flex-row 
-                  `}>
-                      <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                        <div className={`${styles['avt']}`}>
-                          <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
-                        </div>
-
-                        <div className=''>
-                          <div className='name font-title text-sm md:text-lg '>
-                            <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
-                              Nicole Brown
-                            </Link>
-                          </div>
-
-                          <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                            <Rate disabled defaultValue={4.5} />
-
-                            {/* feedback at */}
-                            <span>1 tháng trước</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                      <p className='text-justify py-3 text-sm md:text-md md:py-4'>
-                        Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                        từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                        cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                        Cristian!
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
-                    <div
-                      className={`${styles['infoFeedback']} 
-                    flex 
-                    flex-col 
-                    justify-start 
-                    items-start 
-                    space-y-2 
-                    md:space-y-0 
-                    md:justify-between 
-                    md:items-center 
-                    md:flex-row 
-                  `}>
-                      <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                        <div className={`${styles['avt']}`}>
-                          <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
-                        </div>
-
-                        <div className=''>
-                          <div className='name font-title text-sm md:text-lg '>
-                            <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
-                              Nicole Brown
-                            </Link>
-                          </div>
-
-                          <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                            <Rate disabled defaultValue={4.5} />
-
-                            {/* feedback at */}
-                            <span>1 tháng trước</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                      <p className='text-justify py-3 text-sm md:text-md md:py-4'>
-                        Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                        từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                        cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                        Cristian!
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
-                    <div
-                      className={`${styles['infoFeedback']} 
-                    flex 
-                    flex-col 
-                    justify-start 
-                    items-start 
-                    space-y-2 
-                    md:space-y-0 
-                    md:justify-between 
-                    md:items-center 
-                    md:flex-row 
-                  `}>
-                      <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                        <div className={`${styles['avt']}`}>
-                          <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
-                        </div>
-
-                        <div className=''>
-                          <div className='name font-title text-sm md:text-lg '>
-                            <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
-                              Nicole Brown
-                            </Link>
-                          </div>
-
-                          <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                            <Rate disabled defaultValue={4.5} />
-
-                            {/* feedback at */}
-                            <span>1 tháng trước</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                      <p className='text-justify py-3 text-sm md:text-md md:py-4'>
-                        Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                        từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                        cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                        Cristian!
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
-                    <div
-                      className={`${styles['infoFeedback']} 
-                    flex 
-                    flex-col 
-                    justify-start 
-                    items-start 
-                    space-y-2 
-                    md:space-y-0 
-                    md:justify-between 
-                    md:items-center 
-                    md:flex-row 
-                  `}>
-                      <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                        <div className={`${styles['avt']}`}>
-                          <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
-                        </div>
-
-                        <div className=''>
-                          <div className='name font-title text-sm md:text-lg '>
-                            <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
-                              Nicole Brown
-                            </Link>
-                          </div>
-
-                          <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                            <Rate disabled defaultValue={4.5} />
-
-                            {/* feedback at */}
-                            <span>1 tháng trước</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                      <p className='text-justify py-3 text-sm md:text-md md:py-4'>
-                        Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                        từng xu, tôi đánh giá cao chúng. Để nắm vứng khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                        cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                        Cristian!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* see more */}
-                <div
-                  className="seeMore rounded-md text-center p-2 cursor-pointer outline outline-[#f66962] outline-1 w-full md:w-[30%] dark:text-[#B9B7C0] text-[#392c7d]"
-                  onClick={() => setFeedbackOpen(true)}
-                >
-                  Hiển tất cả đánh giá
-                </div>
-
-                {/* modal feedback */}
-                <Modal
-                  centered
-                  open={feedbackOpen}
-                  onOk={() => setFeedbackOpen(false)}
-                  onCancel={() => setFeedbackOpen(false)}
-                  width={1000}
-                  footer={null}
-                  className="md:h-auto h-[100vh] pb-2 md:pb-0" // h-auto cho màn hình lớn và 100vh cho mobile
-                >
-                  <div className="h-auto md:h-[500px]">
-                    <div className="headingFeedbackModal dark:text-[#B9B7C0] text-[#392c7d] font-subtitle">
-                      <h5 className="text-md md:text-lg flex items-center gap-2">
-                        <StarFilled className="text-yellow-400" /> 4,6/5 sao trên 324 lượt đánh giá
+                  {
+                    courseReviews?.data?.length !== 0 ? (
+                      <h5 className='flex items-center gap-2'>
+                        <StarFilled className='text-yellow-400' /> {course?.data?.rating}/5 trên {courseReviews?.data?.length} lượt đánh giá
                       </h5>
-                    </div>
+                    ) : (
+                      <h5 className='flex items-center gap-2'>
+                        Đánh giá
+                      </h5>
+                    )
+                  }
+                </div>
 
-                    <div className="contentFeedbackModal flex flex-col md:flex-row items-stretch py-6">
-                      {/* rating chart */}
-                      <div className="left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]">
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <Rate disabled value={5} className="min-w-[140px]" />
-                            <span>71%</span>
-                          </div>
+                {
+                  courseReviews?.data?.length !== 0 ? (
+                    <>
+                      <div className={`${styles['contentFeedback']} flex overflow-x-auto md:grid md:grid-cols-2 justify-between items-stretch gap-4`}>
+                        {
+                          courseReviews?.data?.map((feedback: any, index: number) => (
+                            <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
+                              <div
+                                className={`${styles['infoFeedback']} 
+                                flex 
+                                flex-col 
+                                justify-start 
+                                items-start 
+                                space-y-2 
+                                md:space-y-0 
+                                md:justify-between 
+                                md:items-center 
+                                md:flex-row 
+                              `}>
+                                <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                  <div className={`${styles['avt']}`}>
+                                    <Avatar src={'https://i.pravatar.cc/300'} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
+                                  </div>
 
-                          <div className="flex items-center gap-2">
-                            <Rate disabled value={4} className="min-w-[140px]" />
-                            <span>24%</span>
-                          </div>
+                                  <div className=''>
+                                    <div className='name font-title text-sm md:text-lg '>
+                                      <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
+                                        {feedback?.user?.fullname}
+                                      </Link>
+                                    </div>
 
-                          <div className="flex items-center gap-2">
-                            <Rate disabled value={3} className="min-w-[140px]" />
-                            <span>3%</span>
-                          </div>
+                                    <div className='flex items-center gap-6 text-sm dark:text-[#B9B7C0]'>
+                                      <Rate disabled defaultValue={feedback?.rating} />
 
-                          <div className="flex items-center gap-2">
-                            <Rate disabled value={2} className="min-w-[140px]" />
-                            <span>1%</span>
-                          </div>
+                                      {/* feedback at */}
+                                      <span>{formatDate(feedback?.created_at)}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
-                          <div className="flex items-center gap-2">
-                            <Rate disabled value={1} className="min-w-[140px] text-yellow-200" />
-                            <span>1%</span>
-                          </div>
-                        </div>
-
-                        <div className="">
-                          <form action="">
-                            <input type="text" placeholder="Tìm kiếm đánh giá" className="border p-2 w-full" />
-                          </form>
-                        </div>
+                              <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
+                                <p className='text-justify py-3 text-sm md:text-md md:py-4'>
+                                  {feedback?.content}
+                                </p>
+                              </div>
+                            </div>
+                          ))
+                        }
                       </div>
 
-                      <div className="right flex-1 p-0 md:p-6 relative w-full h-[480px]">
-                        <div className="flex-1 overflow-y-auto h-full px-0 md:px-4">
-                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                            <div
-                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                            >
-                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                <div className={`${styles['avt']}`}>
-                                  <Avatar
-                                    src={'https://i.pravatar.cc/300'}
-                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                  />
-                                </div>
+                      {/* see more */}
+                      <div
+                        className="seeMore rounded-md text-center p-2 cursor-pointer outline outline-[#f66962] outline-1 w-full md:w-[30%] dark:text-[#B9B7C0] text-[#392c7d]"
+                        onClick={() => setFeedbackOpen(true)}
+                      >
+                        Hiển tất cả đánh giá
+                      </div>
 
-                                <div className="">
-                                  <div className="name font-title text-sm md:text-lg">
-                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                      Nicole Brown
-                                    </Link>
-                                  </div>
-
-                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
-
-                                    {/* feedback at */}
-                                    <span>1 tháng trước</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                                Cristian!
-                              </p>
-                            </div>
+                      {/* modal feedback */}
+                      <Modal
+                        centered
+                        open={feedbackOpen}
+                        onOk={() => setFeedbackOpen(false)}
+                        onCancel={() => setFeedbackOpen(false)}
+                        width={1000}
+                        footer={null}
+                        className="md:h-auto h-[100vh] pb-2 md:pb-0" // h-auto cho màn hình lớn và 100vh cho mobile
+                      >
+                        <div className="h-auto md:h-[500px]">
+                          <div className="headingFeedbackModal dark:text-[#B9B7C0] text-[#392c7d] font-subtitle">
+                            <h5 className="text-md md:text-lg flex items-center gap-2">
+                              <StarFilled className='text-yellow-400' /> {course?.data?.rating}/5 trên {courseReviews?.data?.length} lượt đánh giá
+                            </h5>
                           </div>
 
-                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                            <div
-                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                            >
-                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                <div className={`${styles['avt']}`}>
-                                  <Avatar
-                                    src={'https://i.pravatar.cc/300'}
-                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                  />
+                          <div className="contentFeedbackModal flex flex-col md:flex-row items-stretch py-6">
+                            {/* rating chart */}
+                            <div className="left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]">
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                  <Rate disabled value={5} className="min-w-[140px]" />
+                                  <span>71%</span>
                                 </div>
 
-                                <div className="">
-                                  <div className="name font-title text-sm md:text-lg">
-                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                      Nicole Brown
-                                    </Link>
-                                  </div>
-
-                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
-
-                                    {/* feedback at */}
-                                    <span>1 tháng trước</span>
-                                  </div>
+                                <div className="flex items-center gap-2">
+                                  <Rate disabled value={4} className="min-w-[140px]" />
+                                  <span>24%</span>
                                 </div>
+
+                                <div className="flex items-center gap-2">
+                                  <Rate disabled value={3} className="min-w-[140px]" />
+                                  <span>3%</span>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  <Rate disabled value={2} className="min-w-[140px]" />
+                                  <span>1%</span>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  <Rate disabled value={1} className="min-w-[140px] text-yellow-200" />
+                                  <span>1%</span>
+                                </div>
+                              </div>
+
+                              <div className="">
+                                <form action="">
+                                  <input type="text" placeholder="Tìm kiếm đánh giá" className="border p-2 w-full" />
+                                </form>
                               </div>
                             </div>
 
-                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                                Cristian!
-                              </p>
-                            </div>
-                          </div>
+                            <div className="right flex-1 p-0 md:p-6 relative w-full h-[480px]">
+                              <div className="flex-1 overflow-y-auto h-full px-0 md:px-4">
 
-                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                            <div
-                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                            >
-                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                <div className={`${styles['avt']}`}>
-                                  <Avatar
-                                    src={'https://i.pravatar.cc/300'}
-                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                  />
-                                </div>
+                                <div className="flex-1 border-t border-[#d1d7dc] py-6">
+                                  <div
+                                    className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                                  >
+                                    <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                      <div className={`${styles['avt']}`}>
+                                        <Avatar
+                                          src={'https://i.pravatar.cc/300'}
+                                          className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
+                                        />
+                                      </div>
 
-                                <div className="">
-                                  <div className="name font-title text-sm md:text-lg">
-                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                      Nicole Brown
-                                    </Link>
+                                      <div className="">
+                                        <div className="name font-title text-sm md:text-lg">
+                                          <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
+                                            Nicole Brown
+                                          </Link>
+                                        </div>
+
+                                        <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
+                                          <Rate disabled defaultValue={4.5} className="text-[16px]" />
+
+                                          {/* feedback at */}
+                                          <span>1 tháng trước</span>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
 
-                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
-
-                                    {/* feedback at */}
-                                    <span>1 tháng trước</span>
+                                  <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                                    <p className="text-justify py-3 text-sm md:text-md md:py-6">
+                                      Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
+                                      từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
+                                      cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
+                                      Cristian!
+                                    </p>
                                   </div>
                                 </div>
+
                               </div>
-                            </div>
-
-                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                                Cristian!
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                            <div
-                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                            >
-                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                <div className={`${styles['avt']}`}>
-                                  <Avatar
-                                    src={'https://i.pravatar.cc/300'}
-                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                  />
-                                </div>
-
-                                <div className="">
-                                  <div className="name font-title text-sm md:text-lg">
-                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                      Nicole Brown
-                                    </Link>
-                                  </div>
-
-                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
-
-                                    {/* feedback at */}
-                                    <span>1 tháng trước</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                                Cristian!
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                            <div
-                              className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                            >
-                              <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                <div className={`${styles['avt']}`}>
-                                  <Avatar
-                                    src={'https://i.pravatar.cc/300'}
-                                    className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                  />
-                                </div>
-
-                                <div className="">
-                                  <div className="name font-title text-sm md:text-lg">
-                                    <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                      Nicole Brown
-                                    </Link>
-                                  </div>
-
-                                  <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                    <Rate disabled defaultValue={4.5} className="text-[16px]" />
-
-                                    {/* feedback at */}
-                                    <span>1 tháng trước</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                              <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                Đây là khóa học thứ 2 về Photoshop mà tôi đã hoàn thành cùng với Cristian. Khóa học đáng giá đến
-                                từng xu, tôi đánh giá cao chúng. Để nắm vững khóa học này, tốt nhất bạn nên tham gia khóa học Sơ
-                                cấp đến Nâng cao về Photoshop trước. Chất lượng âm thanh và video đạt tiêu chuẩn tốt. Cảm ơn
-                                Cristian!
-                              </p>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </Modal>
-
-
-              </div>
+                      </Modal>
+                    </>
+                  ) : (
+                    <div className="w-full text-center dark:text-[#B9B7C0]">Chưa có đánh giá</div>
+                  )
+                }
+              </div >
 
               {/* Post Comment */}
-              <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
+              <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`
+              }>
                 <div className={`${styles['heading']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
                   <h5>Viết đánh giá</h5>
                 </div>
@@ -898,8 +740,8 @@ const CourseDetails = () => {
                     </div>
                   </form>
                 </div>
-              </div>
-            </div>
+              </div >
+            </div >
 
             <div className={`${styles['right']} space-y-6`}>
               <div className={`${styles['cardCourse']} dark:bg-[#2B2838] dark:text-[#B9B7C0] bg-white p-6 rounded-xl`}>
@@ -914,8 +756,12 @@ const CourseDetails = () => {
 
                 <div className={`${styles['act']}`}>
                   <div className={`${styles['prices']} flex justify-between items-center`}>
-                    <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>FREE</h2>
-                    <div className={`${styles['origin']}`}>$90.00</div>
+                    <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
+                      $ {course?.data?.price}
+                    </h2>
+
+                    {/* Tạm thời chưa có sale */}
+                    {/* <div className={`${styles['origin']}`}>$90.00</div> */}
                   </div>
 
                   <div className={`${styles['btns']} space-y-6`}>
@@ -923,20 +769,21 @@ const CourseDetails = () => {
                     <div className={`${styles['btnsGroup']} space-x-4`}>
                       <button
                         className='
-                                                rounded-full 
-                                                py-2 
-                                                flex 
-                                                items-center 
-                                                gap-1 
-                                                justify-center 
-                                                bg-white 
-                                                text-[#f66962] 
-                                                hover:text-white
-                                                dark:bg-[#201d2e] 
-                                                dark:text-white 
-                                                hover:bg-[#d95a57] 
-                                                dark:hover:bg-[#3b2b4c] 
-                                                dark:hover:text-[#f66962]'
+                          rounded-full 
+                          py-2 
+                          flex 
+                          items-center 
+                          gap-1 
+                          justify-center 
+                          bg-white 
+                          text-[#f66962] 
+                          hover:text-white
+                          dark:bg-[#201d2e] 
+                          dark:text-white 
+                          hover:bg-[#d95a57] 
+                          dark:hover:bg-[#3b2b4c] 
+                          dark:hover:text-[#f66962]
+                        '
                       >
                         <HeartOutlined />
                         Yêu thích
@@ -944,30 +791,34 @@ const CourseDetails = () => {
 
                       <button
                         className='
-                                                rounded-full 
-                                                py-2 
-                                                flex 
-                                                items-center 
-                                                gap-1 
-                                                justify-center 
-                                                bg-white 
-                                                text-[#f66962] 
-                                                hover:text-white
-                                                dark:bg-[#201d2e] 
-                                                dark:text-white 
-                                                hover:bg-[#d95a57] 
-                                                dark:hover:bg-[#3b2b4c] 
-                                                dark:hover:text-[#f66962]'
+                          rounded-full 
+                          py-2 
+                          flex 
+                          items-center 
+                          gap-1 
+                          justify-center 
+                          bg-white 
+                          text-[#f66962] 
+                          hover:text-white
+                          dark:bg-[#201d2e] 
+                          dark:text-white 
+                          hover:bg-[#d95a57] 
+                          dark:hover:bg-[#3b2b4c] 
+                          dark:hover:text-[#f66962]
+                        '
                       >
                         <ShareAltOutlined />
                         Chia sẻ
                       </button>
                     </div>
 
-                    <div className="">     
-                      <Link
-                        to={router.lesson.replace(':id', id)}
-                        className='
+                    <div className="">
+
+                      {
+                        course?.is_enrolled ? (
+                          <Link
+                            to={router.lesson.replace(':id', String(id))}
+                            className='
                         bg-[#159f46] 
                           py-3 
                           rounded-full 
@@ -975,11 +826,30 @@ const CourseDetails = () => {
                           hover:text-black
                           hover:bg-[#7b9885]
                       '
-                      >
-                        <button className={`${styles['enrollBtn']} `}>
-                          Xem ngay
-                        </button>
-                      </Link>
+                          >
+                            <button className={`${styles['enrollBtn']} `}>
+                              Xem ngay
+                            </button>
+                          </Link>
+                        ) : (
+                          <Link
+                            to={router.lesson.replace(':id', String(id))}
+                            className='
+                        bg-[#159f46] 
+                          py-3 
+                          rounded-full 
+                        text-white 
+                          hover:text-black
+                          hover:bg-[#7b9885]
+                      '
+                          >
+                            <button className={`${styles['enrollBtn']} `}>
+                              Đăng ký ngay
+                            </button>
+                          </Link>
+                        )
+                      }
+
                     </div>
                   </div>
                 </div>
@@ -1185,9 +1055,9 @@ const CourseDetails = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
     </>
   )
 }
