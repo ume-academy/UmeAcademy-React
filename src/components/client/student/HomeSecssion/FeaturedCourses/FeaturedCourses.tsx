@@ -4,7 +4,7 @@ import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Card from '@/components/client/commonComponents/Card/Card'
 import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
-import { TCourse } from '@/interfaces/course'
+import { TCourse } from '@/interfaces/TCourse'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -21,7 +21,7 @@ const FeaturedCourses = () => {
 
   //Chưa có đăng nhập lên lưu tạm token ở đây, Token hết hạn sau 1 tiếng
   const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdW1lYWNhZGVteS5tZS9hcGkvdjEvYXV0aC9sb2dpbi9lbWFpbCIsImlhdCI6MTczMjE5Njk4NywiZXhwIjoxNzMyMjAwNTg3LCJuYmYiOjE3MzIxOTY5ODcsImp0aSI6ImlHQlJDRXRKUVZEUk9YN2IiLCJzdWIiOiIxMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.oo7Vs8iiqOsv5sErcBueQLx0vgrGNZ4_ZfrA2P2iHV8'
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdW1lYWNhZGVteS5tZS9hcGkvdjEvYXV0aC9sb2dpbi9lbWFpbCIsImlhdCI6MTczMjIwMzQ5MCwiZXhwIjoxNzMyMjA3MDkwLCJuYmYiOjE3MzIyMDM0OTAsImp0aSI6IldYN0g1UllwNTJVV1ZHeTUiLCJzdWIiOiIxMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hL4NPKyZu8FWAccqJLSP-liyKOAE-Bw2d4AhmnhmNk8'
   localStorage.setItem('accessToken', token)
 
   //data card

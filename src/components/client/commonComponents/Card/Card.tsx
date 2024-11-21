@@ -1,6 +1,6 @@
 import { router } from '@/configs/routes'
 import { getButtonDetails } from '@/constants/client'
-import { TCourse } from '@/interfaces/course'
+import { TCourse } from '@/interfaces/TCourse'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { Modal, Rate, TreeSelect } from 'antd'
 import { motion } from 'framer-motion'

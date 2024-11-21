@@ -4,6 +4,7 @@ import { authApiSlice } from './slices/authApiSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { courseSlice } from "./slices/courseSlice";
 
+
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>

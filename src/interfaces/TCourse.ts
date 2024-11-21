@@ -1,3 +1,5 @@
+import { TLesson } from "./TLesson"
+
 interface TCategory {
   id: number
   name: string
@@ -40,4 +42,12 @@ export interface TCourse {
   badges: TBadges
   is_wishlist: boolean
   is_enrolled: boolean
+}
+
+export interface TContent {
+  id?: number,
+  name: string,
+  total_lesson: number,
+  chapter_duration: number,
+  lesson: TLesson[]
 }

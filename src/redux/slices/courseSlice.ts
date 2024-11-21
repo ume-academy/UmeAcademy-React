@@ -1,5 +1,5 @@
 import { baseUrl } from "@/Api";
-import { TCourse } from "@/interfaces/course";
+import { TCourse } from "@/interfaces/TCourse";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const courseSlice = createApi({

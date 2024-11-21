@@ -3,6 +3,7 @@ import { courseSlice } from "./slices/courseSlice";
 import { authApiSlice } from "./slices/authApiSlice";
 import { profileApiSlice } from "./slices/profile/profileApiSlice";
 
+
 const rootReducer = combineReducers({
   [authApiSlice.reducerPath]: authApiSlice.reducer,
   [profileApiSlice.reducerPath]: profileApiSlice.reducer,

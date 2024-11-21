@@ -5,7 +5,7 @@ import { getTitleTab } from '../../../../constants/client'
 import { Pagination } from 'antd'
 import Card from '@/components/client/commonComponents/Card/Card'
 import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
-import { TCourse } from '@/interfaces/course'
+import { TCourse } from '@/interfaces/TCourse'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
