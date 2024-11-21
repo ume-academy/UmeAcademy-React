@@ -31,10 +31,12 @@ export const routerConfig = {
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
-export const getButtonDetails = () => {
+export const getButtonDetails = (is_enrolled: boolean, courseId: number) => {
   const location = useLocation()
-  let buttonText = 'Mua ngay'
-  let targetPath = `${router.coursePaymentMethod}`
+  let buttonText = is_enrolled ? 'Xem ngay' : 'Mua ngay'
+  let targetPath = is_enrolled
+    ? `${router.courseDetail.replace(':id', String(courseId))}`
+    : `${router.coursePaymentMethod.replace(':id', String(courseId))}`
 
   if (location.pathname === `${router.purchasedCourses}`) {
     buttonText = 'Hoàn tiền'

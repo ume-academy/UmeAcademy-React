@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom'
 import { routerConfig } from '../../../../../constants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import Card, { CardProps } from '@/components/client/commonComponents/Card/Card'
+import Card from '@/components/client/commonComponents/Card/Card'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { TCourse } from '@/interfaces/course'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -17,24 +19,26 @@ const FeaturedCourses = () => {
   const isMiddleInView = useInView(middleRef, { amount: 0.1, once: true })
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
+  //Chưa có đăng nhập lên lưu tạm token ở đây, Token hết hạn sau 1 tiếng
+  const token =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdW1lYWNhZGVteS5tZS9hcGkvdjEvYXV0aC9sb2dpbi9lbWFpbCIsImlhdCI6MTczMjE5Njk4NywiZXhwIjoxNzMyMjAwNTg3LCJuYmYiOjE3MzIxOTY5ODcsImp0aSI6ImlHQlJDRXRKUVZEUk9YN2IiLCJzdWIiOiIxMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.oo7Vs8iiqOsv5sErcBueQLx0vgrGNZ4_ZfrA2P2iHV8'
+  localStorage.setItem('accessToken', token)
+
   //data card
-  const cardData: CardProps = {
-    image: 'https://i.pravatar.cc',
-    title: 'Thông tin về thiết kế bằng UI/UX',
-    instructorName: 'DaddyGiao',
-    instructorImage: 'https://i.pravatar.cc/150',
-    price: '1.000.000 đ',
-    originalPrice: '9.000.000 đ',
-    lessonCount: '12+ Bài học',
-    duration: '9h 30p',
-    rating: 5,
-    purchaseDate: ""
-  };
+  const { data: data1 } = useGetInfoCourseByIdQuery(24)
+  const { data: data2 } = useGetInfoCourseByIdQuery(22)
+
+  const course: TCourse = data1
+  const course2: TCourse = data2
+
+  console.log('Course_1:', course)
+  console.log('Course_2:', course2)
   return (
     <div className=''>
       <div
-        className={`min-h-[100vh] pb-[80px] ${transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
-          } dark:bg-[#131022] dark:bg-none`}
+        className={`min-h-[100vh] pb-[80px] ${
+          transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+        } dark:bg-[#131022] dark:bg-none`}
       >
         <div className={`min-h-[100vh] bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}>
           <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] px-[16px] lg:px-0'>
@@ -74,14 +78,10 @@ const FeaturedCourses = () => {
               ref={bottomRef}
               className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-7'
             >
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
-              <Card {...cardData} />
+              <Card {...course} />
+              <Card {...course2} />
+              <Card {...course} />
+              <Card {...course2} />
             </motion.div>
           </div>
         </div>
