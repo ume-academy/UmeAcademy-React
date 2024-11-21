@@ -1,10 +1,6 @@
-
 import { baseUrl } from "@/Api";
 import { TRegister } from "@/interfaces/TAuth";
 import { createApi } from "@reduxjs/toolkit/query/react";
-
-
-
 
 export const  authApiSlice = createApi({
   reducerPath: 'authApi',

@@ -1,31 +1,29 @@
-import { CloudUploadOutlined, DeleteOutlined, EditFilled, LockFilled } from "@ant-design/icons";
-import { Avatar, Tabs } from "antd";
-import styles from './setting.module.scss';
+import { CloudUploadOutlined, DeleteOutlined, EditFilled, LockFilled } from '@ant-design/icons'
+import { Avatar, Tabs } from 'antd'
+import styles from './setting.module.scss'
 import './SettingAntd.scss'
-
-const Setting = ({ props }: any) => {
-  console.log(props)
-
+const Setting = ({ data }: any) => {
+  const { avatar, bio, email, fullname, is_lock } = data || {}
   return (
     <>
-      <div className="mb-20 max-w-[1280px] mx-auto p-4 lg:p-6">
+      <div className='mb-20 max-w-[1280px] mx-auto p-4 lg:p-6'>
         <div className={`${styles['parent']} rounded-xl dark:text-[#B9B7C0] dark:border-none dark:bg-[#2B2838]`}>
           <div className={`${styles['heading']} p-4 md:p-6`}>
-            <h3 className="font-title text-2xl">Cài đặt</h3>
-            <p className="font-subtitle">Bạn có toàn quyền quản lý cài đặt tài khoản của riêng mình!</p>
+            <h3 className='font-title text-2xl'>Cài đặt</h3>
+            <p className='font-subtitle'>Bạn có toàn quyền quản lý cài đặt tài khoản của riêng mình!</p>
           </div>
 
           <div className={`${styles['content']}`}>
-            <div className="">
-              <Tabs defaultActiveKey="1" className="tabsBar">
+            <div className=''>
+              <Tabs defaultActiveKey='1' className='tabsBar'>
                 <Tabs.TabPane
                   tab={
-                    <div className="flex items-center justify-center gap-3">
+                    <div className='flex items-center justify-center gap-3'>
                       <EditFilled />
                       Chỉnh sửa thông tin
                     </div>
                   }
-                  key="1"
+                  key='1'
                 >
                   {/* Nội dung tab 1 */}
                   <div className={`${styles['tabContent']} dark:text-[#B9B7C0] `}>
@@ -45,13 +43,13 @@ const Setting = ({ props }: any) => {
                                           md:space-x-4
                                         `}
                     >
-                      <div className="avt">
-                        <Avatar size={120} src={props.avatar} className="border-[#F84563]" />
+                      <div className='avt'>
+                        <Avatar size={120} src={avatar} className='border-[#F84563]' />
                       </div>
 
                       <div className={`${styles['subContent']} space-y-4`}>
-                        <div className="">
-                          <h2 className="font-title text-xl">Ảnh đại diện</h2>
+                        <div className=''>
+                          <h2 className='font-title text-xl'>Ảnh đại diện</h2>
                           <p>Nên chọn ảnh có định dạng PNG, JPG hoặc JPEG và không quá 800px</p>
                         </div>
 
@@ -69,111 +67,116 @@ const Setting = ({ props }: any) => {
 
                     <div className={`${styles['form']} flex space-x-4 p-4 md:py-6`}>
                       <div className={`${styles['heading']} py-4 md:py-6`}>
-                        <h2 className="font-title text-2xl">Thông tin cá nhân</h2>
+                        <h2 className='font-title text-2xl'>Thông tin cá nhân</h2>
                         <p>Chỉnh sửa thông tin tài khoản</p>
                       </div>
 
                       <form className={`${styles['formContent']} space-y-6`}>
-
                         <div className={`${styles['formGrid']} flex flex-col md:flex-row`}>
                           <div className={`${styles['formGroup']}`}>
-                            <label>
-                              Tên đầy đủ
-                            </label>
+                            <label htmlFor='fullname'>Tên đầy đủ</label>
 
-                            <input type="text" className={`${styles['formInput']} dark:bg-[#131022]`} value={props.fullname}/>
+                            <input
+                              type='text'
+                              id='fullname'
+                              className={`${styles['formInput']} dark:bg-[#131022]`}
+                              value={fullname}
+                            />
                           </div>
 
-                          <div className={`${styles['formGroup']}`}>
+                          {/* <div className={`${styles['formGroup']}`}>
                             <label>
                               Số điện thoại
                             </label>
 
-                            <input type="text" className={`${styles['formInput']} dark:bg-[#131022]`} value={props.phone}/>
-                          </div>
+                            <input type="text" className={`${styles['formInput']} dark:bg-[#131022]`} value={phone}/>
+                          </div> */}
                         </div>
 
                         <div className={`${styles['formGrid']} flex flex-col md:flex-row`}>
                           <div className={`${styles['formGroup']}`}>
-                            <label>
-                              Email
-                            </label>
+                            <label htmlFor='email'>Email</label>
 
                             <input
-                              type="text"
+                              id='email'
+                              type='text'
                               className={`${styles['formInput']} dark:bg-[#131022]`}
-                              value={props.email}
+                              value={email}
                             />
                           </div>
 
                           <div className={`${styles['formGroup']}`}>
-                            <label>
-                              Chức vụ
-                            </label>
+                            <label htmlFor='is_lock'>Chức vụ</label>
 
-                            <input type="text" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                            <input
+                              id='is_lock'
+                              type='text'
+                              className={`${styles['formInput']} dark:bg-[#131022]`}
+                              value={is_lock === 0 ? 'Giảng viên' : 'Học viên'}
+                            />
                           </div>
                         </div>
 
                         <div className={`${styles['formGroup']}`}>
-                          <label>
-                            Giới thiệu
-                          </label>
+                          <label htmlFor='bio'>Giới thiệu</label>
 
-                          <textarea rows={5} className={`${styles['formTextarea']} dark:bg-[#131022]`} value={props.bio}/>
+                          <textarea
+                            id='bio'
+                            rows={5}
+                            className={`${styles['formTextarea']} dark:bg-[#131022]`}
+                            value={bio}
+                          />
                         </div>
 
                         <div className={`${styles['btnGroup']}`}>
-
-                          <button className="w-full md:w-auto">Cập nhật thông tin</button>
+                          <button className='w-full md:w-auto'>Cập nhật thông tin</button>
                         </div>
                       </form>
                     </div>
                   </div>
-
                 </Tabs.TabPane>
 
                 <Tabs.TabPane
                   tab={
-                    <div className="flex items-center justify-center gap-3">
+                    <div className='flex items-center justify-center gap-3'>
                       <LockFilled />
                       Thay đổi mật khẩu
                     </div>
                   }
-                  key="2"
+                  key='2'
                 >
                   {/* Nội dung tab 2 */}
                   <div className={`${styles['tabContent']} p-4 md:p-6 dark:text-[#B9B7C0]`}>
                     <div className={`${styles['form']} flex space-x-4 p-0 md:p-6`}>
-
                       <form className={`${styles['formContent']} space-y-6`}>
                         <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
-                          <label>
-                            Mật khẩu hiện tại
-                          </label>
+                          <label htmlFor='password'>Mật khẩu hiện tại</label>
 
-                          <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                          <input id='password' type='password' className={`${styles['formInput']} dark:bg-[#131022]`} />
                         </div>
 
                         <div className={`${styles['formGroup']} w-full md:w-[50%]`}>
-                          <label>
-                            Mật khẩu mới
-                          </label>
+                          <label htmlFor='new_password'>Mật khẩu mới</label>
 
-                          <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                          <input
+                            id='new_password'
+                            type='password'
+                            className={`${styles['formInput']} dark:bg-[#131022]`}
+                          />
                         </div>
 
                         <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
-                          <label>
-                            Nhâp lại mật khẩu mới
-                          </label>
+                          <label htmlFor='new_password'>Nhâp lại mật khẩu mới</label>
 
-                          <input type="password" className={`${styles['formInput']} dark:bg-[#131022]`} />
+                          <input
+                            id='new_password'
+                            type='password'
+                            className={`${styles['formInput']} dark:bg-[#131022]`}
+                          />
                         </div>
 
                         <div className={`${styles['btnGroup']}`}>
-
-                          <button className="my-4 w-full md:w-[20%]">Cập nhật mật khẩu</button>
+                          <button className='my-4 w-full md:w-[20%]'>Cập nhật mật khẩu</button>
                         </div>
                       </form>
                     </div>
