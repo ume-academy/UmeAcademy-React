@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { courseSlice } from "./slices/courseSlice";
-import { authApiSlice } from "./slice/authApiSlice";
-import { profileApiSlice } from "./slice/profile/profileApiSlice";
+import { authApiSlice } from "./slices/authApiSlice";
+import { profileApiSlice } from "./slices/profile/profileApiSlice";
 
 const rootReducer = combineReducers({
   [authApiSlice.reducerPath]: authApiSlice.reducer,

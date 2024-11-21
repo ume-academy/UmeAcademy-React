@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
-import { authApiSlice } from './slice/authApiSlice'
-import { profileApiSlice } from './slice/profile/profileApiSlice'
+import { authApiSlice } from './slices/authApiSlice'
+import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { courseSlice } from "./slices/courseSlice";
 
 export const store = configureStore({
