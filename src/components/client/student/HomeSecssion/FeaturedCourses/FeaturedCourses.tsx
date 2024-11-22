@@ -26,8 +26,6 @@ const FeaturedCourses = () => {
   const course: TCourse = data1
   const course2: TCourse = data2
 
-  console.log('Course_1:', course)
-  console.log('Course_2:', course2)
   return (
     <div className=''>
       <div
