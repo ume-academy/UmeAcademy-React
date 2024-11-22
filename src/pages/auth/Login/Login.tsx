@@ -18,6 +18,7 @@ import { Helmet } from 'react-helmet'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
+import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
 
 const Login = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
@@ -63,7 +64,8 @@ const Login = () => {
       nav(router.home)
     } catch (error) {
       stopLoading()
-      message.error('Tài khoản hoặc mật khẩu không chính xác.')
+      let err= error as TLoginError
+      message.error(err.data?.error ??'Tài khoản hoặc mật khẩu không chính xác.')
       console.log(error)
     }
   }

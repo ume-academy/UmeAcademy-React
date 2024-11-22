@@ -1,0 +1,17 @@
+
+.plyr {
+  width: 100%;
+  height: 532px;
+}
+
+.plyr__control--overlaid {
+  background-color: #F66962;
+}
+
+.plyr--video .plyr__control:hover {
+  background-color: #814b48;
+}
+
+.plyr--full-ui input[type=range] {
+  color: #F66962;
+}

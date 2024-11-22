@@ -51,7 +51,7 @@ const Register = () => {
         await register(data).unwrap()
         stopLoading()
         message.success('Đăng ký thành công')
-        nav(router.login)
+        nav(router.verify_email)
 
     } catch (error) {
         stopLoading()

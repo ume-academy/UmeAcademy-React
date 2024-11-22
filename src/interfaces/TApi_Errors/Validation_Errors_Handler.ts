@@ -9,3 +9,10 @@ export interface TRegisterError {
       }
     }
 }
+
+export interface TLoginError {
+  status?: number
+  data?: {  
+  error?: string
+  }
+}

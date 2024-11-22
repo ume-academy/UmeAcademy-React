@@ -2,10 +2,12 @@ import { router } from '@/configs/routes'
 import { logo, routerConfig } from '@/constants/client'
 import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
 import { MoonFilled, SunFilled } from '@ant-design/icons'
 import { Button, Drawer, DrawerProps, RadioChangeEvent } from 'antd'
 import { AlignJustify, X } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -16,6 +18,7 @@ const Header_Mobile_Tablet = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
   const [open, setOpen] = useState(false); //Đón nhận trạng thái mở của drawer
   const [placement, setPlacement] = useState<DrawerProps['placement']>('left'); //Đón nhận vị trí của drawer
+  const isAuthenticated = useSelector(selectIsAuthenticated)
 
   // Kiểm tra kích thước màn hình để thay đổi width của drawer 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -110,28 +113,34 @@ const Header_Mobile_Tablet = () => {
               closeIcon={null}
               open={open}
             >
-              <Link onClick={() => setOpen(false)}  className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.home}`}>Trang chủ</Link>
-              {/* teacher */}
-              <button className='w-full flex justify-start px-3 py-2 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' 
-                onClick={() => handleToggle()}>
-                {mode === 'student' ? 'Giảng viên' : 'Học viên'}
-              </button>
-              {mode === 'student' ? (
-                <>
-                <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.profileStudent}`}>Hồ sơ</Link>
-                {/* <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.walletHistory}`}>Lịch sử giao dịch</Link> */}
-                <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.purchasedCourses}`}>Danh sách đã mua</Link>
-                <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.walletHistory}`}>Ví Ume</Link>
-                </>
-              ) : (
-                <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.profileTeacher}`}>Hồ sơ</Link>
-              )}
               
-              <button className='w-full flex justify-start px-3 py-2 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]'>Đăng xuất</button>
-             
+              <Link onClick={() => setOpen(false)}  className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.home}`}>Trang chủ</Link>
+              { isAuthenticated === true ? (
+                <>
+                  {/* teacher */}
+                  <button className='w-full flex justify-start px-3 py-2 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' 
+                    onClick={() => handleToggle()}>
+                    {mode === 'student' ? 'Giảng viên' : 'Học viên'}
+                  </button>
+                  {mode === 'student' ? (
+                    <>
+                    <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.profileStudent}`}>Hồ sơ</Link>
+                    {/* <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.walletHistory}`}>Lịch sử giao dịch</Link> */}
+                    <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.purchasedCourses}`}>Danh sách đã mua</Link>
+                    <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.walletHistory}`}>Ví Ume</Link>
+                    </>
+                  ) : (
+                    <Link onClick={() => setOpen(false)} className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.profileTeacher}`}>Hồ sơ</Link>
+                  )}
+                  
+                  <button className='w-full flex justify-start px-3 py-2 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]'>Đăng xuất</button>
+                </>
+            ) : (
+            <>
               {/*<===== KHÔNG ĐƯỢC XÓA Dùng cho đăng kí đăng nhập ====> */}
-              {/* <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.login}`}>Đăng nhập</Link>
-              <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.register}`}>Đăng ký</Link> */}
+              <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.login}`}>Đăng nhập</Link>
+              <Link className='block w-full px-3 py-4 text-[#fff] hover:text-[#fff] border-b-[1px] border-[#f38681] font-desc focus:bg-[#131022]' to={`${router.register}`}>Đăng ký</Link>
+            </>)}
             </CustomDrawer>
           </div>
 
