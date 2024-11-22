@@ -2,26 +2,19 @@ import { router } from '@/configs/routes'
 import { getButtonDetails } from '@/constants/client'
 import { TCourse } from '@/interfaces/TCourse'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
-import { Modal, Rate, TreeSelect } from 'antd'
+import { message, Modal, Rate, TreeSelect } from 'antd'
 import { motion } from 'framer-motion'
 import { CircleAlert } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
-export interface CardProps {
-  image: string
-  title: string
-  instructorName: string
-  instructorImage: string
-  price: string
-  originalPrice: string
-  lessonCount: string
-  duration: string
-  rating: number
-  purchaseDate: string
+export const formatPrice = (price: number): string => {
+  return price?.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
 }
-
 const CustomTreeSelect = styled(TreeSelect)`
   .ant-select-selector {
     width: 100% !important; /* Đảm bảo chiều rộng 100% */
@@ -59,16 +52,20 @@ const Card = ({
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
-  const handleClick = () => {
-    setHeart(!heart)
-  }
+  useEffect(() => {
+    setHeart(is_wishlist)
+  }, [is_wishlist])
 
-  const formatPrice = (price: number): string => {
-    return price?.toLocaleString('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    })
-  }
+  const handleClick = () => {
+    if (heart) {
+      setHeart(false);
+      message.error("Đã bỏ khóa học khỏi danh sách yêu thích");
+    } else {
+      setHeart(true);
+      message.success("Đã thêm khóa học vào danh sách yêu thích");
+    }
+  };
+  
 
   const handleOpenModal = (type: 'refund' | 'delete' | 'review') => {
     if (!isHistoryLesson && !isMyCoursesPage) {
@@ -140,26 +137,27 @@ const Card = ({
             <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{}</p>
           </div>
         </div>
+      </Link>
 
-        {!isMyCoursesPage && (
-          <div className='mt-6 flex justify-between items-center'>
-            <div className='flex items-center'>
-              <img src={teacher?.avatar as string} alt='avatarTeacher' className='w-12 h-12 rounded-full' />
-              <div className='ml-3'>
-                <p className='hover:text-[#ff5364] text-[16px]'>{teacher?.fullname}</p>
-                <p className=''>Giảng viên</p>
-              </div>
-            </div>
-            <div onClick={handleClick} className='cursor-pointer text-xl'>
-              {heart ? (
-                <HeartFilled className='text-[#ff5364] group-hover:text-white' />
-              ) : (
-                <HeartOutlined className='text-[#ff5364] group-hover:text-white' />
-              )}
+      {!isMyCoursesPage && (
+        <div className='mt-6 flex justify-between items-center'>
+          <div className='flex items-center'>
+            <img src={teacher?.avatar as string} alt='avatarTeacher' className='w-12 h-12 rounded-full' />
+            <div className='ml-3'>
+              <p className='hover:text-[#ff5364] text-[16px]'>{teacher?.fullname}</p>
+              <p className=''>Giảng viên</p>
             </div>
           </div>
-        )}
-
+          <div onClick={handleClick} className='cursor-pointer text-xl'>
+            {heart ? (
+              <HeartFilled className='text-[#ff5364] group-hover:text-white' />
+            ) : (
+              <HeartOutlined className='text-[#ff5364] group-hover:text-white' />
+            )}
+          </div>
+        </div>
+      )}
+      <Link to={`${router.courseDetail.replace(':id', String(id))}`} className='group hover:text-white'>
         <div className='space-y-5 mt-4'>
           <h3 className='text-[17px] h-12 hover:text-[#ff5364] w-[90%] line-clamp-2'>{name}</h3>
           <div className='flex justify-between items-center border-b border-b-gray-500 pb-4'>

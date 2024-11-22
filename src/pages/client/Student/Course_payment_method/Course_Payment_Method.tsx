@@ -1,21 +1,48 @@
-import { Helmet } from 'react-helmet'
-import { getTitleTab, vmpayLogo } from '../../../../constants/client'
-import { BookFilled, WalletFilled } from '@ant-design/icons'
-import { Radio, Modal } from 'antd'
-import { useState } from 'react'
-import './RadioAntd.scss'
-import { Landmark } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { formatPrice } from '@/components/client/commonComponents/Card/Card'
 import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { useCheckOutMutation } from '@/redux/slices/payment/checkoutApiSlice'
+import { useCheckVoucherMutation } from '@/redux/slices/voucher/checkVoucherApiSlice'
+import { BookFilled } from '@ant-design/icons'
+import { message, Modal, Radio } from 'antd'
+import { CircleAlert } from 'lucide-react'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useParams } from 'react-router-dom'
+import { getTitleTab, vmpayLogo } from '../../../../constants/client'
+import './RadioAntd.scss'
 
 const Course_Payment_Method = () => {
-  const [selectedMethod, setSelectedMethod] = useState<string>('Ume Wallet')
+  const [selectedMethod, setSelectedMethod] = useState<number | null>(null)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const { id } = useParams()
-
   const { data } = useGetInfoCourseByIdQuery(id)
-  const onChange = (e: any) => {
+  const [checkOut] = useCheckOutMutation()
+  const [checkVoucher] = useCheckVoucherMutation()
+  const [voucherCode, setVouCherCode] = useState<String | undefined>(undefined)
+  const [voucherId, setVoucherId] = useState<Number | null>(null)
+  const [discountPrice, setDiscountPrice] = useState<Number>()
+
+  const onChangeMethod = (e: any) => {
     setSelectedMethod(e.target.value)
+  }
+  const handleVoucher = async () => {
+    try {
+      const res = await checkVoucher({ code: voucherCode, course_id: id })
+      if (res.data) {
+        setVoucherId(res.data.id)
+        const discountPercentage = res.data.discount || 0
+
+        const discountAmount = ((data?.price as number) * discountPercentage) / 100
+
+        const discountedPrice = (data?.price as number) - discountAmount
+        setDiscountPrice(discountedPrice)
+        message.success('Sử dụng voucher thành công!')
+      } else {
+        message.error('Voucher không hợp lệ hoặc đã hết hạn')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleConfirm = () => {
@@ -30,30 +57,46 @@ const Course_Payment_Method = () => {
       okType: 'danger',
       cancelText: 'Hủy',
       okButtonProps: {
-        // Sửa dấu '=' thành ':'
         style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' } // Màu nền, viền và chữ nút OK
       },
       cancelButtonProps: {
-        // Sửa dấu '=' thành ':'
-        className: 'custom-cancel-btn' // Thêm lớp CSS tùy chỉnh
+        className: 'custom-cancel-btn'
       },
       centered: true,
       maskClosable: false,
       width: 600,
-      icon: null, // Bỏ biểu tượng trong modal
-      onOk: () => {
-        setConfirmLoading(true)
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            // Logic
-
-            // Dừng loading
-            setConfirmLoading(false)
-            resolve(undefined)
-          }, 1666)
-        })
-      }
+      icon: null,
+      onOk: handleSubmitPayment
     })
+  }
+
+  const handleSubmitPayment = async () => {
+    setConfirmLoading(true)
+    try {
+      const paymentData: any = {
+        origin_price: data?.price,
+        course_id: Number(id),
+        payment_method_id: selectedMethod
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1666))
+
+      if (voucherId != null) {
+        paymentData.voucher_id = voucherId;
+      }
+      const res = await checkOut(paymentData)
+
+      const checkout = res.data
+
+      if (checkout) {
+        window.location.href = checkout.checkoutUrl
+      }
+    } catch (error) {
+      console.log(error)
+      message.error('Đã có lỗi xảy ra. Vui lòng thử lại sau!')
+    } finally {
+      setConfirmLoading(false)
+    }
   }
 
   return (
@@ -66,8 +109,8 @@ const Course_Payment_Method = () => {
           <p className='font-title text-2xl border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6'>
             Phương thức thanh toán
           </p>
-          <Radio.Group onChange={onChange} value={selectedMethod} className='pl-6 pt-14 pb-14 w-full space-y-6'>
-            <div className='flex gap-4 items-center w-full'>
+          <Radio.Group onChange={onChangeMethod} value={selectedMethod} className='pl-6 pt-14 pb-14  w-full space-y-6'>
+            {/* <div className='flex gap-4 items-center w-full'>
               <Radio value='Ume Wallet' className='w-full '>
                 <div className='flex items-center'>
                   <WalletFilled className='text-[#ff5364] text-[41px] rounded-[6px]' />
@@ -76,18 +119,18 @@ const Course_Payment_Method = () => {
                   </span>
                 </div>
               </Radio>
-            </div>
+            </div> */}
             <div className='flex gap-4 items-center w-full'>
-              <Radio value='Bank Wallet' className='w-full '>
+              <Radio value={2} className='w-full '>
                 <div className='flex items-center'>
-                  <img src={vmpayLogo} width='40' className='rounded-lg border' />
+                  <img src={vmpayLogo} alt='VNPAY' width='50' className='rounded-lg border' />
                   <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
                     Thanh toán qua ví VNPAY
                   </span>
                 </div>
               </Radio>
             </div>
-            <div className='flex gap-4 items-center w-full'>
+            {/* <div className='flex gap-4 items-center w-full'>
               <Radio value='E-Wallet' className='w-full '>
                 <div className='flex items-center'>
                   <div className='text-white'>
@@ -100,14 +143,13 @@ const Course_Payment_Method = () => {
                   </span>
                 </div>
               </Radio>
-            </div>
+            </div> */}
           </Radio.Group>
         </div>
 
-        {/* Phần Chi tiết */}
-        <form className='w-full lg:w-[39%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7'>
+        <div className='w-full lg:w-[39%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7'>
           <p className='text-2xl font-title border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6'>Chi tiết</p>
-          <div className='space-y-3 p-4 md:p-6'>
+          <div className='space-y-3 p-4 md:px-6'>
             <p className='text-lg font-medium h-11'>{data?.name}</p>
             <p className='text-[14px]'>
               Giảng viên: <span>{data?.teacher.fullname}</span>
@@ -118,7 +160,7 @@ const Course_Payment_Method = () => {
                 <span>{data?.total_lesson}+ Bài học</span>
               </div>
               <p>
-                Giá: <span>{data?.price}</span>
+                Giá: <span>{formatPrice(Number(data?.price))}</span>
               </p>
             </div>
             <div className='flex justify-between items-center'>
@@ -126,30 +168,45 @@ const Course_Payment_Method = () => {
                 type='text'
                 placeholder='Mã giảm giá'
                 className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[70%] '
+                value={voucherCode as string}
+                onChange={(e) => setVouCherCode(e.target.value)}
               />
               <button
                 type='button'
                 className='bg-[#ff5364] text-white h-10 w-20  text-[14px] rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+                onClick={handleVoucher}
+                disabled={!voucherCode}
               >
                 Sử dụng
               </button>
             </div>
 
-            <div className='flex justify-between w-full font-subtitle text-xl pt-5'>
+            <div className='flex justify-between w-full font-subtitle text-xl pt-3'>
               <p>Tổng tiền:</p>
-              <span>1.000.000đ</span>
+              <span>
+                {formatPrice(Math.min(Number(discountPrice) || Number(data?.price), Number(data?.price) || 0))}
+              </span>
             </div>
             <div className='flex justify-center'>
               <button
-                type='button'
+                type='submit'
                 className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
                 onClick={handleConfirm}
+                disabled={!selectedMethod}
               >
                 Thanh toán
               </button>
             </div>
+            {!selectedMethod && (
+              <div className='text-red-500 text-sm md:text-[16px] flex gap-1 items-center'>
+                <span>
+                  <CircleAlert size={16} />
+                </span>
+                <span>Vui lòng chọn phương thức thanh toán</span>
+              </div>
+            )}
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )

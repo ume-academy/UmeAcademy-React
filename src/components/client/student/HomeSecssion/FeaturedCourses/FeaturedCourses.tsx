@@ -19,10 +19,9 @@ const FeaturedCourses = () => {
   const isMiddleInView = useInView(middleRef, { amount: 0.1, once: true })
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
-
   //data card
   const { data: data1 } = useGetInfoCourseByIdQuery(24)
-  const { data: data2 } = useGetInfoCourseByIdQuery(22)
+  const { data: data2 } = useGetInfoCourseByIdQuery(32)
 
   const course: TCourse = data1
   const course2: TCourse = data2
