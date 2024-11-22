@@ -1,19 +1,10 @@
+import { TCategory } from "./TCategory"
 import { TLesson } from "./TLesson"
-
-interface TCategory {
-  id: number
-  name: string
-}
+import { TTeacher } from "./TTeacher"
 
 interface TLevel {
   id: number
   name: string
-}
-
-interface TTeacher {
-  id: number
-  fullname: string
-  avatar: string | null
 }
 
 interface TBadges {
