@@ -1,6 +1,6 @@
 import { router } from '@/configs/routes'
 import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/courseSlice'
-import { HeartFilled, HeartOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
+import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
 import { Avatar, Collapse, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
 import { vi } from 'date-fns/locale'
@@ -19,7 +19,7 @@ const CourseDetails = () => {
   const { data: courseContent } = useGetContentCourseByIdQuery(id);
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
 
-  console.log(course)
+  // console.log(course)
 
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -31,6 +31,10 @@ const CourseDetails = () => {
     setCurrentVideoPath(path) // Cập nhật đường dẫn video hiện tại
     setModal2Open(true)
   }
+
+  const userExist = localStorage.getItem('access_Token');
+
+  // console.log(userExist)
 
   // convert seconds to minutes
   function formatTime(seconds: number) {
@@ -50,7 +54,10 @@ const CourseDetails = () => {
     return format(date, "dd-MM-yyyy");
   }
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center"></div>
+  // format number 
+  const formatNumber = (number: any) => new Intl.NumberFormat('vi-VN').format(number);
+
+  if (isLoading && isFetching) return <div className="min-h-screen flex items-center justify-center"><LoadingOutlined size={100}/></div>
 
   return (
     <>
@@ -274,7 +281,7 @@ const CourseDetails = () => {
                             </span>
                           }
                           key={index}
-                          className='bg-slate-200 dark:bg-[#585858] !rounded-none'
+                          className='bg-slate-200 dark:bg-[#585858] !rounded-none '
                         >
                           {/* đổ lesson */}
                           <div>
@@ -316,14 +323,6 @@ const CourseDetails = () => {
                                           className=''
                                         >
                                           <div className='mt-4'>
-                                            {/* <iframe
-                                              src={`httpswww.youtube.com/embed/${currentVideoPath}`}
-                                              // frameborder="0"
-                                              // allowfullscreen
-                                              width={'100%'}
-                                              height={250}
-                                            /> */}
-
                                             <video
                                               id="my-video"
                                               className="video-js"
@@ -540,7 +539,7 @@ const CourseDetails = () => {
                       </Modal>
                     </>
                   ) : (
-                    <div className="w-full text-center dark:text-[#B9B7C0]">Chưa có đánh giá</div>
+                    <div className="w-full text-center dark:text-[#B9B7C0]">Hiện tại khóa học chưa có đánh giá!</div>
                   )
                 }
               </div >
@@ -552,46 +551,54 @@ const CourseDetails = () => {
                   <h5>Viết đánh giá</h5>
                 </div>
 
-                <div className={`${styles['content']}`}>
-                  <form action=''>
-                    <div className='flex flex-col space-y-4'>
-                      <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
-                        <input
-                          type='text'
-                          placeholder='Tên hiển thị'
-                          className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                        />
+                {
+                  userExist ? (
+                    <div className={`${styles['content']}`}>
+                      <form action=''>
+                        <div className='flex flex-col space-y-4'>
+                          <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
+                            <input
+                              type='text'
+                              placeholder='Tên hiển thị'
+                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                            />
 
-                        <input
-                          type='email'
-                          placeholder='Email'
-                          className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                        />
-                      </div>
+                            <input
+                              type='email'
+                              placeholder='Email'
+                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                            />
+                          </div>
 
-                      <div className={`${styles['formGroup']}`}>
-                        <div className="flex items-center gap-2">
-                          <label className='dark:text-[#B9B7C0] text-[#392c7d] text-[13px]'>Đánh giá:</label>
-                          <Rate className='text-red' defaultValue={1} />
+                          <div className={`${styles['formGroup']}`}>
+                            <div className="flex items-center gap-2">
+                              <label className='dark:text-[#B9B7C0] text-[#392c7d] text-[13px]'>Đánh giá:</label>
+                              <Rate className='text-red' defaultValue={1} />
+                            </div>
+                          </div>
+
+                          <div className={`${styles['formGroup']}`}>
+                            <textarea
+                              rows={5}
+                              placeholder='Viết bình luận'
+                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                            />
+                          </div>
+
+                          <div>
+                            <button className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-white border-[#392c7d] `}>
+                              Đăng bình luận
+                            </button>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className={`${styles['formGroup']}`}>
-                        <textarea
-                          rows={5}
-                          placeholder='Viết bình luận'
-                          className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                        />
-                      </div>
-
-                      <div>
-                        <button className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-white border-[#392c7d] `}>
-                          Đăng bình luận
-                        </button>
-                      </div>
+                      </form>
                     </div>
-                  </form>
-                </div>
+                  ) : (
+                    <div className="text-center">Vui lòng <Link to={'/login'} className='underline text-[#F87171]'>đăng nhập</Link> để viết đánh giá!</div>
+                  )
+                }
+
+
               </div >
             </div >
 
@@ -604,7 +611,7 @@ const CourseDetails = () => {
                 <div className={`${styles['act']}`}>
                   <div className={`${styles['prices']} flex justify-between items-center`}>
                     <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
-                      $ {course?.price}
+                      {formatNumber(course?.price)}đ
                     </h2>
 
                     {/* Tạm thời chưa có sale */}
@@ -721,7 +728,6 @@ const CourseDetails = () => {
                           </Link>
                         )
                       }
-
                     </div>
                   </div>
                 </div>
