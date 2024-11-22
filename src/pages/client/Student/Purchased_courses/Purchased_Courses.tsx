@@ -1,21 +1,27 @@
-import { motion, easeInOut, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import Card from '@/components/client/commonComponents/Card/Card'
+import { Pagination } from 'antd'
+import { easeInOut, motion, useInView } from 'framer-motion'
+import { useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../constants/client'
-import { Pagination } from 'antd'
-import Card from '@/components/client/commonComponents/Card/Card'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { TCourse } from '@/interfaces/TCourse'
+import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseSlice'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 2  
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
-  const { data: data1 } = useGetInfoCourseByIdQuery(24)
-  const { data: data2 } = useGetInfoCourseByIdQuery(22)
 
-  const course: TCourse = data1
-  const course2: TCourse = data2
+  const { data } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
 
+  console.log("Data", data)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const meta = data?.meta 
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20'>
       <Helmet>
@@ -31,13 +37,15 @@ const Purchased_Courses = () => {
         ref={bottomRef}
         className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'
       >
-        <Card {...course} />
-        <Card {...course2} />
-        <Card {...course} />
-        <Card {...course2} />
+        {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
       </motion.div>
       <div className='flex justify-end mt-10'>
-        <Pagination defaultCurrent={1} total={20} />
+        <Pagination
+          current={currentPage}
+          total={meta?.total}  
+          pageSize={perPage}  
+          onChange={handlePageChange}
+        />
       </div>
     </div>
   )

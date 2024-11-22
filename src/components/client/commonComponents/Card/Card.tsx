@@ -46,7 +46,8 @@ const Card = ({
   is_enrolled
 }: TCourse) => {
   const [heart, setHeart] = useState(is_wishlist)
-  const { buttonText, targetPath } = getButtonDetails(is_enrolled, id)
+  const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id)
   const location = useLocation()
 
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
@@ -54,18 +55,18 @@ const Card = ({
 
   useEffect(() => {
     setHeart(is_wishlist)
-  }, [is_wishlist])
+    setIsEnrolled(is_enrolled)
+  }, [is_wishlist, is_enrolled])
 
   const handleClick = () => {
     if (heart) {
-      setHeart(false);
-      message.error("Đã bỏ khóa học khỏi danh sách yêu thích");
+      setHeart(false)
+      message.error('Đã bỏ khóa học khỏi danh sách yêu thích')
     } else {
-      setHeart(true);
-      message.success("Đã thêm khóa học vào danh sách yêu thích");
+      setHeart(true)
+      message.success('Đã thêm khóa học vào danh sách yêu thích')
     }
-  };
-  
+  }
 
   const handleOpenModal = (type: 'refund' | 'delete' | 'review') => {
     if (!isHistoryLesson && !isMyCoursesPage) {
@@ -175,9 +176,9 @@ const Card = ({
 
       <div className='flex justify-between items-center mt-4'>
         <span className='text-[11px] space-x-2'>
-          <Rate allowHalf defaultValue={rating} className='text-[11px] group-hover:text-white' />
+          <Rate allowHalf value={Number(rating)} className='text-[11px] group-hover:text-white' disabled />
           <span>
-            {rating?.toFixed()} ({total_review})
+            {rating} ({total_review})
           </span>
         </span>
         <Link to={targetPath}>

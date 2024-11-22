@@ -3,8 +3,8 @@ import { routerConfig } from '../../../../../constants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Card from '@/components/client/commonComponents/Card/Card'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { TCourse } from '@/interfaces/TCourse'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -20,11 +20,15 @@ const FeaturedCourses = () => {
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
   //data card
-  const { data: data1 } = useGetInfoCourseByIdQuery(24)
-  const { data: data2 } = useGetInfoCourseByIdQuery(32)
+  const { data: data1 } = useGetInfoCourseByIdQuery(22)
+  const { data: data2 } = useGetInfoCourseByIdQuery(24)
+  const { data: data3 } = useGetInfoCourseByIdQuery(25)
+  const { data: data4 } = useGetInfoCourseByIdQuery(32)
 
   const course: TCourse = data1
   const course2: TCourse = data2
+  const course3: TCourse = data3
+  const course4: TCourse = data4
 
   return (
     <div className=''>
@@ -73,8 +77,8 @@ const FeaturedCourses = () => {
             >
               <Card {...course} />
               <Card {...course2} />
-              <Card {...course} />
-              <Card {...course2} />
+              <Card {...course3} />
+              <Card {...course4} />
             </motion.div>
           </div>
         </div>
