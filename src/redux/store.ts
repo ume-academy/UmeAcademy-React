@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
-import { courseSlice } from './slices/courseSlice'
+import { courseSlice } from './slices/course/courseSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { authApiSlice } from './slices/auth/authApiSlice'
 import { checkOutApiSlice } from './slices/payment/checkoutApiSlice'

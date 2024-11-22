@@ -1,5 +1,5 @@
 import { router } from '@/configs/routes'
-import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetOverviewCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
 import { Avatar, Collapse, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
@@ -18,8 +18,9 @@ const CourseDetails = () => {
   const { data: course, isLoading, isFetching, isError, error } = useGetInfoCourseByIdQuery(id);
   const { data: courseContent } = useGetContentCourseByIdQuery(id);
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
+  const { data: courseOverview } = useGetOverviewCourseByIdQuery(id);
 
-  // console.log(course)
+  console.log(courseOverview)
 
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -57,7 +58,7 @@ const CourseDetails = () => {
   // format number 
   const formatNumber = (number: any) => new Intl.NumberFormat('vi-VN').format(number);
 
-  if (isLoading && isFetching) return <div className="min-h-screen flex items-center justify-center"><LoadingOutlined size={100}/></div>
+  if (isLoading && isFetching) return <div className="min-h-screen flex items-center justify-center"><LoadingOutlined size={100} /></div>
 
   return (
     <>
@@ -210,52 +211,43 @@ const CourseDetails = () => {
                   <h6 className='font-title'>Mô tả khóa học</h6>
 
                   <div className='space-y-4'>
-                    <p className='font-desc '>
+                    <p className='font-desc pl-4'>
                       {course?.summary ? course?.summary : 'Hiện chưa có mô tả tổng quan về khóa học'}
                     </p>
                   </div>
                 </div>
 
                 {/* Đối tượng học viên */}
-                {/* <div className={`${styles['courseOutcomes']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
+                <div className={`${styles['require']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
                   <h6 className='font-title'>Nhận được gì sau khi hoàn thành khóa học?</h6>
 
-                  <div className={`${styles['groupItems']} space-x-6`}>
+                  <div className={`${styles['groupItems']}`}>
                     <div className='pl-4'>
-                      <ul className='space-y-3 '>
-                        <li>Trở thành một UX designer</li>
-                        <li>Trở thành một UI designer</li>
-                        <li>Học được cách thiết kế website & ứng dụng mobile</li>
-                        <li>Có thể đưa chứng chỉ vào CV</li>
-                      </ul>
-                    </div>
-
-                    <div className=''>
-                      <ul className='space-y-3'>
-                        <li>Trở thành một UX designer</li>
-                        <li>Trở thành một UI designer</li>
-                        <li>Học được cách thiết kế website & ứng dụng mobile</li>
-                        <li>Có thể đưa chứng chỉ vào CV</li>
+                      <ul className='grid grid-cols-2 gap-4 gap-x-6 items-stretch'>
+                        {
+                          courseOverview?.data?.course_learning_benefit?.map((item: any, index: number) => (
+                            <li key={index}>{item}</li>
+                          ))
+                        }
                       </ul>
                     </div>
                   </div>
-                </div> */}
+                </div>
 
                 {/* Yêu cầu */}
-                {/* <div className={`${styles['require']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
+                <div className={`${styles['require']} dark:text-[#B9B7C0] space-y-2 md:space-y-4`}>
                   <h6 className='font-title'>Yêu cầu</h6>
 
                   <div className='pl-4'>
-                    <ul className='space-y-3'>
-                      <li>
-                        Cần một phần mềm Adobe XD từ phiên bản 2019 trở lên. Có thể tải xuống bản dùng thử miễn phí từ
-                        Adobe.
-                      </li>
-                      <li>Không yêu cầu kinh nghiệm trong việc thiết kế trước đó.</li>
-                      <li>Không yêu cầu có kỹ năng sử dụng phần mềm Adobe XD trước đó</li>
+                    <ul className='grid grid-cols-2 gap-4 items-stretch'>
+                      {
+                        courseOverview?.data?.course_requirement?.map((item: any, index: number) => (
+                          <li key={index}>{item}</li>
+                        ))
+                      }
                     </ul>
                   </div>
-                </div> */}
+                </div>
               </div>
 
               {/* Lessson */}
@@ -539,7 +531,7 @@ const CourseDetails = () => {
                       </Modal>
                     </>
                   ) : (
-                    <div className="w-full text-center dark:text-[#B9B7C0]">Hiện tại khóa học chưa có đánh giá!</div>
+                    <div className="w-full text-center dark:text-[#B9B7C0] text-sm md:text-lg">Hiện tại khóa học chưa có đánh giá!</div>
                   )
                 }
               </div >
@@ -594,7 +586,7 @@ const CourseDetails = () => {
                       </form>
                     </div>
                   ) : (
-                    <div className="text-center">Vui lòng <Link to={'/login'} className='underline text-[#F87171]'>đăng nhập</Link> để viết đánh giá!</div>
+                    <div className="text-center text-sm md:text-lg">Vui lòng <Link to={'/login'} className='underline text-[#F87171]'>đăng nhập</Link> để viết đánh giá!</div>
                   )
                 }
 

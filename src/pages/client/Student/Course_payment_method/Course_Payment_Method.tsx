@@ -1,5 +1,5 @@
 import { formatPrice } from '@/components/client/commonComponents/Card/Card'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { useCheckOutMutation } from '@/redux/slices/payment/checkoutApiSlice'
 import { useCheckVoucherMutation } from '@/redux/slices/voucher/checkVoucherApiSlice'
 import { BookFilled } from '@ant-design/icons'

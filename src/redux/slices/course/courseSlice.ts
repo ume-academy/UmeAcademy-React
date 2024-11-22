@@ -25,7 +25,13 @@ export const courseSlice = createApi({
             query: (courseId) => `/course/${courseId}/reviews`,
             providesTags: ["CourseDetail"]
         }),
+
+        // ! GET OVERVIEW COURSE BY ID
+        getOverviewCourseById: builder.query({
+          query: (courseId) => `/course/${courseId}/overview`,
+          providesTags: ["CourseDetail"]
+        })
     })
 });
 
-export const { useGetInfoCourseByIdQuery, useGetContentCourseByIdQuery, useGetReviewsCourseByIdQuery } = courseSlice
+export const { useGetInfoCourseByIdQuery, useGetContentCourseByIdQuery, useGetReviewsCourseByIdQuery, useGetOverviewCourseByIdQuery } = courseSlice

@@ -3,7 +3,7 @@ import { routerConfig } from '../../../../../constants/client'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Card from '@/components/client/commonComponents/Card/Card'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { TCourse } from '@/interfaces/TCourse'
 
 const FeaturedCourses = () => {

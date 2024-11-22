@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { courseSlice } from "./slices/courseSlice";
+import { courseSlice } from "./slices/course/courseSlice";
 import { authSlice } from "./slices/auth/authSlice";
 import { authApiSlice } from "./slices/auth/authApiSlice";
 import { profileApiSlice } from "./slices/profile/profileApiSlice";

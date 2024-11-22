@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../constants/client'
 import { Pagination } from 'antd'
 import Card from '@/components/client/commonComponents/Card/Card'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
 import { TCourse } from '@/interfaces/TCourse'
 
 const Purchased_Courses = () => {
