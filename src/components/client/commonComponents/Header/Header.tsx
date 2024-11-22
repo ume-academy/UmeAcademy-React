@@ -23,7 +23,6 @@ const Header = () => {
   const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const isAuthenticated = useSelector(selectIsAuthenticated)
-  console.log(isAuthenticated)
   const navigate = useNavigate()
 
   const handleToggle = () => {

@@ -35,6 +35,7 @@ import Not_Found from './../pages/Not_found/Not_Found';
 import Profile_Teacher from "@/pages/client/Teacher/Profile_Teacher/Profile_Teacher";
 import Profile from "@/pages/client/Student/Profile/Profile";
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email';
+import { Link } from "react-router-dom";
 
 
 // Routes cho student
@@ -47,6 +48,15 @@ export const studentRoutes = [
   { path: router.courseDetail, element: CourseDetails },
   { path: router.lesson, element: Lesson },
   { path: router.search, element: Search },
+  { path: router.profileStudent, element: Profile },
+]
+
+export const protectedStudentRoutes  = [
+  { path: router.transactionHistory, element: Transaction_History },
+  { path: router.walletHistory, element: Wallet_History },
+  { path: router.purchasedCourses, element: Purchased_Courses },
+  { path: router.coursePaymentMethod, element: Course_Payment_Method },
+  { path: router.lesson, element: Lesson },
   { path: router.profileStudent, element: Profile },
 ]
 
@@ -63,6 +73,15 @@ export const teacherRoutes = [
   { path: router.profileTeacher, element: Profile_Teacher },
 ]
 
+
+// Routes cho auth
+export const authRoutes = [
+  { path: router.login, element: Login }, 
+  { path: router.register, element: Register },
+  { path: router.forgot_password, element: ForgotPassword },
+  { path: router.verify_email, element: Veryfi_Email}
+  // { path: router.Email_Verification_Reminder, element: Home_Page}
+]
 
 // Routes cho admin
 export const adminRoutes = [
@@ -86,14 +105,7 @@ export const adminRoutes = [
   { path: router.listRefundCourses, element: List_Refund },
 ]
 
-// Routes cho auth
-export const authRoutes = [
-  { path: router.login, element: Login }, 
-  { path: router.register, element: Register },
-  { path: router.forgot_password, element: ForgotPassword },
-  { path: router.verify_email, element: Veryfi_Email}
-  // { path: router.Email_Verification_Reminder, element: Home_Page}
-]
+
 
 export const notFoundRoutes = {
   path: router.notFound, element: Not_Found
