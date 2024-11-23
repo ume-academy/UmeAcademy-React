@@ -1,55 +1,44 @@
 import Plyr from 'plyr-react';
-import 'plyr/dist/plyr.css';
-import  './videoPlayer.scss'
+import 'plyr-react/plyr.css';
+import './videoPlayer.scss';
 
 interface VideoPlayerProps {
-  videoURL: string,
-  thumbnail: string | undefined
+  videoURL: string;
+  thumbnail?: string | undefined;
+  width?: number | string;
+  height?: number | string;
 }
 
-const VideoPlayer = ( {videoURL, thumbnail} : VideoPlayerProps) => {
-  
-  const option = {
+const VideoPlayer = ({ videoURL, thumbnail, width = '100%', height = 'auto' }: VideoPlayerProps) => {
+  const options = {
     controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen', 'play-large'],
-    autoPlay: true,
+    autoplay: false,
     aspectRatio: '16:9',
-    poster: thumbnail
-    // autoplay: false,
-    // volume: 0.5,
-    // muted: false,
-    // clickToPlay: true,
-    // hideControls: true,
-    // resetOnEnd: false,
-    // disableContextMenu: true,
-    // displayDuration: true,
-    // keyboard: {
-    //   focused: true,
-    //   global: true,
-    // },
-    // tooltips: {
-    //   controls: false,
-    //   seek: true,
-    // },
-    // iconUrl: 'https://cdn.ply
-    
-  }
+    poster: thumbnail,
+  };
 
   return (
-    <div>
-      <Plyr 
+    <div
+      className="video-player-container"
+      style={{
+        width: typeof width === 'number' ? `${width}px` : width,
+        height: typeof height === 'number' ? `${height}px` : height,
+      }}
+    >
+      <Plyr
         source={{
           type: 'video',
           sources: [
             {
               src: videoURL,
-              type: 'Video/mp4',
+              type: 'video/mp4',
             },
           ],
         }}
-        options={option}
+        options={options}
       />
     </div>
   );
-}
+};
 
 export default VideoPlayer;

@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../../constants/client'
 import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
+import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 
 const CourseDetails = () => {
 
@@ -20,7 +21,7 @@ const CourseDetails = () => {
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
   const { data: courseOverview } = useGetOverviewCourseByIdQuery(id);
 
-  console.log(courseOverview)
+  console.log(courseContent)
 
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -315,27 +316,17 @@ const CourseDetails = () => {
                                           className=''
                                         >
                                           <div className='mt-4'>
-                                            <video
-                                              id="my-video"
-                                              className="video-js"
-                                              controls
-                                              preload="auto"
-                                              width="640"
-                                              height="264"
-                                              poster="MY_VIDEO_POSTER.jpg"
-                                              data-setup="{}"
+                                            <VideoPlayer videoURL={item?.video_link} thumbnail={course?.thumbnail} height={"270px"}/>
+
+                                            {/* <video 
+                                              playsInline 
+                                              controls 
+                                              poster={course?.thumbnail}
                                             >
-                                              <source src={item?.video_link} type="video/mp4" />
-                                              <source src="MY_VIDEO.webm" type="video/webm" />
-                                              <p className="vjs-no-js">
-                                                To view this video please enable JavaScript, and consider upgrading to a
-                                                web browser that
-                                                <a
-                                                  href="https://videojs.com/html5-video-support/" target="_blank"
-                                                >
-                                                  supports HTML5 video</a>
-                                              </p>
-                                            </video>
+                                              <source src={item?.video_link} type='video/mp4' />
+
+                                              
+                                            </video> */}
                                           </div>
                                         </Modal>
                                       </div>

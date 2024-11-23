@@ -3,7 +3,7 @@ import { useGetLessonByCourseIdQuery } from '@/redux/slices/lesson/lessonApiSlic
 import { DownOutlined, LeftOutlined, LoadingOutlined, MenuOutlined, MoonFilled, PlayCircleFilled, SunFilled } from '@ant-design/icons'
 import { Progress } from 'antd'
 import { ChevronRight, X } from 'lucide-react'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, useParams } from 'react-router-dom'
 import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constants/client'
@@ -22,7 +22,7 @@ const Lesson = () => {
    lessonByCourseID?.chapters?.[0]?.lessons?.[0]?.video_link;
   console.log(selectedVideoLinkDefault)
 
-  const [selectedVideoLink, setSelectedVideoLink] = useState<string>(selectedVideoLinkDefault)
+  const [selectedVideoLink, setSelectedVideoLink] = useState<string | any>(selectedVideoLinkDefault)
   // console.log(selectedVideoLink)
 
 
@@ -112,7 +112,7 @@ const Lesson = () => {
           <div
             className={`h-full ${isOpenSideBar === true ? 'pr-0' : 'pr-2'} max-h-screen dark:bg-[#131022] overflow-y-auto transition-all duration-300 ${isOpenSideBar ? 'w-[100%]' : 'w-[75%]'} `}
           >
-            <VideoPlayer videoURL={selectedVideoLink} thumbnail={lessonByCourseID?.thumbnail}/>
+            <VideoPlayer videoURL={selectedVideoLink} thumbnail={lessonByCourseID?.thumbnail} height={'577px'}/>
           </div>
 
           {/* sidebar */}
