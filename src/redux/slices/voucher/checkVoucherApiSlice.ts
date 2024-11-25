@@ -7,7 +7,7 @@ export const checkVoucherApiSlice = createApi({
   baseQuery: baseUrl,
   tagTypes: ['Voucher'],
   endpoints: (builder) => ({
-    checkVoucher: builder.mutation<TVoucher, TVoucher>({
+    checkVoucher: builder.mutation<TVoucher,{ code: string; course_id: number }>({
       query: (body) => ({
         url: '/vouchers/check',
         method: 'POST',

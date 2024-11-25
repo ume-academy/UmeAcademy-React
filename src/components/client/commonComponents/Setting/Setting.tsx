@@ -113,6 +113,7 @@ const Setting = ({ data }: any) => {
                               type='text'
                               className={`${styles['formInput']} dark:bg-[#131022]`}
                               value={is_lock === 0 ? 'Giảng viên' : 'Học viên'}
+                              disabled
                             />
                           </div>
                         </div>

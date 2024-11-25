@@ -34,9 +34,10 @@ export const routerConfig = {
 export const getButtonDetails = (is_enrolled: boolean, courseId: number) => {
   const location = useLocation()
   let buttonText = is_enrolled ? 'Xem ngay' : 'Mua ngay'
-  let targetPath = is_enrolled
-    ? `${router.courseDetail.replace(':id', String(courseId))}`
-    : `${router.coursePaymentMethod.replace(':id', String(courseId))}`
+  // let targetPath = is_enrolled
+  //   ? `${router.courseDetail.replace(':id', String(courseId))}`
+  //   : `${router.coursePaymentMethod.replace(':id', String(courseId))}`
+  let targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
 
   if (location.pathname === `${router.purchasedCourses}`) {
     buttonText = 'Hoàn tiền'
@@ -65,7 +66,7 @@ export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/e
 // <===== Teacher =====>
 
 export const routerConfigTeacher = {
-  hiddenButtonComeBack: [`${router.courseManagement}`],
+  hiddenButtonComeBack: [`${router.courseManagement}`]
 }
 
 // Tiêu đề các bước trong quản trị khóa học

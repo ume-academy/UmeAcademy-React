@@ -1,48 +1,66 @@
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import useLoading from '@/hooks/useLoading'
-import { CheckOutlined, DeleteOutlined, LoadingOutlined } from '@ant-design/icons'
+import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
+import {
+  useAddPaymentMethodMutation,
+  useEditPaymentMethodMutation,
+  useGetPaymentMethodDetailQuery
+} from '@/redux/slices/payment_method/paymentMethodApiSlice'
+import { CheckOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
-import { Asterisk, MoveLeft } from 'lucide-react'
-import { useState } from 'react'
+import { MoveLeft } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link, useParams } from 'react-router-dom'
-
-interface Payment_MethodType {
-  id?: number
-  name: string
-  created_at: string
-}
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const Form_Payment_Method = () => {
   const { id } = useParams()
   const [form] = Form.useForm()
-  const [extraFields, setExtraFields] = useState<number[]>([]); // State để quản lý các ô input bổ sung
-  const [errorMsg, setErrorMsg] = useState(''); // Thêm state để quản lý thông báo lỗi
+  const [isHoveredSubmit, setIsHoveredSubmit] = useState(false)
+  const { loading, startLoading, stopLoading } = useLoading()
 
-  const addExtraField = () => {
-    setExtraFields([...extraFields, Date.now()]); // Thêm một ID duy nhất cho mỗi ô input bổ sung
-  };
+  const [editPaymentMethodMutation] = useEditPaymentMethodMutation()
+  const [addPaymentMethodMutation] = useAddPaymentMethodMutation()
+  const nav = useNavigate()
+  const { data } = useGetPaymentMethodDetailQuery(id, {
+    skip: !id
+  })
+  console.log(data)
+  useEffect(() => {
+    if (data) {
+      form.setFieldValue('name', data.name)
+    }
+  }, [data, form])
 
-  const removeExtraField = (id: number) => {
-    setExtraFields(extraFields.filter((fields) =>  fields !== id ))
-  }
-
-  const [isHoveredSubmit, setIsHoveredSubmit] = useState(false);
-  const [isHoveredSupplement, setIsHoveredSupplement] = useState(false);
-  const {loading , startLoading , stopLoading} = useLoading()
-  console.log(loading)
-  const onFinish = async (values: any) => {
+  const onFinish = async (methob: TPaymentMethob) => {
     try {
-      startLoading();
-      // Giả lập quá trình chờ dữ liệu tải
-      const values = await form.validateFields();
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      stopLoading() 
-      message.success(`${id ? 'Cập nhật thành công' : 'Thêm mới thành công'}`);
+      startLoading() // Start loading
+      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulating delay (can be removed if unnecessary)
+
+      if (id) {
+        const updateResponse = await editPaymentMethodMutation({ id, methob })
+        if (updateResponse.data) {
+          stopLoading()
+          message.success('Cập nhật thành công')
+          nav('/admin/list-payment-method')
+        } else {
+          message.error('Cập nhật thất bại')
+        }
+      } else {
+        const addResponse = await addPaymentMethodMutation(methob)
+        if (addResponse.data) {
+          stopLoading()
+          message.success('Thêm mới thành công')
+          nav('/admin/list-payment-method')
+        } else {
+          message.error('Thêm mới thất bại')
+        }
+      }
     } catch (error) {
-      console.log(error);
-    } 
+      stopLoading()
+      console.log(error)
+    }
   }
 
   return (
@@ -52,9 +70,11 @@ const Form_Payment_Method = () => {
       </Helmet>
       <Form layout='vertical' form={form} onFinish={onFinish} style={{ maxWidth: '100%' }}>
         <div className='flex justify-between flex-col items-start md:flex-col lg:flex-row lg:items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7 md:mb-7 lg:mb-0'>
-          <h5 className='font-title text-xl'>{id ? 'Cập nhật phương thức thanh toán' : 'Thêm mới phương thức thanh toán'}</h5>
+          <h5 className='font-title text-xl'>
+            {id ? 'Cập nhật phương thức thanh toán' : 'Thêm mới phương thức thanh toán'}
+          </h5>
 
-          <div className='flex items-center gap-2 mt-4 md:mt-4 lg:mt-0'>
+          <div className='flex flex-wrap items-center gap-2 mt-4 md:mt-4 lg:mt-0'>
             <Link
               to={`${router.listPaymentMethod}`}
               className='py-2 px-2 md:px-4 lg:px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
@@ -65,13 +85,13 @@ const Form_Payment_Method = () => {
             <Button
               onMouseEnter={() => setIsHoveredSubmit(true)}
               onMouseLeave={() => setIsHoveredSubmit(false)}
-              style={{border: '1px solid #ff5364', color: `${isHoveredSubmit === false ? '#fff' : '#ff5364'}` }}
+              style={{ border: '1px solid #ff5364', color: `${isHoveredSubmit === false ? '#fff' : '#ff5364'}` }}
               htmlType='submit'
               className='w-full md:w-[180px] lg:w-[180px] bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
               disabled={loading}
-              >
-                {loading ? <LoadingOutlined /> : <CheckOutlined />}
-                {id ? 'Cập nhật phương thức' : 'Thêm mới phương thức'}
+            >
+              {loading ? <LoadingOutlined /> : <CheckOutlined />}
+              {id ? 'Cập nhật phương thức' : 'Thêm mới phương thức'}
             </Button>
           </div>
         </div>
@@ -81,72 +101,14 @@ const Form_Payment_Method = () => {
             <Form.Item
               name='name'
               label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên phương thức</span>}
-              rules={[{ required: true, message: 'Vui lòng nhập tên phương thức!' }, {min: 3, message: 'Tên phương thức phải có ít nhất 3 ký tự!'}]}
-              className='mb-8' // Thêm khoảng cách dưới mỗi trường
+              rules={[
+                { required: true, message: 'Vui lòng nhập tên phương thức!' },
+                { min: 3, message: 'Tên phương thức phải có ít nhất 3 ký tự!' }
+              ]}
+              className='mb-8'
             >
               <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78]' />
             </Form.Item>
-
-            <Form.Item
-             name='minMoney'
-             label={(<><Asterisk color='#ff4d4f' size={12} className='mr-0.5'/><span className=' dark:text-[#b9b7c0] text-[#685f78]'>Số tiền tối thiểu</span></>)}
-             help={errorMsg} // Hiển thị lỗi theo thứ tự
-             rules={[
-               {
-                 validator: (_, value) => {
-                   if (!value) {
-                     setErrorMsg('Vui lòng nhập số tiền tối thiểu!');
-                     return Promise.reject();
-                   } else if (value < 50000) {
-                     setErrorMsg('Số tiền tối thiểu phải là 50.000đ');
-                     return Promise.reject();
-                   } else {
-                     setErrorMsg(''); // Xóa lỗi nếu không còn lỗi nào
-                     return Promise.resolve();
-                   }
-                 },
-               },
-             ]}
-             className='mb-8' // Thêm khoảng cách dưới mỗi trường
-           >
-             <Input
-               className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78]'
-             />
-           </Form.Item>
-              
-            {extraFields.map((key) => (
-              <Form.Item
-                key={key}
-                name={`extraField_${key}`}
-                label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Ô nhập liệu bổ sung</span>}
-                rules={[{ required: true, message: 'Vui lòng nhập dữ liệu bổ sung!' }]}
-                className='mb-8'
-              >
-                <div className="flex justify-between">
-                <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78] w-[90%] md:w-[94%] lg:w-[96%]' /> 
-                <div className="flex justify-end w-[4%]">
-                  <button 
-                  className='lg:px-4'
-                  type='button'
-                  onClick={() => removeExtraField(key)}
-                  >
-                    <DeleteOutlined className='text-[18px] md:text-[18px] lg:text-[16px] dark:text-[#f66962]'/>
-                  </button>
-                </div>
-                </div>
-              </Form.Item>
-            ))}
-
-            <Button
-              onMouseEnter={() => setIsHoveredSupplement(true)}
-              onMouseLeave={() => setIsHoveredSupplement(false)}
-              style={{border: '1px solid #ff5364', color: `${isHoveredSupplement === false ? '#fff' : '#ff5364'}` }}
-              htmlType="button"
-              onClick={addExtraField}
-              className='p-5 mt-12 bg-[#ff5364] text-[#fff] rounded-lg hover:text-[#ff5364] hover:bg-transparent'
-            >
-              Bổ sung
-            </Button>
           </div>
         </div>
       </Form>

@@ -1,5 +1,6 @@
 import { router } from '@/configs/routes'
 import { getButtonDetails } from '@/constants/client'
+import { formatPrice, formatSeconds } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { message, Modal, Rate, TreeSelect } from 'antd'
@@ -9,12 +10,6 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
-export const formatPrice = (price: number): string => {
-  return price?.toLocaleString('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  })
-}
 const CustomTreeSelect = styled(TreeSelect)`
   .ant-select-selector {
     width: 100% !important; /* Đảm bảo chiều rộng 100% */
@@ -53,6 +48,7 @@ const Card = ({
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
+  console.log(duration)
   useEffect(() => {
     setHeart(is_wishlist)
     setIsEnrolled(is_enrolled)
@@ -123,7 +119,14 @@ const Card = ({
 
   return (
     <div className='group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer'>
-      <Link to={`${router.courseDetail.replace(':id', String(id))}`} className='group hover:text-white'>
+      <Link
+        to={
+          isMyCoursesPage
+            ? `${router.courseManagement.replace(':id', String(id))}`
+            : `${router.courseDetail.replace(':id', String(id))}`
+        }
+        className='group hover:text-white'
+      >
         <div className='relative'>
           <div className='rounded-[10px] overflow-hidden'>
             <motion.img
@@ -158,7 +161,14 @@ const Card = ({
           </div>
         </div>
       )}
-      <Link to={`${router.courseDetail.replace(':id', String(id))}`} className='group hover:text-white'>
+      <Link
+        to={
+          isMyCoursesPage
+            ? `${router.courseManagement.replace(':id', String(id))}`
+            : `${router.courseDetail.replace(':id', String(id))}`
+        }
+        className='group hover:text-white'
+      >
         <div className='space-y-5 mt-4'>
           <h3 className='text-[17px] h-12 hover:text-[#ff5364] w-[90%] line-clamp-2'>{name}</h3>
           <div className='flex justify-between items-center border-b border-b-gray-500 pb-4'>
@@ -166,10 +176,12 @@ const Card = ({
               <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
               <span>{total_lesson}+ Bài học</span>
             </div>
-            <div className='flex items-center gap-1'>
-              <FieldTimeOutlined className='text-purple-500 text-lg group-hover:text-white' />
-              <span>{duration} phút</span>
-            </div>
+            {duration > 0 && (
+              <div className='flex items-center gap-1'>
+                <FieldTimeOutlined className='text-purple-500 text-lg group-hover:text-white' />
+                <span>{formatSeconds(duration)}</span>
+              </div>
+            )}
           </div>
         </div>
       </Link>

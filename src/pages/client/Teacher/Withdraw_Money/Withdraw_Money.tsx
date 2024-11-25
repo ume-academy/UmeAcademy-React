@@ -86,7 +86,7 @@ const Withdraw_Money = () => {
   ];
 
   return (
-    <div className='md:flex md:flex-col md:justify-center lg:flex-none max-w-[400px] md:max-w-[800px] lg:mx-0 lg:max-w-full lg:p-0 p-4'>
+    <div className='md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0 '>
       <Helmet>
         <title>{getTitleTab('Rút tiền')}</title>
       </Helmet>
@@ -113,11 +113,11 @@ const Withdraw_Money = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
           <div className="dark:text-[#B9B7C0] text-[#685f78] dark:bg-[#2b2838] bg-white  text-xl rounded-lg  relative w-[90%] md:w-[70%] lg:w-[50%] p-6">
-            <button
+            <div
               onClick={closeModal}
               className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
               <X size={16} />
-            </button>
+            </div>
             <h2 className="font-subtitle mb-4">Yêu cầu rút tiền</h2>
             <p className='text-sm lg:text-[16px] font-subtitle mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
             <div className='text-sm lg:text-[16px] flex justify-between items-center mb-4'>

@@ -1,6 +1,7 @@
 import { MoonFilled, SunFilled } from "@ant-design/icons"
 import { Header } from "antd/es/layout/layout"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 type Header_AdminProps = {
   toggleTheme: () => void
@@ -27,8 +28,7 @@ const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collaps
 
       <div className="block lg:hidden">
         <div className="flex justify-center items-center" onClick={() => onCollapse(!collapsed)}>
-          <button
-            type="button"
+          <div
             className=""
           >
             <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#f66962" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-align-justify">
@@ -36,15 +36,14 @@ const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collaps
               <line x1={3} x2={21} y1={12} y2={12} />
               <line x1={3} x2={21} y1={18} y2={18} />
             </svg>
-
-          </button>
+          </div>
         </div>
       </div>
 
       <div className="block lg:hidden">
-        <a href="/">
+        <Link to="/">
           <img src="/assets/images/client/Logo/logo.png" className="w-[140px] h-[38px] object-cover" alt="" width="100" height="50" />
-        </a>
+        </Link>
       </div>
 
       <div className="">

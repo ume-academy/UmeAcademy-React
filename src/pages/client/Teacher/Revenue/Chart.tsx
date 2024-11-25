@@ -46,6 +46,54 @@ const data: CourseData[] = [
     revenue: 20000,
     createdAt: '2024-09-30'
   },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2024-08-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2024-07-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2024-06-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2025-09-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2025-01-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2025-02-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2025-04-30'
+  },
+  {
+    course: 'Khóa học R',
+    students: 20,
+    revenue: 20000,
+    createdAt: '2025-05-30'
+  },
 ];
 
 const CustomTooltip = ({ active, payload }: any) => {

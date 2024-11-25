@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import './DatePickerAntd.scss'
 const Revenue = () => {
   return (
-    <div className="md:flex md:flex-col md:justify-center lg:flex-none max-w-[400px] md:max-w-[800px] lg:mx-0 lg:max-w-full lg:p-0 p-4">
+    <div className="md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0">
       <Helmet>
         <title>{getTitleTab('Doanh thu')}</title>
       </Helmet>
