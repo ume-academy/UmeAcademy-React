@@ -16,7 +16,7 @@
 
       .badgeCategory {
         span {
-          background: #ffb54a;
+          background: #f66962;
           // border-radius: 50px;
           padding: 6px 15px;
           font-weight: 500;
@@ -192,13 +192,13 @@
 
             .btn {
               width: 30%;
-              border: 4px solid;
+              border: 4px solid #f66962;
 
               // background-color:
-              color: #392c7d;
+              // color: black;
 
               &:hover {
-                background-color: #392c7d;
+                background-color: #f66962;
                 color: #fff;
               }
             }
@@ -336,7 +336,7 @@
 
         .badgeCategory {
           span {
-            background: #ffb54a;
+            background: #f66962;
             // border-radius: 50px;
             padding: 6px 14px;
             font-weight: 500;
@@ -527,16 +527,16 @@
               }
 
               .btn {
-                border: 4px solid;
+                border: 4px solid #f66962;
                 width: 100%;
                 // background-color:
-                color: #392c7d;
+                // color: black;
 
                 &:hover {
-                  background-color: #392c7d;
-                  color: #fff;
+                  background-color: #f66962;
+                  color: #B9B7C0;
                 }
-              }
+              } 
             }
           }
         }
@@ -681,7 +681,7 @@
 
         .badgeCategory {
           span {
-            background: #ffb54a;
+            background: #f66962;
             // border-radius: 50px;
             padding: 4px 14px;
             font-weight: 500;
@@ -875,13 +875,13 @@
               }
 
               .btn {
-                border: 4px solid;
+                border: 4px solid #f66962;
                 width: 100%;
                 // background-color:
-                color: #392c7d;
+                // color: ;
 
                 &:hover {
-                  background-color: #392c7d;
+                  background-color: #f66962;
                   color: #fff;
                 }
               }

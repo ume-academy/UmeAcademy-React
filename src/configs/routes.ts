@@ -42,7 +42,7 @@ export const router = {
   myCourses: `${prefixTeacher}/my-courses`,
 
   // Route thêm phương thức thanh toán 
-  paymentMethods: `${prefixTeacher}/payment-methods`,
+  withdrawalMethods: `${prefixTeacher}/withdrawal-methods`,
 
   // Route ví và rút tiền
   withdrawMoney: `${prefixTeacher}/withdraw-money`,
