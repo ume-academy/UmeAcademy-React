@@ -8,6 +8,7 @@ import { lessonApiSlice } from "./slices/lesson/lessonApiSlice";
 import { checkOutApiSlice } from "./slices/payment/checkOutApiSlice";
 import { userSlice } from "./slices/user/userSlice";
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
+import { walletApiSlice } from "./slices/teacher/wallet/walletApiSlice";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   [checkVoucherApiSlice.reducerPath]: checkVoucherApiSlice.reducer,
   [lessonApiSlice.reducerPath]: lessonApiSlice.reducer,
   [userSlice.reducerPath]: userSlice.reducer,
-  [paymentMethodApiSlice.reducerPath]: paymentMethodApiSlice.reducer
+  [paymentMethodApiSlice.reducerPath]: paymentMethodApiSlice.reducer,
+  [walletApiSlice.reducerPath]: walletApiSlice.reducer
 })
 
 export default rootReducer

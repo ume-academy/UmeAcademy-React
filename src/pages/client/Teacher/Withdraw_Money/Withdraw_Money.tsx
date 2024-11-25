@@ -1,44 +1,44 @@
-import { WalletFilled } from '@ant-design/icons';
-import { Pagination, Table, Tag } from 'antd';
-import { CircleAlert, Landmark, X } from 'lucide-react';
-import { useState } from 'react';
+import { getTitleTab } from '@/constants/client'
+import { formatDate, formatPrice } from '@/constants/utils'
+import { useTransactionHistoryQuery, useWalletBalanceQuery } from '@/redux/slices/teacher/wallet/walletApiSlice'
 import '@/scss/PaginationAntd.scss'
-import { getTitleTab } from '@/constants/client';
-import { Helmet } from 'react-helmet';
-interface Withdraw {
-  key: string;
-  method: string;
-  date: string;
-  amount: string;
-  status: '0' | '1';
-}
-
-const withdraw: Withdraw[] = [
-  { key: '1', method: 'Chuyển khoản ngân hàng', date: '10/12/2024', amount: '1000222', status: '1' },
-  { key: '2', method: 'Chuyển khoản ngân hàng', date: '10/12/2024', amount: '500000', status: '0' },
-  { key: '3', method: 'Chuyển khoản ngân hàng', date: '10/12/2024', amount: '300000', status: '1' },
-  { key: '4', method: 'Chuyển khoản ngân hàng', date: '10/12/2024', amount: '300000', status: '1' }
-];
-
-const formatCurrency = (amount: string) => {
-  const absAmount = Math.abs(parseInt(amount))
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  return `${parseInt(amount) < 0 ? '-' : ''}${absAmount} ₫`;
-};
+import { WalletFilled } from '@ant-design/icons'
+import { Form, Input, message, Modal, Pagination, Table } from 'antd'
+import { CircleAlert } from 'lucide-react'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 
 const Withdraw_Money = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 1
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [messageApi, contextHolder] = message.useMessage()
+  const { data } = useTransactionHistoryQuery({ per_page: perPage, page: currentPage })
+  const { data: price } = useWalletBalanceQuery({})
+  const meta = data?.meta
 
-  // Function to open the modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const showPopup = () => {
+    setIsModalVisible(true)
+  }
 
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handleFormSubmit = () => {
+    try {
+      messageApi.open({
+        type:"success",
+        content:"Gửi yêu cầu rút tiền thành công"
+      })
+    } catch (error) {
+      
+    }
+  }
 
   const columns = [
     {
@@ -48,42 +48,55 @@ const Withdraw_Money = () => {
       render: (_: any, __: any, index: number) => <div className='pl-5'>{index + 1}</div>
     },
     {
+      title: 'Code',
+      dataIndex: 'code',
+      key: 'code',
+      width: 140
+    },
+    {
       title: 'Phương thức',
-      dataIndex: 'method',
-      key: 'method',
+      dataIndex: 'type',
+      key: 'type',
       width: 190,
-      render: (type: string) => <div className='text-sm lg:text-[16px]'>{type}</div>
-    },
-    {
-      title: 'Thời gian',
-      dataIndex: 'date',
-      key: 'date',
-      width: 120,
-      render: (date: string) => <div className='text-sm lg:text-[16px]'>{date}</div>
-    },
-    {
-      title: 'Số tiền',
-      dataIndex: 'amount',
-      key: 'amount',
-      width: 120,
-      render: (amount: string) => (
-        <span className='text-sm lg:text-[16px]'>
-          {formatCurrency(amount)}
-        </span>
+      render: (type: string) => (
+        <div className='text-sm lg:text-[16px]'>
+          {(() => {
+            if (type === 'available_receive_money') {
+              return <span>Số dư khả dụng</span>
+            } else if (type === 'temporary_receive_money') {
+              return <span>Tiền tạm giữ</span>
+            } else if (type === 'withdraw_money') {
+              return <span>Rút tiền</span>
+            } else {
+              return <span>Hoàn tiền</span>
+            }
+          })()}
+        </div>
       )
     },
     {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: '0' | '1') => (
-        <Tag className='text-sm lg:text-[16px] py-1 lg:py-2 min-w-[90px] lg:min-w-[110px] text-center' color={status === '1' ? 'green' : 'volcano'}>
-          {status === '1' ? 'Thành công' : 'Thất bại'}
-        </Tag>
-      ),
+      title: 'Thời gian',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 120,
+      render: (created_at: string) => <div className='text-sm lg:text-[16px]'>{formatDate(created_at)}</div>
+    },
+    {
+      title: 'Số tiền',
+      dataIndex: 'balance_tracking',
+      key: 'balance_tracking',
+      width: 120,
+      render: (balance_tracking: number) => (
+        <span className='text-sm lg:text-[16px]'>{formatPrice(balance_tracking)}</span>
+      )
+    },
+    {
+      title: 'Ghi chú',
+      dataIndex: 'note',
+      key: 'note',
       width: 100
     }
-  ];
+  ]
 
   return (
     <div className='md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0 '>
@@ -91,100 +104,135 @@ const Withdraw_Money = () => {
         <title>{getTitleTab('Rút tiền')}</title>
       </Helmet>
       <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg'>
-        <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6 font-title text-xl md:text-2xl'>Ví Ume</p>
+        <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6 font-title text-xl md:text-2xl'>
+          Ví Ume
+        </p>
         <div className='flex justify-between items-center p-4 lg:p-6'>
-          <div className='flex gap-4 items-center font-subtitle'>
+          <div className='flex gap-1 md:gap-4 items-center font-subtitle'>
             <div>
               <WalletFilled className='text-[#ff4667] text-4xl md:text-5xl lg:text-[50px]' />
             </div>
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
-              <p className='text-xs md:text-lg  dark:hover:text-white'>Bạn đang có: <strong>1.000.000.000 ₫</strong></p>
+              <p className='text-xs md:text-lg  dark:hover:text-white'>
+                Bạn đang có: <strong>{formatPrice(Number(price))}</strong>
+              </p>
             </div>
           </div>
           <button
-            onClick={openModal}
-            className='bg-[#ff4667] text-white py-2 px-2 md:py-2 md:px-6 text-[11px] md:text-[15px] hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'>
+            onClick={showPopup}
+            className='bg-[#ff4667] text-white py-2 px-2 md:py-2 md:px-6 text-[11px] md:text-[15px] hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'
+          >
             Yêu cầu rút tiền
           </button>
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="dark:text-[#B9B7C0] text-[#685f78] dark:bg-[#2b2838] bg-white  text-xl rounded-lg  relative w-[90%] md:w-[70%] lg:w-[50%] p-6">
-            <div
-              onClick={closeModal}
-              className="absolute top-6 right-6 border border-[#ff4667] rounded-full p-1 bg-white text-[#ff4667] hover:bg-[#ff4667] hover:text-white">
-              <X size={16} />
-            </div>
-            <h2 className="font-subtitle mb-4">Yêu cầu rút tiền</h2>
-            <p className='text-sm lg:text-[16px] font-subtitle mb-4'>Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí</p>
-            <div className='text-sm lg:text-[16px] flex justify-between items-center mb-4'>
-              <div>
-                <p>Số dư hiện tại</p>
-                <p className='text-[#ff4667]'>1000.000.000₫</p>
-              </div>
-              <div>
-                <div className='flex gap-2'>
-                  <span>Phương thức</span>
-                  <span><Landmark size={22} /></span>
+          <Modal
+            title={
+              <span className='font-title text-[16px] md:text-xl dark:text-[#b9b7c0] text-[#685f78]'>
+                Yêu cầu rút tiền
+              </span>
+            }
+            visible={isModalVisible}
+            footer={null}
+            centered
+            width={600}
+            maskClosable={false}
+            closeIcon={null}
+          >
+            <div className='dark:text-[#b9b7c0] text-[#685f78]'>
+              <p className='text-sm lg:text-[16px] font-subtitle mb-6'>
+                Vui lòng kiểm tra thông báo giao dịch của bạn trên phương thức rút tiền bạn đã đăng kí
+              </p>
+              <div className='text-sm lg:text-[16px] flex justify-between items-center mb-4'>
+                <div>
+                  <p>Số dư hiện tại:</p>
+                  <p className='text-[#ff4667]'>{formatPrice(Number(price))}</p>
                 </div>
-                <p className=''>Chuyển khoản ngân hàng</p>
+                <div>
+                  <div className='flex gap-2'>
+                    <span>Phương thức:</span>
+                  </div>
+                  <p>Chuyển khoản ngân hàng</p>
+                </div>
               </div>
-            </div>
-            <form>
-              <div className="mb-6 text-[15px] space-y-2">
-                <label>
-                  Số tiền
-                </label>
-                <input
-                  id="amount"
-                  type="number"
-                  className="w-full pl-4 pr-4 py-2 dark:bg-[#131022] dark:border-none border border-[#e9ecef] outline-none rounded-md dark:placeholder:text-[#B9B7C0] placeholder:text-[#685f78] "
-                  placeholder="đ"
-                />
-                <div className="text-[15px] dark:text-[#B9B7C0] text-[#685f78] flex items-center gap-1 pt-2">
+              <Form
+                onFinish={handleFormSubmit}
+                className='text-[15px] space-y-4 dark:text-[#b9b7c0] text-[#685f78]'
+              >
+                <label>Số tiền</label>
+                <Form.Item
+                  name='amount'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Nhập số tiền bạn muốn yêu cầu'
+                    },
+                    // {
+                    //   type: 'number',
+                    //   min: 100000,
+                    //   message: 'Số tiền rút tối thiểu là 100.000đ'
+                    // },
+                    {
+                      validator: (_, value) => {
+                        if (value && value > Number(price)) {
+                          return Promise.reject('Số tiền đã vượt quá số dư của ví UME')
+                        }
+                        return Promise.resolve()
+                      }
+                    }
+                  ]}
+                >
+                  <Input
+                    id='amount'
+                    type='number'
+                    className='w-full pl-4 pr-4 py-2  dark:border-none border border-[#e9ecef] outline-none rounded-md dark:placeholder:text-[#B9B7C0] placeholder:text-[#685f78] '
+                    placeholder='đ'
+                  />
+                </Form.Item>
+
+                <div className='text-[15px] dark:text-[#B9B7C0] text-[#685f78] flex items-center gap-1 pt-6'>
                   <CircleAlert size={14} className='mr-2' />
                   <p>Số tiền rút tối thiểu là:</p>
-                  <p className="dark:text-white text-[#685f78]">100.000đ</p>
+                  <p className='dark:text-white text-[#685f78]'>100.000đ</p>
                 </div>
-              </div>
-              <div className="flex justify-start text-[16px] gap-4">
-                <button
-                  type="submit"
-                  className="bg-[#ff4667] border border-[#ff4667] text-white text-[11px] md:text-[15px] py-1 px-4 md:py-2 md:px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white">
-                  Gửi yêu cầu
-                </button>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className=" text-[#ff4667] text-[11px] md:text-[15px]  py-1 px-9 md:py-2 md:px-12 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white">
-                  Hủy
-                </button>
-              </div>
-            </form>
-          </div>
+                <div className='flex justify-start text-[16px] gap-4'>
+                  <button
+                    type='submit'
+                    onClick={handleFormSubmit}
+                    className='bg-[#ff4667] border border-[#ff4667] text-white text-[11px] md:text-[15px] py-1 px-4 md:py-2 md:px-6 hover:border hover:text-[#ff4667] rounded-lg hover:border-[#ff4667] hover:bg-white'
+                  >
+                    Gửi yêu cầu
+                  </button>
+                  <button
+                    type='button'
+                    onClick={handleCancel}
+                    className=' text-[#ff4667] text-[11px] md:text-[15px]  py-1 px-9 md:py-2 md:px-12 rounded-lg border border-[#ff4667] hover:bg-[#ff4667] hover:text-white'
+                  >
+                    Hủy
+                  </button>
+                </div>
+              </Form>
+            </div>
+          </Modal>
         </div>
-      )}
-
-
+      </div>
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
-        <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>Lịch sử rút tiền</h2>
+        <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>
+          Lịch sử rút tiền
+        </h2>
         <Table
           columns={columns}
-          dataSource={withdraw}
+          dataSource={data?.data}
           pagination={false}
           className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
           scroll={{ x: 670 }}
         />
       </div>
-
       <div className='flex justify-end mt-10'>
-        <Pagination defaultCurrent={1} total={22} />
+        <Pagination total={meta?.total} pageSize={perPage} current={currentPage} onChange={handlePageChange} />
       </div>
+      {contextHolder}
     </div>
-  );
-};
+  )
+}
 
-export default Withdraw_Money;
+export default Withdraw_Money
