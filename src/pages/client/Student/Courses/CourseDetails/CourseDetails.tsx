@@ -21,7 +21,7 @@ const CourseDetails = () => {
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
   const { data: courseOverview } = useGetOverviewCourseByIdQuery(id);
 
-  console.log(courseContent)
+  // console.log(courseContent)
 
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -39,9 +39,18 @@ const CourseDetails = () => {
   // console.log(userExist)
 
   // convert seconds to minutes
-  function formatTime(seconds: number) {
+  function formatTime(seconds: number): string {
+    // Tạo khoảng thời gian từ 0 đến giây cần định dạng
     const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
-    return formatDuration(duration, { locale: vi });
+
+    // Loại bỏ các đơn vị không cần thiết ngoài phút và giây
+    const formatted = formatDuration(duration, {
+      format: ['minutes', 'seconds'], // Chỉ hiển thị phút và giây
+      locale: vi, // Định dạng ngôn ngữ tiếng Việt
+    });
+
+    // Trường hợp giây dưới 60, thêm "0 phút" vào trước
+    return formatted.includes("phút") ? formatted : `0 phút ${formatted}`;
   }
 
   // convert seconds to min:sec
@@ -316,7 +325,7 @@ const CourseDetails = () => {
                                           className=''
                                         >
                                           <div className='mt-4'>
-                                            <VideoPlayer videoURL={item?.video_link} thumbnail={course?.thumbnail} height={"270px"}/>
+                                            <VideoPlayer videoURL={item?.video_link} thumbnail={course?.thumbnail} height={"270px"} />
 
                                             {/* <video 
                                               playsInline 
@@ -569,7 +578,7 @@ const CourseDetails = () => {
                           </div>
 
                           <div>
-                            <button className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-white border-[#392c7d] `}>
+                            <button className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-transparent dark:text-[#B9B7C0] `}>
                               Đăng bình luận
                             </button>
                           </div>
@@ -593,12 +602,16 @@ const CourseDetails = () => {
 
                 <div className={`${styles['act']}`}>
                   <div className={`${styles['prices']} flex justify-between items-center`}>
-                    <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
-                      {formatNumber(course?.price)}đ
-                    </h2>
+                    {
+                      course?.is_enrolled ? (
+                        <div className="py-2"></div>
+                      ) : (
 
-                    {/* Tạm thời chưa có sale */}
-                    {/* <div className={`${styles['origin']}`}>$90.00</div> */}
+                        <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
+                          {formatNumber(course?.price)}đ
+                        </h2>
+                      )
+                    }
                   </div>
 
                   <div className={`${styles['btns']} space-y-6`}>
@@ -681,12 +694,14 @@ const CourseDetails = () => {
                           <Link
                             to={router.lesson.replace(':id', String(id))}
                             className='
-                        bg-[#159f46] 
+                        bg-[#f66962] 
                           py-3 
                           rounded-full 
                         text-white 
                           hover:text-black
-                          hover:bg-[#7b9885]
+                          hover:bg-[#d95a57]
+                          dark:hover:bg-[#3b2b4c] 
+                        dark:hover:text-[#f66962]
                       '
                           >
                             <button className={`${styles['enrollBtn']} `}>
@@ -697,12 +712,14 @@ const CourseDetails = () => {
                           <Link
                             to={router.coursePaymentMethod.replace(':id', String(id))}
                             className='
-                        bg-[#159f46] 
+                          bg-[#f66962] 
                           py-3 
                           rounded-full 
                         text-white 
                           hover:text-black
-                          hover:bg-[#7b9885]
+                          hover:bg-[#d95a57]
+                          dark:hover:bg-[#3b2b4c] 
+                        dark:hover:text-[#f66962]
                       '
                           >
                             <button className={`${styles['enrollBtn']} `}>

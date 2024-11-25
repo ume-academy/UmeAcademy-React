@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseUrl } from '@/Api'
-import { TUser } from '@/interfaces/user'
+import { TUser } from '@/interfaces/TUser'
 
 export const profileApiSlice = createApi({
   reducerPath: 'profileApi',

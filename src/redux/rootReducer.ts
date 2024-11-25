@@ -6,6 +6,7 @@ import { profileApiSlice } from "./slices/profile/profileApiSlice";
 import { checkVoucherApiSlice } from "./slices/voucher/checkVoucherApiSlice";
 import { lessonApiSlice } from "./slices/lesson/lessonApiSlice";
 import { checkOutApiSlice } from "./slices/payment/checkOutApiSlice";
+import { userSlice } from "./slices/user/userSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -14,8 +15,8 @@ const rootReducer = combineReducers({
   [checkOutApiSlice.reducerPath]: checkOutApiSlice.reducer,
   [courseSlice.reducerPath]: courseSlice.reducer,
   [checkVoucherApiSlice.reducerPath]: checkVoucherApiSlice.reducer,
-  [lessonApiSlice.reducerPath]: lessonApiSlice.reducer
-
+  [lessonApiSlice.reducerPath]: lessonApiSlice.reducer,
+  [userSlice.reducerPath]: userSlice.reducer,
 });
 
 export default rootReducer;

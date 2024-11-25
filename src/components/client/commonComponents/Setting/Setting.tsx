@@ -20,7 +20,7 @@ const Setting = ({ data }: any) => {
                   tab={
                     <div className='flex items-center justify-center gap-3'>
                       <EditFilled />
-                      Chỉnh sửa thông tin
+                      Chỉnh sửa hồ sơ
                     </div>
                   }
                   key='1'
@@ -149,13 +149,13 @@ const Setting = ({ data }: any) => {
                   <div className={`${styles['tabContent']} p-4 md:p-6 dark:text-[#B9B7C0]`}>
                     <div className={`${styles['form']} flex space-x-4 p-0 md:p-6`}>
                       <form className={`${styles['formContent']} space-y-6`}>
-                        <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
+                        <div className={`${styles['formGroup']}  w-full`}>
                           <label htmlFor='password'>Mật khẩu hiện tại</label>
 
                           <input id='password' type='password' className={`${styles['formInput']} dark:bg-[#131022]`} />
                         </div>
 
-                        <div className={`${styles['formGroup']} w-full md:w-[50%]`}>
+                        <div className={`${styles['formGroup']} w-full`}>
                           <label htmlFor='new_password'>Mật khẩu mới</label>
 
                           <input
@@ -165,7 +165,7 @@ const Setting = ({ data }: any) => {
                           />
                         </div>
 
-                        <div className={`${styles['formGroup']}  w-full md:w-[50%]`}>
+                        <div className={`${styles['formGroup']}  w-full`}>
                           <label htmlFor='new_password'>Nhâp lại mật khẩu mới</label>
 
                           <input
@@ -176,7 +176,7 @@ const Setting = ({ data }: any) => {
                         </div>
 
                         <div className={`${styles['btnGroup']}`}>
-                          <button className='my-4 w-full md:w-[20%]'>Cập nhật mật khẩu</button>
+                          <button className='my-4 w-full'>Cập nhật mật khẩu</button>
                         </div>
                       </form>
                     </div>

@@ -1,5 +1,6 @@
 /* paymentMethodAntd.scss */
 .payment-method-wrapper {
+
   .dark .ant-input-outlined:focus,
   .ant-input-outlined:focus-within {
     box-sizing: border-box;
@@ -31,4 +32,11 @@
 .dark .payment-method-wrapper .ant-input-outlined {
   border: 1px solid #5a5a5a;
   background-color: #5a5a5a;
+}
+
+
+.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+  border: 1px solid #e9ecef !important;
+  background-color: #e9ecef !important;
+  padding: 15px;
 }

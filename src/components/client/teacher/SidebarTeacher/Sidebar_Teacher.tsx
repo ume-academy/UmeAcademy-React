@@ -113,13 +113,13 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={router.paymentMethods}
+                    to={router.withdrawalMethods}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
                   >
                     <WalletCards />
-                    Phương thức thanh toán
+                    Phương thức rút tiền
                   </NavLink>
                 </li>
               </ul>
