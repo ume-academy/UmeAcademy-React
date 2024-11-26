@@ -1,179 +1,141 @@
-import { DatePicker } from 'antd';
-import { useState } from 'react';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-
-type CourseData = {
-  course: string;
-  students: number;
-  revenue: number;
-  createdAt: string;
-};
-
-const data: CourseData[] = [
-  {
-    course: 'Khóa học A',
-    students: 30,
-    revenue: 30000,
-    createdAt: '2024-10-15'
-  },
-  {
-    course: 'Khóa học B',
-    students: 50,
-    revenue: 50000,
-    createdAt: '2024-02-10'
-  },
-  {
-    course: 'Khóa học C',
-    students: 40,
-    revenue: 42010,
-    createdAt: '2024-03-05'
-  },
-  {
-    course: 'Khóa học D',
-    students: 60,
-    revenue: 100000,
-    createdAt: '2024-04-20'
-  },
-  {
-    course: 'Khóa học E',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2024-09-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2024-09-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2024-08-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2024-07-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2024-06-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2025-09-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2025-01-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2025-02-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2025-04-30'
-  },
-  {
-    course: 'Khóa học R',
-    students: 20,
-    revenue: 20000,
-    createdAt: '2025-05-30'
-  },
-];
-
-const CustomTooltip = ({ active, payload }: any) => {
-  if (active && payload && payload.length) {
-    const { createdAt, students, revenue } = payload[0].payload;
-
-    return (
-      <div className="border border-[#e9ecef] dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white p-4 rounded shadow-lg space-y-2 text-[14px]">
-        <p className="border-b pb-2">{createdAt}</p>
-        <p className='text-[#82ca9d]'>Sinh viên: {students} người</p>
-        <p className='text-[#f24f3a]'>Doanh thu: {revenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-      </div>
-    );
-  }
-
-  return null;
-};
+import { useFilterRevenueMutation } from '@/redux/slices/teacher/revenue/revenueApiSlice'
+import { DatePicker } from 'antd'
+import { useState, useEffect } from 'react'
+import ReactECharts from 'echarts-for-react'
+import * as echarts from 'echarts'
+import { LoadingOutlined } from '@ant-design/icons'
+import { formatPrice } from '@/constants/utils'
+import moment from 'moment'
 
 const Chart = () => {
-  const [startDate, setStartDate] = useState<string | null>(null);
-  const [endDate, setEndDate] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState<string | ''>('')
+  const [endDate, setEndDate] = useState<string | ''>('')
+  const [filterRevenue, { data, isLoading }] = useFilterRevenueMutation()
 
-  const filteredDate = (course: CourseData) => {
-    const createdAt = course.createdAt ? new Date(course.createdAt) : ''
+  const dateData = data ? data.data.map((item: { date: string }) => item.date) : []
+  const revenueData = data ? data.data.map((item: { revenue: number }) => item.revenue) : []
 
-    const start = startDate ? new Date(startDate) : null;
-    const end = endDate ? new Date(endDate) : null;
+  useEffect(() => {
+    if (startDate && endDate) {
+      handleRevenue()
+    }
+  }, [startDate, endDate])
 
-    return (
-      (!start || createdAt >= start) &&
-      (!end || createdAt <= end)
-    )
-  };
+  const handleRevenue = () => {
+    filterRevenue({
+      start_date: startDate || undefined,
+      end_date: endDate || undefined
+    })
+  }
 
-  const filteredData = data.filter(filteredDate).map(item => (
-    { ...item, createdAt: (item.createdAt) }
-  ))
+  const option = {
+    tooltip: {
+      trigger: 'axis',
+      position: function (pt: any) {
+        return [pt[0], '10%']
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: dateData
+    },
+    yAxis: {
+      type: 'value',
+      boundaryGap: [0, '100%'],
+      axisLabel: {
+        formatter: function (value: number) {
+          return formatPrice(value)
+        }
+      }
+    },
+    dataZoom: [
+      {
+        type: 'inside',
+        start: 0,
+        end: 10
+      },
+      {
+        start: 0,
+        end: 10
+      }
+    ],
+    series: [
+      {
+        name: 'Doanh thu',
+        type: 'line',
+        symbol: 'none',
+        sampling: 'lttb',
+        itemStyle: {
+          color: 'rgb(255, 70, 131)'
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgb(255, 158, 68)'
+            },
+            {
+              offset: 1,
+              color: 'rgb(255, 70, 131)'
+            }
+          ])
+        },
+        data: revenueData
+      }
+    ]
+  }
+
+  const handleStartDateChange = (date: any) => {
+    if (date) {
+      setStartDate(date.format('YYYY-MM-DD'))
+    } else {
+      setStartDate('')
+    }
+  }
+
+  const handleEndDateChange = (date: any) => {
+    if (date) {
+      setEndDate(date.format('YYYY-MM-DD'))
+    } else {
+      setEndDate('')
+    }
+  }
 
   return (
-    <div className="p-4 lg:p-6">
+    <div className='p-4 lg:p-6'>
       <div className='flex flex-wrap space-y-3 justify-between items-center mb-6 border-b dark:border-[#5a5a5a] pb-6'>
-        <h2 className="text-xl font-subtitle">Biểu đồ tổng hợp theo thời gian
-        </h2>
-        <div className="text-[14px] space-x-2 flex items-center">
+        <h2 className='text-xl font-subtitle'>Biểu đồ tổng hợp theo thời gian</h2>
+        <div className='text-[14px] space-x-2 flex items-center'>
           <DatePicker
-            format="DD/MM/YYYY"
-            value={startDate}
-            onChange={(date) => setStartDate(date)}
-            className="dark:bg-[#2b2838] bg-white"
+            format='DD/MM/YYYY'
+            value={startDate ? moment(startDate) : null}
+            onChange={handleStartDateChange}
+            className='dark:bg-[#2b2838] bg-white'
             placeholder='Ngày bắt đầu '
           />
           <div>-</div>
           <DatePicker
-            format="DD/MM/YYYY"
-            value={endDate}
-            onChange={(date) => setEndDate(date)}
-            className="dark:bg-[#2b2838] bg-white"
+            format='DD/MM/YYYY'
+            value={endDate ? moment(endDate) : null}
+            onChange={handleEndDateChange}
+            className='dark:bg-[#2b2838] bg-white'
             placeholder='Ngày Kết thúc'
           />
         </div>
+
+        {data ? (
+          <ReactECharts option={option} className='w-full min-h-[400px]' />
+        ) : (
+          <div className='w-full min-h-[400px] flex items-center justify-center'>
+            <button onClick={handleRevenue} className='border border-[#f24f3a] text-[#f24f3a] rounded-lg px-3 py-2'>
+              Tải dữ liệu biểu đồ {isLoading && <LoadingOutlined />}
+            </button>
+          </div>
+        )}
       </div>
-
-      {filteredData.length === 0 ? (
-        <div className="flex flex-col justify-center items-center h-[300px] gap-4">
-          <p className='text-lg'>Không có dữ liệu</p>
-        </div>
-      ) : (
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={filteredData}>
-            <CartesianGrid vertical={false} />
-            <XAxis dataKey="createdAt" className='text-[14px]' />
-            <YAxis className='text-[14px]' />
-            <Tooltip content={<CustomTooltip />} />
-            <Line type="linear" dataKey="students" stroke="#82ca9d" />
-            <Line type="linear" dataKey="revenue" stroke="#f24f3a" strokeWidth={4} />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
     </div>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

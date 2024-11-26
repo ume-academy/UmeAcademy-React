@@ -48,7 +48,6 @@ const Card = ({
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
-  console.log(duration)
   useEffect(() => {
     setHeart(is_wishlist)
     setIsEnrolled(is_enrolled)

@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet'
 
 const Withdraw_Money = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 1
+  const perPage = 12
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
   const { data } = useTransactionHistoryQuery({ per_page: perPage, page: currentPage })

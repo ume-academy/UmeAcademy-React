@@ -10,6 +10,7 @@ import { userSlice } from './slices/user/userSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice';
+import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -25,6 +26,7 @@ export const store = configureStore({
       paymentMethodApiSlice.middleware,
       walletApiSlice.middleware,
       commissionRateApiSlice.middleware,
+      revenueApiSlice.middleware
     )
 })
 

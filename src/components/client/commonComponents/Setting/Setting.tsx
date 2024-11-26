@@ -3,7 +3,8 @@ import { Avatar, Tabs } from 'antd'
 import styles from './setting.module.scss'
 import './SettingAntd.scss'
 const Setting = ({ data }: any) => {
-  const { avatar, bio, email, fullname, is_lock } = data || {}
+  const { avatar, bio, email, fullname, is_techer } = data || {}
+  console.log(is_techer)
   return (
     <>
       <div className='mb-20 max-w-[1280px] mx-auto p-4 lg:p-6'>
@@ -106,13 +107,13 @@ const Setting = ({ data }: any) => {
                           </div>
 
                           <div className={`${styles['formGroup']}`}>
-                            <label htmlFor='is_lock'>Chức vụ</label>
+                            <label htmlFor='is_techer'>Chức vụ</label>
 
                             <input
-                              id='is_lock'
+                              id='is_techer'
                               type='text'
                               className={`${styles['formInput']} dark:bg-[#131022]`}
-                              value={is_lock === 0 ? 'Giảng viên' : 'Học viên'}
+                              value={is_techer ? 'Giảng viên' : 'Học viên'}
                               disabled
                             />
                           </div>

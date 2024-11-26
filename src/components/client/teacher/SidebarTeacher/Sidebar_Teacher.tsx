@@ -1,14 +1,8 @@
 import { Avatar } from 'antd'
-import {
-  HandCoins,
-  Rocket,
-  Users,
-  Wallet,
-  WalletCards
-} from 'lucide-react'
+import { HandCoins, Rocket, Users, Wallet, WalletCards } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
-import { router } from '@/configs/routes';
+import { router } from '@/configs/routes'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
@@ -16,10 +10,15 @@ const Sidebar_Teacher = () => {
   return (
     <>
       <aside className='flex flex-col gap-6'>
-        <div className={`${styles['introduce']} dark:bg-[#2b2838] bg-[#fff] dark:border-transparent border border-[#e9ecef]`}>
+        <div
+          className={`${styles['introduce']} dark:bg-[#2b2838] bg-[#fff] dark:border-transparent border border-[#e9ecef]`}
+        >
           <div className={`${styles['top']} bg-[#f84563]`}>
             <div className={`${styles['avt']}`}>
-              <Avatar src='https://i.pravatar.cc/300' className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] lg:w-[100px] lg:h-[100px] border-4 border-white' />
+              <Avatar
+                src='https://i.pravatar.cc/300'
+                className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] lg:w-[100px] lg:h-[100px] border-4 border-white'
+              />
             </div>
           </div>
 
@@ -34,7 +33,8 @@ const Sidebar_Teacher = () => {
           </div>
 
           <div className={`${styles['act']} p-6`}>
-            <Link to={`${router.formCourse}`}
+            <Link
+              to={`${router.formCourse}`}
               className='   flex
                             justify-center
                             py-3 
@@ -54,7 +54,9 @@ const Sidebar_Teacher = () => {
           </div>
         </div>
 
-        <div className={`${styles['menuItems']} h-auto lg:min-h-screen p-6 dark:bg-[#2b2838] bg-[#fff]  dark:border-transparent border border-[#e9ecef]`}>
+        <div
+          className={`${styles['menuItems']} h-auto lg:min-h-screen p-6 dark:bg-[#2b2838] bg-[#fff]  dark:border-transparent border border-[#e9ecef]`}
+        >
           {/* Management */}
           <div className=''>
             <div className={`${styles['heading']}`}>
