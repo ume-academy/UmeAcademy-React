@@ -1,3 +1,7 @@
+export interface TLessonByCourseID  {
+  chapters: TChapter[]
+}
+
 export interface TLearningContent {
     name: string
     thumbnail: string
@@ -20,8 +24,15 @@ export interface TChapter {
 
 export interface TLesson {
   id: number,
+  is_completed: boolean
   name: string,
   is_preview: boolean,
   video_link: string,
   video_duration: number
+}
+
+export interface TLessonCompleted {
+  id_Course: number,
+  id_Chapter: number,
+  id_Lesson: number
 }

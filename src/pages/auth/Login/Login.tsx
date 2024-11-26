@@ -51,7 +51,6 @@ const Login = () => {
   const onfinish = async (data: TLogin) => {
     try {
       startLoading()
-      console.log(1)
       const {access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
 
       dispatch(setToken({

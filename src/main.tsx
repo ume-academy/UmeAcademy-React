@@ -12,7 +12,6 @@ import './scss/index.scss'
 
 createRoot(document.getElementById('root')!).render(
   
-  <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <ModeProvider>
@@ -29,5 +28,4 @@ createRoot(document.getElementById('root')!).render(
         </ModeProvider>
       </Provider>
     </BrowserRouter>
-  </StrictMode>
 )
