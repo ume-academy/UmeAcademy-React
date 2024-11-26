@@ -9,7 +9,7 @@ import { checkOutApiSlice } from "./slices/payment/checkOutApiSlice";
 import { userSlice } from "./slices/user/userSlice";
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { walletApiSlice } from "./slices/teacher/wallet/walletApiSlice";
-
+import { commissionRateApiSlice } from "./slices/commission_rate/commissionRateApiSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -21,7 +21,8 @@ const rootReducer = combineReducers({
   [lessonApiSlice.reducerPath]: lessonApiSlice.reducer,
   [userSlice.reducerPath]: userSlice.reducer,
   [paymentMethodApiSlice.reducerPath]: paymentMethodApiSlice.reducer,
-  [walletApiSlice.reducerPath]: walletApiSlice.reducer
-})
+  [walletApiSlice.reducerPath]: walletApiSlice.reducer,
+  [commissionRateApiSlice.reducerPath]: commissionRateApiSlice.reducer,
+});
 
 export default rootReducer

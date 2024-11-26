@@ -9,6 +9,7 @@ import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
 import { userSlice } from './slices/user/userSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
+import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -22,7 +23,8 @@ export const store = configureStore({
       checkVoucherApiSlice.middleware,
       userSlice.middleware,
       paymentMethodApiSlice.middleware,
-      walletApiSlice.middleware
+      walletApiSlice.middleware,
+      commissionRateApiSlice.middleware,
     )
 })
 
