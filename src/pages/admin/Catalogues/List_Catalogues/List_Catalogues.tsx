@@ -16,7 +16,6 @@ const List_Catalogues = () => {
   // message alert
   const [messageApi, contextHolder] = message.useMessage();
 
-
   // Trạng thái lưu trữ thông tin bản ghi
   // const [selectedItem, setSelectedItem] = useState<any>(null);
 

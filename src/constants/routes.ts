@@ -32,6 +32,7 @@ import Revenue from "@/pages/client/Teacher/Revenue/Revenue";
 import List_Students from "@/pages/client/Teacher/Students/List_Students";
 import Withdraw_Money from "@/pages/client/Teacher/Withdraw_Money/Withdraw_Money";
 import Payment_Methods from "@/pages/client/Teacher/Withdrawal_Methods/Withdrawal_Methods";
+import Forbidden from "@/pages/Forbidden/Forbidden";
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email';
 import Home_Page from './../pages/client/Student/Home_page/Home_Page';
 import Not_Found from './../pages/Not_found/Not_Found';
@@ -50,7 +51,7 @@ export const studentRoutes = [
   { path: router.profileStudent, element: Profile },
 ]
 
-export const protectedStudentRoutes  = [
+export const protectedStudentRoutes = [
   { path: router.transactionHistory, element: Transaction_History },
   { path: router.walletHistory, element: Wallet_History },
   { path: router.purchasedCourses, element: Purchased_Courses },
@@ -75,10 +76,10 @@ export const teacherRoutes = [
 
 // Routes cho auth
 export const authRoutes = [
-  { path: router.login, element: Login }, 
+  { path: router.login, element: Login },
   { path: router.register, element: Register },
   { path: router.forgot_password, element: ForgotPassword },
-  { path: router.verify_email, element: Veryfi_Email}
+  { path: router.verify_email, element: Veryfi_Email }
   // { path: router.Email_Verification_Reminder, element: Home_Page}
 ]
 
@@ -108,4 +109,9 @@ export const adminRoutes = [
 
 export const notFoundRoutes = {
   path: router.notFound, element: Not_Found
+}
+
+
+export const forbiddenRoutes = { 
+  path: router.forbidden, element: Forbidden 
 }

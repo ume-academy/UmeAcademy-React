@@ -1,5 +1,6 @@
+import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 import { router } from '@/configs/routes'
-import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetOverviewCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/course/courseSlice'
+import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetOverviewCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
 import { Avatar, Collapse, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
@@ -10,9 +11,12 @@ import { Link, useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../../constants/client'
 import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
-import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 
 const CourseDetails = () => {
+
+  const [modal2Open, setModal2Open] = useState(false);
+
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const { id } = useParams();
 
@@ -21,13 +25,9 @@ const CourseDetails = () => {
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
   const { data: courseOverview } = useGetOverviewCourseByIdQuery(id);
 
-  // console.log(courseContent)
-
-  const [modal2Open, setModal2Open] = useState(false);
-
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-
   const [currentVideoPath, setCurrentVideoPath] = useState('')
+
+  if(id) localStorage.setItem('courseId', id);
 
   const handlePreviewClick = (path: string) => {
     setCurrentVideoPath(path) // Cập nhật đường dẫn video hiện tại
@@ -35,8 +35,6 @@ const CourseDetails = () => {
   }
 
   const userExist = localStorage.getItem('access_Token');
-
-  // console.log(userExist)
 
   // convert seconds to minutes
   function formatTime(seconds: number): string {

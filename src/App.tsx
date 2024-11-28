@@ -1,12 +1,12 @@
 import { useContext, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { adminRoutes, authRoutes, notFoundRoutes, protectedStudentRoutes, studentRoutes, teacherRoutes } from './constants/routes'
+import { adminRoutes, authRoutes, forbiddenRoutes, notFoundRoutes, protectedStudentRoutes, studentRoutes, teacherRoutes } from './constants/routes'
 import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
 import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import './scss/App.scss'
 import PriveteRouteStudent from './layouts/PriveteRoute'
+import './scss/App.scss'
 
 function App() {
   const { mode } = useContext(ModeUserContext) as ModeUserType
@@ -26,21 +26,22 @@ function App() {
         {mode === 'student' ? (
           <Route path='/' element={<Layout_Client />}>
             {/* <===== student =====> */}
-            
+
             {studentRoutes.map((route, index) => {
-            const isProtected =   protectedStudentRoutes.some(
-              (protectedRoute) => protectedRoute.path === route.path
-            )
-        
-            return (
-              <Route key={index} path={route.path} element={isProtected ? (
+              const isProtected = protectedStudentRoutes.some(
+                (protectedRoute) => protectedRoute.path === route.path
+              )
+
+              return (
+                <Route key={index} path={route.path} element={isProtected ? (
                   <PriveteRouteStudent>
                     <route.element />
                   </PriveteRouteStudent>
                 ) : (
-                <route.element />
-              )} />
-            )})}
+                  <route.element />
+                )} />
+              )
+            })}
           </Route>
 
         ) : (
@@ -70,6 +71,9 @@ function App() {
 
         {/* <===== NotFound =====> */}
         <Route path={notFoundRoutes.path} element={<notFoundRoutes.element />} />
+
+        {/* <===== 403 - Forbidden =====> */}
+        <Route path={forbiddenRoutes.path} element={<forbiddenRoutes.element />} />
       </Routes>
     </>
   )

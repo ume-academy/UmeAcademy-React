@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
-import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { authApiSlice } from './slices/auth/authApiSlice'
+import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice'
+import { courseApiSlice } from './slices/course/courseApiSlice'
 import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
-import { courseSlice } from './slices/course/courseSlice'
 import { checkOutApiSlice } from './slices/payment/checkOutApiSlice'
-import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
-import { userSlice } from './slices/user/userSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
-import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
-import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice';
+import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
+import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
+import { userSlice } from './slices/user/userSlice'
+import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -18,7 +18,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       authApiSlice.middleware,
       profileApiSlice.middleware,
-      courseSlice.middleware,
+      courseApiSlice.middleware,
       lessonApiSlice.middleware,
       checkOutApiSlice.middleware,
       checkVoucherApiSlice.middleware,

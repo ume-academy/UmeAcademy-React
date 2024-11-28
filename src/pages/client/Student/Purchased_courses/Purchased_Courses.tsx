@@ -5,7 +5,7 @@ import { useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../constants/client'
 import { TCourse } from '@/interfaces/TCourse'
-import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseSlice'
+import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)

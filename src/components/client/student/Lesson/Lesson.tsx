@@ -20,7 +20,8 @@ import VideoPlayer from '../../commonComponents/VideoPlayer/VideoPlayer'
 import style from './Lesson.module.scss'
 
 const Lesson = () => {
-  const { id } = useParams()
+  const { id } = useParams();
+
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const { data: courseData, isLoading } = useGetLessonByCourseIdQuery(Number(id))
   

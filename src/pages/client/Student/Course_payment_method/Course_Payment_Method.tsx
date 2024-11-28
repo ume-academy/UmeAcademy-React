@@ -1,6 +1,6 @@
 import { formatPrice } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 import { useCheckOutMutation } from '@/redux/slices/payment/checkOutApiSlice'
 import { useCheckVoucherMutation } from '@/redux/slices/voucher/checkVoucherApiSlice'
 import { BookFilled } from '@ant-design/icons'

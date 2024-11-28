@@ -41,3 +41,20 @@ export const formatSeconds = (seconds: number): string => {
 
   return result.trim()
 }
+
+// Kiểm tra hạn của token || true: hết hạn, false: còn hạn
+export const isTokenExpired =(token: string): boolean => {
+  try {
+    // Giải mã payload của token
+    const payload = JSON.parse(atob(token.split('.')[1])); 
+
+    // Lấy thời gian hiện tại (tính bằng giây)
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    // Kiểm tra thời hạn
+    return payload.exp < currentTime;
+  } catch (error) {
+    console.error("Invalid token", error);
+    return true; // Nếu không giải mã được, coi như token đã hết hạn
+  }
+}

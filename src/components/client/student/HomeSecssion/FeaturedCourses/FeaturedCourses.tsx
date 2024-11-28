@@ -4,7 +4,7 @@ import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Card from '@/components/client/commonComponents/Card/Card'
 import { TCourse } from '@/interfaces/TCourse'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)

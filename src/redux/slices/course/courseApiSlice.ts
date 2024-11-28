@@ -2,7 +2,7 @@ import { baseUrl } from '@/Api'
 import { TCourse } from '@/interfaces/TCourse'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-export const courseSlice = createApi({
+export const courseApiSlice = createApi({
   reducerPath: 'courseDetailApi',
   baseQuery: baseUrl,
   tagTypes: ['CourseDetail'],
@@ -45,4 +45,4 @@ export const {
   useGetReviewsCourseByIdQuery,
   useGetOverviewCourseByIdQuery,
   useGetPurchasedCoursesQuery
-} = courseSlice
+} = courseApiSlice

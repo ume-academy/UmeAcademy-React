@@ -1,7 +1,6 @@
 import Card from '@/components/client/commonComponents/Card/Card'
 import { getTitleTab } from '@/constants/client'
-import { TCourse } from '@/interfaces/TCourse'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseSlice'
+import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
 import { easeInOut, motion, useInView } from 'framer-motion'
 import { useRef } from 'react'

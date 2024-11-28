@@ -12,10 +12,10 @@ interface VideoPlayerProps {
   thumbnail?: string 
   width?: number | string
   height?: number | string
-  courseId: number
-  chapterId: number
-  lessonId: number
-  isCompleted: boolean
+  courseId?: any
+  chapterId?: any
+  lessonId?: any 
+  isCompleted?: boolean
 }
 
 const VideoPlayer = ({ videoURL, isCompleted, thumbnail, width ='100%', height = 'auto', courseId, chapterId, lessonId }: VideoPlayerProps) => {

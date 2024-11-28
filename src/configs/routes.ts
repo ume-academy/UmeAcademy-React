@@ -92,5 +92,8 @@ export const router = {
   listRefundCourses: `${prefixAdmin}/refund-courses`,
 
   // < ===== Not_Found ===== >
-  notFound: '*'
+  notFound: '*',
+
+  // < ===== 403 - Forbidden ===== >
+  forbidden: '/forbidden'
 }

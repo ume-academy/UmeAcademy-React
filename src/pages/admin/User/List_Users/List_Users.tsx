@@ -41,7 +41,7 @@ const List_Users = () => {
     // { id: 2, fullname: "Tran Thi B", email: "ttb@daddy.com", created_at: new Date(), role: 0, status: 0 }
   ]);
 
-  console.log('data', users)
+  // console.log('data', users)
 
   useEffect(() => {
     if (users?.data) {
