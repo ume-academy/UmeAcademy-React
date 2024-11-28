@@ -1,120 +1,131 @@
-import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { Rate } from "antd";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { getButtonDetails } from "@/constants/client";
-import { router } from "@/configs/routes";
-
-export interface CardProps {
-  image: string;
-  title: string;
-  instructorName: string;
-  instructorImage: string;
-  price: string;
-  originalPrice: string;
-  lessonCount: string;
-  duration: string;
-  rating: number;
-}
+import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
+import { message, Rate } from 'antd'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { getButtonDetails } from '@/constants/client'
+import { router } from '@/configs/routes'
+import { TCourse } from '@/interfaces/TCourse'
+import { formatPrice, formatSeconds } from '@/constants/utils'
 
 const Card_Horizontal = ({
-  image,
-  title,
-  instructorName,
-  instructorImage,
+  thumbnail,
+  name,
+  id,
   price,
-  originalPrice,
-  lessonCount,
-  duration,
   rating,
-}: CardProps) => {
-  const [heart, setHeart] = useState(false);
-  const location = useLocation();
-  const id = 1
-  const { buttonText, targetPath } = getButtonDetails();
-  const isMyCoursesPage = location.pathname === `${router.myCourses}`
+  total_lesson,
+  total_review,
+  teacher,
+  duration,
+  is_wishlist,
+  is_enrolled
+}: TCourse) => {
+  const [heart, setHeart] = useState(is_wishlist)
+  const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id)
+  const location = useLocation()
+
+  useEffect(() => {
+    setHeart(is_wishlist)
+    setIsEnrolled(is_enrolled)
+  }, [is_wishlist, is_enrolled])
 
   const handleClick = () => {
-    setHeart(!heart);
-  };
+    if (heart) {
+      setHeart(false)
+      message.error('Đã bỏ khóa học khỏi danh sách yêu thích')
+    } else {
+      setHeart(true)
+      message.success('Đã thêm khóa học vào danh sách yêu thích')
+    }
+  }
 
   return (
-    <div className="group flex flex-col md:flex-row w-full dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer">
-      <Link to={`${router.courseDetail.replace(':id', id.toString())}`} className="group flex flex-col md:flex-row gap-4 hover:text-white">
-        {/* Ảnh sp */}
-        <div className="relative">
-          <div className="rounded-[10px] overflow-hidden ">
+    <div className='group flex flex-col md:flex-row w-full dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer'>
+      <Link
+        to={`${router.courseDetail.replace(':id', String(id))}`}
+        className='group flex flex-col md:flex-row gap-4 hover:text-white'
+      >
+        <div className='relative'>
+          <div className='rounded-[10px] overflow-hidden '>
             <motion.img
-              src={image}
-              className="image w-full h-[220px] object-cover"
+              src={thumbnail}
+              alt='thumbnail'
+              className='image w-full md:w-[360px] h-[220px] object-cover'
               whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
             />
           </div>
-          <div className="absolute bottom-3 right-3 px-4 py-2 rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900">
-            <p className="text-[15px] font-bold text-[#ff5364] dark:text-[#B9B7C0]">{price}</p>
-            <p className="text-gray-400 line-through text-[12px] pt-[2px]">{originalPrice}</p>
+          <div className='absolute bottom-3 right-3 px-4 py-2 rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900'>
+            <p className='text-[15px] font-bold text-[#ff5364] dark:text-[#B9B7C0]'>{formatPrice(price)}</p>
           </div>
         </div>
 
-        {/* info */}
-        {!isMyCoursesPage && (
-          <div className="flex flex-col md:flex-col-reverse flex-1">
-            <div className="mt-6 space-y-4">
-              <span className="text-[11px] space-x-2">
-                <Rate allowHalf defaultValue={rating} className="text-[16px] group-hover:text-white" />
-                <span>{rating.toFixed(1)} (15)</span>
+        <div className='flex flex-col md:flex-col-reverse flex-1'>
+          <div className='space-y-6'>
+            <span className='text-[11px] space-x-2 hidden md:block'>
+              <Rate allowHalf value={Number(rating)} className='text-[13px] group-hover:text-white' disabled />
+              <span>
+                {rating} ({total_review})
               </span>
-              
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <img src={instructorImage} className="w-12 h-12 rounded-full" />
-                  <div className="ml-3">
-                    <p className="hover:text-[#ff5364] text-[16px]">{instructorName}</p>
-                    <p className="">Giảng viên</p>
-                  </div>
+            </span>
+            <div className='flex justify-between items-center'>
+              <div className='flex items-center'>
+                <img src={teacher?.avatar as string} alt='avatar' className='w-12 h-12 md:w-14 md:h-14 rounded-full' />
+                <div className='ml-3'>
+                  <p className='hover:text-[#ff5364] text-[16px] md:text-[17px]'>{teacher?.fullname}</p>
+                  <p className='md:text-sm'>Giảng viên</p>
                 </div>
-
               </div>
-            </div>
-
-            <div className="space-y-5">
-              <h3 className="text-[17px] h-12 hover:text-[#ff5364] w-[90%] md:w-full line-clamp-2 py-4">
-                {title}
-              </h3>
-              <div className="flex items-center gap-4 pb-4">
-                <div className="flex items-center gap-1">
-                  <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
-                  <span>{lessonCount}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <FieldTimeOutlined className='text-purple-500 text-lg group-hover:text-white' />
-                  <span>{duration}</span>
-                </div>
+              <div onClick={handleClick} className='cursor-pointer text-xl block md:hidden'>
+                {heart ? (
+                  <HeartFilled className='text-[#ff5364] group-hover:text-white' />
+                ) : (
+                  <HeartOutlined className='text-[#ff5364] group-hover:text-white' />
+                )}
               </div>
             </div>
           </div>
-        )}
-      </Link>
 
-      <div className="flex flex-row-reverse md:flex-col flex-1 justify-between items-end mt-4">
+          <div className='space-y-5'>
+            <h3 className='text-[17px] md:text-lg h-12 hover:text-[#ff5364] w-[90%] line-clamp-2 md:mt-4'>{name}</h3>
+            <div className='flex items-center justify-between gap-4 pb-4'>
+              <div className='flex items-center gap-1'>
+                <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
+                <span>{total_lesson}+ Bài học</span>
+              </div>
+              <div className='flex items-center gap-1'>
+                <FieldTimeOutlined className='text-purple-500 text-lg group-hover:text-white' />
+                <span>{formatSeconds(duration)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+      <span className='bg-gray-500 h-[1px] block md:hidden'></span>
+      <div className='flex flex-row md:flex-col flex-1 justify-between items-center md:items-end mt-4'>
+        <div onClick={handleClick} className='cursor-pointer text-xl hidden md:block'>
+          {heart ? (
+            <HeartFilled className='text-[#ff5364] group-hover:text-white' />
+          ) : (
+            <HeartOutlined className='text-[#ff5364] group-hover:text-white' />
+          )}
+        </div>
+        <span className='text-[11px] space-x-2 block md:hidden'>
+          <Rate allowHalf value={Number(rating)} className='text-[11px] group-hover:text-white' disabled />
+          <span>
+            {rating} ({total_review})
+          </span>
+        </span>
         <Link to={targetPath}>
-          <button className="border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]">
+          <button className='border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'>
             {buttonText}
           </button>
         </Link>
-
-        <div onClick={handleClick} className="cursor-pointer text-xl">
-          {heart ? (
-            <HeartFilled className="text-[#ff5364] group-hover:text-white" />
-          ) : (
-            <HeartOutlined className="text-[#ff5364] group-hover:text-white" />
-          )}
-        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Card_Horizontal;
+export default Card_Horizontal

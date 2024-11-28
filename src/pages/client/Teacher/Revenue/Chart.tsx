@@ -12,8 +12,8 @@ const Chart = () => {
   const [endDate, setEndDate] = useState<string | ''>('')
   const [filterRevenue, { data, isLoading }] = useFilterRevenueMutation()
 
-  const dateData = data ? data.data.map((item: { date: string }) => item.date) : []
-  const revenueData = data ? data.data.map((item: { revenue: number }) => item.revenue) : []
+  const dateData = data ? data?.data?.map((item: { date: string }) => item.date) : []
+  const revenueData = data ? data?.data?.map((item: { revenue: number }) => item.revenue) : []
 
   useEffect(() => {
     if (startDate && endDate) {

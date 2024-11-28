@@ -89,7 +89,7 @@ const Sidebar_Teacher = () => {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <NavLink
                     to={router.listStudents}
                     className={({ isActive }) =>
@@ -99,7 +99,7 @@ const Sidebar_Teacher = () => {
                     <Users />
                     Danh sách học viên của tôi
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li>
                   <NavLink

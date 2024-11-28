@@ -11,6 +11,9 @@ import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { userSlice } from './slices/user/userSlice'
 import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
+import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
+import { categoryApiSlice } from './slices/category/categoryApiSlice'
+import { levelApiSlice } from './slices/course/levelApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -26,7 +29,10 @@ export const store = configureStore({
       paymentMethodApiSlice.middleware,
       walletApiSlice.middleware,
       commissionRateApiSlice.middleware,
-      revenueApiSlice.middleware
+      revenueApiSlice.middleware,
+      searchCourseApiSlice.middleware,
+      categoryApiSlice.middleware,
+      levelApiSlice.middleware
     )
 })
 

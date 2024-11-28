@@ -16,7 +16,7 @@ export const router = {
 
   // < ===== STUDENT ===== >
   profileStudent: '/profile',
-  search: '/search',
+  search: '/courses/search',
   courseDetail: '/course/:id',
   lesson: '/course/:id/lesson',
   walletHistory : '/wallet-history',
@@ -36,7 +36,7 @@ export const router = {
   profileTeacher: '/profile',
 
   // Route danh sách học viên
-  listStudents: `${prefixTeacher}/my-students`,
+  // listStudents: `${prefixTeacher}/my-students`,
 
   // Route danh sách khóa học giảng viên tạo
   myCourses: `${prefixTeacher}/my-courses`,

@@ -10,7 +10,7 @@ const PrivateRouteStudent = ({ children }: { children: JSX.Element }) => {
   if (!isAuthenticated) return <Navigate to='/login' />;
 
   // Nếu chưa tham gia khóa học, chuyển hướng đến trang thanh toán
-  if (!isEnrolled) return <Navigate to={'/forbidden'} />
+  // if (!isEnrolled) return <Navigate to={'/forbidden'} />
 
   return children;
 };
