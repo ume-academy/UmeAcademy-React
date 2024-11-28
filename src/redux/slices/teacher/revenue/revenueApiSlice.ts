@@ -1,10 +1,10 @@
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { TRevenue } from '@/interfaces/TRevenue'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const revenueApiSlice = createApi({
   reducerPath: 'revenueApi',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ['revenue'],
   endpoints: (builder) => ({
     getStatistic: builder.query({

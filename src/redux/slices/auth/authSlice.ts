@@ -27,8 +27,18 @@ export const authSlice = createSlice({
           secure: true,                                            // Chỉ sử dụng cookie qua HTTPS
           sameSite: 'strict'                                       // Bảo vệ cookie khỏi bị tấn công CSRF               
         })
-          }
-        }
+    },
+
+    logoutLocal: (state: TAuthState) => {
+      state.accessToken = ''
+      state.refreshToken = ''
+      state.expiresIn = null
+      state.isAuthenticated = false
+
+      localStorage.removeItem('access_Token')
+      Cookies.remove('refresh_Token')
+    }
+  }
 })
 
-export const { setToken } = authSlice.actions
+export const { setToken, logoutLocal } = authSlice.actions

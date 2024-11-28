@@ -1,8 +1,14 @@
-import { logo, routerConfig } from '@/constants/client'
-import { ModeUserContext, ModeUserType } from '@/contexts/ModeUser'
+import { router } from '@/configs/routes'
+import { logo, routerConfig, routerConfigTeacher } from '@/constants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
+import { selectIsTeacher } from '@/redux/selector/teacher_selector'
+import { useLogoutApiMutation } from '@/redux/slices/auth/authApiSlice'
+import { logoutLocal } from '@/redux/slices/auth/authSlice'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
+import { useCheckTeacherQuery } from '@/redux/slices/teacher/check_teacher/checkTeacherApiSlice'
+import { setIsTeacher } from '@/redux/slices/teacher/check_teacher/checkTeacherSlice'
 import {
-  HistoryOutlined,
   LogoutOutlined,
   MoonFilled,
   StarOutlined,
@@ -10,30 +16,58 @@ import {
   UserOutlined,
   WalletOutlined
 } from '@ant-design/icons'
-import { Avatar, Dropdown, MenuProps, Space } from 'antd'
+import { Avatar, Dropdown, MenuProps, message, Space } from 'antd'
 import { useContext, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
-import { router } from '@/configs/routes'
-import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
-import { useSelector } from 'react-redux'
-import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Header = () => {
-  const { mode, toggleMode } = useContext(ModeUserContext) as ModeUserType
+  const nav = useNavigate()
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const navigate = useNavigate()
   const { data } = useGetProfileQuery()
+  const [logoutApi] = useLogoutApiMutation()
+  const dispatch = useDispatch()
+  const isTeacherSelector = useSelector(selectIsTeacher)
+
+  // Bật trạng thái trong suốt khi ở trang home
+  const transperent = routerConfig.transparentHeader.includes(location.pathname)
+  const isTeacherLayout = routerConfigTeacher.isTeacherLayout.includes(location.pathname)
   
+  // Lấy data check teacher từ api
+  const {data: dataIsTeacher} = useCheckTeacherQuery()
+  const isTeacherApi = dataIsTeacher?.is_teacher
+
   const handleToggle = () => {
-    toggleMode() // Chuyển đổi chế độ
-    // Điều hướng sang trang phù hợp
-    if (mode === 'student') {
-      navigate('/') // Chuyển sang trang dành cho teacher
-    } else {
-      navigate('/') // Chuyển sang trang dành cho student (Home Page)
+
+    if (isTeacherLayout) {
+      nav(`${router.home}`) // Chuyển sang trang dành cho student
+    } else{
+      // Chuyển sang trang dành cho teacher
+      isTeacherApi === false ? nav(`${router.newInstructor}`) : nav(`${router.revenue}`) 
+    }
+  }
+
+  useEffect(() => {
+    if(isTeacherApi !== undefined ){
+      dispatch(setIsTeacher(isTeacherApi))
+    }
+  }, [isTeacherSelector]);
+
+  const handleLogout = async () => {
+    // const tokenREF = Cookies.get('refresh_Token')
+
+    try {
+      // await logoutApi().unwrap()
+      // console.log(1)
+      dispatch(logoutLocal())
+      message.success('Đăng xuất thành công')
+      nav('/')
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -75,7 +109,7 @@ const Header = () => {
     },
     // Chỉ hiển thị key 2-4 nếu mode === 'student'
     // Không thêm mục nào nếu mode không phải là 'student'
-    ...(mode === 'student'
+    ...(!isTeacherLayout
       ? [1, 3, 4].map((key) => ({
           key: `${key}`,
           label: (() => {
@@ -87,13 +121,6 @@ const Header = () => {
                     Hồ sơ
                   </Link>
                 )
-              // case 2:
-              //   return (
-              //     <Link to={`${router.walletHistory}`}>
-              //       <HistoryOutlined className='mr-2' />
-              //       Lịch sử giao dịch
-              //     </Link>
-              //   );
               case 3:
                 return (
                   <Link to={`${router.purchasedCourses}`}>
@@ -132,7 +159,7 @@ const Header = () => {
     {
       key: '',
       label: (
-        <button className='border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]'>
+        <button onClick={() => handleLogout()} className='border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]'>
           <LogoutOutlined className='mr-2' />
           Đăng xuất
         </button>
@@ -140,24 +167,22 @@ const Header = () => {
     }
   ]
 
-  // Bật trạng thái trong suốt khi ở trang home
-  const transperent = routerConfig.transparentHeader.includes(location.pathname)
 
   return (
     <>
       <div
-        className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${(isScroll || mode === 'teacher') && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} 
+        className={`fixed top-0 right-0 left-0 z-50 dark:bg-[#2b2838]  ${(isScroll || isTeacherLayout) && 'shadow-[0px_4px_15px_rgba(0,0,0,0.08)]'} 
         ${isScroll ? 'bg-[#fff]' : transperent ? 'bg-transparent' : 'bg-[#fff]'} transition-all duration-300 ease-in-out`}
       >
         <div className='hidden lg:flex items-center justify-between lg:w-[1280px] h-[80px] mx-auto'>
           <div className='flex justify-start items-center'>
             {/* Logo */}
             <div className='w-[160px] h-[37px] mr-12'>
-              <Link to={mode === 'student' ? `${router.home}` : `${router.home}`}>
+              <Link to={isTeacherLayout ? `${router.revenue}` : `${router.home}`}>
                 <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
-            {mode === 'student' && (
+            {!isTeacherLayout && (
               <>
                 {/* search input */}
                 <Search />
@@ -169,10 +194,7 @@ const Header = () => {
             {isAuthenticated === true ? (
               <>
                 {/* teacher */}
-                <button className='mr-[20px] flex items-center dark:text-[#b9b7c0]' onClick={() => handleToggle()}>
-                  {mode === 'student' ? 'Giảng viên' : 'Học viên'}
-                </button>
-
+                <button onClick={handleToggle} className='mr-[20px] flex items-center dark:text-[#b9b7c0] hover'>{isTeacherLayout === true ? 'Học viên' : 'Giảng viên'}</button>
                 {/* dark mode */}
                 <button
                   className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'

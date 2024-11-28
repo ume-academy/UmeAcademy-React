@@ -1,10 +1,10 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { TPaymentDetails } from '@/interfaces/TPayment'
 
 export const checkOutApiSlice = createApi({
   reducerPath: 'checkOutApi',
-  baseQuery: baseUrl, 
+  baseQuery: customBaseQuery, 
   tagTypes: ['CheckOut'], 
   endpoints: (builder) => ({
     checkOut: builder.mutation<TPaymentDetails, TPaymentDetails>({

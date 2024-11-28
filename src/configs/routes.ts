@@ -27,13 +27,13 @@ export const router = {
 
   // < ===== TEACHER ===== >
   // Route index  
-  revenue: `/`,
+  revenue: `${prefixTeacher}`,
 
   // Route lần đầu trở thành teacher
   newInstructor: `${prefixTeacher}/new-instructor`, 
 
   // Route thông tin cá nhân phía teacher
-  profileTeacher: '/profile',
+  profileTeacher: `${prefixTeacher}/profile`,
 
   // Route danh sách học viên
   // listStudents: `${prefixTeacher}/my-students`,

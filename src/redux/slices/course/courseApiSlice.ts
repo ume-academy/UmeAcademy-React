@@ -1,10 +1,10 @@
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { TCourse } from '@/interfaces/TCourse'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const courseApiSlice = createApi({
   reducerPath: 'courseDetailApi',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ['CourseDetail'],
   endpoints: (builder) => ({
     //! GET INFO COURSE BY ID

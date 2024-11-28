@@ -1,15 +1,14 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import { prefixTeacher } from './configs/routes'
 import { adminRoutes, authRoutes, forbiddenRoutes, notFoundRoutes, protectedStudentRoutes, studentRoutes, teacherRoutes } from './constants/routes'
-import { ModeUserContext, ModeUserType } from './contexts/ModeUser'
 import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import PriveteRouteStudent from './layouts/PriveteRoute'
+import { PrivateRouteStudent, PriveteRouteAdmin } from './layouts/PriveteRoute'
 import './scss/App.scss'
 
 function App() {
-  const { mode } = useContext(ModeUserContext) as ModeUserType
   // sử dụng để khi chuyển qua route khác scroll sẽ về đầu trang
   const { pathname } = useLocation()
 
@@ -23,20 +22,20 @@ function App() {
   return (
     <>
       <Routes>
-        {mode === 'student' ? (
+
           <Route path='/' element={<Layout_Client />}>
             {/* <===== student =====> */}
 
             {studentRoutes.map((route, index) => {
-              const isProtected = protectedStudentRoutes.some(
-                (protectedRoute) => protectedRoute.path === route.path
-              )
+            const isProtected = protectedStudentRoutes.some(
+              (protectedRoute) => protectedRoute.path === route.path
+            )
 
-              return (
-                <Route key={index} path={route.path} element={isProtected ? (
-                  <PriveteRouteStudent>
+            return (
+              <Route key={index} path={route.path} element={isProtected ? (
+                  <PrivateRouteStudent>
                     <route.element />
-                  </PriveteRouteStudent>
+                  </PrivateRouteStudent>
                 ) : (
                   <route.element />
                 )} />
@@ -44,17 +43,17 @@ function App() {
             })}
           </Route>
 
-        ) : (
 
-          <>
             {/* Teacher */}
-            <Route path='/' element={<Layout_Teacher />}>
+            <Route path={prefixTeacher} element={
+              <PriveteRouteAdmin>
+                <Layout_Teacher />
+              </PriveteRouteAdmin>
+            }>
               {teacherRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={<route.element />} />
               ))}
             </Route>
-          </>
-        )}
 
         {/* <===== Admin =====> */}
         <Route path='/admin' element={<Layout_Admin />}>

@@ -1,10 +1,10 @@
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const paymentMethodApiSlice = createApi({
   reducerPath: 'paymentMethodApi',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ['paymentMethod'],
   endpoints: (builder) => ({
     getPaymentMethods: builder.query({

@@ -1,9 +1,9 @@
-import { baseUrl } from "@/Api";
+import { customBaseQuery } from "@/Api";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const commissionRateApiSlice = createApi({
   reducerPath: "commissionRateApi",
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ["CommissionRate"],
   endpoints: (builder) => ({
     

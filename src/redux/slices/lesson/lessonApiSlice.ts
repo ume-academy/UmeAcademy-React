@@ -1,4 +1,4 @@
-import { baseUrl } from "@/Api";
+import { customBaseQuery } from "@/Api";
 import { TLearningContent, TLessonCompleted } from "@/interfaces/TLesson";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { get } from "http";
@@ -6,7 +6,7 @@ import { get } from "http";
 
 export const lessonApiSlice = createApi({
   reducerPath: 'lessonApiSlice',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   endpoints: (builder) => ({
 
     getLessonByCourseId: builder.query<TLearningContent , number>({

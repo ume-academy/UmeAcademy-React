@@ -1,4 +1,4 @@
-import { baseUrl } from "@/Api";
+import { customBaseQuery } from "@/Api";
 import { TUser } from "@/interfaces/TUser";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
@@ -6,7 +6,7 @@ let initialPage = 1;
 
 export const userSlice = createApi({
   reducerPath: "userApi",
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ["User"],
   endpoints: (builder) => ({
     getUsers: builder.query<any, any>({

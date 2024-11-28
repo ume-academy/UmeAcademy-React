@@ -7,6 +7,7 @@ import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
 import { checkOutApiSlice } from './slices/payment/checkOutApiSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
+import { checkTeacherApiSlice } from './slices/teacher/check_teacher/checkTeacherApiSlice'
 import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { userSlice } from './slices/user/userSlice'
@@ -32,7 +33,8 @@ export const store = configureStore({
       revenueApiSlice.middleware,
       searchCourseApiSlice.middleware,
       categoryApiSlice.middleware,
-      levelApiSlice.middleware
+      levelApiSlice.middleware,
+      checkTeacherApiSlice.middleware
     )
 })
 

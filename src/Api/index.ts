@@ -1,28 +1,43 @@
-import { RootState } from '@/redux/store';
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
-
+import { logoutLocal } from '@/redux/slices/auth/authSlice'
+import { RootState } from '@/redux/store'
+import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 
 export const baseUrl = fetchBaseQuery({
   baseUrl: 'https://umeacademy.me/api/v1',
   prepareHeaders: (headers, { getState }) => {
-
     const token = (getState() as RootState).auth.accessToken
 
     if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`)
     }
-    headers.set('Content-Type', 'application/json');
-    return headers;
-  },
-});
+    headers.set('Content-Type', 'application/json')
+    return headers
+  }
+})
 
+export const customBaseQuery: BaseQueryFn<
+  string | FetchArgs, // args
+  any, // Result type
+  FetchBaseQueryError // Error type
+> = async (arg, api, extraOptions) => {
+  const result = await baseUrl(arg, api, extraOptions)
+  if(result.error) {
+    // console.log(result.error)
+    const {status} = result.error
 
+    if(status === 401){
+      api.dispatch(logoutLocal())
+      if (window.location.pathname !== '/') {
+        window.location.href = '/';
+      }
+    }
+  }
+
+  return result
+}
 
 // export const baseQueryWithReauth = async (arg , api, extraOptions) => {
-  
+
 //   const apiClient = axios.create({
 //     baseURL: 'https://umeacademy.me/api/v1',
 //     headers: {
@@ -46,9 +61,8 @@ export const baseUrl = fetchBaseQuery({
 //         Cookie: refresh_Token
 //       })
 
-
 //     } catch (error) {
-      
+
 //     }
 //   }
 // }

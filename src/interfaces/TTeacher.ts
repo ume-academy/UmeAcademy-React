@@ -3,3 +3,7 @@ export interface TTeacher {
   fullname: string
   avatar: string | null
 }
+
+export interface TIsTeacher {
+  is_teacher: boolean
+}

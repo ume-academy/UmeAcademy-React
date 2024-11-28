@@ -1,10 +1,10 @@
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { TVoucher } from '@/interfaces/TVoucher'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const checkVoucherApiSlice = createApi({
   reducerPath: 'voucherApi',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ['Voucher'],
   endpoints: (builder) => ({
     checkVoucher: builder.mutation<TVoucher,{ code: string; course_id: number }>({

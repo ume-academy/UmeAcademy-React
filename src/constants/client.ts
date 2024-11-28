@@ -66,7 +66,8 @@ export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/e
 // <===== Teacher =====>
 
 export const routerConfigTeacher = {
-  hiddenButtonComeBack: [`${router.courseManagement}`]
+  hiddenButtonComeBack: [`${router.courseManagement}`],
+  isTeacherLayout: [`${router.newInstructor}`, `${router.revenue}`]
 }
 
 // Tiêu đề các bước trong quản trị khóa học

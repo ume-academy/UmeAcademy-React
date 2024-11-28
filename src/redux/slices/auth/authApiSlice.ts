@@ -1,10 +1,11 @@
-import { baseUrl } from "@/Api";
+import { customBaseQuery } from "@/Api";
 import { TLogin, TRegister, TResponseLogin } from "@/interfaces/TAuth";
 import { createApi } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
 
 export const  authApiSlice = createApi({
   reducerPath: 'authApiSlice',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   endpoints: (builder) => ({
 
     register: builder.mutation<TRegister , Omit<TRegister, 'confirmPassword'>>({
@@ -23,16 +24,19 @@ export const  authApiSlice = createApi({
       })
     }),
 
-    // refreshToken: builder.mutation<TResponseLogin, string>({
-    //   query: (refreshToken: string) => ({
-    //     url: '/auth/refreshToken',
-    //     method: 'POST',
-    //     body: refreshToken
-    //   })
-    // }) useRefreshTokenMutation
+    logoutApi: builder.mutation<void, void>({
+      query: () => {
+        const refresh_Token =  Cookies.get('refresh_Token')
+        return { 
+          url: '/auth/logout',
+          method: 'POST',
+          body: `refresh_token=${refresh_Token}`
+        }
+      }
+    })
 
   })
 })
 
 
-export const { useRegisterMutation, useLoginMutation } = authApiSlice
+export const { useRegisterMutation, useLoginMutation, useLogoutApiMutation } = authApiSlice

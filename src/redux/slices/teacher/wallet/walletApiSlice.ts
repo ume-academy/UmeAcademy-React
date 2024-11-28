@@ -1,9 +1,9 @@
-import { baseUrl } from '@/Api'
+import { customBaseQuery } from "@/Api";
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const walletApiSlice = createApi({
   reducerPath: 'walletApi',
-  baseQuery: baseUrl,
+  baseQuery: customBaseQuery,
   tagTypes: ['wallet'],
   endpoints: (builder) => ({
     walletBalance: builder.query({
