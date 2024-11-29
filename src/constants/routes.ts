@@ -92,6 +92,7 @@ export const adminRoutes = [
   { path: router.teachers, element: List_Users_Teacher },
   { path: router.userDetail, element: Details_User },
   { path: router.coursesList, element: List_Courses },
+  //cho detail khóa học admin để tạm
   { path: router.checkCourse, element: Course_Detail },
   { path: router.listTransactionsInstructor, element: List_Transactions_Instructor },
   { path: router.listTransactionsStudent, element: List_Transactions_Student },
