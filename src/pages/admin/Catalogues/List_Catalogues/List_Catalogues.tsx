@@ -134,7 +134,7 @@ const List_Catalogues = () => {
       <Helmet>
         <title>{getTitleTab('Danh sách danh mục')}</title>
       </Helmet>
-      <div className="p-4 md:p-6">
+      <div className="p-4 md:p-6 dark:bg-[#2b2838] bg-white">
         <div className="heading flex justify-between items-center pb-4 ">
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78] w-[60%] md:w-full'>Danh sách danh mục khóa học</h5>
 

@@ -1,16 +1,17 @@
-import { customBaseQuery } from "@/Api";
+import { customBaseQuery } from '@/Api'
 import { TCourse } from '@/interfaces/TCourse'
+import { TCourseDetail } from '@/interfaces/TCourseDetail'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const courseApiSlice = createApi({
-  reducerPath: 'courseDetailApi',
+  reducerPath: 'courseApi',
   baseQuery: customBaseQuery,
-  tagTypes: ['CourseDetail'],
+  tagTypes: ['Course'],
   endpoints: (builder) => ({
     //! GET INFO COURSE BY ID
     getInfoCourseById: builder.query({
       query: (courseId) => `/course/${courseId}/information`,
-      providesTags: ['CourseDetail'],
+      providesTags: ['Course'],
       transformResponse: (res: { data: TCourse }) => res.data
     }),
 
@@ -22,19 +23,40 @@ export const courseApiSlice = createApi({
     // ! GET REVIEWS COURSE BY ID
     getReviewsCourseById: builder.query({
       query: (courseId) => `/course/${courseId}/reviews`,
-      providesTags: ['CourseDetail']
+      providesTags: ['Course']
     }),
 
     // ! GET OVERVIEW COURSE BY ID
     getOverviewCourseById: builder.query({
       query: (courseId) => `/course/${courseId}/overview`,
-      providesTags: ['CourseDetail']
+      providesTags: ['Course']
     }),
 
     // ! Get purchased courses
     getPurchasedCourses: builder.query({
-      query: ({per_page, page}) => `/purchased-courses?per_page=${per_page}&page=${page}`,
-      
+      query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`
+    }),
+
+    // GET ALL
+    getAllCourseAdmin: builder.query({
+      query: ({ per_page, page }) => `/admin/courses?per_page=${per_page}&page=${page}`,
+      // transformResponse: (res: { data: TCourse }) => res.data
+      providesTags: ['Course']
+    }),
+
+    //Admin
+    //Phê duyệt
+    approvalCourse: builder.mutation<number, any>({
+      query: ({ id, status }) => ({
+        url: `/admin/course/${id}/approval`,
+        method: 'POST',
+        body: { status }
+      }),
+      invalidatesTags: ['Course']
+    }),
+    getCourseAdminById: builder.query({
+      query: (id) => `/admin/course/${id}`,
+      transformResponse: (res: { data: TCourseDetail }) => res.data
     })
   })
 })
@@ -44,5 +66,8 @@ export const {
   useGetContentCourseByIdQuery,
   useGetReviewsCourseByIdQuery,
   useGetOverviewCourseByIdQuery,
-  useGetPurchasedCoursesQuery
+  useGetPurchasedCoursesQuery,
+  useGetAllCourseAdminQuery,
+  useApprovalCourseMutation,
+  useGetCourseAdminByIdQuery
 } = courseApiSlice

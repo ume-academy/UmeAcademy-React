@@ -40,9 +40,9 @@ const Commission_Rate = () => {
 
   return (
     <>
-      <div className="p-4">
+      <div className="p-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg">
         <div className="heading flex justify-between items-center pb-4">
-          <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>
+          <h5 className='font-title text-xl'>
             Cập nhật tỷ lệ hoa hồng
           </h5>
         </div>

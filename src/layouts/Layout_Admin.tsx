@@ -59,9 +59,10 @@ const Layout_Admin: React.FC = () => {
       getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '8', <BookUser size={15} />),
       getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '9', <FileUser size={15} />),
     ]),
-    getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '10', <ShieldAlert size={15} />),
-    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '11', <CreditCardOutlined />),
-    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '12', <HistoryOutlined />),
+
+    // getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
+    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
+    // getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
   ];
 
   const handleCollapse = (isCollapsed: any) => {
@@ -85,7 +86,7 @@ const Layout_Admin: React.FC = () => {
           <div
             className={`${!hideCourseFunction ? 'p-4 md:p-6' : 'p-0 lg:p-4'}`}
           >
-            <div className="bg-[#EEEEEE] rounded-lg dark:bg-[#2B2838]">
+            <div className="">
               <Outlet />
             </div>
           </div>

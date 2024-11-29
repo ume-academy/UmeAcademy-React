@@ -22,7 +22,7 @@ const Catalog_Form_Submit = () => {
       <Helmet>
         <title>{getTitleTab(id ? 'Cập nhật danh mục' : 'Sản phẩm danh mục')}</title>
       </Helmet>
-      <div className="p-4">
+      <div className="p-4 dark:bg-[#2b2838] bg-white">
         <div className="heading flex justify-between items-center pb-4">
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>
             {id ? 'Cập nhật bản ghi' : 'Thêm mới bản ghi'}

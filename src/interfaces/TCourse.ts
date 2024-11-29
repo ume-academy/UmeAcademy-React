@@ -1,11 +1,7 @@
 import { TCategory } from "./TCategory"
 import { TLesson } from "./TLesson"
+import { TLevel } from "./TLevel"
 import { TTeacher } from "./TTeacher"
-
-interface TLevel {
-  id: number
-  name: string
-}
 
 interface TBadges {
   badge: string | null
@@ -33,6 +29,8 @@ export interface TCourse {
   badges: TBadges
   is_wishlist: boolean
   is_enrolled: boolean
+  created_at: string
+
 }
 
 export interface TContent {

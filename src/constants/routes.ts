@@ -37,6 +37,7 @@ import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email';
 import Home_Page from './../pages/client/Student/Home_page/Home_Page';
 import Not_Found from './../pages/Not_found/Not_Found';
 import List_Users_Teacher from "@/pages/admin/User/List_Users_Teacher/List_Users_Teacher";
+import Course_Detail from "@/pages/admin/Course/Course_Detail/Course_Detail";
 
 
 // Routes cho student
@@ -91,7 +92,7 @@ export const adminRoutes = [
   { path: router.teachers, element: List_Users_Teacher },
   { path: router.userDetail, element: Details_User },
   { path: router.coursesList, element: List_Courses },
-  { path: router.checkCourse, element: Course_Management },
+  { path: router.checkCourse, element: Course_Detail },
   { path: router.listTransactionsInstructor, element: List_Transactions_Instructor },
   { path: router.listTransactionsStudent, element: List_Transactions_Student },
   { path: router.listRole, element: List_Role },

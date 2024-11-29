@@ -71,16 +71,21 @@ const Course_Management = () => {
 
   // Custom lại thẻ Select
   const CustomTreeSelect = styled(TreeSelect)`
-    // Đổ màu cho thẻ
     .ant-select-selector {
-      background-color: #f66962 !important;
-      border: 1px solid #f66962 !important;
-      color: #fff !important;
+      background-color: #fafafa !important;
+      border: 1px solid #c1c9d2 !important;
     }
-
-    // Đổ màu cho placeholder 
+    .dark & .ant-select-selector {
+      background-color: #131022 !important;
+      color: #b9b7c0 !important;
+      border: 1px solid #c7c7c740 !important;
+    }
+    // Đổ màu cho placeholder
     .ant-select-selector .ant-select-selection-placeholder {
-      color: #fff !important; /* Màu placeholder chế độ sáng*/
+      color: #6e82a3 !important;
+    }
+    .dark & .ant-select-selector .ant-select-selection-placeholder {
+      color: #e9ecef !important;
     }
   `
 
