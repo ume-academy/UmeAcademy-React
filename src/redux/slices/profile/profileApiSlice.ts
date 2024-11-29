@@ -1,10 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { customBaseQuery } from "@/Api";
+import { baseUrl } from '@/Api'
 import { TUser } from '@/interfaces/TUser'
 
 export const profileApiSlice = createApi({
   reducerPath: 'profileApi',
-  baseQuery: customBaseQuery,
+  baseQuery: baseUrl,
   tagTypes: ['Profile'],
   endpoints: (builder) => ({
     getProfile: builder.query<TUser, void>({
@@ -14,8 +14,15 @@ export const profileApiSlice = createApi({
       }),
       providesTags: ['Profile'],
       transformResponse: (res: { data: TUser }) => res.data
+    }),
+    editProfile: builder.mutation<TUser, any>({
+      query: (formData) => ({
+        url: `/profile`,
+        method: 'PUT',
+        body:formData,
+      })
     })
   })
 })
 
-export const { useGetProfileQuery } = profileApiSlice
+export const { useGetProfileQuery, useEditProfileMutation } = profileApiSlice

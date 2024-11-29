@@ -8,7 +8,7 @@ import './DatePickerAntd.scss'
 
 const Revenue = () => {
   const { data } = useGetStatisticQuery({})
-
+  console.log(data)
   return (
     <div className='md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0'>
       <Helmet>
@@ -25,7 +25,7 @@ const Revenue = () => {
               <HandCoins className=' lg:w-8 lg:h-8  text-[#f24f3a]' />
             </div>
             <h1 className='md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]'>
-              {formatPrice(Number(data?.revenue))}
+              {data ? formatPrice(Number(data?.revenue)) : <p>0 đ</p>}
             </h1>
             <p className='text-sm'>Tổng doanh thu bạn đã kiếm được từ các khóa học</p>
           </div>
@@ -36,7 +36,7 @@ const Revenue = () => {
               <Users className=' lg:w-8 lg:h-8  text-[#f24f3a]' />
             </div>
             <h1 className='md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]'>
-              {data?.total_student}
+              {data ? data?.total_student : <p>0</p>}
             </h1>
             <p className='text-sm'>Tổng số học viên đã tham gia khóa học</p>
           </div>
@@ -47,7 +47,7 @@ const Revenue = () => {
               <Star className=' lg:w-8 lg:h-8  text-[#f24f3a]' />
             </div>
             <h1 className='md:text-xl lg:text-2xl font-bold dark:text-[#b9b7c0] text-[#685f78]'>
-              {data?.total_rating}
+              {data ? data?.total_rating : <p>0</p>}
             </h1>
             <p className='text-sm'>Mức đánh giá trung bình của các học viên</p>
           </div>
