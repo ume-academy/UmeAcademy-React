@@ -7,7 +7,6 @@ import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
 import { checkOutApiSlice } from './slices/payment/checkOutApiSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
-import { checkTeacherApiSlice } from './slices/teacher/check_teacher/checkTeacherApiSlice'
 import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { userSlice } from './slices/user/userSlice'
@@ -15,6 +14,8 @@ import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
 import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
 import { categoryApiSlice } from './slices/category/categoryApiSlice'
 import { levelApiSlice } from './slices/course/levelApiSlice'
+import { checkTeacherApiSlice } from './slices/teacher/checkIsTeacher/checkTeacherApiSlice'
+import { registerTeacherApiSlice } from './slices/teacher/register/registerTeacherApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -34,7 +35,8 @@ export const store = configureStore({
       searchCourseApiSlice.middleware,
       categoryApiSlice.middleware,
       levelApiSlice.middleware,
-      checkTeacherApiSlice.middleware
+      checkTeacherApiSlice.middleware,
+      registerTeacherApiSlice.middleware
     )
 })
 

@@ -14,8 +14,9 @@ import { checkVoucherApiSlice } from "./slices/voucher/checkVoucherApiSlice";
 import { searchCourseApiSlice } from "./slices/course/searchCourseApiSlice";
 import { categoryApiSlice } from "./slices/category/categoryApiSlice";
 import { levelApiSlice } from "./slices/course/levelApiSlice";
-import { checkIsTeacherSlice } from "./slices/teacher/check_teacher/checkTeacherSlice";
-import { checkTeacherApiSlice } from "./slices/teacher/check_teacher/checkTeacherApiSlice";
+import { checkTeacherApiSlice } from "./slices/teacher/checkIsTeacher/checkTeacherApiSlice";
+import { checkIsTeacherSlice } from "./slices/teacher/checkIsTeacher/checkTeacherSlice";
+import { registerTeacherApiSlice } from "./slices/teacher/register/registerTeacherApiSlice";
 
 
 const rootReducer = combineReducers({
@@ -36,7 +37,7 @@ const rootReducer = combineReducers({
   [categoryApiSlice.reducerPath]: categoryApiSlice.reducer,
   [levelApiSlice.reducerPath]: levelApiSlice.reducer,
   [checkTeacherApiSlice.reducerPath]: checkTeacherApiSlice.reducer,
-
+  [registerTeacherApiSlice.reducerPath]: registerTeacherApiSlice.reducer,
 })
 
 export default rootReducer

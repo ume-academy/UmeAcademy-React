@@ -1,3 +1,4 @@
+import { router } from '@/configs/routes'
 import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { RootState } from '@/redux/store'
 import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
@@ -25,7 +26,7 @@ export const customBaseQuery: BaseQueryFn<
     // console.log(result.error)
     const {status} = result.error
 
-    if(status === 401){
+    if(status === 401 && window.location.pathname !== `${router.search}`){
       api.dispatch(logoutLocal())
       if (window.location.pathname !== '/') {
         window.location.href = '/';

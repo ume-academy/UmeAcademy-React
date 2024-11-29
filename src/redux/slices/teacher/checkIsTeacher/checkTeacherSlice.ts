@@ -12,11 +12,12 @@ export const checkIsTeacherSlice = createSlice({
   initialState,
   reducers: {
     setIsTeacher: (state: TIsTeacher, action:PayloadAction<boolean>) => {
+      console.log(action.payload);
       state.is_teacher = action.payload
       localStorage.setItem('isTeacher', JSON.stringify(action.payload))
-      // Khi ứng dụng load lại, khôi phục trạng thái từ localStorage
-      const savedIsTeacher = JSON.parse(localStorage.getItem('isTeacher') || 'false');
-      state.is_teacher = savedIsTeacher;
+      // // Khi ứng dụng load lại, khôi phục trạng thái từ localStorage
+      // const savedIsTeacher = JSON.parse(localStorage.getItem('isTeacher') || 'false');
+      // state.is_teacher = savedIsTeacher;
     }
   }
 })

@@ -1,20 +1,66 @@
+import { router } from '@/configs/routes';
 import { getTitleTab } from '@/constants/client';
+import useLoading from '@/hooks/useLoading';
+import { selectIsTeacher } from '@/redux/selector/teacher_selector';
+import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice';
+import { setIsTeacher } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherSlice';
+import { useRegisterTeacherMutation } from '@/redux/slices/teacher/register/registerTeacherApiSlice';
 import { LoadingOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { message } from 'antd';
+import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 const New_Instructor = () => {
-  const [loading, setLoading] = useState(false)
-  const nav = useNavigate()
-  const handleClick = () => {
-    setLoading(true)
-    // Giả lập quá trình chờ dữ liệu tải
-    setTimeout(() => {
-      setLoading(false)
-      nav('/')
-    }, 2000);
-  }
+ const dispatch = useDispatch();
+  const nav = useNavigate();
+  const { loading, startLoading, stopLoading } = useLoading();
+  const isTeacher = useSelector(selectIsTeacher);
+
+  // Lấy trạng thái isTeacher từ API
+  const { data: dataIsTeacher, isFetching: isFetchingTeacher } = useCheckTeacherQuery();
+  const isTeacherApi = dataIsTeacher?.is_teacher;
+
+  // Đăng ký làm giảng viên
+  const [register] = useRegisterTeacherMutation();
+
+  // Đồng bộ Redux với API nếu cần
+  useEffect(() => {
+    if (!isFetchingTeacher && isTeacherApi !== undefined && isTeacher !== isTeacherApi) {
+      console.log('Kiểm tra điều kiện cập nhật từ API:', { isTeacher, isTeacherApi });
+      if (isTeacherApi) {
+        dispatch(setIsTeacher(isTeacherApi));
+        console.log('Cập nhật isTeacher từ API vào Redux:', isTeacherApi);
+      }
+    }
+  }, [isTeacherApi, isFetchingTeacher, isTeacher, dispatch]);
+
+  const handleClick = async () => {
+    try {
+      startLoading();
+      const res = await register().unwrap();
+      console.log(res);
+      if (res.status === true) {
+        message.success('Bạn đã trở thành giảng viên!');
+        dispatch(setIsTeacher(res.status)); // Cập nhật Redux
+        console.log('LocalStorage sau khi dispatch:', localStorage.getItem('isTeacher'));
+        
+      }
+    } catch (error) {
+      message.error('Có lỗi xảy ra!');
+    } finally {
+      stopLoading();
+    }
+  };
+
+  // Lắng nghe thay đổi isTeacher để điều hướng
+  useEffect(() => {
+    if (isTeacher) {
+      console.log('lắng nghe isTeacher:', isTeacher);
+      nav(router.revenue); // Điều hướng tới trang doanh thu
+    }
+  }, [isTeacher, nav]);
 
   return <div>
           <Helmet>

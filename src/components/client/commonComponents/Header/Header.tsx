@@ -6,8 +6,7 @@ import { selectIsTeacher } from '@/redux/selector/teacher_selector'
 import { useLogoutApiMutation } from '@/redux/slices/auth/authApiSlice'
 import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
-import { useCheckTeacherQuery } from '@/redux/slices/teacher/check_teacher/checkTeacherApiSlice'
-import { setIsTeacher } from '@/redux/slices/teacher/check_teacher/checkTeacherSlice'
+
 import {
   LogoutOutlined,
   MoonFilled,
@@ -22,6 +21,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
+import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
+import { setIsTeacher } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherSlice'
 
 const Header = () => {
   const nav = useNavigate()

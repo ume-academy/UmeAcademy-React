@@ -46,9 +46,9 @@ function App() {
 
             {/* Teacher */}
             <Route path={prefixTeacher} element={
-              <PriveteRouteAdmin>
+              // <PriveteRouteAdmin>
                 <Layout_Teacher />
-              </PriveteRouteAdmin>
+              // </PriveteRouteAdmin>
             }>
               {teacherRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={<route.element />} />
