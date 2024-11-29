@@ -44,20 +44,24 @@ const Layout_Admin: React.FC = () => {
 
   const items: MenuItem[] = [
     getItem(<NavLink to={router.dashBoard} className=''>Dashboard</NavLink>, '1', <PieChartOutlined />),
-    getItem(<NavLink to={router.users}>Tài khoản</NavLink>, '2', <Users size={15} />),
-    getItem('Danh mục khóa học', 'sub1', <AppstoreOutlined />, [
-      getItem(<NavLink to={router.listCatalogues}>Danh sách danh mục</NavLink>, '3', <BarsOutlined />),
-      getItem(<NavLink to={router.cataloguesCreate}>Thêm mới danh mục</NavLink>, '4', <AppstoreAddOutlined />),
+    // getItem(<NavLink to={router.users}>Tài khoản</NavLink>, '2', <Users size={15} />),
+    getItem('Danh mục tài khoản', 'sub1', <Users size={15} />, [
+      getItem(<NavLink to={router.users}>Danh sách học viên</NavLink>, '3', <BarsOutlined />),
+      getItem(<NavLink to={router.teachers}>Danh sách giảng viên</NavLink>, '4', <AppstoreAddOutlined />),
+    ]),
+    getItem('Danh mục khóa học', 'sub2', <AppstoreOutlined />, [
+      getItem(<NavLink to={router.listCatalogues}>Danh sách danh mục</NavLink>, '5', <BarsOutlined />),
+      getItem(<NavLink to={router.cataloguesCreate}>Thêm mới danh mục</NavLink>, '6', <AppstoreAddOutlined />),
     ]),
     getItem(<NavLink to={router.coursesList}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
-    getItem(<NavLink to={router.commissionRateUpdate}>Cập nhật tỷ lệ hoa hồng</NavLink>, '6', <PercentCircle size={15} />),
-    getItem('Danh mục giao dịch', 'sub2', <HandCoins size={15} />, [
-      getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '7', <BookUser size={15} />),
-      getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '8', <FileUser size={15} />),
+    getItem(<NavLink to={router.commissionRateUpdate}>Cập nhật tỷ lệ hoa hồng</NavLink>, '7', <PercentCircle size={15} />),
+    getItem('Danh mục giao dịch', 'sub3', <HandCoins size={15} />, [
+      getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '8', <BookUser size={15} />),
+      getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '9', <FileUser size={15} />),
     ]),
-    getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
-    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
-    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
+    getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '10', <ShieldAlert size={15} />),
+    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '11', <CreditCardOutlined />),
+    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '12', <HistoryOutlined />),
   ];
 
   const handleCollapse = (isCollapsed: any) => {

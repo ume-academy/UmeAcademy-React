@@ -27,7 +27,7 @@ const CustomTreeSelect = styled(TreeSelect)`
 }
 `;
 
-const List_Users = () => {
+const List_Users_Teacher = () => {
 
   const [page, setPage] = useState(1);
 
@@ -46,7 +46,7 @@ const List_Users = () => {
   useEffect(() => {
     if (users?.data) {
 
-      const usersData = users?.data?.filter((user: TUser) => user?.is_teacher === false);
+      const usersData = users?.data?.filter((user: TUser) => user?.is_teacher !== false);
 
       setData(usersData)
     }
@@ -220,10 +220,10 @@ const List_Users = () => {
   return (
     <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
       <Helmet>
-        <title>{getTitleTab('Quản lý tài khoản học viên')}</title>
+        <title>{getTitleTab('Quản lý tài khoản giảng viên')}</title>
       </Helmet>
 
-      <p className="mb-4 font-title text-xl">Danh sách học viên</p>
+      <p className="mb-4 font-title text-xl">Danh sách giảng viên</p>
 
       <div className="flex flex-wrap gap-2">
         <div className="relative mb-4 w-full md:w-1/3 lg:w-1/4">
@@ -250,7 +250,7 @@ const List_Users = () => {
           allowClear
         />
 
-        {/* <CustomTreeSelect
+        <CustomTreeSelect
           placeholder="Lọc theo vai trò"
           value={selectedRole}
           onChange={(value) => setSelectedRole(value as number)}
@@ -261,7 +261,7 @@ const List_Users = () => {
             { value: true, title: 'Teacher' }
           ]}
           allowClear
-        /> */}
+        />
       </div>
       <Table
         columns={columns}
@@ -296,4 +296,4 @@ const List_Users = () => {
   );
 };
 
-export default List_Users;
+export default List_Users_Teacher;

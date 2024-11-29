@@ -36,7 +36,7 @@ export const router = {
   profileTeacher: `${prefixTeacher}/profile`,
 
   // Route danh sách học viên
-  // listStudents: `${prefixTeacher}/my-students`,
+  listStudents: `${prefixTeacher}/my-students`,
 
   // Route danh sách khóa học giảng viên tạo
   myCourses: `${prefixTeacher}/my-courses`,
@@ -60,6 +60,7 @@ export const router = {
 
   // Route tài khoản
   users: `${prefixAdmin}/users`,
+  teachers: `${prefixAdmin}/teachers`,
   userDetail: `${prefixAdmin}/user/:id`,
 
   // Route khóa học 
