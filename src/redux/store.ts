@@ -16,6 +16,7 @@ import { categoryApiSlice } from './slices/category/categoryApiSlice'
 import { levelApiSlice } from './slices/course/levelApiSlice'
 import { checkTeacherApiSlice } from './slices/teacher/checkIsTeacher/checkTeacherApiSlice'
 import { registerTeacherApiSlice } from './slices/teacher/register/registerTeacherApiSlice'
+import { studentApiSlice } from './slices/teacher/student/studentApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -36,7 +37,8 @@ export const store = configureStore({
       categoryApiSlice.middleware,
       levelApiSlice.middleware,
       checkTeacherApiSlice.middleware,
-      registerTeacherApiSlice.middleware
+      registerTeacherApiSlice.middleware,
+      studentApiSlice.middleware
     )
 })
 
