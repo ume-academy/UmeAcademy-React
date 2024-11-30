@@ -27,7 +27,7 @@ export const router = {
 
   // < ===== TEACHER ===== >
   // Route index  
-  revenue: `${prefixTeacher}`,
+  revenue: `${prefixTeacher}/revenue`,
 
   // Route lần đầu trở thành teacher
   newInstructor: `/new-instructor`, 

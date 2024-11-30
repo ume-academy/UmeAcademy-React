@@ -1,8 +1,8 @@
+import { router } from '@/configs/routes'
 import { Avatar } from 'antd'
-import { HandCoins, Rocket, Users, Wallet, WalletCards } from 'lucide-react'
+import { HandCoins, Rocket, Wallet, WalletCards } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
-import { router } from '@/configs/routes'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
@@ -69,7 +69,8 @@ const Sidebar_Teacher = () => {
                   <NavLink
                     to={router.revenue}
                     className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
+                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : 'text-[#685f78] dark:text-[#B9B7C0]'
+                      }`
                     }
                   >
                     <HandCoins />

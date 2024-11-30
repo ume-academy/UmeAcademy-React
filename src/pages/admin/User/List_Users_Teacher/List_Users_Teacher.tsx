@@ -250,7 +250,7 @@ const List_Users_Teacher = () => {
           allowClear
         />
 
-        <CustomTreeSelect
+        {/* <CustomTreeSelect
           placeholder="Lọc theo vai trò"
           value={selectedRole}
           onChange={(value) => setSelectedRole(value as number)}
@@ -261,7 +261,7 @@ const List_Users_Teacher = () => {
             { value: true, title: 'Teacher' }
           ]}
           allowClear
-        />
+        /> */}
       </div>
       <Table
         columns={columns}
@@ -272,24 +272,27 @@ const List_Users_Teacher = () => {
       />
       {contextHolder}
 
-      <div className="pt-4 space-x-3 flex justify-end">
+      <div className="pt-4 space-x-3 flex items-center justify-between">
+        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{users?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{users?.meta?.last_page}</span> trang</p>
 
-        {users?.meta?.last_page > 0 && (
-          Array.from({ length: users?.meta?.last_page }, (_, index) => (
-            <Button
-              key={`page-${index}`}
-              onClick={() => setPage(index + 1)}
-              style={{
-                fontWeight: page === index + 1 ? 'bold' : 'normal', // Làm nổi bật trang hiện tại
-                backgroundColor: page === index + 1 ? '#f84563' : 'transparent', // Làm nổi bật trang hiện tại
-                color: page === index + 1 ? '#fff' : '#f84563', // Làm nổi bật trang hiện tại
-                height: '40px',
-              }}
-            >
-              {index + 1}
-            </Button>
-          ))
-        )}
+        <div className="space-x-2">
+          {users?.meta?.last_page > 0 && (
+            Array.from({ length: users?.meta?.last_page }, (_, index) => (
+              <Button
+                key={`page-${index}`}
+                onClick={() => setPage(index + 1)}
+                style={{
+                  fontWeight: page === index + 1 ? 'bold' : 'normal', // Làm nổi bật trang hiện tại
+                  backgroundColor: page === index + 1 ? '#f84563' : 'transparent', // Làm nổi bật trang hiện tại
+                  color: page === index + 1 ? '#fff' : '#f84563', // Làm nổi bật trang hiện tại
+                  height: '40px',
+                }}
+              >
+                {index + 1}
+              </Button>
+            ))
+          )}
+        </div>
       </div>
 
     </div>

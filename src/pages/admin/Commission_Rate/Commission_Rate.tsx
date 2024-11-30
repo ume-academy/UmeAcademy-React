@@ -2,10 +2,13 @@ import { useGetCommissionRateQuery, useUpdateCommissionRateMutation } from "@/re
 import { Button, Form, Input, message } from "antd";
 import './commissionRateAntd.scss';
 import useLoading from "@/hooks/useLoading";
+import { useEffect } from "react";
 
 const Commission_Rate = () => {
 
   const { data: rateCommission, isFetching, isError, error } = useGetCommissionRateQuery('1');
+  
+  // console.log(rateCommission)
 
   const [mutation] = useUpdateCommissionRateMutation();
 
@@ -14,6 +17,12 @@ const Commission_Rate = () => {
   // console.log(loading);
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (rateCommission) {
+      form.setFieldsValue(rateCommission);
+    }
+  }, [rateCommission, form])
 
   const onFinish = async (values: any) => {
 
@@ -52,7 +61,6 @@ const Commission_Rate = () => {
             layout='vertical'
             form={form}
             onFinish={onFinish}
-            initialValues={{ fee: rateCommission?.fee }}
             style={{ maxWidth: '100%' }}
           // className='formSubmit'
           >

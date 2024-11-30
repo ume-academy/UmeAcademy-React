@@ -1,20 +1,76 @@
+import { router } from '@/configs/routes';
+import { getTitleTab } from '@/constants/client';
+import useLoading from '@/hooks/useLoading';
+import { TCategory } from '@/interfaces/TCategory';
+import { useCreateCategoryMutation, useGetOneCategoryQuery, useUpdateCategoryMutation } from '@/redux/slices/category/categoryApiSlice';
 import { CheckOutlined } from '@ant-design/icons';
-import { Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { MoveLeft } from 'lucide-react';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, useParams } from 'react-router-dom';
 import './catalogForm.scss';
-import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/constants/client';
-import { router } from '@/configs/routes';
 
 const Catalog_Form_Submit = () => {
 
-  const [form] = Form.useForm();
-
   const { id } = useParams();
 
-  const onFinish = (values: any) => {
-    console.log(values);
+  const [form] = Form.useForm();
+
+  const { loading, startLoading, stopLoading } = useLoading();
+
+  const [createCategory] = useCreateCategoryMutation();
+
+  const [updateCategory] = useUpdateCategoryMutation();
+
+  const { data: category, isLoading, isFetching, isError, error } = useGetOneCategoryQuery(id);
+
+  // fill data
+  useEffect(() => {
+    if (category?.data) {
+      form.setFieldsValue(category?.data);
+    }
+  }, [category?.data, form, id])
+
+
+  const onFinish = async (values: TCategory) => {
+    // console.log(values);
+    try {
+      startLoading();
+      if (id) {
+        console.log('update', );
+
+        const res = await updateCategory({...values, id: id, _method: 'PUT'});
+
+        console.log(res)
+
+        if (res?.data) {
+          message.success(res?.data?.message);
+        } else {
+          throw new Error(res?.data?.message);
+        }
+
+      } else {
+        console.log('create');
+
+        const res = await createCategory(values);
+
+        // console.log(res)
+
+        if (res?.data?.status === 'true') {
+          message.success(res?.data?.message);
+          form.resetFields();
+        } else {
+          throw new Error(res?.data?.message);
+        }
+      }
+    } catch (error) {
+      // console.log(error)
+
+      return message.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
@@ -74,13 +130,18 @@ const Catalog_Form_Submit = () => {
             </Form.Item>
 
             <Form.Item>
-              <button
-                type='submit'
+              <Button
+                loading={loading}
+                // disabled={loading}
+                htmlType='submit'
                 className='py-2 px-4 w-full flex items-center justify-center md:justify-start md:w-auto  rounded-md bg-[#F84563] text-white hover:bg-white  hover:text-[#F84563]  gap-2 border hover:border-[#F84563] border-[#F84563]'
               >
-                <CheckOutlined />
+                {
+                  loading ? '' : <CheckOutlined />
+                }
+
                 {id ? 'Cập nhật bản ghi' : 'Thêm mới bản ghi'}
-              </button>
+              </Button>
             </Form.Item>
           </Form>
         </div>

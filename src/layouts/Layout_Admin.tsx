@@ -53,15 +53,15 @@ const Layout_Admin: React.FC = () => {
       getItem(<NavLink to={router.listCatalogues}>Danh sách danh mục</NavLink>, '5', <BarsOutlined />),
       getItem(<NavLink to={router.cataloguesCreate}>Thêm mới danh mục</NavLink>, '6', <AppstoreAddOutlined />),
     ]),
-    getItem(<NavLink to={router.coursesList}>Khóa học</NavLink>, '5', <LibraryBig size={15} />),
-    getItem(<NavLink to={router.commissionRateUpdate}>Cập nhật tỷ lệ hoa hồng</NavLink>, '7', <PercentCircle size={15} />),
+    getItem(<NavLink to={router.coursesList}>Khóa học</NavLink>, '7', <LibraryBig size={15} />),
+    getItem(<NavLink to={router.commissionRateUpdate}>Cập nhật tỷ lệ hoa hồng</NavLink>, '8', <PercentCircle size={15} />),
     getItem('Danh mục giao dịch', 'sub3', <HandCoins size={15} />, [
-      getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '8', <BookUser size={15} />),
-      getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '9', <FileUser size={15} />),
+      getItem(<NavLink to={router.listTransactionsInstructor}>Giảng viên</NavLink>, '9', <BookUser size={15} />),
+      getItem(<NavLink to={router.listTransactionsStudent}>Học viên</NavLink>, '10', <FileUser size={15} />),
     ]),
 
     // getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '9', <ShieldAlert size={15} />),
-    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '10', <CreditCardOutlined />),
+    getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '11', <CreditCardOutlined />),
     // getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <HistoryOutlined />),
   ];
 

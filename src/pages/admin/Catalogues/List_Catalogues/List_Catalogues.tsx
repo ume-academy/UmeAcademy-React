@@ -1,5 +1,9 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading';
 import { router } from '@/configs/routes';
 import { getTitleTab } from '@/constants/client';
+import useLoading from '@/hooks/useLoading';
+import { TCategory } from '@/interfaces/TCategory';
+import { useGetAllCategoryQuery, useRemoveCategoryMutation } from '@/redux/slices/category/categoryApiSlice';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Pagination, Table } from 'antd';
 import { Pen, Trash2 } from 'lucide-react';
@@ -10,11 +14,20 @@ import './listCatalogues.scss';
 
 const List_Catalogues = () => {
 
+  const [page, setPage] = useState(1);
+
+  const { data: catalogues, isError, error, isLoading, isFetching } = useGetAllCategoryQuery(page);
+  
+  const [removeCategory] = useRemoveCategoryMutation();
+
+  // console.log(catalogues);
+
   // loading for something
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
+
 
   // message alert
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
 
   // Trạng thái lưu trữ thông tin bản ghi
   // const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -44,42 +57,24 @@ const List_Catalogues = () => {
       width: 600,
       icon: null, // Bỏ biểu tượng trong modal
       onOk: () => {
-        setConfirmLoading(true);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            // Logic
-            console.log('Đã xóa bản ghi với ID:', item?.id);
+        try {
+          // Logic
+          const res = removeCategory(item.id);  // Xóa bản ghi
 
-            // Alert 
-            messageApi.open({
-              type: 'success',
-              content: 'Xóa thành công!',
-            });
-
-            // Dừng loading
-            setConfirmLoading(false);
-            resolve(undefined);
-          }, 2000);
-        });
+          // Alert 
+          message.success(`Xoá bản ghi thành công!`);
+        } catch (error) {
+          console.log(error)
+        } finally {
+          // Dừng loading
+          stopLoading();
+        }
       }
     });
 
   }
 
-  const data = [
-    {
-      id: '1',
-      name: 'Công Nghệ Thông Tin',
-      createdAt: '10/10/2024',
-    },
-    {
-      id: '2',
-      name: 'Thiết Kế Đồ Họa',
-      createdAt: '30/9/2024',
-    }
-  ]
-
-  const dataSource = data?.map((item: any, index: number) => (
+  const dataSource = catalogues?.data?.map((item: any, index: number) => (
     {
       key: index + 1,
       ...item
@@ -100,9 +95,11 @@ const List_Catalogues = () => {
       minWidth: 200,
     },
     {
-      title: 'Ngày tạo',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      title: 'Danh mục con',
+      render: (_: any, record: TCategory) => (
+        <span className="">{record?.subcategory === null ? 'Trống' : record?.subcategory}</span>
+      ),
+      align: 'center' as const,
     },
     {
       title: 'Chức năng',
@@ -127,10 +124,10 @@ const List_Catalogues = () => {
     },
   ];
 
+  if(isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /></div>
 
   return (
     <>
-      {contextHolder}
       <Helmet>
         <title>{getTitleTab('Danh sách danh mục')}</title>
       </Helmet>
@@ -177,9 +174,14 @@ const List_Catalogues = () => {
         </div>
 
         <div className="flex justify-between items-center my-6 text-sm">
-          <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
+          <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{catalogues?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{catalogues?.meta?.last_page}</span> trang</p>
 
-          <Pagination />
+          <Pagination
+            pageSize={catalogues?.meta?.per_page}
+            total={catalogues?.meta?.total}
+            current={catalogues?.meta?.current_page}
+            onChange={(page) => setPage(page)}
+          />
         </div>
       </div>
     </>

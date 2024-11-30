@@ -1,4 +1,4 @@
-import { Button, Image, message, Modal, Space, Spin, Switch, Table, TableColumnType, TreeSelect } from "antd";
+import { Button, Image, message, Modal, Pagination, Space, Spin, Switch, Table, TableColumnType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -34,7 +34,7 @@ const List_Users = () => {
   // mặc định sẽ lấy trang đầu tiên
   const { data: users, isLoading, isFetching, isError, error } = useGetUsersQuery(page);
 
-  // console.log(users)
+  console.log(users)
 
   const [data, setData] = useState<any>([
     // { id: 1, fullname: "Vũ Ngọc Giao", email: "daddyGiao@email.com", created_at: new Date(), role: 1, status: 1 },
@@ -146,7 +146,7 @@ const List_Users = () => {
     {
       title: "Avatar",
       render: (_: any, record: TUser) => (
-        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100}/>
+        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} />
       ),
       align: "center",
     },
@@ -272,26 +272,35 @@ const List_Users = () => {
       />
       {contextHolder}
 
-      <div className="pt-4 space-x-3 flex justify-end">
+      <div className="pt-4 space-x-3 flex items-center justify-between">
+        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{users?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{users?.meta?.last_page}</span> trang</p>
 
-        {users?.meta?.last_page > 0 && (
-          Array.from({ length: users?.meta?.last_page }, (_, index) => (
-            <Button
-              key={`page-${index}`}
-              onClick={() => setPage(index + 1)}
-              style={{
-                fontWeight: page === index + 1 ? 'bold' : 'normal', // Làm nổi bật trang hiện tại
-                backgroundColor: page === index + 1 ? '#f84563' : 'transparent', // Làm nổi bật trang hiện tại
-                color: page === index + 1 ? '#fff' : '#f84563', // Làm nổi bật trang hiện tại
-                height: '40px',
-              }}
-            >
-              {index + 1}
-            </Button>
-          ))
-        )}
+        {/* <div className="space-x-2">
+          {users?.meta?.last_page > 0 && (
+            Array.from({ length: users?.meta?.last_page }, (_, index) => (
+              <Button
+                key={`page-${index}`}
+                onClick={() => setPage(index + 1)}
+                style={{
+                  fontWeight: page === index + 1 ? 'bold' : 'normal', // Làm nổi bật trang hiện tại
+                  backgroundColor: page === index + 1 ? '#f84563' : 'transparent', // Làm nổi bật trang hiện tại
+                  color: page === index + 1 ? '#fff' : '#f84563', // Làm nổi bật trang hiện tại
+                  height: '40px',
+                }}
+              >
+                {index + 1}
+              </Button>
+            ))
+          )}
+        </div> */}
+
+        <Pagination
+          pageSize={users?.meta?.per_page}
+          total={users?.meta?.total}
+          current={users?.meta?.current_page}
+          onChange={(page) => setPage(page)}
+        />
       </div>
-
     </div>
   );
 };
