@@ -51,6 +51,7 @@ export const studentRoutes = [
   { path: router.lesson, element: Lesson },
   { path: router.search, element: Search },
   { path: router.profileStudent, element: Profile },
+  {path: router.newInstructor, element: New_Instructor}
 ]
 
 export const protectedStudentRoutes = [
@@ -60,12 +61,13 @@ export const protectedStudentRoutes = [
   { path: router.coursePaymentMethod, element: Course_Payment_Method },
   { path: router.lesson, element: Lesson },
   { path: router.profileStudent, element: Profile },
+  {path: router.newInstructor, element: New_Instructor}
+
 ]
 
 // Routes cho teacher
 export const teacherRoutes = [
   { path: router.revenue, element: Revenue },
-  { path: router.newInstructor, element: New_Instructor },
   { path: router.listStudents, element: List_Students },
   { path: router.myCourses, element: My_Courses },
   { path: router.withdrawalMethods, element: Payment_Methods },

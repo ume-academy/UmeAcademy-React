@@ -1,12 +1,9 @@
 import useRedirectToPurchase from '@/hooks/useRedirectToPurchase';
 import { selectIsAuthenticated } from '@/redux/selector/auth_selector';
-import { selectIsTeacher } from '@/redux/selector/teacher_selector';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { get } from 'http';
-import { message } from 'antd';
-import { setIsTeacher } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherSlice';
+import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -23,30 +20,35 @@ export const PrivateRouteStudent = ({ children }: { children: JSX.Element }) => 
 };
 
 export const PriveteRouteAdmin = ({ children }: { children: JSX.Element }) => {
-  const [loading, setLoading] = useState(true); // Thêm loading state để xử lý sự đồng bộ
-  const nav = useNavigate();
-  const isTeacher = useSelector(selectIsTeacher);
-  const location = useLocation();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const isTeacherLocalStored = localStorage.getItem('isTeacher');
-    if (isTeacherLocalStored) {
-      const parsedIsTeacher = JSON.parse(isTeacherLocalStored);
-      console.log("lấy isTeacher from localStorage vào privatedRoute:", parsedIsTeacher);
-      dispatch(setIsTeacher(parsedIsTeacher));
-    }
-    setLoading(false);
-  }, [dispatch]);
 
-  // Kiểm tra trạng thái và điều hướng bên trong useEffect
-  useEffect(() => {
-    if (loading) return; // Nếu đang loading thì không làm gì
-    
-    // Kiểm tra và điều hướng sau khi khôi phục state
-    if (isTeacher === false && location.pathname !== '/teacher/new-instructor') {
-      nav('/teacher/new-instructor');
-      nav('/teacher');
-    }
-  }, [isTeacher, location, nav, loading]); // Đảm bảo rằng loading được xử lý
-  return !loading ? children : null;
+      // Sử dụng hook để lấy dữ liệu từ API, bao gồm trạng thái, dữ liệu và các hàm như `refetch`.
+      const { data: dataIsTeacher, isLoading, error, refetch, isFetching } = useCheckTeacherQuery(undefined, { skip: false });
+      const isTeacherApi = dataIsTeacher?.is_teacher;
+      // State để xác định đã gọi `refetch` hay chưa. 
+      const [hasRefetched, setHasRefetched] = React.useState(false);
+
+      // Xử lý trạng thái loading hoặc fetching
+      if (isLoading || isFetching) {
+        return <div>Loading...</div>;
+      }
+
+      if (error) {
+        return <div>Error loading data</div>;
+      }
+
+      // Nếu không phải teacher (`isTeacherApi === false`) và chưa từng gọi `refetch`.
+      if (isTeacherApi === false && !hasRefetched) {
+        setHasRefetched(true); // Đặt trạng thái đã gọi `refetch` để tránh gọi lại nhiều lần.
+        refetch();            // Gọi lại API để kiểm tra dữ liệu mới nhất.
+        return null;          // Dừng render UI tạm thời trong lúc fetch lại dữ liệu.
+      }
+
+      // Nếu không phải teacher (`isTeacherApi === false`) sau khi đã refetch xong, điều hướng sang trang `/new-instructor`.
+      if (isTeacherApi === false) {
+        console.log("Redirecting to /new-instructor...");
+        return <Navigate to="/new-instructor" />;
+      } 
+
+      console.log('chuyển hướng đến children');
+      return children; // Render component con nếu `isTeacherApi` là `true`.
 };

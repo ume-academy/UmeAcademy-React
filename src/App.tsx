@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { prefixTeacher } from './configs/routes'
+import { prefixTeacher, router } from './configs/routes'
 import { adminRoutes, authRoutes, forbiddenRoutes, notFoundRoutes, protectedStudentRoutes, studentRoutes, teacherRoutes } from './constants/routes'
 import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
 import { PrivateRouteStudent, PriveteRouteAdmin } from './layouts/PriveteRoute'
 import './scss/App.scss'
+import New_Instructor from './pages/client/Teacher/New_Instructor/New_Instructor'
 
 function App() {
   // sử dụng để khi chuyển qua route khác scroll sẽ về đầu trang
@@ -46,9 +47,9 @@ function App() {
 
             {/* Teacher */}
             <Route path={prefixTeacher} element={
-              // <PriveteRouteAdmin>
+              <PriveteRouteAdmin>
                 <Layout_Teacher />
-              // </PriveteRouteAdmin>
+              </PriveteRouteAdmin>
             }>
               {teacherRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={<route.element />} />

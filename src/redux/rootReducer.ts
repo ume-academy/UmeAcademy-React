@@ -22,7 +22,6 @@ import { studentApiSlice } from "./slices/teacher/student/studentApiSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  isTeacher: checkIsTeacherSlice.reducer,
   [authApiSlice.reducerPath]: authApiSlice.reducer,
   [profileApiSlice.reducerPath]: profileApiSlice.reducer,
   [checkOutApiSlice.reducerPath]: checkOutApiSlice.reducer,

@@ -1,3 +1,4 @@
+import exp from "constants"
 
 export interface TRegisterError {
     status?: number
@@ -11,6 +12,13 @@ export interface TRegisterError {
 }
 
 export interface TLoginError {
+  status?: number
+  data?: {  
+  error?: string
+  }
+}
+
+export interface TRegisterTeacherError { 
   status?: number
   data?: {  
   error?: string

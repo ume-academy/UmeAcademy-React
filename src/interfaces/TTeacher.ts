@@ -13,5 +13,6 @@ export interface TIsTeacher {
 // Đăng ký giáo viên
 export interface TRegisterTeacher {
   message: string,
-  status: boolean
+  status: boolean,
+  error?: string
 }

@@ -2,11 +2,10 @@ import { router } from '@/configs/routes'
 import { logo, routerConfig, routerConfigTeacher } from '@/constants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
-import { selectIsTeacher } from '@/redux/selector/teacher_selector'
-import { useLogoutApiMutation } from '@/redux/slices/auth/authApiSlice'
 import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
+import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
 import {
   LogoutOutlined,
   MoonFilled,
@@ -21,8 +20,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
-import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
-import { setIsTeacher } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherSlice'
 
 const Header = () => {
   const nav = useNavigate()
@@ -30,9 +27,7 @@ const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const navigate = useNavigate()
   const { data } = useGetProfileQuery()
-  const [logoutApi] = useLogoutApiMutation()
   const dispatch = useDispatch()
-  const isTeacherSelector = useSelector(selectIsTeacher)
 
   // Bật trạng thái trong suốt khi ở trang home
   const transperent = routerConfig.transparentHeader.includes(location.pathname)
@@ -48,15 +43,12 @@ const Header = () => {
       nav(`${router.home}`) // Chuyển sang trang dành cho student
     } else{
       // Chuyển sang trang dành cho teacher
+      console.log(isTeacherApi)
       isTeacherApi === false ? nav(`${router.newInstructor}`) : nav(`${router.revenue}`) 
     }
   }
 
-  useEffect(() => {
-    if(isTeacherApi !== undefined ){
-      dispatch(setIsTeacher(isTeacherApi))
-    }
-  }, [isTeacherSelector]);
+
 
   const handleLogout = async () => {
     // const tokenREF = Cookies.get('refresh_Token')

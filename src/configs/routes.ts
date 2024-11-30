@@ -30,7 +30,7 @@ export const router = {
   revenue: `${prefixTeacher}`,
 
   // Route lần đầu trở thành teacher
-  newInstructor: `${prefixTeacher}/new-instructor`, 
+  newInstructor: `/new-instructor`, 
 
   // Route thông tin cá nhân phía teacher
   profileTeacher: `${prefixTeacher}/profile`,
