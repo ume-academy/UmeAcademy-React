@@ -38,11 +38,12 @@ const Card = ({
   teacher,
   duration,
   is_wishlist,
-  is_enrolled
+  is_enrolled,
+  status
 }: TCourse) => {
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
-  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id)
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status)
   const location = useLocation()
 
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
@@ -117,7 +118,7 @@ const Card = ({
   }
 
   return (
-    <div className='group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer'>
+    <div className='group dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] w-[300px] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-[17px] cursor-pointer'>
       <Link
         to={
           isMyCoursesPage
@@ -186,7 +187,7 @@ const Card = ({
       </Link>
 
       <div className='flex justify-between items-center mt-4'>
-        <span className='text-[11px] space-x-2'>
+        <span className='text-[11px] space-x-[6px]'>
           <Rate allowHalf value={Number(rating)} className='text-[11px] group-hover:text-white' disabled />
           <span>
             {rating} ({total_review})
@@ -195,7 +196,7 @@ const Card = ({
         <Link to={targetPath}>
           <button
             onClick={() => handleOpenModal(buttonText === 'Hoàn tiền' ? 'refund' : 'delete')}
-            className='border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'
+            className='border-[3px] border-[#b4a7f5] py-2 px-5 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'
           >
             {buttonText}
           </button>

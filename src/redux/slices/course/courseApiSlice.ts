@@ -57,6 +57,11 @@ export const courseApiSlice = createApi({
     getCourseAdminById: builder.query({
       query: (id) => `/admin/course/${id}`,
       transformResponse: (res: { data: TCourseDetail }) => res.data
+    }),
+
+    //Teacher
+    getAllCourseOfTeacher: builder.query({
+      query: ({ per_page, page }) => `teacher/courses?per_page=${per_page}&page=${page}`
     })
   })
 })
@@ -69,5 +74,6 @@ export const {
   useGetPurchasedCoursesQuery,
   useGetAllCourseAdminQuery,
   useApprovalCourseMutation,
-  useGetCourseAdminByIdQuery
+  useGetCourseAdminByIdQuery,
+  useGetAllCourseOfTeacherQuery
 } = courseApiSlice

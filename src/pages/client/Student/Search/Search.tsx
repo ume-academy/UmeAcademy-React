@@ -1,4 +1,5 @@
 import Card_Horizontal from '@/components/client/commonComponents/Card/Card_Horizontal'
+import { smoothScrollToTop } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCourse } from '@/interfaces/TCourse'
@@ -89,6 +90,7 @@ const Search = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     updateFilter('page', page)
+    smoothScrollToTop()
   }
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)

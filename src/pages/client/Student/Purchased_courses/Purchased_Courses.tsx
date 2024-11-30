@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import { getTitleTab } from '../../../../constants/client'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
+import { smoothScrollToTop } from '@/constants/utils'
 
 const Purchased_Courses = () => {
   const bottomRef = useRef(null)
@@ -19,6 +20,7 @@ const Purchased_Courses = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
+    smoothScrollToTop()
   }
 
   const meta = data?.meta 

@@ -1,5 +1,5 @@
 import { getTitleTab } from '@/constants/client'
-import { formatDate, formatPrice } from '@/constants/utils'
+import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { useTransactionHistoryQuery, useWalletBalanceQuery } from '@/redux/slices/teacher/wallet/walletApiSlice'
 import '@/scss/PaginationAntd.scss'
 import { WalletFilled } from '@ant-design/icons'
@@ -27,6 +27,7 @@ const Withdraw_Money = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
+    smoothScrollToTop()
   }
 
   const handleFormSubmit = () => {

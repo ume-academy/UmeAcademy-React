@@ -1,6 +1,6 @@
 import { useEditProfileMutation } from '@/redux/slices/profile/profileApiSlice'
 import { CloudUploadOutlined, EditFilled, LockFilled } from '@ant-design/icons'
-import { Avatar, Button, Form, message, Tabs, Upload } from 'antd'
+import { Avatar, Button, Form, Image, message, Tabs, Upload } from 'antd'
 import styles from './setting.module.scss'
 import './SettingAntd.scss'
 import { useEffect, useState } from 'react'
@@ -31,7 +31,7 @@ const Setting = ({ data }: any) => {
     const ACCEPTED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
     if (fileObj) {
       if (ACCEPTED_FILE_TYPES.includes(fileObj.type)) {
-        setIsAvatar(fileObj) 
+        setIsAvatar(fileObj)
         const reader = new FileReader()
         reader.onload = (e) => {
           setPreview(e.target?.result as string)
@@ -84,7 +84,12 @@ const Setting = ({ data }: any) => {
                         className={`${styles['info']} flex flex-col justify-center items-center space-x-0 p-4 md:p-6 md:flex-row md:justify-start md:items-start md:space-x-4`}
                       >
                         <div className='avt'>
-                          <Avatar size={120} src={preview || avatar} className='border-[#F84563]' />
+                          <Image
+                            width={120}
+                            height={120}
+                            src={preview || avatar}
+                            className='border-[#F84563] rounded-full object-cover'
+                          />
                         </div>
 
                         <div className={`${styles['subContent']} space-y-4`}>

@@ -1,20 +1,26 @@
 import Card from '@/components/client/commonComponents/Card/Card'
 import { getTitleTab } from '@/constants/client'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
+import { smoothScrollToTop } from '@/constants/utils'
+import { TCourse } from '@/interfaces/TCourse'
+import { useGetAllCourseOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
 import { easeInOut, motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 const My_Courses = () => {
   const bottomRef = useRef(null)
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 6
+  const { data } = useGetAllCourseOfTeacherQuery({ per_page: perPage, page: currentPage })
 
-  const { data: data1 } = useGetInfoCourseByIdQuery(22)
-  const { data: data2 } = useGetInfoCourseByIdQuery(24)
-  const { data: data3 } = useGetInfoCourseByIdQuery(25)
-  const { data: data4 } = useGetInfoCourseByIdQuery(32)
-
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    smoothScrollToTop()
+  }
+  
+  console.log(data)
   return (
     <div>
       <Helmet>
@@ -29,16 +35,15 @@ const My_Courses = () => {
           animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
           transition={{ duration: 1, ease: easeInOut }}
           ref={bottomRef}
-          className='flex flex-wrap gap-10 justify-center md:justify-between lg:gap-2 p-3'
+          className='flex flex-wrap gap-10 justify-center md:justify-between lg:gap-x-2 p-3'
         >
-          {data1 && <Card {...data1} />}
-          {data2 && <Card {...data2} />}
-          {data3 && <Card {...data3} />}
-          {data4 && <Card {...data4} />}
+          {data && data?.data.map((course:TCourse)=>(
+            <Card {...course} key={course.id} />
+          ))}
         </motion.div>
       </div>
       <div className='flex justify-end mt-10 '>
-        <Pagination defaultCurrent={1} total={20} />
+        <Pagination total={data?.meta?.total} current={currentPage} pageSize={perPage} onChange={handlePageChange} />
       </div>
     </div>
   )

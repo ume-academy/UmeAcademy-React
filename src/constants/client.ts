@@ -31,7 +31,7 @@ export const routerConfig = {
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
-export const getButtonDetails = (is_enrolled: boolean, courseId: number) => {
+export const getButtonDetails = (is_enrolled: boolean, courseId: number, status: number) => {
   const location = useLocation()
   let buttonText = is_enrolled ? 'Xem ngay' : 'Mua ngay'
   // let targetPath = is_enrolled
@@ -43,7 +43,7 @@ export const getButtonDetails = (is_enrolled: boolean, courseId: number) => {
     buttonText = 'Hoàn tiền'
     targetPath = `${router.purchasedCourses}`
   } else if (location.pathname === `${router.myCourses}`) {
-    buttonText = 'Xóa'
+    buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
     targetPath = `${router.myCourses}`
   }
   return { buttonText, targetPath }
