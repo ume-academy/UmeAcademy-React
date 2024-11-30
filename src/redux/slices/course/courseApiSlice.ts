@@ -39,7 +39,7 @@ export const courseApiSlice = createApi({
 
     // GET ALL
     getAllCourseAdmin: builder.query({
-      query: ({ per_page, page }) => `/admin/courses?per_page=${per_page}&page=${page}`,
+      query: ({ page }) => `/admin/courses?page=${page}`,
       // transformResponse: (res: { data: TCourse }) => res.data
       providesTags: ['Course']
     }),

@@ -122,7 +122,7 @@ const List_Refund = () => {
       <Helmet>
         <title>{getTitleTab('Danh sách sản phẩm hoàn tiền')}</title>
       </Helmet>
-      <div className="p-4 md:p-6">
+      <div className="p-4 dark:bg-[#2b2838] bg-white">
         <div className="heading flex justify-between items-center pb-4 ">
           <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>Danh sách sản phẩm hoàn tiền</h5>
 
@@ -163,9 +163,7 @@ const List_Refund = () => {
           />
         </div>
 
-        <div className="flex justify-between items-center my-6 text-sm">
-          <span className='dark:text-[#b9b7c0]'>Trang số 1 trên tổng số 1 trang</span>
-
+        <div className="flex justify-end mt-10">
           <Pagination />
         </div>
       </div>

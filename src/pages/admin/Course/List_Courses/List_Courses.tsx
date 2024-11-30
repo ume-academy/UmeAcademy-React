@@ -1,5 +1,6 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
-import { formatDate, formatPrice } from '@/constants/utils'
+import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { TTeacher } from '@/interfaces/TTeacher'
 import { useGetAllCourseAdminQuery } from '@/redux/slices/course/courseApiSlice'
@@ -30,17 +31,14 @@ const CustomTreeSelect = styled(TreeSelect)`
 const List_Courses = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 5
-  const { data } = useGetAllCourseAdminQuery({
-    per_page: selectedStatus ? 0 : perPage,
+  const { data, isFetching, isLoading } = useGetAllCourseAdminQuery({
     page: selectedStatus ? 0 : currentPage,
     status: selectedStatus
   })
 
-
-  
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
+    smoothScrollToTop()
   }
   const filteredData = data?.data?.filter(
     (course: TCourse) => selectedStatus === undefined || course.status === Number(selectedStatus)
@@ -118,6 +116,12 @@ const List_Courses = () => {
     }
   ]
 
+  if (isLoading || isFetching)
+    return (
+      <div className='min-h-screen flex justify-center items-center'>
+        <Loading />
+      </div>
+    )
   return (
     <>
       <Helmet>
@@ -152,8 +156,18 @@ const List_Courses = () => {
             scroll={{ x: 'max-content' }}
           />
         </div>
-        <div className='flex justify-end mt-10'>
-          <Pagination current={currentPage} total={data?.meta?.total} pageSize={perPage} onChange={handlePageChange} />
+        <div className='flex justify-between items-center my-6 text-sm'>
+          <p className='dark:text-[#b9b7c0]'>
+            Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+            <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+          </p>
+          <Pagination
+            pageSize={data?.meta?.per_page}
+            total={data?.meta?.total}
+            current={data?.meta?.current_page}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
         </div>
       </div>
     </>

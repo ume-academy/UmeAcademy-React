@@ -1,3 +1,4 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { useTransactionHistoryQuery, useWalletBalanceQuery } from '@/redux/slices/teacher/wallet/walletApiSlice'
@@ -10,12 +11,10 @@ import { Helmet } from 'react-helmet'
 
 const Withdraw_Money = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 12
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
-  const { data } = useTransactionHistoryQuery({ per_page: perPage, page: currentPage })
+  const { data, isLoading, isFetching } = useTransactionHistoryQuery({ page: currentPage })
   const { data: price } = useWalletBalanceQuery({})
-  const meta = data?.meta
 
   const showPopup = () => {
     setIsModalVisible(true)
@@ -33,12 +32,10 @@ const Withdraw_Money = () => {
   const handleFormSubmit = () => {
     try {
       messageApi.open({
-        type:"success",
-        content:"Gửi yêu cầu rút tiền thành công"
+        type: 'success',
+        content: 'Gửi yêu cầu rút tiền thành công'
       })
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 
   const columns = [
@@ -155,10 +152,7 @@ const Withdraw_Money = () => {
                   <p>Chuyển khoản ngân hàng</p>
                 </div>
               </div>
-              <Form
-                onFinish={handleFormSubmit}
-                className='text-[15px] space-y-4 dark:text-[#b9b7c0] text-[#685f78]'
-              >
+              <Form onFinish={handleFormSubmit} className='text-[15px] space-y-4 dark:text-[#b9b7c0] text-[#685f78]'>
                 <label>Số tiền</label>
                 <Form.Item
                   name='amount'
@@ -220,17 +214,35 @@ const Withdraw_Money = () => {
         <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>
           Lịch sử rút tiền
         </h2>
-        <Table
-          columns={columns}
-          dataSource={data?.data}
-          pagination={false}
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
-          scroll={{ x: 670 }}
+        {isLoading || isFetching ? (
+          <div className='min-h-screen flex justify-center items-center'>
+            <Loading />
+          </div>
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={data?.data}
+            pagination={false}
+            className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
+            scroll={{ x: 670 }}
+          />
+        )}
+      </div>
+
+      <div className='flex justify-between items-center my-6 text-sm'>
+        <p className='dark:text-[#b9b7c0]'>
+          Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+          <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+        </p>
+        <Pagination
+          pageSize={data?.meta?.per_page}
+          total={data?.meta?.total}
+          current={currentPage}
+          onChange={handlePageChange}
+          showSizeChanger={false}
         />
       </div>
-      <div className='flex justify-end mt-10'>
-        <Pagination total={meta?.total} pageSize={perPage} current={currentPage} onChange={handlePageChange} />
-      </div>
+
       {contextHolder}
     </div>
   )

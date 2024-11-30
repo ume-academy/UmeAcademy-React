@@ -1,7 +1,5 @@
-
 export const prefixAdmin = '/admin'
 export const prefixTeacher = '/teacher'
-
 
 export const router = {
   home: '/',
@@ -13,24 +11,22 @@ export const router = {
   verify_email: '/verify_email',
   // verify_email: `/api/v1/auth/email/verify/:userId/:token`,
 
-
   // < ===== STUDENT ===== >
   profileStudent: '/profile',
   search: '/courses/search',
   courseDetail: '/course/:id',
   lesson: '/course/:id/lesson',
-  walletHistory : '/wallet-history',
+  walletHistory: '/wallet-history',
   purchasedCourses: '/purchased-courses',
   transactionHistory: '/transaction-history',
   coursePaymentMethod: '/course-payment-method/:id',
 
-
   // < ===== TEACHER ===== >
-  // Route index  
+  // Route index
   revenue: `${prefixTeacher}/revenue`,
 
   // Route lần đầu trở thành teacher
-  newInstructor: `/new-instructor`, 
+  newInstructor: `/new-instructor`,
 
   // Route thông tin cá nhân phía teacher
   profileTeacher: `${prefixTeacher}/profile`,
@@ -41,7 +37,7 @@ export const router = {
   // Route danh sách khóa học giảng viên tạo
   myCourses: `${prefixTeacher}/my-courses`,
 
-  // Route thêm phương thức thanh toán 
+  // Route thêm phương thức thanh toán
   withdrawalMethods: `${prefixTeacher}/withdrawal-methods`,
 
   // Route ví và rút tiền
@@ -53,7 +49,6 @@ export const router = {
   // Route quản lý khóa học
   courseManagement: `${prefixTeacher}/course-management/:id`,
 
-
   // < ===== ADMIN ===== >
   // Route index
   dashBoard: `${prefixAdmin}`,
@@ -63,13 +58,13 @@ export const router = {
   teachers: `${prefixAdmin}/teachers`,
   userDetail: `${prefixAdmin}/user/:id`,
 
-  // Route khóa học 
+  // Route khóa học
   coursesList: `${prefixAdmin}/courses`,
   checkCourse: `${prefixAdmin}/check-course/:id`,
 
   // Route giao dịch
-  listTransactionsInstructor: `${prefixAdmin}/transactions/instructor`,
-  listTransactionsStudent: `${prefixAdmin}/transactions/student`,
+  listTransactions: `${prefixAdmin}/transactions`,
+  listOfWithdrawalRequests: `${prefixAdmin}/withdrawal-requests`,
 
   // Route phân quyền
   listRole: `${prefixAdmin}/roles`,

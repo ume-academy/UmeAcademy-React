@@ -8,12 +8,13 @@ import { useState } from 'react'
 import { formatDate, smoothScrollToTop } from '@/constants/utils'
 import { TStudent } from '@/interfaces/TStudent'
 import { useParams } from 'react-router-dom'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 
 const List_Students = () => {
-  const perPage = 5
   const [currentPage, setCurrentPage] = useState(1)
   const { id } = useParams()
-  const { data } = useGetStudentsOfCourseQuery({ per_page: perPage, page: currentPage, id: id })
+  const { data, isLoading, isFetching } = useGetStudentsOfCourseQuery({ page: currentPage, id: id })
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()
@@ -63,6 +64,13 @@ const List_Students = () => {
     }
   ]
 
+  if (isLoading || isFetching)
+    return (
+      <div className='min-h-screen flex justify-center items-center'>
+        <Loading />
+      </div>
+    )
+
   return (
     <>
       <Helmet>
@@ -79,7 +87,7 @@ const List_Students = () => {
             <h3>Danh sách học viên</h3>
           </div>
           <div className={`${styles['content']} p-6 overflow-x-auto`}>
-            {data?.data ? (
+            {data?.data && data?.data.length > 0 ? (
               <Table
                 dataSource={data?.data}
                 columns={columns}
@@ -92,16 +100,19 @@ const List_Students = () => {
           </div>
         </div>
 
-        {data?.data && (
-          <div className='flex justify-end mt-10'>
-            <Pagination
-              onChange={handlePageChange}
-              total={data?.meta?.total}
-              current={currentPage}
-              pageSize={perPage}
-            />
-          </div>
-        )}
+        <div className='flex justify-between items-center my-6 text-sm'>
+          <p className='dark:text-[#b9b7c0]'>
+            Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+            <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+          </p>
+          <Pagination
+            pageSize={data?.meta?.per_page}
+            total={data?.meta?.total}
+            current={currentPage}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
       </div>
     </>
   )

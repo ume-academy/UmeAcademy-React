@@ -7,9 +7,9 @@ export const studentApiSlice = createApi({
   tagTypes: ['student'],
   endpoints: (builder) => ({
     getStudentsOfCourse: builder.query({
-      query: ({ id, per_page, page }) => `/teacher/course/${id}/students?per_page=${per_page}&page=${page}`
+      query: ({ id, page }) => `/teacher/course/${id}/students?page=${page}`
     })
   })
 })
 
-export const {useGetStudentsOfCourseQuery} = studentApiSlice
+export const { useGetStudentsOfCourseQuery } = studentApiSlice

@@ -11,7 +11,7 @@ export const walletApiSlice = createApi({
       transformResponse: (res: { data: number }) => res.data
     }),
     transactionHistory: builder.query({
-      query: ({ per_page, page }) => `/teacher/wallet-transaction?per_page=${per_page}&page=${page}`
+      query: ({ page }) => `/teacher/wallet-transaction?page=${page}`
     })
   })
 })
