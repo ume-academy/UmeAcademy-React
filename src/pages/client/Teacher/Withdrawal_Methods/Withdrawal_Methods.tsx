@@ -77,6 +77,7 @@ const Withdrawal_Methods = () => {
   const toggleForm = () => {
     setIsFormVisible((prevState) => !prevState)
   }
+  
   return (
     <>
       <Helmet>
