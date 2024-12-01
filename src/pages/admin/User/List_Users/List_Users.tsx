@@ -1,14 +1,14 @@
-import { Button, Image, message, Modal, Pagination, Space, Spin, Switch, Table, TableColumnType, TreeSelect } from "antd";
+import { router } from "@/configs/routes";
+import { getTitleTab } from "@/constants/client";
+import { TUser } from "@/interfaces/TUser";
+import { useGetUsersQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
+import { Image, message, Modal, Pagination, Space, Spin, Switch, Table, TableColumnType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import './List_User_Antd.scss';
-import { getTitleTab } from "@/constants/client";
-import { Helmet } from "react-helmet";
-import { router } from "@/configs/routes";
-import { useGetUsersQuery } from "@/redux/slices/user/userSlice";
-import { TUser } from "@/interfaces/TUser";
 
 const CustomTreeSelect = styled(TreeSelect)`
 .ant-select-selector {
@@ -29,37 +29,47 @@ const CustomTreeSelect = styled(TreeSelect)`
 
 const List_Users = () => {
 
+  const [data, setData] = useState<any>([]);
+
+  const [searchText, setSearchText] = useState<string>("");
+
+  const [selectedRole, setSelectedRole] = useState<any>(undefined);
+
+  const [selectedStatus, setSelectedStatus] = useState<any>(0);
+
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const { pathname } = useLocation();
+
   const [page, setPage] = useState(1);
 
   // mặc định sẽ lấy trang đầu tiên
   const { data: users, isLoading, isFetching, isError, error } = useGetUsersQuery(page);
 
-  console.log(users)
+  const [lockUser] = useLockUserMutation();
 
-  const [data, setData] = useState<any>([
-    // { id: 1, fullname: "Vũ Ngọc Giao", email: "daddyGiao@email.com", created_at: new Date(), role: 1, status: 1 },
-    // { id: 2, fullname: "Tran Thi B", email: "ttb@daddy.com", created_at: new Date(), role: 0, status: 0 }
-  ]);
+  const [unLockUser] = useUnLockUserMutation();
 
-  // console.log('data', users)
+
+  console.log()
 
   useEffect(() => {
     if (users?.data) {
 
-      const usersData = users?.data?.filter((user: TUser) => user?.is_teacher === false);
+      if (pathname === '/admin/users') {
+        const usersData = users?.data?.filter((user: TUser) => user?.is_teacher === false);
+        setData(usersData);
+      } else {
+        const teachersData = users?.data?.filter((user: TUser) => user?.is_teacher !== false);
+        setData(teachersData);
+      }
 
-      setData(usersData)
     }
-  }, [users])
+  }, [pathname, users]);
 
-
-  const [searchText, setSearchText] = useState<string>("");
-  const [selectedRole, setSelectedRole] = useState<any>(undefined);
-  const [selectedStatus, setSelectedStatus] = useState<any>(0);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-
-  const handleChangeStatus = (id: number, checked: any) => {
+  const handleChangeStatus = (id: string, checked: any) => {
     Modal.confirm({
       title: (
         <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
@@ -79,32 +89,29 @@ const List_Users = () => {
       },
       cancelText: 'Hủy',
       centered: true,
-      maskClosable: false,
+      maskClosable: false, 
       width: 600,
       icon: null,
-      onOk: () => {
-        setConfirmLoading(true);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            const newStatus = checked ? 1 : 0;
+      onOk: async () => {
+        try {
 
-            setData((prevData: any) =>
-              prevData.map((user: TUser) =>
-                user.id === id ? { ...user, is_lock: newStatus } : user
-              )
-            );
+          if(!id) return;
 
-            // console.log('new status', newStatus)
+          const res = checked ? await unLockUser(id).unwrap() : await lockUser(id).unwrap();
 
-            messageApi.open({
-              type: 'success',
-              content: `${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`,
-            });
+          console.log(res)
 
-            setConfirmLoading(false);
-            resolve(undefined);
-          }, 2000);
-        });
+          if(res?.data?.is_lock) {
+             message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
+          } else {
+            throw new Error
+          }
+
+        } catch (error: any) {
+          console.log(error)
+
+          return message.error(error?.data?.message || 'Có lỗi từ hệ thống, vui lòng thử lại sau')
+        }
       }
     });
   };
@@ -176,31 +183,32 @@ const List_Users = () => {
             unCheckedChildren="Khóa"
             checked={record?.is_lock === 0}
             onChange={(checked) => handleChangeStatus(record?.id, checked)}
+            // onClick={() => console.log(record)}
           />
         </Space>
       ),
       width: 100
     },
-    {
-      title: "Vai trò",
-      dataIndex: "role",
-      key: "role",
-      render: (_: any, record, index: number) => (
-        <CustomTreeSelect
-          value={record?.is_teacher}
-          treeDefaultExpandAll
-          className="w-full md:w-32"
-          onChange={(value) => handleChangeRole(record?.id, value as number)}
-          key={index + 1}
-          treeData={[
-            { value: 0, title: <span className="text-[#ff4667]">Admin</span> },
-            { value: false, title: <span className="text-green-500">User</span> },
-            { value: true, title: <span className="text-green-500">Teacher</span> },
-          ]}
-        />
-      ),
-      width: 120
-    },
+    // {
+    //   title: "Vai trò",
+    //   dataIndex: "role",
+    //   key: "role",
+    //   render: (_: any, record, index: number) => (
+    //     <CustomTreeSelect
+    //       value={record?.is_teacher}
+    //       treeDefaultExpandAll
+    //       className="w-full md:w-32"
+    //       onChange={(value) => handleChangeRole(record?.id, value as number)}
+    //       key={index + 1}
+    //       treeData={[
+    //         { value: 0, title: <span className="text-[#ff4667]">Admin</span> },
+    //         { value: false, title: <span className="text-green-500">User</span> },
+    //         { value: true, title: <span className="text-green-500">Teacher</span> },
+    //       ]}
+    //     />
+    //   ),
+    //   width: 120
+    // },
     {
       title: <div>Chi tiết</div>,
       key: "actions",
@@ -220,10 +228,10 @@ const List_Users = () => {
   return (
     <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
       <Helmet>
-        <title>{getTitleTab('Quản lý tài khoản học viên')}</title>
+        <title>{getTitleTab(pathname === '/admin/users' ? 'Quản lý tài khoản học viên' : 'Quản lý tài khoản giảng viên')}</title>
       </Helmet>
 
-      <p className="mb-4 font-title text-xl">Danh sách học viên</p>
+      <p className="mb-4 font-title text-xl">{pathname === "/admin/users" ? 'Danh sách học viên' : 'Danh sách giảng viên'}</p>
 
       <div className="flex flex-wrap gap-2">
         <div className="relative mb-4 w-full md:w-1/3 lg:w-1/4">

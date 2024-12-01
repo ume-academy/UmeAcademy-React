@@ -34,10 +34,10 @@ import Forbidden from '@/pages/Forbidden/Forbidden'
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email'
 import Home_Page from './../pages/client/Student/Home_page/Home_Page'
 import Not_Found from './../pages/Not_found/Not_Found'
-import List_Users_Teacher from '@/pages/admin/User/List_Users_Teacher/List_Users_Teacher'
 import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import List_Withdrawal_Requests from '@/pages/admin/Transactions/List_Transactions/List_Withdrawal_Requests'
 import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List_Transactions'
+
 
 // Routes cho student
 export const studentRoutes = [
@@ -88,7 +88,7 @@ export const authRoutes = [
 export const adminRoutes = [
   { path: router.dashBoard, element: '<h1>Dashboard</h1>' },
   { path: router.users, element: List_Users },
-  { path: router.teachers, element: List_Users_Teacher },
+  { path: router.teachers, element: List_Users },
   { path: router.userDetail, element: Details_User },
   { path: router.coursesList, element: List_Courses },
   //cho detail khóa học admin để tạm
