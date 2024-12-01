@@ -25,7 +25,6 @@ const Header = () => {
   const nav = useNavigate()
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const isAuthenticated = useSelector(selectIsAuthenticated)
-  const navigate = useNavigate()
   const { data } = useGetProfileQuery()
   const dispatch = useDispatch()
 
@@ -160,7 +159,7 @@ const Header = () => {
     }
   ]
 
-
+ 
   return (
     <>
       <div

@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
 import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Login = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
@@ -28,6 +29,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [index, setIndex] = useState(0)
+  const { refetch } = useGetProfileQuery()
 
   
   const next = () => {
@@ -58,6 +60,7 @@ const Login = () => {
         refreshToken: refresh_token, 
         expiresIn: expires_in
       }))
+      await refetch() // Lấy thông tin người dùng MỚI NHẤT sau khi đăng nhập
       stopLoading()
       message.success('Đăng nhập thành công')
       nav(router.home)
