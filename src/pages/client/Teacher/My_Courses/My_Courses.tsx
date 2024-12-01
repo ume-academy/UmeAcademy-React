@@ -6,17 +6,13 @@ import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetAllCourseOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
-import { easeInOut, motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 const My_Courses = () => {
-  const bottomRef = useRef(null)
-  const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 6
-  const { data, isLoading, isFetching } = useGetAllCourseOfTeacherQuery({ per_page: perPage, page: currentPage })
+  const { data, isLoading, isFetching } = useGetAllCourseOfTeacherQuery({ page: currentPage })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -29,6 +25,7 @@ const My_Courses = () => {
         <Loading />
       </div>
     )
+
   return (
     <div>
       <Helmet>
@@ -38,22 +35,16 @@ const My_Courses = () => {
         <div className='border-b border-[#e9ecef]  dark:border-[#5a5a5a]'>
           <p className='p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title'>Các khóa học của tôi</p>
         </div>
-        {data?.data.length > 0 ? (
-          <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
-            transition={{ duration: 1, ease: easeInOut }}
-            ref={bottomRef}
-            className='flex flex-wrap gap-10 justify-center md:justify-between lg:gap-x-2 p-3'
-          >
+        {data?.data && data?.data.length > 0 ? (
+          <div className='flex flex-wrap gap-10 justify-center md:justify-between lg:gap-x-2 p-3'>
             {data?.data.map((course: TCourse) => <Card {...course} key={course.id} />)}
-          </motion.div>
+          </div>
         ) : (
-          <div className='flex flex-col gap-y-6 justify-center items-center h-[366px] dark:text-[#B9B7C0] text-lg md:text-xl'>
+          <div className='flex flex-col gap-y-2 justify-center items-center min-h-[400px] text-black dark:text-[#B9B7C0]'>
             <p>Bạn chưa tạo khóa học nào. Hãy bắt đầu tạo ra khóa học của riêng bạn</p>
             <Link
               to={`${router.formCourse}`}
-              className=' flex justify-center py-3 w-44  text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
+              className='py-2 px-4 w-full md:w-auto mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
             >
               Thêm khóa học
             </Link>

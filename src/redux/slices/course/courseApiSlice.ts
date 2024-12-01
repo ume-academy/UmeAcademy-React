@@ -61,7 +61,7 @@ export const courseApiSlice = createApi({
 
     //Teacher
     getAllCourseOfTeacher: builder.query({
-      query: ({ per_page, page }) => `teacher/courses?per_page=${per_page}&page=${page}`
+      query: ({ page }) => `teacher/courses?page=${page}`
     })
   })
 })

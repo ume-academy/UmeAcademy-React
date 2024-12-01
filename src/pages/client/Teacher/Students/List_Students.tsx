@@ -19,21 +19,26 @@ const List_Students = () => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
+  console.log(data)
 
   const columns: TableColumnType<TStudent>[] = [
     {
       title: 'STT',
       dataIndex: 'key',
       key: 'key',
-      render: (_, __, index: number) => <p>{index + 1}</p>
+      render: (_, __, index: number) => <p>{index + 1}</p>,
+      align: 'center'
     },
     {
       title: 'Ảnh',
+      dataIndex: 'avatar',
+      key: 'avatar',
       render: (avatar: string) => (
         <div className=''>
           <Image width={60} height={60} src={avatar} className='rounded-full' />
         </div>
-      )
+      ),
+      align: 'center'
     },
     {
       title: 'Họ và tên',
@@ -55,6 +60,8 @@ const List_Students = () => {
     },
     {
       title: 'Tiến độ',
+      dataIndex: 'progress',
+      key: 'progress',
       render: (_: any, item: any) => (
         <div className=''>
           <Progress type='circle' percent={item.progress} size={32} />
