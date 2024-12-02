@@ -11,4 +11,6 @@ export interface TInfoWithdraw {
   name_bank: string
   number_account: number
   teacher: Teacher
+  money:number
+  status:number
 }

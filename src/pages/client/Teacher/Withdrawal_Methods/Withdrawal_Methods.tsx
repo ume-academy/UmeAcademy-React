@@ -6,7 +6,7 @@ import {
   useEditWithdrawMutation,
   useGetAllBankQuery,
   useGetInfoWithdrawQuery
-} from '@/redux/slices/teacher/withdraww/withdrawwApiSlice'
+} from '@/redux/slices/teacher/withdraw/withdrawApiSlice'
 import { Form, message, TreeSelect } from 'antd'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -77,104 +77,101 @@ const Withdrawal_Methods = () => {
   const toggleForm = () => {
     setIsFormVisible((prevState) => !prevState)
   }
-  
+
   return (
-    <>
+    <div className='p-4 lg:p-0'>
       <Helmet>
         <title>{getTitleTab('Phương thức rút tiền')}</title>
       </Helmet>
+      <div className='border border-[#e9ecef] rounded-lg dark:border-transparent  text-[#685f78] dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white  p-4 lg:p-0'>
+        <div className='border-b  dark:border-b-[#5a5a5a] border-b-[#e9ecef]  font-title text-2xl p-6'>
+          <h3>Phương thức rút tiền</h3>
+        </div>
 
-      <div className='p-4 lg:p-0'>
-        <div className='payment-method-wrapper dark:border-transparent dark:bg-[#2B2838] border border-[#e9ecef] rounded-xl'>
-          <div className='border-b dark:text-[#b9b7c0] dark:border-b-[#5a5a5a] border-b-[#e9ecef] text-[#685f78] font-title text-2xl p-6'>
-            <h3>Phương thức rút tiền</h3>
+        <div className='p-6'>
+          <div className='dark:text-[#b9b7c0] text-[#685f78] font-subtitle text-md pb-6'>
+            <h5>{info ? 'Thông tin tài khoản ngân hàng' : ''}</h5>
           </div>
 
-          <div className='p-6'>
-            <div className='dark:text-[#b9b7c0] text-[#685f78] font-subtitle text-md pb-6'>
-              <h5>{info ? 'Thông tin tài khoản ngân hàng' : ''}</h5>
-            </div>
-
-            {!info && !isFormVisible && (
-              <div className='flex justify-center items-center text-center min-h-[400px] dark:text-[#B9B7C0]'>
-                <div>
-                  <p>Bạn muốn rút tiền khỏi ví UME, hãy thêm mới tài khoản ngân hàng</p>
-                  <button
-                    className='py-2 px-4 w-full md:w-auto mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
-                    onClick={toggleForm}
-                  >
-                    Thêm tài khoản ngân hàng
-                  </button>
-                </div>
+          {!info && !isFormVisible && (
+            <div className='flex justify-center items-center text-center min-h-[400px] dark:text-[#B9B7C0]'>
+              <div>
+                <p>Bạn muốn rút tiền khỏi ví UME, hãy thêm mới tài khoản ngân hàng</p>
+                <button
+                  className='py-2 px-4 w-full md:w-auto mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
+                  onClick={toggleForm}
+                >
+                  Thêm tài khoản ngân hàng
+                </button>
               </div>
-            )}
+            </div>
+          )}
 
-            {(info || isFormVisible) && (
-              <Form
-                form={form}
-                layout='vertical'
-                className='p-6'
-                initialValues={{
-                  name_bank: info?.name_bank || '',
-                  name_account: info?.name_account || '',
-                  number_account: info?.number_account || ''
-                }}
-                onFinish={onFinish}
+          {(info || isFormVisible) && (
+            <Form
+              form={form}
+              layout='vertical'
+              className=''
+              initialValues={{
+                name_bank: info?.name_bank || '',
+                name_account: info?.name_account || '',
+                number_account: info?.number_account || ''
+              }}
+              onFinish={onFinish}
+            >
+              <Form.Item
+                name='name_bank'
+                label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Ngân hàng hưởng thụ</span>}
+                rules={[{ required: true, message: 'Vui lòng chọn ngân hàng' }]}
               >
-                <Form.Item
-                  name='name_bank'
-                  label='Ngân hàng hưởng thụ'
-                  rules={[{ required: true, message: 'Vui lòng chọn ngân hàng' }]}
+                <CustomTreeSelect
+                  className='h-12'
+                  treeDefaultExpandAll
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  allowClear
                 >
-                  <CustomTreeSelect
-                    className='h-12'
-                    treeDefaultExpandAll
-                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    allowClear
-                  >
-                    <TreeSelect.TreeNode value='' title='Chọn ngân hàng' />
-                    {banks && banks.map((bank) => <TreeSelect.TreeNode key={bank} value={bank} title={bank} />)}
-                  </CustomTreeSelect>
-                </Form.Item>
+                  <TreeSelect.TreeNode value='' title='Chọn ngân hàng' />
+                  {banks && banks.map((bank) => <TreeSelect.TreeNode key={bank} value={bank} title={bank} />)}
+                </CustomTreeSelect>
+              </Form.Item>
 
-                <Form.Item
-                  name='name_account'
-                  label='Tên tài khoản'
-                  rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản' }]}
+              <Form.Item
+                name='name_account'
+                label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên tài khoản</span>}
+                rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản' }]}
+              >
+                <input
+                  placeholder='Nhập tên tài khoản'
+                  id='name_account'
+                  className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
+                />
+              </Form.Item>
+
+              <Form.Item
+                name='number_account'
+                label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số tài khoản</span>}
+                rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
+              >
+                <input
+                  id='number_account'
+                  placeholder='Nhập số tài khoản'
+                  className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <button
+                  type='submit'
+                  className='py-2 px-4 w-full md:w-[20%] mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
                 >
-                  <input
-                    placeholder='Nhập tên tài khoản'
-                    id='name_account'
-                    className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  name='number_account'
-                  label='Số tài khoản'
-                  rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
-                >
-                  <input
-                    id='number_account'
-                    placeholder='Nhập số tài khoản'
-                    className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
-                  />
-                </Form.Item>
-
-                <Form.Item>
-                  <button
-                    type='submit'
-                    className='py-2 px-4 w-full md:w-[20%] mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
-                  >
-                    {info ? 'Cập nhật' : 'Lưu mới'}
-                  </button>
-                </Form.Item>
-              </Form>
-            )}
-          </div>
+                  {info ? 'Cập nhật' : 'Lưu mới'}
+                </button>
+              </Form.Item>
+            </Form>
+          )}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -8,7 +8,7 @@ import './DatePickerAntd.scss'
 
 const Revenue = () => {
   const { data } = useGetStatisticQuery({})
-  console.log(data)
+  
   return (
     <div className='md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0'>
       <Helmet>

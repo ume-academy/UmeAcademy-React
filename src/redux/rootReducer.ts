@@ -1,25 +1,24 @@
-import { combineReducers } from "@reduxjs/toolkit";
-import { authApiSlice } from "./slices/auth/authApiSlice";
-import { authSlice } from "./slices/auth/authSlice";
-import { categoryApiSlice } from "./slices/category/categoryApiSlice";
-import { commissionRateApiSlice } from "./slices/commission_rate/commissionRateApiSlice";
-import { courseApiSlice } from "./slices/course/courseApiSlice";
-import { levelApiSlice } from "./slices/course/levelApiSlice";
-import { searchCourseApiSlice } from "./slices/course/searchCourseApiSlice";
-import { lessonApiSlice } from "./slices/lesson/lessonApiSlice";
-import { checkOutApiSlice } from "./slices/payment/checkOutApiSlice";
-import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice';
-import { profileApiSlice } from "./slices/profile/profileApiSlice";
-import { checkTeacherApiSlice } from "./slices/teacher/checkIsTeacher/checkTeacherApiSlice";
-import { registerTeacherApiSlice } from "./slices/teacher/register/registerTeacherApiSlice";
-import { revenueApiSlice } from "./slices/teacher/revenue/revenueApiSlice";
-import { studentApiSlice } from "./slices/teacher/student/studentApiSlice";
-import { walletApiSlice } from "./slices/teacher/wallet/walletApiSlice";
-import { userSlice } from "./slices/user/userSlice";
-import { checkVoucherApiSlice } from "./slices/voucher/checkVoucherApiSlice";
-import { transactionApiSlice } from "./slices/transaction/transactionApiSlice";
-import { withdrawApiSlice } from "./slices/teacher/withdraww/withdrawwApiSlice";
-
+import { combineReducers } from '@reduxjs/toolkit'
+import { authApiSlice } from './slices/auth/authApiSlice'
+import { authSlice } from './slices/auth/authSlice'
+import { categoryApiSlice } from './slices/category/categoryApiSlice'
+import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice'
+import { courseApiSlice } from './slices/course/courseApiSlice'
+import { levelApiSlice } from './slices/course/levelApiSlice'
+import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
+import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
+import { checkOutApiSlice } from './slices/payment/checkOutApiSlice'
+import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
+import { profileApiSlice } from './slices/profile/profileApiSlice'
+import { checkTeacherApiSlice } from './slices/teacher/checkIsTeacher/checkTeacherApiSlice'
+import { registerTeacherApiSlice } from './slices/teacher/register/registerTeacherApiSlice'
+import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
+import { studentApiSlice } from './slices/teacher/student/studentApiSlice'
+import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
+import { userSlice } from './slices/user/userSlice'
+import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
+import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
+import { withdrawApiSlice } from './slices/teacher/withdraw/withdrawApiSlice'
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -39,9 +38,9 @@ const rootReducer = combineReducers({
   [levelApiSlice.reducerPath]: levelApiSlice.reducer,
   [checkTeacherApiSlice.reducerPath]: checkTeacherApiSlice.reducer,
   [registerTeacherApiSlice.reducerPath]: registerTeacherApiSlice.reducer,
-  [studentApiSlice.reducerPath] : studentApiSlice.reducer,
+  [studentApiSlice.reducerPath]: studentApiSlice.reducer,
   [transactionApiSlice.reducerPath]: transactionApiSlice.reducer,
-  [withdrawApiSlice.reducerPath] : withdrawApiSlice.reducer,
+  [withdrawApiSlice.reducerPath]: withdrawApiSlice.reducer
 })
 
 export default rootReducer

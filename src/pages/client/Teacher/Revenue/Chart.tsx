@@ -104,7 +104,7 @@ const Chart = () => {
 
   return (
     <div className='p-4 lg:p-6'>
-      <div className='flex flex-wrap space-y-3 justify-between items-center mb-6 border-b dark:border-[#5a5a5a] pb-6'>
+      <div className='flex flex-wrap space-y-3 justify-between items-center border-b dark:border-[#5a5a5a] pb-6'>
         <h2 className='text-xl font-subtitle'>Biểu đồ tổng hợp theo thời gian</h2>
         <div className='text-[14px] space-x-2 flex items-center'>
           <DatePicker

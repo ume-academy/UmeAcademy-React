@@ -101,7 +101,7 @@ const Withdraw_Money = () => {
       <Helmet>
         <title>{getTitleTab('Rút tiền')}</title>
       </Helmet>
-      <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg'>
+      <div className='mb-4 dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]  rounded-lg dark:border-none border border-[#e9ecef]'>
         <p className='border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6 font-title text-xl md:text-2xl'>
           Ví Ume
         </p>

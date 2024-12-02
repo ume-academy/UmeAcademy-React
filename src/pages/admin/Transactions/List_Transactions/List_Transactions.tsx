@@ -38,11 +38,6 @@ const List_Transactions = () => {
   }
   console.log(data)
 
-  const dataSource = data?.data?.map((item: any, index: number) => ({
-    key: index + 1,
-    ...item
-  }))
-
   // const filteredDate = (transaction: Transaction) => {
   //   const createdAt = transaction.created_at ? new Date(transaction.created_at) : ''
 
@@ -52,13 +47,16 @@ const List_Transactions = () => {
   //   return (!start || createdAt >= start) && (!end || createdAt <= end)
   // }
 
-  // const filteredStatus = (transaction: Transaction) => {
-  //   return selectedStatus === undefined || transaction.status === String(selectedStatus)
-  // }
+  const filteredStatus = (transaction: TTransaction) => {
+    return selectedStatus === undefined || transaction.status === String(selectedStatus)
+  }
 
-  // const filteredData = () => {
-  //   return data.filter((transaction) => filteredDate(transaction) && filteredStatus(transaction))
-  // }
+  const filteredData = data?.data.filter((transaction: TTransaction) => filteredStatus(transaction)) || []
+
+  const dataSource = filteredData.map((item: any, index: number) => ({
+    key: index + 1,
+    ...item
+  }))
 
   const columns: TableColumnType<TTransaction>[] = [
     {
@@ -145,8 +143,8 @@ const List_Transactions = () => {
       </Helmet>
       <div className='flex flex-col lg:flex-row lg:justify-between mb-4'>
         <p className='text-xl font-semibold'>Danh sách giao dịch</p>
-        {/* <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
-          <div className='flex gap-2 items-center'>
+        <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
+          {/* <div className='flex gap-2 items-center'>
             <DatePicker
               value={startDate}
               placeholder='Ngày bắt đầu'
@@ -160,20 +158,20 @@ const List_Transactions = () => {
               className='dark:bg-[#2b2838] bg-white h-9'
               onChange={setEndDate}
             />
-          </div>
+          </div> */}
           <CustomTreeSelect
             placeholder='Lọc theo trạng thái'
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value as string)}
             className='w-full sm:w-40 h-10'
             treeData={[
-              { value: 0, title: 'Chưa thanh toán' },
-              { value: 1, title: 'Đã thanh toán' },
-              { value: 2, title: 'Đã từ chối' }
+              { value: 'pending', title: 'Chưa thanh toán' },
+              { value: 'success', title: 'Đã thanh toán' },
+              { value: 'canceled', title: 'Đã từ chối' }
             ]}
             allowClear
           />
-        </div> */}
+        </div>
       </div>
 
       <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} />

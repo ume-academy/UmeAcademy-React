@@ -18,7 +18,7 @@ import { checkTeacherApiSlice } from './slices/teacher/checkIsTeacher/checkTeach
 import { registerTeacherApiSlice } from './slices/teacher/register/registerTeacherApiSlice'
 import { studentApiSlice } from './slices/teacher/student/studentApiSlice'
 import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
-import { withdrawApiSlice } from './slices/teacher/withdraww/withdrawwApiSlice'
+import { withdrawApiSlice } from './slices/teacher/withdraw/withdrawApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,

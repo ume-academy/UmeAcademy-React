@@ -5,7 +5,7 @@ import { router } from '@/configs/routes'
 
 const Footer = () => {
   return (
-    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] min-h-[350px] text-[14px] max-w-full'>
+    <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] min-h-[350px] text-[14px] max-w-full lg:pt-6'>
       <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto flex flex-wrap justify-between gap-6 lg:p-0 p-6'>
         <div className='flex flex-col md:w-[100%] lg:w-[37%]'>
           <div className='flex items-center mb-3'>
