@@ -19,6 +19,7 @@ import { registerTeacherApiSlice } from './slices/teacher/register/registerTeach
 import { studentApiSlice } from './slices/teacher/student/studentApiSlice'
 import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
 import { withdrawApiSlice } from './slices/teacher/withdraw/withdrawApiSlice'
+import { refundApiSlice } from './slices/transaction/refundApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -42,7 +43,8 @@ export const store = configureStore({
       registerTeacherApiSlice.middleware,
       studentApiSlice.middleware,
       transactionApiSlice.middleware,
-      withdrawApiSlice.middleware
+      withdrawApiSlice.middleware,
+      refundApiSlice.middleware
     )
 })
 

@@ -34,7 +34,6 @@ const List_Withdrawal_Requests = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading, isFetching } = useGetAllWithdrawRequestQuery({ page: currentPage })
   const [updateStatus] = useUpdateStatusWithdrawRequestMutation()
-  console.log(data)
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -57,33 +56,34 @@ const List_Withdrawal_Requests = () => {
       title: 'Stt',
       key: 'key',
       dataIndex: 'key',
-      width: 60
+      width: 60, 
     },
     {
       title: 'Tên giảng viên',
       key: 'teacher',
       dataIndex: 'teacher',
-      width: 120,
+      width: 180, 
       render: (teacher: any) => <div>{teacher.name}</div>
     },
     {
       title: 'Số tiền',
       key: 'money',
       dataIndex: 'money',
+      width: 120, 
       render: (money: number) => <p>{formatPrice(money)}</p>,
-      width: 110
     },
     {
       title: 'Thời gian yêu cầu',
       key: 'created_at',
       dataIndex: 'created_at',
+      width: 200, 
       render: (created_at: string) => <p>{formatDate(created_at)}</p>,
-      width: 120
     },
     {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
+      width: 150, 
       render: (status: number, record: TInfoWithdraw) => {
         const handleStatusChange = async (value: number) => {
           try {
@@ -119,9 +119,9 @@ const List_Withdrawal_Requests = () => {
           )
         }
       },
-      width: 100
     }
   ]
+  
 
   if (isLoading || isFetching)
     return (

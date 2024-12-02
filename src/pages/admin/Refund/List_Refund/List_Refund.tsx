@@ -1,173 +1,204 @@
-import { message, Pagination, Table, Tag } from 'antd';
-import { useState } from 'react';
-import './listRefundAntd.scss';
-import { Helmet } from 'react-helmet';
-import { getTitleTab } from '@/constants/client';
-
+import { message, Pagination, Table, TableColumnType, Tag, TreeSelect } from 'antd'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { getTitleTab } from '@/constants/client'
+import {
+  useGetAllRefundRequestQuery,
+  useUpdateStatusRefundRequestMutation
+} from '@/redux/slices/transaction/refundApiSlice'
+import { TRefund } from '@/interfaces/TRefund'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
+import styled from 'styled-components'
+const CustomTreeSelect = styled(TreeSelect)`
+  .ant-select-selector {
+    background-color: #fafafa !important;
+    border: 1px solid #c1c9d2 !important;
+  }
+  .dark & .ant-select-selector {
+    background-color: #131022 !important;
+    border: 1px solid #c7c7c740 !important;
+  }
+  .ant-select-selector .ant-select-selection-placeholder {
+    color: #6e82a3 !important;
+  }
+  .dark & .ant-select-selector .ant-select-selection-placeholder {
+    color: #e9ecef !important;
+  }
+`
 const List_Refund = () => {
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
+  const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({})
+  const [currentPage, setCurrentPage] = useState(1)
+  const [updateStatus] = useUpdateStatusRefundRequestMutation()
 
-  // loading for something
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const filteredStatus = (withdraw: TRefund): boolean => {
+    return selectedStatus === undefined || withdraw.status === Number(selectedStatus)
+  }
 
-  // message alert
-  const [messageApi, contextHolder] = message.useMessage();
+  const filteredData = data?.data?.filter((withdraw: TRefund) => filteredStatus(withdraw)) || []
 
-  const data = [
-    {
-      id: '1',
-      name: 'Công Nghệ Thông Tin',
-      transactionCode: 'HD123456',
-      refundPrice: '1.000.000đ',
-      reason: 'Không hài lòng về chất lượng khóa học',
-      requestAt: '10/10/2024',
-      refundAt: '11/10/2024',
-      status: 'Đã hoàn tiền',
-    },
-    {
-      id: '2',
-      name: 'Thiết kế đồ họa',
-      transactionCode: 'FD163456',
-      refundPrice: '1.200.000đ',
-      reason: 'Tệ',
-      requestAt: '10/11/2024',
-      refundAt: '',
-      status: 'Đang chờ xử lý',
-    },
-    {
-      id: '3',
-      name: 'Marketing',
-      transactionCode: 'XD357896',
-      refundPrice: '2.000.000đ',
-      reason: 'Chưa nghĩ ra',
-      requestAt: '10/10/2024',
-      refundAt: '11/10/2024',
-      status: 'Không được hoàn tiền',
-    },
-  ]
+  const dataSource = filteredData.map((item: TRefund, index: number) => ({
+    key: index + 1,
+    ...item
+  }))
 
-  const dataSource = data?.map((item: any, index: number) => (
-    {
-      key: index + 1,
-      ...item
-    }
-  ));
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    smoothScrollToTop()
+  }
 
-  const columns = [
+  const columns: TableColumnType<TRefund>[] = [
     {
       title: 'STT',
       dataIndex: 'key',
       key: 'key',
       align: 'center' as const,
+      width: 60
     },
     {
-      title: 'Tên sản phẩm',
-      dataIndex: 'name',
-      key: 'name',
-      minWidth: 180,
+      title: 'Tên sinh viên',
+      dataIndex: 'student',
+      key: 'student',
+      width: 160
     },
     {
-      title: 'Mã giao dịch',
-      dataIndex: 'transactionCode',
-      key: 'transactionCode',
-      minWidth: 200,
-      align: 'center' as const,
+      title: 'Tên khóa học',
+      dataIndex: 'course',
+      key: 'course',
+      width: 200
+    },
+    {
+      title: 'Số tiền',
+      key: 'money',
+      dataIndex: 'money',
+      render: (money: number) => <p>{formatPrice(money)}</p>,
+      width: 110
+    },
+    {
+      title: 'Tên giảng viên',
+      dataIndex: 'teacher',
+      key: 'teacher',
+      width: 160
+    },
+
+    {
+      title: 'Thời gian yêu cầu',
+      key: 'created_at',
+      dataIndex: 'created_at',
+      render: (created_at: string) => <p>{formatDate(created_at)}</p>,
+      width: 160
     },
     {
       title: 'Lý do hoàn trả',
-      // dataIndex: 'reason',
-      // key: 'reason',
-      render: ((_: any, item: any) => (
-        <div className="">
-          <p className='w-[120px] overflow-hidden text-ellipsis whitespace-nowrap'>{item.reason}</p>
-        </div>
-      )),
-    },
-    {
-      title: 'Ngày yêu cầu',
-      dataIndex: 'requestAt',
-      key: 'requestAt',
-      align: 'center' as const,
-      minWidth: 150,
-    },
-    {
-      title: 'Ngày hoàn trả',
-      dataIndex: 'refundAt',
-      key: 'refundAt',
-      align: 'center' as const,
-      minWidth: 150,
+      dataIndex: 'refund_reason',
+      key: 'refund_reason',
+      width: 200
     },
     {
       title: 'Trạng thái',
-      render: ((_: any, item: any) => (
-        <div className="flex items-center justify-center">
-          <Tag
-            className='min-w-[180px] text-sm lg:text-[16px] py-1 lg:py-2 text-center'
-            color={
-              item.status === 'Đã hoàn tiền' ? 'green' :
-                item.status === 'Đang chờ xử lý' ? 'gold' :
-                  item.status === 'Không được hoàn tiền' ? 'red' : 'defaultColor'
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: number, record: TRefund) => {
+        const handleStatusChange = async (value: number) => {
+          try {
+            const res = await updateStatus({ id: record.id, status: value })
+            if (res.data) {
+              message.success('Cập nhật trạng thái yêu cầu hoàn tiền thành công!')
+            } else {
+              message.error('Cập nhật trạng thái yêu cầu hoàn tiền không thành công!')
             }
-          >
-            {item.status}
-          </Tag>
-        </div>
-      )),
-      align: 'center' as const,
-    },
-  ];
+            console.log(res)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+        if (status === 2) {
+          return (
+            <CustomTreeSelect
+              value={undefined}
+              placeholder='Chờ phê duyệt'
+              onChange={(value) => handleStatusChange(value as number)}
+              className='w-full sm:w-40 h-10'
+              treeData={[
+                { value: 0, title: 'Từ chối' },
+                { value: 1, title: 'Phê duyệt' }
+              ]}
+            />
+          )
+        } else {
+          return (
+            <Tag className='text-sm w-full sm:w-40 py-[10px] text-center' color={status === 0 ? 'red' : 'green'}>
+              {status === 0 ? 'Đã từ chối' : 'Thành công'}
+            </Tag>
+          )
+        }
+      },
+      width: 100
+    }
+  ]
+
+  if (isLoading || isFetching)
+    return (
+      <div className='min-h-screen flex justify-center items-center'>
+        <Loading />
+      </div>
+    )
 
   return (
-    <>
-      {contextHolder}
+    <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
       <Helmet>
-        <title>{getTitleTab('Danh sách sản phẩm hoàn tiền')}</title>
+        <title>{getTitleTab('Yêu cầu hoàn tiền')}</title>
       </Helmet>
-      <div className="p-4 dark:bg-[#2b2838] bg-white">
-        <div className="heading flex justify-between items-center pb-4 ">
-          <h5 className='font-title text-xl dark:text-[#b9b7c0] text-[#685f78]'>Danh sách sản phẩm hoàn tiền</h5>
-
-          {/* <Link
-            to={'/admin/catalogues/create'}
-            className='
-            border 
-            border-[#F84563] 
-            py-2
-            px-3
-            w-auto
-            rounded-md 
-            bg-[#F84563] 
-            md:w-[15%] 
-            flex 
-            justify-center 
-            items-center 
-            text-white 
-            hover:bg-white 
-            hover:border-[#F84563] 
-            hover:text-[#F84563] 
-            gap-3
-            md:py-2 md:px-5
-            '
-          >
-            <PlusCircleOutlined />
-            Thêm mới
-          </Link> */}
-        </div>
-
-        <div className='content' style={{ overflowX: 'auto' }}>
-          {/* <Table dataSource={dataSource} columns={columns} className='table' /> */}
-          <Table
-            dataSource={dataSource}
-            columns={columns}
-            pagination={false}
-            className='table dark:bg-[#2b2838] dark:text-[#B9B7C0]'
+      <div className='flex flex-col lg:flex-row lg:justify-between mb-4'>
+        <p className='text-xl font-semibold'>Danh sách yêu cầu hoàn tiền</p>
+        <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
+          {/* <div className='flex gap-2 items-center'>
+            <DatePicker
+              value={startDate}
+              placeholder='Ngày bắt đầu'
+              className='dark:bg-[#2b2838] bg-white h-9'
+              onChange={setStartDate}
+            />
+            <span className='hidden sm:block'>-</span>
+            <DatePicker
+              value={endDate}
+              placeholder='Ngày kết thúc'
+              className='dark:bg-[#2b2838] bg-white h-9'
+              onChange={setEndDate}
+            />
+          </div> */}
+          <CustomTreeSelect
+            placeholder='Lọc theo trạng thái'
+            value={selectedStatus}
+            onChange={(value) => setSelectedStatus(value as string)}
+            className='w-full sm:w-40 h-10'
+            treeData={[
+              { value: 0, title: 'Đã từ chối' },
+              { value: 1, title: 'Đã phê duyệt' },
+              { value: 2, title: 'Chờ phê duyệt' }
+            ]}
+            allowClear
           />
         </div>
-
-        <div className="flex justify-end mt-10">
-          <Pagination />
-        </div>
       </div>
-    </>
+
+      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} />
+
+      <div className='flex justify-between items-center my-6 text-sm'>
+        <p className='dark:text-[#b9b7c0]'>
+          Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+          <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+        </p>
+        <Pagination
+          pageSize={data?.meta?.per_page}
+          total={data?.meta?.total}
+          current={currentPage}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+      </div>
+    </div>
   )
 }
 
