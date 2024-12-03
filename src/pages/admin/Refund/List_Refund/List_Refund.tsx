@@ -1,14 +1,13 @@
-import { message, Pagination, Table, TableColumnType, Tag, TreeSelect } from 'antd'
-import { useState } from 'react'
-import { Helmet } from 'react-helmet'
 import { getTitleTab } from '@/constants/client'
+import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
+import { TRefund } from '@/interfaces/TRefund'
 import {
   useGetAllRefundRequestQuery,
   useUpdateStatusRefundRequestMutation
 } from '@/redux/slices/transaction/refundApiSlice'
-import { TRefund } from '@/interfaces/TRefund'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
-import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
+import { message, Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 const CustomTreeSelect = styled(TreeSelect)`
   .ant-select-selector {
@@ -48,7 +47,7 @@ const List_Refund = () => {
     smoothScrollToTop()
   }
 
-  const columns: TableColumnType<TRefund>[] = [
+  const columns: TableColumnsType<TRefund> = [
     {
       title: 'STT',
       dataIndex: 'key',
@@ -138,12 +137,6 @@ const List_Refund = () => {
     }
   ]
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
 
   return (
     <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
@@ -183,7 +176,7 @@ const List_Refund = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} />
+      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading} />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

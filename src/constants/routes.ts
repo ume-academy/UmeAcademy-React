@@ -37,6 +37,7 @@ import Not_Found from './../pages/Not_found/Not_Found'
 import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import List_Withdrawal_Requests from '@/pages/admin/Transactions/List_Transactions/List_Withdrawal_Requests'
 import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List_Transactions'
+import Form_Role_Permission from '@/pages/admin/Role/Form_Role_Permission/Form_Role_Permission'
 
 
 // Routes cho student
@@ -98,6 +99,7 @@ export const adminRoutes = [
   { path: router.listRole, element: List_Role },
   { path: router.rolesCreate, element: Form_Role },
   { path: router.rolesUpdate, element: Form_Role },
+  {path: router.rolePermission, element: Form_Role_Permission},
   { path: router.listCatalogues, element: List_Catalogues },
   { path: router.cataloguesCreate, element: Catalog_Form_Submit },
   { path: router.cataloguesUpdate, element: Catalog_Form_Submit },

@@ -1,10 +1,10 @@
-import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { TTeacher } from '@/interfaces/TTeacher'
 import { useGetAllCourseAdminQuery } from '@/redux/slices/course/courseApiSlice'
-import { Pagination, Table, TableColumnType, Tag, TreeSelect } from 'antd'
+import { Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
 import { Info } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -44,7 +44,7 @@ const List_Courses = () => {
     (course: TCourse) => selectedStatus === undefined || course.status === Number(selectedStatus)
   )
 
-  const columns: TableColumnType<TCourse>[] = [
+  const columns: TableColumnsType<TCourse> = [
     {
       title: 'Stt',
       key: 'stt',
@@ -108,7 +108,7 @@ const List_Courses = () => {
       title: 'Chi tiết',
       key: 'actions',
       render: (record) => (
-        <Link to={`/admin/check-course/${record.id}`}>
+        <Link to={`${router.checkCourse.replace(':id', record.id)}`}>
           <Info className='flex-1 text-xl hover:text-[#ff4667] ml-3' />
         </Link>
       ),
@@ -116,12 +116,6 @@ const List_Courses = () => {
     }
   ]
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
   return (
     <>
       <Helmet>
@@ -154,6 +148,7 @@ const List_Courses = () => {
             rowKey='id'
             dataSource={filteredData}
             scroll={{ x: 'max-content' }}
+            loading={isLoading}
           />
         </div>
         <div className='flex justify-between items-center my-6 text-sm'>

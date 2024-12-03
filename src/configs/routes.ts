@@ -70,6 +70,7 @@ export const router = {
   listRole: `${prefixAdmin}/roles`,
   rolesCreate: `${prefixAdmin}/roles/create`,
   rolesUpdate: `${prefixAdmin}/roles/update/:id`,
+  rolePermission: `${prefixAdmin}/roles/:id/permissions`,
 
   // Route danh mục
   listCatalogues: `${prefixAdmin}/catalogues`,

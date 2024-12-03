@@ -1,123 +1,95 @@
-import { getTitleTab } from "@/constants/client";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, message, Modal, Table, TableColumnsType } from "antd";
-import { Pen, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-
-interface Permission {
-  id: number;
-  name: string;
-  description: string;
-}
-
-interface Role {
-  id: number;
-  title: string;
-  created_at?: Date;
-  description: string;
-  permissions: Permission[];
-}
+import { router } from '@/configs/routes'
+import { getTitleTab } from '@/constants/client'
+import { formatDate } from '@/constants/utils'
+import { TRole } from '@/interfaces/TRole'
+import { useGetAllRoleQuery, useRemoveRoleMutation } from '@/redux/slices/role/roleApiSlice'
+import { PlusCircleOutlined } from '@ant-design/icons'
+import { Button, message, Modal, Table, TableColumnsType } from 'antd'
+import { Info, Pen, Trash2 } from 'lucide-react'
+import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 
 const List_Role = () => {
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage()
+  const { data, isLoading } = useGetAllRoleQuery({})
+  const [removeRole] = useRemoveRoleMutation()
+  console.log(data)
 
-  // message alert
-  const [messageApi, contextHolder] = message.useMessage();
-  const [data, setData] = useState<Role[]>([
-    {
-      id: 1,
-      title: "Admin",
-      created_at: new Date("2023-07-01"),
-      description: "Quản lí các chức năng admin",
-      permissions: [
-        { id: 1, name: "create", description: "Có thể tạo mới các mục" },
-        { id: 2, name: "read", description: "Có thể xem tất cả các mục" },
-        { id: 3, name: "update", description: "Có thể cập nhật các mục hiện có" },
-        { id: 4, name: "delete", description: "Có thể xóa các mục" }
-      ]
-    },
-    {
-      id: 2,
-      title: "Quản trị viên",
-      created_at: new Date("2023-06-20"),
-      description: "Tất cả mọi quyền",
-      permissions: [
-        { id: 1, name: "create", description: "Có thể tạo mới các mục" },
-        { id: 2, name: "read", description: "Có thể xem tất cả các mục" },
-        { id: 3, name: "update", description: "Có thể cập nhật các mục hiện có" },
-        { id: 4, name: "delete", description: "Có thể xóa các mục" },
-        { id: 5, name: "manage-users", description: "Có thể quản lý người dùng" }
-      ]
-    }
-  ]);
+  const dataSource = data?.data?.data.map((item: TRole, index: number) => ({
+    key: index + 1,
+    ...item
+  }))
 
-  const columns: TableColumnsType<Role> = [
+  const columns: TableColumnsType<TRole> = [
     {
-      title: "Stt",
-      key: "stt",
-      render: (_, record, index: number) => <div>{index + 1}</div>,
-      width: 100
+      title: 'Stt',
+      key: 'key',
+      dataIndex: 'key',
+      width: 100,
+      align: 'center', // Căn giữa
     },
     {
-      title: "Tên nhóm quyền",
-      key: "title",
-      dataIndex: "title",
-      width: 250
+      title: 'Tên nhóm quyền',
+      key: 'name',
+      dataIndex: 'name',
+      width: 200,
+      align: 'center',
     },
     {
-      title: "Ngày tạo",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (created_at) => (
-        <div>{created_at ? new Date(created_at).toLocaleDateString('vi-VN') : "N/A"}</div>
+      title: 'Ngày tạo',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (created_at: string) => <div>{formatDate(created_at)}</div>,
+      width: 200,
+      align: 'center', 
+    },
+    {
+      title: 'Ngày sửa',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
+      render: (updated_at: string) => <div>{formatDate(updated_at)}</div>,
+      width: 200,
+      align: 'center',
+    },
+    {
+      title: 'Chi tiết vai trò',
+      render: (record: any) => (
+        <div className='flex justify-center'>
+          <Link to={`${router.rolePermission.replace(':id', record.id)}`}>
+            <Info className='text-xl hover:text-[#ff4667]' />
+          </Link>
+        </div>
       ),
-      width: 150
+      align: 'center', 
     },
     {
-      title: "Mô tả",
-      key: "description",
-      dataIndex: "description",
-      width: 350
-    },
-    {
-      title: 'Tools',
-      render: ((_: any, item: any) => (
-        <div className="flex items-center justify-center gap-2">
-          <Link to={`/admin/roles/update/${item.id}`}>
+      title: 'Chức năng',
+      render: (_: any, record: any) => (
+        <div className='flex items-center justify-center gap-2'>
+          <Link to={`${router.rolesUpdate.replace(':id', record?.id)}`}>
             <Button type='primary'>
               <Pen size={20} />
             </Button>
           </Link>
-
-          <Button
-            type='primary'
-            danger
-            onClick={() => handleRemove(item)}
-          >
+  
+          <Button type='primary' danger onClick={() => handleRemove(record.id)}>
             <Trash2 size={20} />
           </Button>
         </div>
-      )),
-      align: 'center' as const,
+      ),
+      align: 'center', // Căn giữa
     },
   ];
+  
 
-  const handleRemove = (item: any) => {
+  const handleRemove = (id: number) => {
     Modal.confirm({
-      title: (
-        <span className='text-red-500 font-title'>Xác nhận xóa quyền</span>
-      ),
-      content: (
-        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
-          Bạn có chắc chắn muốn xóa quyền này hay không?
-        </p>
-      ),
+      title: <span className='text-red-500 font-title'>Xác nhận xóa quyền</span>,
+      content: <p className='dark:text-[#b9b7c0] text-[#685f78]'>Bạn có chắc chắn muốn xóa quyền này hay không?</p>,
       okText: 'Đồng ý',
       okType: 'danger',
       okButtonProps: {
-        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }
       },
       cancelText: 'Hủy',
       centered: true,
@@ -125,23 +97,22 @@ const List_Role = () => {
       width: 600,
       icon: null,
       onOk: () => {
-        setConfirmLoading(true);
         return new Promise((resolve) => {
-          setTimeout(() => {
-            console.log('Đã xóa bản ghi với ID:', item?.id);
+          setTimeout(async () => {
+            const res = await removeRole(id)
+            if (res.data) {
+              messageApi.open({
+                type: 'success',
+                content: 'Xóa quyền thành công!'
+              })
+            }
 
-            messageApi.open({
-              type: 'success',
-              content: 'Xóa thành công!',
-            });
-
-            setConfirmLoading(false);
-            resolve(undefined);
-          }, 2000);
-        });
+            resolve(undefined)
+          }, 666)
+        })
       }
-    });
-  };
+    })
+  }
 
   return (
     <div>
@@ -149,27 +120,28 @@ const List_Role = () => {
         <title>{getTitleTab('Quản lý phân quyền')}</title>
       </Helmet>
       {contextHolder}
-      <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
-        <div className="flex flex-col md:flex-row justify-between items-center pb-4">
-          <p className="font-title text-lg md:text-xl">Danh sách phân quyền</p>
+      <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
+        <div className='flex flex-col md:flex-row justify-between items-center pb-4'>
+          <p className='font-title text-lg md:text-xl'>Danh sách phân quyền</p>
           <Link
             to={'/admin/roles/create'}
             className='border border-[#F84563] py-2 px-4 md:px-5 rounded-md bg-[#F84563] text-white hover:bg-white hover:border-[#F84563] hover:text-[#F84563] flex items-center gap-2 md:gap-3'
           >
             <PlusCircleOutlined />
-            <span className="hidden sm:inline">Thêm mới</span>
+            <span className='hidden sm:inline'>Thêm mới</span>
           </Link>
         </div>
         <Table
           columns={columns}
-          pagination={{ responsive: true }}
-          rowKey="id"
-          dataSource={data}
-          scroll={{ x: "max-content" }}
+          pagination={false}
+          rowKey='id'
+          dataSource={dataSource}
+          scroll={{ x: 'max-content' }}
+          loading={isLoading}
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default List_Role;
+export default List_Role

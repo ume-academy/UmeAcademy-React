@@ -1,67 +1,75 @@
-import { CheckOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Checkbox, Form, Input } from 'antd';
-import { MoveLeft } from 'lucide-react';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import './Checkbox.scss'
-import { getTitleTab } from '@/constants/client';
-import { Helmet } from 'react-helmet';
+import { getTitleTab } from '@/constants/client'
+import { useAddRoleMutation, useEditRoleMutation, useGetRoleByIdQuery } from '@/redux/slices/role/roleApiSlice'
+import { CheckOutlined, LoadingOutlined } from '@ant-design/icons'
+import { Form, Input, message } from 'antd'
+import { MoveLeft } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
 const Form_Role = () => {
-  const [form] = Form.useForm();
-  const { id } = useParams();
-  const [isLoading, setLoading] = useState(false);
+  const [form] = Form.useForm()
+  const { id } = useParams()
+  const [isLoading, setLoading] = useState(false)
+  const [addRole] = useAddRoleMutation()
+  const [editRole] = useEditRoleMutation()
+  const { data } = useGetRoleByIdQuery(id, { skip: !id })
+  const nav = useNavigate()
 
-  const onFinish = async (values: any) => {
+  useEffect(() => {
+    if (data) {
+      form.setFieldValue('name', data?.data?.name)
+      console.log(data)
+    }
+  }, [data, form])
+
+  const onFinish = async (name: string) => {
     try {
-      setLoading(true);
-      console.log(values);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true)
+      if (id) {
+        const res = await editRole({ name, id: Number(id) })
+        if (res.data) {
+          message.success('Cập nhật quyền thành công')
 
-  const permissions = [
-    {
-      title: 'Quản lý tài khoản',
-      subPermissions: [
-        { label: 'Quản lý tài khoản', value: 'manageAccounts' },
-        { label: 'Xem tài khoản', value: 'viewAccounts' },
-        { label: 'Khóa tài khoản', value: 'lockAccounts' },
-        { label: 'Xóa tài khoản', value: 'deleteAccounts' }
-      ]
-    },
-    {
-      title: 'Quản lý khóa học',
-      subPermissions: [
-        { label: 'Thêm khóa học', value: 'addProducts' },
-        { label: 'Sửa khóa học', value: 'editProducts' },
-        { label: 'Xóa khóa học', value: 'deleteProducts' },
-        { label: 'Xem khóa học', value: 'viewProducts' }
-      ]
+          nav('/admin/roles')
+        } else {
+          message.error('Cập nhật quyền không thành công')
+        }
+      } else {
+        const res = await addRole({ name })
+        if (res.data) {
+          message.success('Thêm mới quyền thành công')
+          nav('/admin/roles')
+        } else {
+          message.error('Thêm mới quyền không thành công')
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
-  ];
+  }
 
   return (
     <div>
       <Helmet>
         <title>{getTitleTab('Quản lý phân quyền')}</title>
       </Helmet>
-      <Form layout="vertical" form={form} onFinish={onFinish} style={{ maxWidth: "100%" }}>
-        <div className="flex flex-wrap gap-y-2 justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7">
-          <h5 className="font-title text-xl">{id ? 'Cập nhật quyền' : 'Thêm mới quyền'}</h5>
-          <div className="flex items-center gap-2">
+      <Form layout='vertical' form={form} onFinish={onFinish} style={{ maxWidth: '100%' }}>
+        <div className='flex flex-wrap gap-y-2 justify-between items-center p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg mb-7'>
+          <h5 className='font-title text-xl'>{id ? 'Cập nhật quyền' : 'Thêm mới quyền'}</h5>
+          <div className='flex items-center gap-2'>
             <Link
-              to={"/admin/roles"}
-              className="py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]"
+              to={'/admin/roles'}
+              className='py-2 px-4 flex items-center rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] border hover:border-[#F84563] border-[#F84563]'
             >
               <MoveLeft />
-              <span className="ml-2">Quay lại</span>
+              <span className='ml-2'>Quay lại</span>
             </Link>
             <button
-              type="submit"
-              className="py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]"
+              type='submit'
+              className='py-2 px-4 rounded-md bg-[#F84563] text-white hover:bg-white hover:text-[#F84563] flex items-center gap-2 border hover:border-[#F84563] border-[#F84563]'
             >
               {isLoading ? <LoadingOutlined /> : <CheckOutlined />}
               {id ? 'Cập nhật quyền' : 'Thêm mới quyền'}
@@ -69,38 +77,18 @@ const Form_Role = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 items-start">
-          <div className="w-full md:w-1/2 p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg">
-            <Form.Item
-              name="name"
-              label={<span className="dark:text-[#b9b7c0] text-[#685f78]">Tên quyền</span>}
-              rules={[{ required: true, message: "Vui lòng nhập tên quyền!" }]}
-            >
-              <Input className="formInput p-2 dark:text-[#b9b7c0] text-[#685f78]" />
-            </Form.Item>
-            <Form.Item
-              name="description"
-              label={<span className="dark:text-[#b9b7c0] text-[#685f78]">Mô tả</span>}
-            >
-              <Input.TextArea className="formInput dark:text-[#b9b7c0] text-[#685f78]" />
-            </Form.Item>
-          </div>
-
-          <div className="w-full md:w-1/2 p-4 bg-white dark:bg-[#2b2838] rounded-lg">
-            {permissions.map((permission) => (
-              <Form.Item key={permission.title} label={<span className="dark:text-[#b9b7c0] text-[#685f78] text-[15px]">{permission.title}</span>}>
-                {permission.subPermissions.map((subPermission) => (
-                  <div className="pl-4 p-1" key={subPermission.value}>
-                    <Checkbox>{subPermission.label}</Checkbox>
-                  </div>
-                ))}
-              </Form.Item>
-            ))}
-          </div>
+        <div className='w-full p-4 dark:text-[#b9b7c0] text-[#685f78] bg-white dark:bg-[#2b2838] rounded-lg'>
+          <Form.Item
+            name='name'
+            label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên quyền</span>}
+            rules={[{ required: true, message: 'Vui lòng nhập tên quyền!' }]}
+          >
+            <Input id='name' placeholder='Nhập tên quyền' className='p-3' />
+          </Form.Item>
         </div>
       </Form>
     </div>
-  );
+  )
 }
 
-export default Form_Role;
+export default Form_Role

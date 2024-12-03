@@ -11,7 +11,7 @@ export const refundApiSlice = createApi({
       query: ({ page }) => `/admin/refund-request?page${page}`,
       providesTags: ['refund']
     }),
-    updateStatusRefundRequest: builder.mutation<TRefund, any>({
+    updateStatusRefundRequest: builder.mutation<TRefund, { id: number; status: number }>({
       query: ({ id, status }) => ({
         url: `/admin/refund-request/${id}`,
         method: 'PUT',

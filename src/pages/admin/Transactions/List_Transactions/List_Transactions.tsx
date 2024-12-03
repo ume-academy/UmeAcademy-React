@@ -1,9 +1,8 @@
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TTransaction } from '@/interfaces/TTransaction'
 import { useGetAllTransactionQuery } from '@/redux/slices/transaction/transactionApiSlice'
-import { Pagination, Table, TableColumnType, Tag, TreeSelect } from 'antd'
+import { Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
@@ -53,12 +52,12 @@ const List_Transactions = () => {
 
   const filteredData = data?.data.filter((transaction: TTransaction) => filteredStatus(transaction)) || []
 
-  const dataSource = filteredData.map((item: any, index: number) => ({
+  const dataSource = filteredData.map((item: TTransaction, index: number) => ({
     key: index + 1,
     ...item
   }))
 
-  const columns: TableColumnType<TTransaction>[] = [
+  const columns: TableColumnsType<TTransaction> = [
     {
       title: 'Stt',
       key: 'key',
@@ -129,13 +128,6 @@ const List_Transactions = () => {
     }
   ]
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
-
   return (
     <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
       <Helmet>
@@ -174,7 +166,7 @@ const List_Transactions = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} />
+      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading}/>
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

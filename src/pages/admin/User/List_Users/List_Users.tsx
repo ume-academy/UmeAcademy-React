@@ -2,7 +2,7 @@ import { router } from "@/configs/routes";
 import { getTitleTab } from "@/constants/client";
 import { TUser } from "@/interfaces/TUser";
 import { useGetUsersQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
-import { Image, message, Modal, Pagination, Space, Spin, Switch, Table, TableColumnType, TreeSelect } from "antd";
+import { Image, message, Modal, Pagination, Space, Spin, Switch, Table, TableColumnsType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -136,7 +136,7 @@ const List_Users = () => {
     return isMatchingEmail && isMatchingRole && isMatchingStatus;
   });
 
-  const columns: TableColumnType<TUser>[] = [
+  const columns: TableColumnsType<TUser> = [
     {
       title: "STT",
       key: "stt",

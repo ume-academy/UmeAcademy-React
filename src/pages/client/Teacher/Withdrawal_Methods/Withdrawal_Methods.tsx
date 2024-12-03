@@ -7,7 +7,7 @@ import {
   useGetAllBankQuery,
   useGetInfoWithdrawQuery
 } from '@/redux/slices/teacher/withdraw/withdrawApiSlice'
-import { Form, message, TreeSelect } from 'antd'
+import { Form, Input, message, TreeSelect } from 'antd'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
@@ -57,7 +57,7 @@ const Withdrawal_Methods = () => {
           message.success('cập nhật phương thức rút tiền thành công')
         } else message.error('cập nhật phương thức rút tiền thất bại')
       } else {
-        const res = await addWithdraw({ info: withdraw })
+        const res = await addWithdraw(withdraw)
         if (res.data) {
           message.success('Thêm mới phương thức rút tiền thành công')
         } else message.error('Thêm mới phương thức rút tiền thất bại')
@@ -140,11 +140,7 @@ const Withdrawal_Methods = () => {
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên tài khoản</span>}
                 rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản' }]}
               >
-                <input
-                  placeholder='Nhập tên tài khoản'
-                  id='name_account'
-                  className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
-                />
+                <Input placeholder='Nhập tên tài khoản' id='name_account' className='p-3' />
               </Form.Item>
 
               <Form.Item
@@ -152,11 +148,7 @@ const Withdrawal_Methods = () => {
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số tài khoản</span>}
                 rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
               >
-                <input
-                  id='number_account'
-                  placeholder='Nhập số tài khoản'
-                  className='border w-full focus:border-[#F84563;] border-[#DCE0EB] outline-none py-2 px-3 rounded-md dark:text-[#b9b7c0] dark:bg-[#131022]'
-                />
+                <Input id='number_account' placeholder='Nhập số tài khoản' className='p-3' />
               </Form.Item>
 
               <Form.Item>

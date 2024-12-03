@@ -71,13 +71,6 @@ const List_Students = () => {
     }
   ]
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
-
   return (
     <>
       <Helmet>
@@ -99,6 +92,7 @@ const List_Students = () => {
                 dataSource={data?.data}
                 columns={columns}
                 pagination={false}
+                loading={isLoading}
                 className='dark:bg-[#2b2838] dark:text-[#B9B7C0]'
               />
             ) : (

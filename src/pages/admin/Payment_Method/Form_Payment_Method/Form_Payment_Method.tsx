@@ -19,42 +19,40 @@ const Form_Payment_Method = () => {
   const [form] = Form.useForm()
   const [isHoveredSubmit, setIsHoveredSubmit] = useState(false)
   const { loading, startLoading, stopLoading } = useLoading()
-
   const [editPaymentMethodMutation] = useEditPaymentMethodMutation()
   const [addPaymentMethodMutation] = useAddPaymentMethodMutation()
   const nav = useNavigate()
   const { data } = useGetPaymentMethodDetailQuery(id, {
     skip: !id
   })
-  console.log(data)
+
   useEffect(() => {
     if (data) {
       form.setFieldValue('name', data.name)
     }
   }, [data, form])
 
-  const onFinish = async (methob: TPaymentMethob) => {
+  const onFinish = async (name: string) => {
     try {
-      startLoading() // Start loading
-      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulating delay (can be removed if unnecessary)
-
+      startLoading()
       if (id) {
-        const updateResponse = await editPaymentMethodMutation({ id, methob })
+        const updateResponse = await editPaymentMethodMutation({ id: Number(id), name })
+        console.log(updateResponse)
         if (updateResponse.data) {
           stopLoading()
-          message.success('Cập nhật thành công')
+          message.success('Cập nhật phương thức thanh toán thành công')
           nav('/admin/list-payment-method')
         } else {
-          message.error('Cập nhật thất bại')
+          message.error('Cập nhật phương thức thanh toán thất bại')
         }
       } else {
-        const addResponse = await addPaymentMethodMutation(methob)
+        const addResponse = await addPaymentMethodMutation({ name })
         if (addResponse.data) {
           stopLoading()
-          message.success('Thêm mới thành công')
+          message.success('Thêm mới phương thức thanh toán thành công')
           nav('/admin/list-payment-method')
         } else {
-          message.error('Thêm mới thất bại')
+          message.error('Thêm mới phương thức thanh toán thất bại')
         }
       }
     } catch (error) {
@@ -107,7 +105,7 @@ const Form_Payment_Method = () => {
               ]}
               className='mb-8'
             >
-              <Input className='formInput p-2 dark:text-[#b9b7c0] text-[#685f78]' />
+              <Input id='name' placeholder='Nhập tên quyền' className='p-3' />
             </Form.Item>
           </div>
         </div>

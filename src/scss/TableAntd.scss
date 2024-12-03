@@ -51,3 +51,25 @@
 .dark .ant-table-wrapper .ant-table-tbody > tr.ant-table-placeholder {
   background-color: #2b2838 !important;
 }
+.ant-spin-dot i {
+  background-color: #ff4667 !important;
+}
+
+/* Ant Design Inputs */
+.ant-input {
+  border-color: #dce0eb !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.ant-input:focus {
+  border-color: #f84563 !important;
+}
+
+.dark .ant-input {
+  color: #b9b7c0 !important;
+  background-color: #2b2838 !important;
+  border-color: #5a5a5a !important;
+}
+.dark .ant-input:focus {
+  border-color: #dce0eb !important;
+}

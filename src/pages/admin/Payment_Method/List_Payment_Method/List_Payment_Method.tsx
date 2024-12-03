@@ -8,16 +8,16 @@ import {
   useRemovePaymentMethodMutation
 } from '@/redux/slices/payment_method/paymentMethodApiSlice'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { Button, message, Modal, Table, TableColumnType } from 'antd'
+import { Button, message, Modal, Table, TableColumnsType } from 'antd'
 import { Pen, Trash2 } from 'lucide-react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 const List_Payment_Method = () => {
-  const { data } = useGetPaymentMethodsQuery({})
+  const { data, isLoading } = useGetPaymentMethodsQuery({})
   const [removePaymentMethod] = useRemovePaymentMethodMutation()
   const [messageApi, contextHolder] = message.useMessage()
-  const { loading, startLoading, stopLoading } = useLoading()
+  const {  startLoading, stopLoading } = useLoading()
 
   const handleRemove = (id: number) => {
     Modal.confirm({
@@ -40,12 +40,17 @@ const List_Payment_Method = () => {
         startLoading
         return new Promise((resolve) => {
           setTimeout(async () => {
-            await removePaymentMethod(id)
-            console.log(id)
-            messageApi.open({
-              type: 'success',
-              content: `Xóa phương thức thành công!`
-            })
+            const res = await removePaymentMethod(id)
+            console.log(res)
+            if (res.data) {
+              messageApi.open({
+                type: 'success',
+                content: `Xóa phương thức thành công!`
+              })
+            }else{ messageApi.open({
+              type: 'error',
+              content: `Xóa phương thức không thành công!`
+            })}
 
             stopLoading
             resolve(undefined)
@@ -55,7 +60,7 @@ const List_Payment_Method = () => {
     })
   }
 
-  const columns: TableColumnType<TPaymentMethob>[] = [
+  const columns: TableColumnsType<TPaymentMethob> = [
     {
       title: 'Stt',
       key: 'stt',
@@ -76,10 +81,10 @@ const List_Payment_Method = () => {
       width: 200
     },
     {
-      title: 'Hành động',
+      title: 'Chức năng',
       render: (_: any, item: any) => (
         <div className='flex items-center justify-center'>
-          <Link to={`${router.paymentMethodUpdate.replace(':id', item.id)}`}>
+          <Link to={`${router.paymentMethodUpdate.replace(':id', item?.id)}`}>
             <Button type='primary' className='ml-2'>
               <Pen size={20} />
             </Button>
@@ -111,7 +116,7 @@ const List_Payment_Method = () => {
             Thêm mới
           </Link>
         </div>
-        <Table scroll={{ x: 966 }} dataSource={data?.data} columns={columns} pagination={false} rowKey='id' />
+        <Table scroll={{ x: 966 }} dataSource={data?.data} columns={columns} pagination={false} rowKey='id' loading={isLoading} />
         {contextHolder}
       </div>
     </div>

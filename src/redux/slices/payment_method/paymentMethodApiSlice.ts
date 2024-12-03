@@ -1,4 +1,4 @@
-import { customBaseQuery } from "@/Api";
+import { customBaseQuery } from '@/Api'
 import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
@@ -9,8 +9,7 @@ export const paymentMethodApiSlice = createApi({
   endpoints: (builder) => ({
     getPaymentMethods: builder.query({
       query: () => '/payment-methods',
-      providesTags: ['paymentMethod'],
-      // transformResponse:(res:{data: TPaymentMethob})=> res.data
+      providesTags: ['paymentMethod']
     }),
 
     getPaymentMethodDetail: builder.query({
@@ -18,25 +17,25 @@ export const paymentMethodApiSlice = createApi({
       transformResponse: (res: { data: TPaymentMethob }) => res.data
     }),
 
-    addPaymentMethod: builder.mutation({
-      query: (body) => ({
+    addPaymentMethod: builder.mutation<TPaymentMethob, { name: string }>({
+      query: ({ name }) => ({
         url: '/admin/payment-methods',
         method: 'POST',
-        body
+        body: name
       }),
       invalidatesTags: ['paymentMethod']
     }),
 
-    editPaymentMethod: builder.mutation({
-      query: ({ id, body }) => ({
+    editPaymentMethod: builder.mutation<TPaymentMethob, { id: number; name: string }>({
+      query: ({ id, name }) => ({
         url: `/admin/payment-methods/${id}`,
-        method: 'POST',
-        body
+        method: 'PUT',
+        body: name
       }),
       invalidatesTags: ['paymentMethod']
     }),
 
-    removePaymentMethod: builder.mutation({
+    removePaymentMethod: builder.mutation<TPaymentMethob, number>({
       query: (id) => ({
         url: `/admin/payment-methods/${id}`,
         method: 'DELETE'

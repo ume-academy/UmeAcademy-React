@@ -1,4 +1,3 @@
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { useTransactionHistoryQuery, useWalletBalanceQuery } from '@/redux/slices/teacher/wallet/walletApiSlice'
@@ -214,19 +213,15 @@ const Withdraw_Money = () => {
         <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>
           Lịch sử rút tiền
         </h2>
-        {isLoading || isFetching ? (
-          <div className='min-h-screen flex justify-center items-center'>
-            <Loading />
-          </div>
-        ) : (
+        
           <Table
             columns={columns}
             dataSource={data?.data}
             pagination={false}
             className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
             scroll={{ x: 670 }}
+            loading={isLoading}
           />
-        )}
       </div>
 
       <div className='flex justify-between items-center my-6 text-sm'>

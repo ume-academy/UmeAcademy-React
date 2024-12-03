@@ -20,6 +20,7 @@ import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
 import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
 import { withdrawApiSlice } from './slices/teacher/withdraw/withdrawApiSlice'
 import { refundApiSlice } from './slices/transaction/refundApiSlice'
+import { roleApiSlice } from './slices/role/roleApiSlice'
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   [studentApiSlice.reducerPath]: studentApiSlice.reducer,
   [transactionApiSlice.reducerPath]: transactionApiSlice.reducer,
   [withdrawApiSlice.reducerPath]: withdrawApiSlice.reducer,
-  [refundApiSlice.reducerPath]: refundApiSlice.reducer
+  [refundApiSlice.reducerPath]: refundApiSlice.reducer,
+  [roleApiSlice.reducerPath]: roleApiSlice.reducer,
 })
 
 export default rootReducer

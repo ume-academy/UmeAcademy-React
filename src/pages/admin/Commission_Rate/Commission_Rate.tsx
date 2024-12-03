@@ -74,7 +74,7 @@ const Commission_Rate = () => {
                 // { max: 100, message: 'Tỷ lệ không được phép lớn hơn 100!' }
               ]}
             >
-              <Input type="number" className='formInput w-full p-2 dark:text-[#b9b7c0] text-[#685f78]' placeholder="%" />
+              <Input type="number" placeholder="%" className='p-3'/>
             </Form.Item>
 
             <Form.Item>

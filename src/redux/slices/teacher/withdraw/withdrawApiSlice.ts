@@ -16,15 +16,15 @@ export const withdrawApiSlice = createApi({
       transformResponse: (res: { data: TInfoWithdraw }) => res.data,
       providesTags: ['withdraw']
     }),
-    addWithdraw: builder.mutation<TInfoWithdraw, any>({
-      query: ({ info }) => ({
+    addWithdraw: builder.mutation<TInfoWithdraw, TInfoWithdraw>({
+      query: (info) => ({
         url: '/teacher/withdraw-method',
         method: 'POST',
         body: info
       }),
       invalidatesTags: ['withdraw']
     }),
-    editWithdraw: builder.mutation<TInfoWithdraw, any>({
+    editWithdraw: builder.mutation<TInfoWithdraw, {info:TInfoWithdraw, id:number}>({
       query: ({ info, id }) => ({
         url: `/teacher/withdraw-method/${id}`,
         method: 'PUT',
@@ -37,16 +37,14 @@ export const withdrawApiSlice = createApi({
     getAllWithdrawRequest: builder.query({
       query: ({ page }) => `/admin/withdraw-request?page=${page}`,
       providesTags: ['withdraw']
-
     }),
-    updateStatusWithdrawRequest: builder.mutation<TInfoWithdraw, any>({
+    updateStatusWithdrawRequest: builder.mutation<TInfoWithdraw, { id: number; status: number }>({
       query: ({ id, status }) => ({
         url: `/admin/withdraw-request/${id}`,
         method: 'PUT',
         body: { status }
       }),
       invalidatesTags: ['withdraw']
-
     })
   })
 })

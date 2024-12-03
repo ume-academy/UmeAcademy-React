@@ -7,7 +7,7 @@ export const profileApiSlice = createApi({
   baseQuery: baseUrl,
   tagTypes: ['Profile'],
   endpoints: (builder) => ({
-    getProfile: builder.query<TUser, void>({
+    getProfile: builder.query({
       query: () => ({
         url: '/auth/me',
         method: 'POST'
@@ -15,11 +15,11 @@ export const profileApiSlice = createApi({
       providesTags: ['Profile'],
       transformResponse: (res: { data: TUser }) => res.data
     }),
-    editProfile: builder.mutation<TUser, any>({
+    editProfile: builder.mutation<TUser, TUser>({
       query: (formData) => ({
         url: `/profile`,
         method: 'PUT',
-        body:formData,
+        body: formData
       })
     })
   })

@@ -1,4 +1,3 @@
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TInfoWithdraw } from '@/interfaces/TInfoWithdraw'
@@ -56,34 +55,34 @@ const List_Withdrawal_Requests = () => {
       title: 'Stt',
       key: 'key',
       dataIndex: 'key',
-      width: 60, 
+      width: 60
     },
     {
       title: 'Tên giảng viên',
       key: 'teacher',
       dataIndex: 'teacher',
-      width: 180, 
+      width: 180,
       render: (teacher: any) => <div>{teacher.name}</div>
     },
     {
       title: 'Số tiền',
       key: 'money',
       dataIndex: 'money',
-      width: 120, 
-      render: (money: number) => <p>{formatPrice(money)}</p>,
+      width: 120,
+      render: (money: number) => <p>{formatPrice(money)}</p>
     },
     {
       title: 'Thời gian yêu cầu',
       key: 'created_at',
       dataIndex: 'created_at',
-      width: 200, 
-      render: (created_at: string) => <p>{formatDate(created_at)}</p>,
+      width: 200,
+      render: (created_at: string) => <p>{formatDate(created_at)}</p>
     },
     {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      width: 150, 
+      width: 150,
       render: (status: number, record: TInfoWithdraw) => {
         const handleStatusChange = async (value: number) => {
           try {
@@ -118,17 +117,9 @@ const List_Withdrawal_Requests = () => {
             </Tag>
           )
         }
-      },
+      }
     }
   ]
-  
-
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
 
   return (
     <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
@@ -168,7 +159,7 @@ const List_Withdrawal_Requests = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} />
+      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading} />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

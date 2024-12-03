@@ -1,4 +1,4 @@
-import { customBaseQuery } from "@/Api";
+import { customBaseQuery } from '@/Api'
 import { TRevenue } from '@/interfaces/TRevenue'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
@@ -11,7 +11,7 @@ export const revenueApiSlice = createApi({
       query: () => '/teacher/statistic',
       transformResponse: (res: { data: TRevenue }) => res.data
     }),
-    filterRevenue: builder.mutation<any, any>({
+    filterRevenue: builder.mutation<TRevenue, { start_date: string; end_date: string }>({
       query: ({ start_date, end_date }) => {
         if (!start_date && end_date) {
           return {
