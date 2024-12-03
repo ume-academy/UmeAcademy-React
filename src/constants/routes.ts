@@ -38,6 +38,9 @@ import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import List_Withdrawal_Requests from '@/pages/admin/Transactions/List_Transactions/List_Withdrawal_Requests'
 import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List_Transactions'
 import Form_Role_Permission from '@/pages/admin/Role/Form_Role_Permission/Form_Role_Permission'
+import Details_Teacher from '@/pages/admin/User/Details_Teacher/Details_Teacher'
+import List_Teachers from '@/pages/admin/User/List_Teachers/List_Teachers'
+
 
 
 // Routes cho student
@@ -89,7 +92,8 @@ export const authRoutes = [
 export const adminRoutes = [
   { path: router.dashBoard, element: '<h1>Dashboard</h1>' },
   { path: router.users, element: List_Users },
-  { path: router.teachers, element: List_Users },
+  { path: router.teachers, element: List_Teachers },
+  { path: router.teacherDetail, element: Details_Teacher },
   { path: router.userDetail, element: Details_User },
   { path: router.coursesList, element: List_Courses },
   //cho detail khóa học admin để tạm

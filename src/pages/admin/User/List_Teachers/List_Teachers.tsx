@@ -3,13 +3,13 @@ import { router } from "@/configs/routes";
 import { getTitleTab } from "@/constants/client";
 import { TUser } from "@/interfaces/TUser";
 import { useGetUsersQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
-import { Image, message, Modal, Pagination, Space, Switch, Table, TableColumnsType, TreeSelect } from "antd";
+import { Image, message, Modal, Pagination, Space, Switch, Table, TableColumnType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
-import './List_User_Antd.scss';
+import '../List_Users/List_User_Antd.scss';
 
 const CustomTreeSelect = styled(TreeSelect)`
 .ant-select-selector {
@@ -28,7 +28,7 @@ const CustomTreeSelect = styled(TreeSelect)`
 }
 `;
 
-const List_Users = () => {
+const List_Teachers = () => {
 
   const [data, setData] = useState<any>([]);
 
@@ -57,10 +57,9 @@ const List_Users = () => {
   useEffect(() => {
     if (users?.data) {
 
-      if (users?.data) {
-        const usersData = users?.data?.filter((user: TUser) => user?.is_teacher === false);
-        setData(usersData);
-      } 
+      const teachersData = users?.data?.filter((user: TUser) => user?.is_teacher !== false);
+      setData(teachersData);
+
     }
   }, [users]);
 
@@ -84,20 +83,20 @@ const List_Users = () => {
       },
       cancelText: 'Hủy',
       centered: true,
-      maskClosable: false, 
+      maskClosable: false,
       width: 600,
       icon: null,
       onOk: async () => {
         try {
 
-          if(!id) return;
+          if (!id) return;
 
           const res = checked ? await unLockUser(id).unwrap() : await lockUser(id).unwrap();
 
           console.log(res)
 
-          if(res?.data) {
-             message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
+          if (res?.data) {
+            message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
           }
 
         } catch (error: any) {
@@ -129,7 +128,7 @@ const List_Users = () => {
     return isMatchingEmail && isMatchingRole && isMatchingStatus;
   });
 
-  const columns: TableColumnsType<TUser> = [
+  const columns: TableColumnType<TUser>[] = [
     {
       title: "STT",
       key: "stt",
@@ -176,7 +175,7 @@ const List_Users = () => {
             unCheckedChildren="Khóa"
             checked={record?.is_lock === 0}
             onChange={(checked) => handleChangeStatus(record?.id, checked)}
-            // onClick={() => console.log(record)}
+          // onClick={() => console.log(record)}
           />
         </Space>
       ),
@@ -208,7 +207,7 @@ const List_Users = () => {
       width: 110,
       render: (_: any, record, index: number) => (
         <div key={index + 1}>
-          <Link to={`${router.userDetail.replace(':id', record.id)}`}>
+          <Link to={`${router.teacherDetail.replace(':id', record.id)}`}>
             <Info className="flex-1 text-xl hover:text-[#ff4667] ml-3" />
           </Link>
         </div>
@@ -221,10 +220,10 @@ const List_Users = () => {
   return (
     <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
       <Helmet>
-        <title>{getTitleTab('Quản lý tài khoản học viên')}</title>
+        <title>{getTitleTab('Quản lý tài khoản giảng viên')}</title>
       </Helmet>
 
-      <p className="mb-4 font-title text-xl">Danh sách học viên</p>
+      <p className="mb-4 font-title text-xl">Danh sách giảng viên</p>
 
       <div className="flex flex-wrap gap-2">
         <div className="relative mb-4 w-full md:w-1/3 lg:w-1/4">
@@ -245,7 +244,6 @@ const List_Users = () => {
           onChange={(value) => setSelectedStatus(value as number)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
           treeData={[
-            { value: 2, title: 'Mặc định' },
             { value: 1, title: 'Khóa' },
             { value: 0, title: 'Mở' }
           ]}
@@ -307,4 +305,4 @@ const List_Users = () => {
   );
 };
 
-export default List_Users;
+export default List_Teachers;

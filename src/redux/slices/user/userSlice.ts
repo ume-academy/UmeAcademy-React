@@ -1,4 +1,6 @@
 import { customBaseQuery } from "@/Api";
+import { TTeacher } from "@/interfaces/TTeacher";
+import { TUser } from "@/interfaces/TUser";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 let initialPage = 1;
@@ -13,6 +15,20 @@ export const userSlice = createApi({
       query: (page = initialPage) => `/admin/users?page=${page}`,
       providesTags: ["User"],
       // transformResponse: (res: { data: TUser }) => res.data
+    }),
+
+    //! GET ONE USER IS STUDENT
+    getAStudentById: builder.query<TUser, any>({
+      query: (studentId) => `/admin/user/${studentId}`,
+      providesTags: ["User"],
+      transformResponse: (res: { data: TUser }) => res.data
+    }),
+
+    //! GET ONE USER IS STUDENT
+    getATeacherById: builder.query<TTeacher, any>({
+      query: (teacherId) => `/teacher/${teacherId}`,
+      providesTags: ["User"],
+      transformResponse: (res: { data: TTeacher }) => res.data
     }),
 
     //! LOCK USER BY ID
@@ -35,4 +51,4 @@ export const userSlice = createApi({
   })
 });
 
-export const { useGetUsersQuery, useLockUserMutation, useUnLockUserMutation } = userSlice;
+export const { useGetUsersQuery, useGetAStudentByIdQuery, useGetATeacherByIdQuery, useLockUserMutation, useUnLockUserMutation } = userSlice;

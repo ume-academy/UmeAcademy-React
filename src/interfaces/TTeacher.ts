@@ -1,8 +1,18 @@
 
 export interface TTeacher {
-  id: number
-  fullname: string
-  avatar: string | null
+  id: number,
+  name: string, // name nhé !fullname
+  avatar: string | null,
+  email: string,
+  total_course: 1,
+  bio?: string,
+  rating: number,
+  job_title: string | null,
+  facebook: string | null,
+  twitter: string | null,
+  linkedin: string | null,
+  youtube: string | null,
+  created_at: string
 }
 
 // Là giáo viên hay không

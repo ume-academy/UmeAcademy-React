@@ -72,7 +72,7 @@ const List_Courses = () => {
       key: 'teacher',
       width: 150,
       responsive: ['md'],
-      render: (teacher: TTeacher) => <div>{teacher.fullname}</div>
+      render: (teacher: TTeacher) => <div>{teacher.name}</div>
     },
     {
       title: 'Số tiền',

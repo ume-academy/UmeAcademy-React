@@ -36,8 +36,8 @@ export const courseApiSlice = createApi({
     getPurchasedCourses: builder.query({
       query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`
     }),
-
-    // GET ALL
+    
+    // ! GET ALL
     getAllCourseAdmin: builder.query({
       query: ({ page }) => `/admin/courses?page=${page}`,
       // transformResponse: (res: { data: TCourse }) => res.data
@@ -59,10 +59,23 @@ export const courseApiSlice = createApi({
       transformResponse: (res: { data: TCourseDetail }) => res.data
     }),
 
+    
+    // ! GET ALL PURCHASED COURSES BY USER ID
+    getAllPurchasedCoursesByUserId: builder.query({
+      query: (userId) => `/admin/student/${userId}/purchased-courses`,
+      providesTags: ["Course"]
+    }),
+
+    // ! GET ALL COURSES BY TEACHER ID
+    getAllPurchasedCoursesByTeacherId: builder.query({
+      query: (teacherId) => `/admin/teacher/${teacherId}/courses`,
+      providesTags: ["Course"]
+    }),
+
     //Teacher
     getAllCourseOfTeacher: builder.query({
       query: ({ page }) => `teacher/courses?page=${page}`
-    })
+    }),
   })
 })
 
@@ -75,5 +88,7 @@ export const {
   useGetAllCourseAdminQuery,
   useApprovalCourseMutation,
   useGetCourseAdminByIdQuery,
-  useGetAllCourseOfTeacherQuery
+  useGetAllCourseOfTeacherQuery,
+  useGetAllPurchasedCoursesByUserIdQuery,
+  useGetAllPurchasedCoursesByTeacherIdQuery
 } = courseApiSlice
