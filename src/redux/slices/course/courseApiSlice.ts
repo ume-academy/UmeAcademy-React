@@ -76,6 +76,15 @@ export const courseApiSlice = createApi({
     getAllCourseOfTeacher: builder.query({
       query: ({ page }) => `teacher/courses?page=${page}`
     }),
+    
+    createCourseOfTeacher: builder.mutation<string, { formData: FormData }>({
+      query: (data) => ({
+          url: '/teacher/courses',
+          method: 'POST',
+          body: data.formData,
+        })
+      }),
+    
   })
 })
 
@@ -89,6 +98,7 @@ export const {
   useApprovalCourseMutation,
   useGetCourseAdminByIdQuery,
   useGetAllCourseOfTeacherQuery,
+  useCreateCourseOfTeacherMutation,
   useGetAllPurchasedCoursesByUserIdQuery,
   useGetAllPurchasedCoursesByTeacherIdQuery
 } = courseApiSlice

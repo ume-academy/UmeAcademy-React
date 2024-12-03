@@ -11,9 +11,9 @@ import './detailsUserAntd.scss';
 import { useGetHistoriesWalletByUserIdQuery } from '@/redux/slices/teacher/wallet/walletApiSlice';
 import { THistoryWallet } from '@/interfaces/THistoryWallet';
 import { formatDate, formatPrice } from '@/constants/utils';
-import { useGetAllPurchasedCoursesByUserIdQuery } from '@/redux/slices/course/courseApiSlice';
 import { TCourse } from '@/interfaces/TCourse';
 import Card from '@/components/client/commonComponents/Card/Card';
+import { useGetAllPurchasedCoursesByUserIdQuery } from '@/redux/slices/course/courseApiSlice';
 
 const Details_User = () => {
 

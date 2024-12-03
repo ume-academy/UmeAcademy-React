@@ -1,7 +1,9 @@
+import { UploadFile } from "antd"
 import { TCategory } from "./TCategory"
 import { TLesson } from "./TLesson"
 import { TLevel } from "./TLevel"
 import { TTeacher } from "./TTeacher"
+import { RcFile, UploadProps } from "antd/es/upload"
 
 interface TBadges {
   badge: string | null
@@ -39,4 +41,12 @@ export interface TContent {
   total_lesson: number,
   chapter_duration: number,
   lesson: TLesson[]
+}
+
+export interface TCreateCourse {
+  name: string
+  summary: string
+  thumbnail: any
+  category_id: TCategory
+  level_id: TLevel
 }

@@ -1,3 +1,4 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading';
 import useRedirectToPurchase from '@/hooks/useRedirectToPurchase';
 import { selectIsAuthenticated } from '@/redux/selector/auth_selector';
 import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice';
@@ -29,7 +30,7 @@ export const PriveteRouteAdmin = ({ children }: { children: JSX.Element }) => {
 
       // Xử lý trạng thái loading hoặc fetching
       if (isLoading || isFetching) {
-        return <div>Loading...</div>;
+        return <div className="min-h-screen flex justify-center items-center"><Loading /></div>;
       }
 
       if (error) {

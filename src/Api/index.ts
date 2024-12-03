@@ -5,14 +5,18 @@ import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@re
 
 export const baseUrl = fetchBaseQuery({
   baseUrl: 'https://umeacademy.me/api/v1',
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const token = (getState() as RootState).auth.accessToken
-
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
     }
-    headers.set('Content-Type', 'application/json')
-    return headers
+    // const UPLOAD_ENDPOINTS = ['uploadEndpoint1', 'uploadEndpoint2'];
+    //  if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
+    //     // Nếu là endpoint upload, không set Content-Type vì FormData sẽ tự động thêm nó
+    //   return headers;
+    //   }
+    // headers.set('content-type', 'application/json');
+    // return headers
   }
 })
 
