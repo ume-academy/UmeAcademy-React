@@ -1,5 +1,5 @@
 import { customBaseQuery } from '@/Api'
-import { TLogin, TRegister, TResponseLogin } from '@/interfaces/TAuth'
+import { TLogin, TRegister, TResetPass, TResponseLogin } from '@/interfaces/TAuth'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import Cookies from 'js-cookie'
 
@@ -34,14 +34,28 @@ export const authApiSlice = createApi({
       }
     }),
 
-    resetPassword: builder.mutation<TRegister, TRegister>({
-      query: (body) => ({
+    forgotPassword: builder.mutation<string, { email: string }>({
+      query: ({ email }) => ({
+        url: '/auth/forgot-password',
+        method: 'POST',
+        body: email
+      })
+    }),
+
+    resetPassword: builder.mutation<TResetPass, TResetPass>({
+      query: (data) => ({
         url: `/auth/reset-password`,
         method: 'POST',
-        body
+        body: data
       })
     })
   })
 })
 
-export const { useRegisterMutation, useLoginMutation, useLogoutApiMutation,useResetPasswordMutation } = authApiSlice
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutApiMutation,
+  useResetPasswordMutation,
+  useForgotPasswordMutation
+} = authApiSlice

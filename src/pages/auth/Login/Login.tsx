@@ -29,7 +29,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [index, setIndex] = useState(0)
-  const { refetch } = useGetProfileQuery()
+  const { refetch } = useGetProfileQuery({})
 
   
   const next = () => {
@@ -110,8 +110,8 @@ const Login = () => {
               </div>
 
               <div className=''>
-                <Link to={router.home} className='underline text-gray-400'>
-                  Quay lại trang chủ
+              <Link to={router.home} className='underline text-gray-400 hover:text-[#FF875A]'>
+              Quay lại trang chủ
                 </Link>
               </div>
             </div>
@@ -163,7 +163,7 @@ const Login = () => {
                 </div>
 
                 <div className=''>
-                  <Link to={router.forgot_password} className='text-[#B9B7C0] hover:text-[#ff875a]'>
+                  <Link to={router.forgot_password} className='text-gray-600 underline hover:text-[#ff875a] '>
                     Quên mật khẩu?
                   </Link>
                 </div>
@@ -186,17 +186,17 @@ const Login = () => {
             </div>
 
             <div className='act flex flex-col md:flex-row items-center gap-6'>
-              <div className='text-md text-center flex items-center gap-3'>
+              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <GoogleCircleFilled className='text-3xl' />
-                <Link to={''}>Đăng nhập bằng Google</Link>
+                <Link to={''} className='hover:text-[#FF875A]'>Đăng nhập bằng Google</Link>
 
               </div>
 
               <div className='hidden md:block mx-6 '>|</div>
 
-              <div className='text-md text-center flex items-center gap-3'>
+              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <FacebookFilled className='text-3xl' />
-                <Link to={''}>Đăng nhập bằng Facebook</Link>
+                <Link to={''} className='hover:text-[#FF875A]'>Đăng nhập bằng Facebook</Link>
 
               </div>
             </div>
@@ -204,7 +204,7 @@ const Login = () => {
             <div className=''>
               <p>
                 Chưa có tài khoản? Đăng ký ngay{' '}
-                <Link to={router.register} className='font-subtitle text-[#FF875A]'>
+                <Link to={router.register} className='font-subtitle hover:text-[#FF875A] underline'>
                   tại đây
                 </Link>
               </p>

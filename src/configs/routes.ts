@@ -9,6 +9,7 @@ export const router = {
   register: '/register',
   forgot_password: '/forgot_password',
   verify_email: '/verify_email',
+  reset_password: '/reset-password',
   // verify_email: `/api/v1/auth/email/verify/:userId/:token`,
 
   // < ===== STUDENT ===== >

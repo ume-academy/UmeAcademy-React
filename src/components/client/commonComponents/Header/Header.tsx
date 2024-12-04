@@ -25,7 +25,7 @@ const Header = () => {
   const nav = useNavigate()
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const isAuthenticated = useSelector(selectIsAuthenticated)
-  const { data } = useGetProfileQuery()
+  const { data } = useGetProfileQuery({})
   const dispatch = useDispatch()
 
   // Bật trạng thái trong suốt khi ở trang home
@@ -267,13 +267,13 @@ const Header = () => {
                 {/* Khi có data thật đây là nút Đăng ký đăng nhập  */}
                 <Link
                   to={`${router.login}`}
-                  className='mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#22100d] hover:border-[#b4a7f5]'
+                  className='mr-[20px] border-transparent border-[2px]  transition-all duration-300 ease-in-out bg-[#b4a7f5] min-w-[140px] flex justify-center items-center text-[#fff] px-[15px] py-[10px] rounded-3xl hover:border-[2px] hover:bg-[#fff] hover:text-[#5140a2] hover:border-[#b4a7f5]'
                 >
                   Đăng Nhập
                 </Link>
                 <Link
                   to={`${router.register}`}
-                  className='mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#22100d] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]'
+                  className='mr-[20px] border-[2px] min-w-[140px] transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#5140a2] px-[15px] py-[10px] hover:bg-[#f6697b] hover:border-transparent hover:text-[#fff]'
                 >
                   Đăng Ký
                 </Link>

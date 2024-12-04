@@ -21,11 +21,9 @@ const Register = () => {
   const [index, setIndex] = useState(0)
   const [form] = Form.useForm<TRegister>()
   const { theme } = useContext(ThemeContext) as ThemeContextType
-  const { loading , startLoading, stopLoading} = useLoading()
-  const [ register ] = useRegisterMutation()
+  const { loading, startLoading, stopLoading } = useLoading()
+  const [register] = useRegisterMutation()
   const nav = useNavigate()
-
-
 
   const next = () => {
     if (index === dataCarousel.length - 1) {
@@ -47,17 +45,16 @@ const Register = () => {
 
   const onfinish = async (data: TRegister) => {
     try {
-        startLoading()
-        await register(data).unwrap()
-        stopLoading()
-        message.success('Đăng ký thành công')
-        nav(router.verify_email)
-
+      startLoading()
+      await register(data).unwrap()
+      stopLoading()
+      message.success('Đăng ký thành công')
+      nav(router.verify_email)
     } catch (error) {
-        stopLoading()
-        let err = error as TRegisterError
-        message.error(err?.data?.errors?.email ?? 'Đăng ký thất bại')
-        console.log(error)
+      stopLoading()
+      let err = error as TRegisterError
+      message.error(err?.data?.errors?.email ?? 'Đăng ký thất bại')
+      console.log(error)
     }
   }
 
@@ -99,7 +96,7 @@ const Register = () => {
               </div>
 
               <div className=''>
-                <Link to={router.home} className='underline text-gray-400 hover:text-[#ff875a]'>
+                <Link to={router.home} className='underline text-gray-400 hover:text-[#FF875A]'>
                   Quay lại trang chủ
                 </Link>
               </div>
@@ -114,18 +111,22 @@ const Register = () => {
                 <div className={`${styles['formGroup']} space-y-2`}>
                   <Form.Item
                     name='fullname'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Tên đầy đủ</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Tên đầy đủ
+                      </h6>
+                    }
                     rules={[
                       { required: true, message: 'Vui lòng nhập tên đầy đủ!' },
                       { max: 32, message: 'Tên đầy đủ không được vượt quá 64 ký tự' },
-                      { 
-                        pattern: /^[\p{L}\s]+$/u, 
-                        message: 'Tên đầy đủ chỉ được chứa các ký tự chữ cái và dấu cách' 
+                      {
+                        pattern: /^[\p{L}\s]+$/u,
+                        message: 'Tên đầy đủ chỉ được chứa các ký tự chữ cái và dấu cách'
                       }
                     ]}
                   >
                     <Input
-                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}`}}
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md`}
                       placeholder='Điền tên hiển thị'
                     />
@@ -135,14 +136,18 @@ const Register = () => {
                 <div className={`${styles['formGroup']} space-y-4`}>
                   <Form.Item
                     name='email'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Email</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Email
+                      </h6>
+                    }
                     rules={[
-                      { required: true, message: 'Vui lòng nhập địa chỉ email!'},
-                      { type: 'email', message: 'Email không đúng định dạng'}
+                      { required: true, message: 'Vui lòng nhập địa chỉ email!' },
+                      { type: 'email', message: 'Email không đúng định dạng' }
                     ]}
                   >
                     <Input
-                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}`}}
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
                       placeholder='Nhập địa chỉ email'
                     />
@@ -152,7 +157,11 @@ const Register = () => {
                 <div className={`${styles['formGroup']} space-y-2`}>
                   <Form.Item
                     name='password'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Mật khẩu</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Mật khẩu
+                      </h6>
+                    }
                     rules={[
                       { required: true, message: 'Vui lòng nhập mật khẩu' },
                       { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
@@ -164,7 +173,6 @@ const Register = () => {
                     ]}
                   >
                     <Input.Password
-                      
                       style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
                       placeholder='Nhập mật khẩu'
@@ -175,7 +183,11 @@ const Register = () => {
                 <div className={`${styles['formGroup']} space-y-2`}>
                   <Form.Item
                     name='confirmPassword'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Nhập lại mật khẩu</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Nhập lại mật khẩu
+                      </h6>
+                    }
                     dependencies={['password']}
                     rules={[
                       { required: true, message: 'Vui lòng nhập lại mật khẩu' },
@@ -190,7 +202,7 @@ const Register = () => {
                     ]}
                   >
                     <Input.Password
-                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}`}}
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
                       placeholder='Nhập lại mật khẩu'
                     />
@@ -198,7 +210,11 @@ const Register = () => {
                 </div>
 
                 <div className={`${styles['formGroup']} space-y-2`}>
-                  <Button htmlType='submit' disabled={loading} className={`${styles['btn']} font-subtitle text-lg text-white py-8 mt-6 rounded-md`}>
+                  <Button
+                    htmlType='submit'
+                    disabled={loading}
+                    className={`${styles['btn']} font-subtitle text-lg text-white py-8 mt-6 rounded-md`}
+                  >
                     {loading ? <LoadingOutlined /> : 'Đăng ký'}
                   </Button>
                 </div>
@@ -215,23 +231,27 @@ const Register = () => {
             </div>
 
             <div className='act flex flex-col md:flex-row items-center gap-6'>
-              <div className='text-md text-center flex items-center gap-3'>
+              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <GoogleCircleFilled className='text-3xl' />
-                <Link to={''}>Đăng nhập bằng Google</Link>
+                <Link to={''} className='hover:text-[#FF875A]'>
+                  Đăng nhập bằng Google
+                </Link>
               </div>
 
               <div className='hidden md:block mx-6 '>|</div>
 
-              <div className='text-md text-center flex items-center gap-3'>
+              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <FacebookFilled className='text-3xl' />
-                <Link to={''}>Đăng nhập bằng Facebook</Link>
+                <Link to={''} className='hover:text-[#FF875A]'>
+                  Đăng nhập bằng Facebook
+                </Link>
               </div>
             </div>
 
             <div className=''>
               <p>
                 Đã có tài khoản? Đăng nhập ngay{' '}
-                <Link to={router.login} className='font-subtitle text-[#FF875A]'>
+                <Link to={router.login} className='font-subtitle hover:text-[#FF875A] underline'>
                   tại đây
                 </Link>
               </p>

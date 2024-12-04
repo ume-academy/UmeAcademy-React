@@ -40,6 +40,7 @@ import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List
 import Form_Role_Permission from '@/pages/admin/Role/Form_Role_Permission/Form_Role_Permission'
 import Details_Teacher from '@/pages/admin/User/Details_Teacher/Details_Teacher'
 import List_Teachers from '@/pages/admin/User/List_Teachers/List_Teachers'
+import ResetPassword from '@/pages/auth/ForgotPassword/ResetPassword'
 
 
 
@@ -84,7 +85,8 @@ export const authRoutes = [
   { path: router.login, element: Login },
   { path: router.register, element: Register },
   { path: router.forgot_password, element: ForgotPassword },
-  { path: router.verify_email, element: Veryfi_Email }
+  { path: router.verify_email, element: Veryfi_Email },
+  { path: router.reset_password, element: ResetPassword }
   // { path: router.Email_Verification_Reminder, element: Home_Page}
 ]
 

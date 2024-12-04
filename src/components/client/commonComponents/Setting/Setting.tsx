@@ -75,7 +75,7 @@ const Setting = ({ data }: any) => {
                   </div>
                 ),
                 children: (
-                  <Form form={form} onFinish={handleProfile} className={`${styles['tabContent']} dark:text-[#B9B7C0]`}>
+                  <Form form={form} layout='vertical' onFinish={handleProfile} className={`${styles['tabContent']} dark:text-[#B9B7C0]`}>
                     <div
                       className={`${styles['info']} flex flex-col justify-center items-center space-x-0 p-4 md:p-6 md:flex-row md:justify-start md:items-start md:space-x-4`}
                     >
