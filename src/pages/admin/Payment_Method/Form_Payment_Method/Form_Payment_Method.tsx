@@ -36,9 +36,9 @@ const Form_Payment_Method = () => {
     try {
       startLoading()
       if (id) {
-        const updateResponse = await editPaymentMethodMutation({ id: Number(id), name })
-        console.log(updateResponse)
-        if (updateResponse.data) {
+        const res = await editPaymentMethodMutation({ id: Number(id), name })
+        console.log(res)
+        if (res.data) {
           stopLoading()
           message.success('Cập nhật phương thức thanh toán thành công')
           nav('/admin/list-payment-method')
@@ -46,8 +46,8 @@ const Form_Payment_Method = () => {
           message.error('Cập nhật phương thức thanh toán thất bại')
         }
       } else {
-        const addResponse = await addPaymentMethodMutation({ name })
-        if (addResponse.data) {
+        const res = await addPaymentMethodMutation({ name })
+        if (res.data) {
           stopLoading()
           message.success('Thêm mới phương thức thanh toán thành công')
           nav('/admin/list-payment-method')

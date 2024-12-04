@@ -1,19 +1,18 @@
-import { Image, Pagination, Progress, Table, TableColumnType } from 'antd'
-import styles from './listStudent.module.scss'
-import './listStudents.scss'
-import { Helmet } from 'react-helmet'
 import { getTitleTab } from '@/constants/client'
-import { useGetStudentsOfCourseQuery } from '@/redux/slices/teacher/student/studentApiSlice'
-import { useState } from 'react'
 import { formatDate, smoothScrollToTop } from '@/constants/utils'
 import { TStudent } from '@/interfaces/TStudent'
+import { useGetStudentsOfCourseQuery } from '@/redux/slices/teacher/student/studentApiSlice'
+import { Image, Pagination, Progress, Table, TableColumnType } from 'antd'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
+import styles from './listStudent.module.scss'
+import './listStudents.scss'
 
 const List_Students = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const { id } = useParams()
-  const { data, isLoading, isFetching } = useGetStudentsOfCourseQuery({ page: currentPage, id: id })
+  const { data, isLoading } = useGetStudentsOfCourseQuery({ page: currentPage, id: id })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)

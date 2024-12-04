@@ -4,7 +4,7 @@ import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import { Helmet } from 'react-helmet'
 
 const Profile = () => {
-  const { data } = useGetProfileQuery()
+  const { data } = useGetProfileQuery({})
 
   return (
     <>

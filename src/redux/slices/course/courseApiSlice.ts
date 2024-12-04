@@ -74,7 +74,7 @@ export const courseApiSlice = createApi({
 
     //Teacher
     getAllCourseOfTeacher: builder.query({
-      query: ({ page }) => `teacher/courses?page=${page}`
+      query: ({ per_page,page }) => `teacher/courses?per_page=${per_page}&page=${page}`
     }),
     
     createCourseOfTeacher: builder.mutation<string, { formData: FormData }>({

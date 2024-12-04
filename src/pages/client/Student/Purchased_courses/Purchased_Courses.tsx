@@ -1,21 +1,18 @@
 import Card from '@/components/client/commonComponents/Card/Card'
-import { Pagination } from 'antd'
-import { easeInOut, motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { getTitleTab } from '../../../../constants/client'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { router } from '@/configs/routes'
+import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
-import { smoothScrollToTop } from '@/constants/utils'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { Pagination } from 'antd'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { router } from '@/configs/routes'
+import { getTitleTab } from '../../../../constants/client'
 
 const Purchased_Courses = () => {
-  const bottomRef = useRef(null)
   const [currentPage, setCurrentPage] = useState(1)
   const perPage = 24
-  const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
   const { data, isFetching, isLoading } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
 
   const handlePageChange = (page: number) => {
@@ -40,15 +37,9 @@ const Purchased_Courses = () => {
       </div>
 
       {data?.data && data?.data.length > 0 ? (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={isBottomInView ? { y: 0, opacity: 100 } : {}}
-          transition={{ duration: 1, ease: easeInOut }}
-          ref={bottomRef}
-          className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'
-        >
+        <div className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'>
           {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
-        </motion.div>
+        </div>
       ) : (
         <div className='flex flex-col gap-y-6 justify-center items-center h-[366px] dark:text-[#B9B7C0] text-lg md:text-xl'>
           <p>Bạn chưa đăng ký khóa học nào. Hãy bắt đầu khám phá và mua khóa học yêu thích của bạn.</p>

@@ -32,7 +32,7 @@ const Form_Role_Permission = () => {
   const onFinish = async (name: string) => {
     try {
       setloading(true)
-      const res = await addPermissionToRole({ id: Number(id), name })
+      const res = await addPermissionToRole({ id: Number(id), name: name })
       console.log(res)
       if (res.data) {
         message.success('Cập nhật vai trò cho quyền thành công')

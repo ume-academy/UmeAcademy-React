@@ -36,7 +36,8 @@ const Form_Role = () => {
           message.error('Cập nhật quyền không thành công')
         }
       } else {
-        const res = await addRole({ name })
+        const res = await addRole({ name: name })
+        console.log(res)
         if (res.data) {
           message.success('Thêm mới quyền thành công')
           nav('/admin/roles')

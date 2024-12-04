@@ -24,8 +24,8 @@ const Form_Course = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const { id } = useParams()
   const [form] = Form.useForm() //<TCourse>
-  const {data: levels} = useGetAlllevelQuery({})
-  const {data: catalogues}  = useGetAllCategoryQuery({})
+  const { data: levels } = useGetAlllevelQuery({})
+  const { data: catalogues } = useGetAllCategoryQuery({})
   const [createCourse] = useCreateCourseOfTeacherMutation()
 
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
@@ -67,70 +67,66 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
 
   // state loading khi click nút
   const nav = useNavigate()
-  const {loading, startLoading, stopLoading} = useLoading()
+  const { loading, startLoading, stopLoading } = useLoading()
 
   type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
-  
+
   const getBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = error => reject(error);
-    });
-};
-
-  const validateFile = async (file: FileType) => {
-    if(!file) return Promise.reject('Vui lòng chọn file');
-
-    const isFileize = file.size / 1024 / 1024 < 2;
-    if(!isFileize) return Promise.reject('File phải nhỏ hơn 2MB');
-
-    const isFileFormat = file.type === 'image/jpeg'
-                      || file.type === 'image/png'
-                      || file.type === 'image/jpg'
-                      || file.type === 'image/gif'
-                      || file.type === 'image/svg'
-      
-    if(!isFileFormat) return Promise.reject('File không đúng định dạng');
-
-    return Promise.resolve();
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = (error) => reject(error)
+    })
   }
 
-  const onfinish =async (data: TCreateCourse) => {
+  const validateFile = async (file: FileType) => {
+    if (!file) return Promise.reject('Vui lòng chọn file')
+
+    const isFileize = file.size / 1024 / 1024 < 2
+    if (!isFileize) return Promise.reject('File phải nhỏ hơn 2MB')
+
+    const isFileFormat =
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/jpg' ||
+      file.type === 'image/gif' ||
+      file.type === 'image/svg'
+
+    if (!isFileFormat) return Promise.reject('File không đúng định dạng')
+
+    return Promise.resolve()
+  }
+
+  const onfinish = async (data: TCreateCourse) => {
     try {
       startLoading()
-      const {name, category_id, level_id, summary } = data
+      const { name, category_id, level_id, summary } = data
       const thumbnailFile = data.thumbnail?.fileList?.[0].originFileObj
       
       console.log(thumbnailFile)
-      
 
-        // Tạo FormData
-        const formData = new FormData();
-        formData.append('category_id', category_id.toString());
-        formData.append('level_id', level_id.toString());
-        formData.append('name', name);
-        formData.append('summary', summary);
-        
-        if (thumbnailFile) {
-          formData.append('thumbnail', thumbnailFile);
-        }
+      // Tạo FormData
+      const formData = new FormData()
+      formData.append('category_id', category_id.toString())
+      formData.append('level_id', level_id.toString())
+      formData.append('name', name)
+      formData.append('summary', summary)
 
-        // Gửi FormData
-        await createCourse({ formData }).unwrap();
-        message.success('Tạo khóa học thành công');
-        nav(router.myCourses)
-        stopLoading();
+      if (thumbnailFile) {
+        formData.append('thumbnail', thumbnailFile)
+      }
 
+      // Gửi FormData
+      await createCourse({ formData }).unwrap()
+      message.success('Tạo khóa học thành công')
+      nav(router.myCourses)
+      stopLoading()
     } catch (error) {
       console.log(error)
       stopLoading()
-
     }
   }
-
-  
 
   // Điều kiện rending text cho thẻ title H1
   const textH1 =
@@ -148,7 +144,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
         <div className=''>
           <Form form={form} onFinish={onfinish} layout='vertical'>
             <h1 className='text-[28px] font-title text-[#f66962] mb-6'>{textH1}</h1>
-            <div className="lg:mb-[40px]">
+            <div className='lg:mb-[40px]'>
               {/* Tên khóa học */}
               <div className='mb-8'>
                 <Form.Item
@@ -156,18 +152,18 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tiêu đề khóa học</label>}
                   rules={[
                     { required: true, message: 'Tên không được trống.' },
-                    { type: 'string', message: 'Tên phải là một chuỗi.' },
+                    { type: 'string', message: 'Tên phải là một chuỗi.' }
                   ]}
                 >
-                <Input
-                  style={{backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
-                  type='text'
-                  className='py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                  <Input
+                    style={{ backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2` }}
+                    type='text'
+                    className='py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
-                  placeholder='Tiêu đề khóa học'
-                  disabled={hideCourseFunctionAdmin}
-                />
+                    placeholder='Tiêu đề khóa học'
+                    disabled={hideCourseFunctionAdmin}
+                  />
                 </Form.Item>
               </div>
 
@@ -177,7 +173,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   name='level_id'
                   label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Trình độ khóa học</label>}
                   rules={[
-                    {required: true, message: 'Tên không được trống.'},
+                    { required: true, message: 'Tên không được trống.' }
                     // {validator: validateO},
                   ]}
                 >
@@ -189,10 +185,12 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     showSearch
                     disabled={hideCourseFunctionAdmin}
                   >
-                    {levels && levels.data.map((level: TLevel) => <TreeNode key={level.id} value={level.id} title={level.name} />)}
+                    {levels &&
+                      levels.data.map((level: TLevel) => (
+                        <TreeNode key={level.id} value={level.id} title={level.name} />
+                      ))}
                   </CustomTreeSelect>
                 </Form.Item>
-
               </div>
 
               {/* Danh mục */}
@@ -201,7 +199,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   name='category_id'
                   label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Danh mục khóa học</label>}
                   rules={[
-                    { required: true, message: 'Danh mục không được trống.' },
+                    { required: true, message: 'Danh mục không được trống.' }
                     // { validator: validateO },
                   ]}
                 >
@@ -213,7 +211,10 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     showSearch
                     disabled={hideCourseFunctionAdmin}
                   >
-                    {catalogues && catalogues.data.map((category: TCategory) => <TreeSelect.TreeNode key={category.id} title={category.name} value={category.id} />)}
+                    {catalogues &&
+                      catalogues.data.map((category: TCategory) => (
+                        <TreeSelect.TreeNode key={category.id} title={category.name} value={category.id} />
+                      ))}
                   </CustomTreeSelect>
                 </Form.Item>
               </div>
@@ -250,23 +251,26 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       onChange={async (info) => {
                         // Kiểm tra trạng thái của file khi thay đổi
                         if (info.file.status === 'done') {
-                          const file = info.file.originFileObj;
+                          const file = info.file.originFileObj
                           if (file) {
                             try {
                               // Kiểm tra file nếu có originFileObj
-                              await validateFile(file); // Kiểm tra file khi tải lên
+                              await validateFile(file) // Kiểm tra file khi tải lên
                             } catch (error) {
-                              console.log(error); // Xử lý lỗi nếu file không hợp lệ
+                              console.log(error) // Xử lý lỗi nếu file không hợp lệ
                             }
                           } else {
-                            console.log('File không hợp lệ');
+                            console.log('File không hợp lệ')
                           }
-                        }}}
+                        }
+                      }}
                     >
                       <p className='ant-upload-drag-icon'>
                         <UploadOutlined style={{ color: '#f66962' }} />
                       </p>
-                      <p className='text-[16px] dark:text-[#b9b7c0] mb-1'>Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
+                      <p className='text-[16px] dark:text-[#b9b7c0] mb-1'>
+                        Nhấp hoặc kéo tệp vào khu vực này để tải lên
+                      </p>
                       <p className='text-[#00000073] dark:text-[#b9b7c0]'>
                         Hỗ trợ tải lên một tệp. Nghiêm cấm tải lên dữ liệu công ty hoặc các tệp bị cấm khác.
                       </p>
@@ -286,8 +290,8 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     {
                       validator: async (_, value) => {
                         // Gọi hàm validateFile để kiểm tra file
-                        return validateFile(value?.file || null);
-                      },
+                        return validateFile(value?.file || null)
+                      }
                     }
                   ]}
                 >
@@ -295,7 +299,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     name='file'
                     listType='picture'
                     maxCount={1}
-                    style={{  padding: 18 }}
+                    style={{ padding: 18 }}
                     disabled={hideCourseFunctionAdmin}
                     beforeUpload={() => false}
                     multiple={false}
@@ -312,47 +316,48 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
               </div>
 
               {/* Tóm tắt */}
-            <div className='mb-8'>
-              <Form.Item
-                    name='summary'
-                    label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>}
-                    rules={[
-                      {required: true, message: 'Tóm tắt không được để trống.'},
-                      {type: 'string', message: 'Tóm tắt phải là một chuỗi.'},
-                      {max: 255, message: 'Tóm tắt không được vượt quá 255 ký tự.'}
-                    ]}
-                  >
-                  
+              <div className='mb-8'>
+                <Form.Item
+                  name='summary'
+                  label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>}
+                  rules={[
+                    { required: true, message: 'Tóm tắt không được để trống.' },
+                    { type: 'string', message: 'Tóm tắt phải là một chuỗi.' },
+                    { max: 255, message: 'Tóm tắt không được vượt quá 255 ký tự.' }
+                  ]}
+                >
                   <TextArea
-                    style={{ height: 160 , backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
+                    style={{
+                      height: 160,
+                      backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`,
+                      border: `#c1c9d2`
+                    }}
                     className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
                     placeholder='Mô tả'
                     disabled={hideCourseFunctionAdmin}
                   />
-              </Form.Item>
-            </div>
-              
+                </Form.Item>
+              </div>
 
               {/* Mô tả */}
               {id ? (
                 <div className='mb-8'>
-                <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tóm tắt khóa học</label>
-                <TextArea
-                  style={{ height: 160 }}
-                  className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
+                  <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tóm tắt khóa học</label>
+                  <TextArea
+                    style={{ height: 160 }}
+                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
                 h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                 focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
-                  placeholder='Mô tả'
-                  disabled={hideCourseFunctionAdmin}
-                />
-                
+                    placeholder='Mô tả'
+                    disabled={hideCourseFunctionAdmin}
+                  />
                 </div>
               ) : (
                 <></>
               )}
-          </div>
+            </div>
             {!hideCourseFunctionAdmin ? (
               <>
                 {/* Nút */}
@@ -367,10 +372,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       Quay lại
                     </Link>
                   )}
-                  <button
-                    
-                    className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'
-                  >
+                  <button className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'>
                     {loading ? <LoadingOutlined /> : id ? 'Lưu' : 'Thêm mới khóa học'}
                   </button>
                 </div>

@@ -20,6 +20,7 @@ export const roleApiSlice = createApi({
       }),
       invalidatesTags: ['role']
     }),
+
     editRole: builder.mutation<TRole, { name: string; id: number }>({
       query: ({ name, id }) => ({
         url: `/admin/roles/${id}`,
@@ -28,9 +29,11 @@ export const roleApiSlice = createApi({
       }),
       invalidatesTags: ['role']
     }),
+
     getRoleById: builder.query({
       query: (id) => `/admin/roles/${id}`
     }),
+
     removeRole: builder.mutation<TRole, number>({
       query: (id) => ({
         url: `/admin/roles/${id}`,
@@ -43,15 +46,17 @@ export const roleApiSlice = createApi({
       query: () => `/admin/permissions`,
       providesTags: ['role']
     }),
+
     getRolePermissonById: builder.query({
       query: (id) => `/admin/roles/${id}/permissions`,
       providesTags: ['role']
     }),
+
     addPermissionToRole: builder.mutation<TRole, { id: number; name: string }>({
       query: ({ id, name }) => ({
         url: `/admin/roles/${id}/permissions`,
         method: 'POST',
-        body: name
+        body: { name }
       }),
       invalidatesTags: ['role']
     })

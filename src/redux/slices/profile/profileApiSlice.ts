@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseUrl } from '@/Api'
-import { TUser } from '@/interfaces/TUser'
+import { TProfile } from '@/interfaces/TUser'
 
 export const profileApiSlice = createApi({
   reducerPath: 'profileApi',
@@ -13,13 +13,14 @@ export const profileApiSlice = createApi({
         method: 'POST'
       }),
       providesTags: ['Profile'],
-      transformResponse: (res: { data: TUser }) => res.data
+      transformResponse: (res: { data: TProfile }) => res.data
     }),
-    editProfile: builder.mutation<TUser, TUser>({
-      query: (formData) => ({
+
+    editProfile: builder.mutation<TProfile, { formData: FormData }>({
+      query: (data) => ({
         url: `/profile`,
-        method: 'PUT',
-        body: formData
+        method: 'POST',
+        body: data.formData
       })
     })
   })
