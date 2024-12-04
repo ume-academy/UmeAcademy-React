@@ -37,12 +37,11 @@ const ResetPassword = () => {
 
   const onFinish = async (data: TResetPass) => {
     try {
-      console.log(data)
-      const res = await forgotPassword(data).unwrap()
-      console.log(res)
-      nav(`${router.login}`)
+      await forgotPassword(data).unwrap()
+      setTimeout(() => {
+        nav(`${router.login}`)
+      }, 6666)
       message.success('Đặt lại mật khẩu thành công')
-      console.log(res)
     } catch (error) {
       message.error('Đã xảy ra lỗi khi đặt lại mật khẩu')
       console.log(error)
@@ -90,7 +89,7 @@ const ResetPassword = () => {
         </div>
 
         <div className={`${styles['right']} dark:text-[#B9B7C0] dark:bg-[#2b2838]  bg-[#fff]`}>
-          <div className={`${styles['top']}  p-5  md:p-10  lg:p-10 xl:p-20  space-y-6 `}>
+          <div className={`${styles['top']}  p-5  md:p-10  lg:p-10 xl:p-20  space-y-10 `}>
             <div className={`${styles['heading']} flex justify-between items-center`}>
               <div className={`${styles['logo']} text-3xl font-title`}>
                 <Link to={router.home}>
@@ -111,7 +110,7 @@ const ResetPassword = () => {
               </div>
 
               <Form form={form} onFinish={onFinish} layout='vertical' className={`${styles['form']} space-y-7`}>
-                <p>Nhập mật khẩu của bạn để cập nhật lại mật khẩu mới.</p>
+                <p>Nhập mật khẩu mới của bạn để cập nhật lại mật khẩu.</p>
                 <Form.Item name='token' hidden>
                   <Input type='hidden' />
                 </Form.Item>
@@ -135,13 +134,16 @@ const ResetPassword = () => {
                       }
                     ]}
                   >
-                    <Input.Password placeholder='Mật khẩu mới' className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`} />
+                    <Input.Password
+                      placeholder='Mật khẩu mới'
+                      className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
+                    />
                   </Form.Item>
                 </div>
 
                 <div className='space-y-2'>
                   <label className='font-subtitle text-[16px] '>
-                    Xác nhận lại mật khẩu <span className='text-red-500'>*</span>
+                    Xác nhận lại mật khẩu mới <span className='text-red-500'>*</span>
                   </label>
                   <Form.Item
                     name='password_confirmation'
@@ -159,12 +161,15 @@ const ResetPassword = () => {
                           if (!value || getFieldValue('password') === value) {
                             return Promise.resolve()
                           }
-                          return Promise.reject(new Error('Mật khẩu không trùng khớp'))
+                          return Promise.reject(new Error('Mật khẩu không trùng khớp với mật khẩu mới'))
                         }
                       })
                     ]}
                   >
-                    <Input.Password placeholder='Nhập lại mật khẩu' className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`} />
+                    <Input.Password
+                      placeholder='Nhập lại mật khẩu mới'
+                      className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
+                    />
                   </Form.Item>
                 </div>
                 <div className={`${styles['formGroup']} space-y-2`}>
@@ -173,15 +178,13 @@ const ResetPassword = () => {
                   </button>
                 </div>
               </Form>
-              <div
-                className={`${styles['others']} dark:bg-[#5C505B] bg-[#FFF5F4] flex flex-col items-center space-y-6 p-5`}
-              >
-                <div>
-                  <span>Đặt lại mặt khẩu thành công. </span>
-                  <Link to={router.login} className='font-subtitle hover:text-[#FF875A] underline'>
-                    Đăng nhập
-                  </Link>
-                </div>
+            </div>
+            <div className={`${styles['others']} dark:bg-[#5C505B] bg-[#FFF5F4] flex flex-col items-center p-5`}>
+              <div>
+                <span>Đặt lại mặt khẩu thành công. </span>
+                <Link to={router.login} className='font-subtitle hover:text-[#FF875A] underline'>
+                  Đăng nhập
+                </Link>
               </div>
             </div>
           </div>

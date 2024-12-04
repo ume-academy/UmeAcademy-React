@@ -23,15 +23,14 @@ import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Login = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
-  const { loading, startLoading, stopLoading} = useLoading()
-  const [ login ] = useLoginMutation()
-  const [ form ] = Form.useForm()
+  const { loading, startLoading, stopLoading } = useLoading()
+  const [login] = useLoginMutation()
+  const [form] = Form.useForm()
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [index, setIndex] = useState(0)
   const { refetch } = useGetProfileQuery({})
 
-  
   const next = () => {
     if (index === dataCarousel.length - 1) {
       setIndex(0) // Nếu đã đến cuối mảng, quay lại chỉ số 0
@@ -53,21 +52,23 @@ const Login = () => {
   const onfinish = async (data: TLogin) => {
     try {
       startLoading()
-      const {access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
+      const { access_token, refresh_token, expires_in }: TResponseLogin = await login(data).unwrap()
 
-      dispatch(setToken({
-        accessToken: access_token, 
-        refreshToken: refresh_token, 
-        expiresIn: expires_in
-      }))
+      dispatch(
+        setToken({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          expiresIn: expires_in
+        })
+      )
       await refetch() // Lấy thông tin người dùng MỚI NHẤT sau khi đăng nhập
       stopLoading()
       message.success('Đăng nhập thành công')
       nav(router.home)
     } catch (error) {
       stopLoading()
-      let err= error as TLoginError
-      message.error(err.data?.error ??'Tài khoản hoặc mật khẩu không chính xác.')
+      let err = error as TLoginError
+      message.error(err.data?.error ?? 'Tài khoản hoặc mật khẩu không chính xác.')
       console.log(error)
     }
   }
@@ -79,7 +80,7 @@ const Login = () => {
       </Helmet>
 
       <div className={`${styles['parent']} flex items-stretch `}>
-        <div className="hidden md:block flex-1">
+        <div className='hidden md:block flex-1'>
           <div
             className={`${styles['left']} dark:bg-[#131022] dark:bg-none dark:text-[#B9B7C0] flex flex-col space-y-4 justify-between`}
           >
@@ -110,8 +111,8 @@ const Login = () => {
               </div>
 
               <div className=''>
-              <Link to={router.home} className='underline text-gray-400 hover:text-[#FF875A]'>
-              Quay lại trang chủ
+                <Link to={router.home} className='underline text-gray-400 hover:text-[#FF875A]'>
+                  Quay lại trang chủ
                 </Link>
               </div>
             </div>
@@ -125,14 +126,18 @@ const Login = () => {
                 <div className={`${styles['formGroup']} space-y-4`}>
                   <Form.Item
                     name='email'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Email</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Email
+                      </h6>
+                    }
                     rules={[
-                      { required: true, message: 'Vui lòng nhập địa chỉ email!'},
-                      { type: 'email', message: 'Email không đúng định dạng'}
+                      { required: true, message: 'Vui lòng nhập địa chỉ email!' },
+                      { type: 'email', message: 'Email không đúng định dạng' }
                     ]}
                   >
                     <Input
-                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}`}}
+                      style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['input']} py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
                       placeholder='Nhập địa chỉ email'
                     />
@@ -142,7 +147,11 @@ const Login = () => {
                 <div className={`${styles['formGroup']} space-y-2`}>
                   <Form.Item
                     name='password'
-                    label={<h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>Mật khẩu</h6>}
+                    label={
+                      <h6 className={`${theme === 'light' ? '#050507' : 'text-[#B9B7C0] text-[14px]'} font-subtitle`}>
+                        Mật khẩu
+                      </h6>
+                    }
                     rules={[
                       { required: true, message: 'Vui lòng nhập mật khẩu' },
                       { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
@@ -154,7 +163,6 @@ const Login = () => {
                     ]}
                   >
                     <Input.Password
-                      
                       style={{ background: `${theme === 'light' ? '#fff' : '#3b3a43'}` }}
                       className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
                       placeholder='Nhập mật khẩu'
@@ -169,7 +177,11 @@ const Login = () => {
                 </div>
 
                 <div className={`${styles['formGroup']} space-y-2`}>
-                  <Button htmlType='submit' disabled={loading} className={`${styles['btn']} font-subtitle text-lg text-white py-8 mt-6 rounded-md`}>
+                  <Button
+                    htmlType='submit'
+                    disabled={loading}
+                    className={`${styles['btn']} font-subtitle text-lg text-white py-8 mt-6 rounded-md`}
+                  >
                     {loading ? <LoadingOutlined /> : 'Đăng nhập'}
                   </Button>
                 </div>
@@ -188,16 +200,18 @@ const Login = () => {
             <div className='act flex flex-col md:flex-row items-center gap-6'>
               <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <GoogleCircleFilled className='text-3xl' />
-                <Link to={''} className='hover:text-[#FF875A]'>Đăng nhập bằng Google</Link>
-
+                <Link to={''} className='hover:text-[#FF875A]'>
+                  Đăng nhập bằng Google
+                </Link>
               </div>
 
               <div className='hidden md:block mx-6 '>|</div>
 
               <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
                 <FacebookFilled className='text-3xl' />
-                <Link to={''} className='hover:text-[#FF875A]'>Đăng nhập bằng Facebook</Link>
-
+                <Link to={''} className='hover:text-[#FF875A]'>
+                  Đăng nhập bằng Facebook
+                </Link>
               </div>
             </div>
 

@@ -41,9 +41,8 @@ const ForgotPassword = () => {
 
   const onFinish = async (email: string) => {
     try {
-      const res = await forgotPassword({ email }).unwrap()
+      await forgotPassword({ email }).unwrap()
       message.success('Đã gửi yêu cầu khôi phục lại mật khẩu cho email của bạn')
-      console.log(res)
     } catch (error) {
       message.error('Đã xảy ra lỗi khi đặt lại mật khẩu')
       console.log(error)
@@ -105,7 +104,10 @@ const ForgotPassword = () => {
                       { type: 'email', message: 'Email không đúng định dạng' }
                     ]}
                   >
-                    <Input placeholder='Email' className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`} />
+                    <Input
+                      placeholder='Email'
+                      className={`${styles['ant-input-outlined']} border-[2px] py-3 px-3 dark:text-[#fff] dark:bg-[#3b3a43] rounded-md placeholder:text-[#9ca3af]`}
+                    />
                   </Form.Item>
                 </div>
 
