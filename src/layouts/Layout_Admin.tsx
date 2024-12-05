@@ -11,7 +11,8 @@ import {
   BarsOutlined,
   CreditCardOutlined,
   HistoryOutlined,
-  PieChartOutlined
+  PieChartOutlined,
+  UserAddOutlined
 } from '@ant-design/icons'
 import { Layout, MenuProps } from 'antd'
 import {
@@ -21,7 +22,8 @@ import {
   LibraryBig,
   PercentCircle,
   ShieldAlert,
-  Users
+  Users,
+  UserCog
 } from 'lucide-react'
 import React, { useContext, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
@@ -84,7 +86,11 @@ const Layout_Admin: React.FC = () => {
 
     getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '11', <ShieldAlert size={15} />),
     getItem(<NavLink to={router.listPaymentMethod}>Phương thức thanh toán</NavLink>, '12', <CreditCardOutlined />),
-    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '13', <HistoryOutlined />)
+    getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '13', <HistoryOutlined />),
+    getItem('Người dùng hệ thống', 'sub4', <UserCog size={15} />, [
+      getItem(<NavLink to={router.usersSystem} className='truncate'>Danh sách người dùng hệ thống</NavLink>, '14', <BarsOutlined />),
+      getItem(<NavLink to={router.userSystemCreate}>Tạo mới người dùng hệ thống</NavLink>, '15', <UserAddOutlined />)
+    ]),
   ]
 
   const handleCollapse = (isCollapsed: any) => {

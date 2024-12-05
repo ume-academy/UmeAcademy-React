@@ -59,6 +59,8 @@ export const router = {
   teachers: `${prefixAdmin}/teachers`,
   userDetail: `${prefixAdmin}/user/:id`,
   teacherDetail: `${prefixAdmin}/teacher/:id`,
+  usersSystem: `${prefixAdmin}/users-system`,
+  userSystemCreate: `${prefixAdmin}/user-system-create`,
 
   // Route khóa học
   coursesList: `${prefixAdmin}/courses`,

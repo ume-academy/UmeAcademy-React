@@ -36,7 +36,7 @@ const List_Users = () => {
 
   const [selectedRole, setSelectedRole] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(0);
+  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -245,7 +245,6 @@ const List_Users = () => {
           onChange={(value) => setSelectedStatus(value as number)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
           treeData={[
-            { value: 2, title: 'Mặc định' },
             { value: 1, title: 'Khóa' },
             { value: 0, title: 'Mở' }
           ]}

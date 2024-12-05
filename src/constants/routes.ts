@@ -3,13 +3,19 @@ import { router } from '@/configs/routes'
 import Catalog_Form_Submit from '@/pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
 import List_Catalogues from '@/pages/admin/Catalogues/List_Catalogues/List_Catalogues'
 import Commission_Rate from '@/pages/admin/Commission_Rate/Commission_Rate'
+import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import List_Courses from '@/pages/admin/Course/List_Courses/List_Courses'
 import Form_Payment_Method from '@/pages/admin/Payment_Method/Form_Payment_Method/Form_Payment_Method'
 import List_Payment_Method from '@/pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
 import List_Refund from '@/pages/admin/Refund/List_Refund/List_Refund'
 import Form_Role from '@/pages/admin/Role/Form_Role/Form_Role'
+import Form_Role_Permission from '@/pages/admin/Role/Form_Role_Permission/Form_Role_Permission'
 import List_Role from '@/pages/admin/Role/List_Role/List_Role'
+import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List_Transactions'
+import List_Withdrawal_Requests from '@/pages/admin/Transactions/List_Transactions/List_Withdrawal_Requests'
+import Details_Teacher from '@/pages/admin/User/Details_Teacher/Details_Teacher'
 import Details_User from '@/pages/admin/User/Details_User/Details_User'
+import List_Teachers from '@/pages/admin/User/List_Teachers/List_Teachers'
 import List_Users from '@/pages/admin/User/List_Users/List_Users'
 import ForgotPassword from '@/pages/auth/ForgotPassword/ForgotPassword'
 import Login from '@/pages/auth/Login/Login'
@@ -34,15 +40,9 @@ import Forbidden from '@/pages/Forbidden/Forbidden'
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email'
 import Home_Page from './../pages/client/Student/Home_page/Home_Page'
 import Not_Found from './../pages/Not_found/Not_Found'
-import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
-import List_Withdrawal_Requests from '@/pages/admin/Transactions/List_Transactions/List_Withdrawal_Requests'
-import List_Transactions from '@/pages/admin/Transactions/List_Transactions/List_Transactions'
-import Form_Role_Permission from '@/pages/admin/Role/Form_Role_Permission/Form_Role_Permission'
-import Details_Teacher from '@/pages/admin/User/Details_Teacher/Details_Teacher'
-import List_Teachers from '@/pages/admin/User/List_Teachers/List_Teachers'
 import ResetPassword from '@/pages/auth/ForgotPassword/ResetPassword'
-
-
+import System_Users from '@/pages/admin/System_User/List/System_Users'
+import Create_User_System from '@/pages/admin/System_User/Form/Create_User_System'
 
 // Routes cho student
 export const studentRoutes = [
@@ -93,6 +93,8 @@ export const authRoutes = [
 // Routes cho admin
 export const adminRoutes = [
   { path: router.dashBoard, element: '<h1>Dashboard</h1>' },
+  { path: router.usersSystem, element: System_Users },
+  { path: router.userSystemCreate, element: Create_User_System },
   { path: router.users, element: List_Users },
   { path: router.teachers, element: List_Teachers },
   { path: router.teacherDetail, element: Details_Teacher },

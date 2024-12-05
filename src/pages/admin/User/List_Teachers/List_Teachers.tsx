@@ -36,7 +36,7 @@ const List_Teachers = () => {
 
   const [selectedRole, setSelectedRole] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(0);
+  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 

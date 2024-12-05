@@ -26,11 +26,12 @@ const Catalog_Form_Submit = () => {
 
   const [updateCategory] = useUpdateCategoryMutation()
 
-  const { data: category, isLoading, isFetching, isError, error } = useGetOneCategoryQuery(id)
+  // chỉ chạy khi có id
+  const { data: category, isLoading, isFetching, isError, error } = useGetOneCategoryQuery(id, { skip: !id })
 
   // fill data
   useEffect(() => {
-    if (category?.data) {
+    if (id && category?.data) {
       form.setFieldsValue(category?.data)
     }
   }, [category?.data, form, id])
