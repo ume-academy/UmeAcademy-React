@@ -47,8 +47,6 @@ const Header = () => {
     }
   }
 
-
-
   const handleLogout = async () => {
     // const tokenREF = Cookies.get('refresh_Token')
 

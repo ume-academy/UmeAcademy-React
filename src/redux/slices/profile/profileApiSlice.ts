@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseUrl } from '@/Api'
 import { TProfile } from '@/interfaces/TUser'
+import { TChangePass } from '@/interfaces/TAuth'
 
 export const profileApiSlice = createApi({
   reducerPath: 'profileApi',
@@ -21,9 +22,18 @@ export const profileApiSlice = createApi({
         url: `/profile`,
         method: 'POST',
         body: data.formData
+      }),
+      invalidatesTags: ['Profile']
+    }),
+
+    changePassword: builder.mutation<string, TChangePass>({
+      query: (data) => ({
+        url: '/change-password',
+        method: 'POST',
+        body: data
       })
     })
   })
 })
 
-export const { useGetProfileQuery, useEditProfileMutation } = profileApiSlice
+export const { useGetProfileQuery, useEditProfileMutation, useChangePasswordMutation } = profileApiSlice

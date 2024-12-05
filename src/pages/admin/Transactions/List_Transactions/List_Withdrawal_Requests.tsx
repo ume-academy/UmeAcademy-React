@@ -31,7 +31,7 @@ const List_Withdrawal_Requests = () => {
   // const [startDate, setStartDate] = useState<string | null>(null)
   // const [endDate, setEndDate] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, isLoading, isFetching } = useGetAllWithdrawRequestQuery({ page: currentPage })
+  const { data, isLoading, isFetching } = useGetAllWithdrawRequestQuery({ per_page: 10, page: currentPage })
   const [updateStatus] = useUpdateStatusWithdrawRequestMutation()
 
   const handlePageChange = (page: number) => {
@@ -88,9 +88,9 @@ const List_Withdrawal_Requests = () => {
           try {
             const res = await updateStatus({ id: record.id, status: value })
             if (res.data) {
-              message.success('Cập nhật trạng thái yêu cầu rút tiền thành công!')
+              message.success('Cập nhật trạng thái yêu cầu rút tiền thành công')
             } else {
-              message.error('Cập nhật trạng thái yêu cầu rút tiền không thành công!')
+              message.error('Đã xảy ra lỗi khi cập nhật trạng thái yêu cầu rút tiền')
             }
             console.log(res)
           } catch (error) {
@@ -159,7 +159,13 @@ const List_Withdrawal_Requests = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading} />
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        scroll={{ x: 'max-content' }}
+        loading={isLoading}
+      />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

@@ -4,7 +4,7 @@ import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { TTeacher } from '@/interfaces/TTeacher'
 import { useGetAllCourseAdminQuery } from '@/redux/slices/course/courseApiSlice'
-import { Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
+import { Image, Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
 import { Info } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -56,7 +56,9 @@ const List_Courses = () => {
       title: 'Ảnh',
       dataIndex: 'thumbnail',
       key: 'thumbnail',
-      render: (thumbnail) => <img src={thumbnail} alt='Course thumbnail' width={100} />,
+      render: (thumbnail: string) => (
+        <Image src={thumbnail} alt='Course thumbnail' style={{ width: '80px', height: 'auto', objectFit: 'cover' }} />
+      ),
       width: 80,
       responsive: ['sm']
     },
@@ -72,7 +74,7 @@ const List_Courses = () => {
       key: 'teacher',
       width: 150,
       responsive: ['md'],
-      render: (teacher: TTeacher) => <div>{teacher.name}</div>
+      render: (teacher: TTeacher) => <div>{teacher.fullname}</div>
     },
     {
       title: 'Số tiền',

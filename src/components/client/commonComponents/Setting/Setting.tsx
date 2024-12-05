@@ -1,6 +1,6 @@
-import { TRegister } from '@/interfaces/TAuth'
+import { TChangePass, TRegister } from '@/interfaces/TAuth'
 import { TProfile } from '@/interfaces/TUser'
-import { useEditProfileMutation } from '@/redux/slices/profile/profileApiSlice'
+import { useChangePasswordMutation, useEditProfileMutation } from '@/redux/slices/profile/profileApiSlice'
 import { CloudUploadOutlined, EditFilled, LoadingOutlined, LockFilled } from '@ant-design/icons'
 import { Button, Form, Image, Input, message, Tabs, Upload } from 'antd'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import './SettingAntd.scss'
 const Setting = ({ data }: any) => {
   const { avatar, bio, email, fullname, is_teacher } = data || {}
   const [editProfile, { isLoading }] = useEditProfileMutation()
+  const [changePassword, { isLoading: loadingPass }] = useChangePasswordMutation()
   const [preview, setPreview] = useState<string>('')
   const [fileList, setFileList] = useState<any[]>([])
   const [form] = Form.useForm()
@@ -42,13 +43,17 @@ const Setting = ({ data }: any) => {
       await editProfile({ formData }).unwrap()
       message.success('Cập nhật hồ sơ cá nhân thành công')
     } catch (error) {
+      message.error('Đã xảy ra lỗi khi cập nhật hồ sơ cá nhân')
       console.log(error)
     }
   }
 
-  const handlePassword = async (data: TRegister) => {
+  const handlePassword = async (data: TChangePass) => {
     try {
+      await changePassword(data).unwrap()
+      message.success('Thay đổi mật khẩu thành công!')
     } catch (error) {
+      message.error('Mật khẫu cũ không chính xác')
       console.log(error)
     }
   }
@@ -75,7 +80,12 @@ const Setting = ({ data }: any) => {
                   </div>
                 ),
                 children: (
-                  <Form form={form} layout='vertical' onFinish={handleProfile} className={`${styles['tabContent']} dark:text-[#B9B7C0]`}>
+                  <Form
+                    form={form}
+                    layout='vertical'
+                    onFinish={handleProfile}
+                    className={`${styles['tabContent']} dark:text-[#B9B7C0]`}
+                  >
                     <div
                       className={`${styles['info']} flex flex-col justify-center items-center space-x-0 p-4 md:p-6 md:flex-row md:justify-start md:items-start md:space-x-4`}
                     >
@@ -206,45 +216,56 @@ const Setting = ({ data }: any) => {
                   </div>
                 ),
                 children: (
-                  <div className={`${styles['tabContent']} p-4 md:p-6 dark:text-[#B9B7C0]`}>
-                    <div className={`${styles['form']} flex space-x-4 p-0 md:p-6`}>
-                      <Form form={form} className={`${styles['formContent']} space-y-6`}>
-                        <div className={`${styles['formGroup']} w-full`}>
-                          <label htmlFor='password'>Mật khẩu hiện tại</label>
-                          <Form.Item
-                            name='password'
-                            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu hiện tại!' }]}
-                          >
-                            <Input
-                              id='password'
-                              type='password'
-                              className={`${styles['formInput']} dark:bg-[#131022]`}
-                            />
-                          </Form.Item>
-                        </div>
-
-                        <div className={`${styles['formGroup']} w-full`}>
-                          <label htmlFor='new_password'>Mật khẩu mới</label>
-                          <Form.Item
-                            name='new_password'
-                            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu mới!' }]}
-                          >
-                            <Input
-                              id='new_password'
-                              type='password'
-                              className={`${styles['formInput']} dark:bg-[#131022]`}
-                            />
-                          </Form.Item>
-                        </div>
-
-                        <div className={`${styles['btnGroup']}`}>
-                          <button type='submit' className='w-full md:w-auto'>
-                            Thay đổi mật khẩu
-                          </button>
-                        </div>
-                      </Form>
+                  <Form
+                    form={form}
+                    onFinish={handlePassword}
+                    className={` dark:text-[#B9B7C0] p-4 md:p-6 space-y-10 mt-6`}
+                  >
+                    <div className={` w-full space-y-2`}>
+                      <label htmlFor='old_password'>Mật khẩu hiện tại</label>
+                      <Form.Item
+                        name='old_password'
+                        rules={[
+                          { required: true, message: 'Vui lòng nhập mật khẩu' },
+                          { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
+                          { max: 32, message: 'Mật khẩu không được vượt quá 32 ký tự' },
+                          {
+                            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            message: 'Mật khẩu bao gồm a-z, A-Z, 0-9 và phải chứa ít nhất một ký tự đặc biệt.'
+                          }
+                        ]}
+                      >
+                        <Input className={`px-3 py-3`} placeholder='Mật khẩu hiện tại' />
+                      </Form.Item>
                     </div>
-                  </div>
+
+                    <div className={` w-full space-y-2`}>
+                      <label htmlFor='new_password'>Mật khẩu mới</label>
+                      <Form.Item
+                        name='new_password'
+                        rules={[
+                          { required: true, message: 'Vui lòng nhập mật khẩu' },
+                          { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
+                          { max: 32, message: 'Mật khẩu không được vượt quá 32 ký tự' },
+                          {
+                            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            message: 'Mật khẩu bao gồm a-z, A-Z, 0-9 và phải chứa ít nhất một ký tự đặc biệt.'
+                          }
+                        ]}
+                      >
+                        <Input className={`px-3 py-3`} placeholder='Mật khẩu mới' />
+                      </Form.Item>
+                    </div>
+
+                    <div>
+                      <button
+                        type='submit'
+                        className=' w-full md:w-auto  border hover:border-[#f1697f] space-x-2 bg-[#f84563] text-white hover:bg-white hover:text-[#f1697f] py-2 px-4 rounded-md'
+                      >
+                        <span>Thay đổi mật khẩu</span> {loadingPass && <LoadingOutlined />}
+                      </button>
+                    </div>
+                  </Form>
                 )
               }
             ]}

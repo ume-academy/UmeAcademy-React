@@ -34,6 +34,7 @@ export const authApiSlice = createApi({
       }
     }),
 
+
     forgotPassword: builder.mutation<string, { email: string }>({
       query: ({ email }) => ({
         url: '/auth/forgot-password',
@@ -57,5 +58,5 @@ export const {
   useLoginMutation,
   useLogoutApiMutation,
   useResetPasswordMutation,
-  useForgotPasswordMutation
+  useForgotPasswordMutation,
 } = authApiSlice

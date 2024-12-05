@@ -38,7 +38,7 @@ const Form_Role_Permission = () => {
         message.success('Cập nhật vai trò cho quyền thành công')
         nav('/admin/roles')
       } else {
-        message.error('Cập nhật vai trò cho quyền thất bại')
+        message.error('Đã xảy ra lỗi khi cập nhật vai trò cho quyền')
       }
       setloading(false)
     } catch (error) {

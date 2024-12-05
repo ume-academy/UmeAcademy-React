@@ -1,9 +1,7 @@
-import { UploadFile } from "antd"
 import { TCategory } from "./TCategory"
 import { TLesson } from "./TLesson"
 import { TLevel } from "./TLevel"
 import { TTeacher } from "./TTeacher"
-import { RcFile, UploadProps } from "antd/es/upload"
 
 interface TBadges {
   badge: string | null

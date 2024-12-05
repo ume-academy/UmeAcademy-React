@@ -24,7 +24,7 @@ export const withdrawApiSlice = createApi({
       }),
       invalidatesTags: ['withdraw']
     }),
-    editWithdraw: builder.mutation<TInfoWithdraw, {info:TInfoWithdraw, id:number}>({
+    editWithdraw: builder.mutation<TInfoWithdraw, { info: TInfoWithdraw; id: number }>({
       query: ({ info, id }) => ({
         url: `/teacher/withdraw-method/${id}`,
         method: 'PUT',
@@ -35,7 +35,7 @@ export const withdrawApiSlice = createApi({
 
     //ADMIN
     getAllWithdrawRequest: builder.query({
-      query: ({ page }) => `/admin/withdraw-request?page=${page}`,
+      query: ({ per_page, page }) => `/admin/withdraw-request??per_page=${per_page}&page=${page}`,
       providesTags: ['withdraw']
     }),
     updateStatusWithdrawRequest: builder.mutation<TInfoWithdraw, { id: number; status: number }>({

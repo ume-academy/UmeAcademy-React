@@ -7,7 +7,7 @@ export const transactionApiSlice = createApi({
   tagTypes: ['transaction'],
   endpoints: (builder) => ({
     getAllTransaction: builder.query({
-      query: ({ page }) => `/admin/transactions?page=${page}`
+      query: ({ per_page,page }) => `/admin/transactions?per_page=${per_page}&page=${page}`
     })
   })
 })

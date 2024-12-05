@@ -27,8 +27,8 @@ const CustomTreeSelect = styled(TreeSelect)`
 `
 const List_Refund = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
-  const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({})
   const [currentPage, setCurrentPage] = useState(1)
+  const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({ per_page: 10, page: currentPage })
   const [updateStatus] = useUpdateStatusRefundRequestMutation()
 
   const filteredStatus = (withdraw: TRefund): boolean => {
@@ -103,9 +103,9 @@ const List_Refund = () => {
           try {
             const res = await updateStatus({ id: record.id, status: value })
             if (res.data) {
-              message.success('Cập nhật trạng thái yêu cầu hoàn tiền thành công!')
+              message.success('Cập nhật trạng thái yêu cầu hoàn tiền thành công')
             } else {
-              message.error('Cập nhật trạng thái yêu cầu hoàn tiền không thành công!')
+              message.error('Đã xảy ra lỗi khi cập nhật trạng thái yêu cầu hoàn tiền')
             }
             console.log(res)
           } catch (error) {
@@ -136,7 +136,6 @@ const List_Refund = () => {
       width: 100
     }
   ]
-
 
   return (
     <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
@@ -176,7 +175,13 @@ const List_Refund = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading} />
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        scroll={{ x: 'max-content' }}
+        loading={isLoading}
+      />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

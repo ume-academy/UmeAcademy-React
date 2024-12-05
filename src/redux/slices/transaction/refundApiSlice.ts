@@ -8,7 +8,7 @@ export const refundApiSlice = createApi({
   tagTypes: ['refund'],
   endpoints: (builder) => ({
     getAllRefundRequest: builder.query({
-      query: ({ page }) => `/admin/refund-request?page${page}`,
+      query: ({per_page, page }) => `/admin/refund-request?per_page=${per_page}&page${page}`,
       providesTags: ['refund']
     }),
     updateStatusRefundRequest: builder.mutation<TRefund, { id: number; status: number }>({

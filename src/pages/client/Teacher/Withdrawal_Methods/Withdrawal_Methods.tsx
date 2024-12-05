@@ -49,18 +49,18 @@ const Withdrawal_Methods = () => {
   const onFinish = async (withdraw: TInfoWithdraw) => {
     try {
       if (info) {
-        const res = await editWithdraw({
+        const resEdit = await editWithdraw({
           id: info.id,
           info: withdraw
         })
-        if (res.data) {
+        if (resEdit.data) {
           message.success('cập nhật phương thức rút tiền thành công')
-        } else message.error('cập nhật phương thức rút tiền thất bại')
+        } else message.error('Đã xảy ra lỗi khi cập nhật phương thức rút tiền')
       } else {
-        const res = await addWithdraw(withdraw)
-        if (res.data) {
+        const resAdd = await addWithdraw(withdraw)
+        if (resAdd.data) {
           message.success('Thêm mới phương thức rút tiền thành công')
-        } else message.error('Thêm mới phương thức rút tiền thất bại')
+        } else message.error('Đã xảy ra lỗi khi thêm mới phương thức rút tiền')
       }
     } catch (error) {
       console.log(error)

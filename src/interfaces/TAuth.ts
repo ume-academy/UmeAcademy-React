@@ -17,6 +17,11 @@ export interface TResetPass {
   password_confirmation: string
 }
 
+export interface TChangePass{
+  old_password:string
+  new_password: string
+}
+
 export interface TResponseLogin {
   access_token: string
   refresh_token: string

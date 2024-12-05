@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 const My_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, isLoading, isFetching } = useGetAllCourseOfTeacherQuery({ per_page: 12, page: currentPage })
+  const { data, isLoading, isFetching } = useGetAllCourseOfTeacherQuery({ per_page: 6, page: currentPage })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)

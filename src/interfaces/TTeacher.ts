@@ -1,17 +1,16 @@
-
 export interface TTeacher {
-  id: number,
-  name: string, // name nhé !fullname
-  avatar: string | null,
-  email: string,
-  total_course: 1,
-  bio?: string,
-  rating: number,
-  job_title: string | null,
-  facebook: string | null,
-  twitter: string | null,
-  linkedin: string | null,
-  youtube: string | null,
+  id: number
+  fullname: string
+  avatar: string | null
+  email: string
+  total_course: 1
+  bio?: string
+  rating: number
+  job_title: string | null
+  facebook: string | null
+  twitter: string | null
+  linkedin: string | null
+  youtube: string | null
   created_at: string
 }
 
@@ -22,7 +21,7 @@ export interface TIsTeacher {
 
 // Đăng ký giáo viên
 export interface TRegisterTeacher {
-  message: string,
-  status: boolean,
+  message: string
+  status: boolean
   error?: string
 }

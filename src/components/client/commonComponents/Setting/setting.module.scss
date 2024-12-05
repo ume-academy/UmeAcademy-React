@@ -18,7 +18,7 @@
             button {
               background-color: #f4f6f9;
               padding: 0.5rem 1rem;
-              border-radius: 5px;
+              border-radius: 6px;
               width: 50px;
               height: 50px;
 
@@ -60,7 +60,7 @@
                 border: 1px solid #dce0eb;
                 outline: none;
                 padding: 10px 15px;
-                border-radius: 5px;
+                border-radius: 6px;
 
                 &:focus {
                   border: 1px solid #f84563;
@@ -83,7 +83,7 @@
               border: 1px solid #dce0eb;
               outline: none;
               padding: 10px 15px;
-              border-radius: 5px;
+              border-radius: 6px;
 
               &:focus {
                 border: 1px solid #f84563;
@@ -100,12 +100,12 @@
 
               background-color: #f84563;
               padding: 0.5rem 1rem;
-              border-radius: 5px;
-              border:1px solid #f1697f;
+              border-radius: 6px;
+              border: 1px solid #f1697f;
               &:hover {
                 background-color: #fff;
                 color: #f1697f;
-                border:1px solid #f1697f;
+                border: 1px solid #f1697f;
               }
             }
           }

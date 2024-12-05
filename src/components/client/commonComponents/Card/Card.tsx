@@ -146,7 +146,7 @@ const Card = ({
       {!isMyCoursesPage && (
         <div className='mt-6 flex justify-between items-center'>
           <div className='flex items-center'>
-            <img src={teacher?.avatar as string} alt='avatarTeacher' className='w-12 h-12 rounded-full' />
+            <img src={teacher?.avatar as string} alt='avatarTeacher' className='w-12 h-12 rounded-full object-cover' />
             <div className='ml-3'>
               <p className='hover:text-[#ff5364] text-[16px]'>{teacher?.fullname}</p>
               <p className=''>Giảng viên</p>

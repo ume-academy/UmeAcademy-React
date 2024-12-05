@@ -33,7 +33,7 @@ const Form_Role = () => {
 
           nav('/admin/roles')
         } else {
-          message.error('Cập nhật quyền không thành công')
+          message.error('Đã xảy ra lỗi khi cập nhật quyền')
         }
       } else {
         const res = await addRole({ name: name })
@@ -42,7 +42,7 @@ const Form_Role = () => {
           message.success('Thêm mới quyền thành công')
           nav('/admin/roles')
         } else {
-          message.error('Thêm mới quyền không thành công')
+          message.error('Đã xảy ra lỗi khi thêm mới quyền')
         }
       }
     } catch (error) {

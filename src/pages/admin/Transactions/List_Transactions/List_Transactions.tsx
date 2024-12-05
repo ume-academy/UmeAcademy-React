@@ -29,7 +29,7 @@ const List_Transactions = () => {
   const [endDate, setEndDate] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
 
-  const { data, isLoading, isFetching } = useGetAllTransactionQuery({ page: currentPage })
+  const { data, isLoading, isFetching } = useGetAllTransactionQuery({ per_page: 10, page: currentPage })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -166,7 +166,13 @@ const List_Transactions = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 'max-content' }} loading={isLoading}/>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        scroll={{ x: 'max-content' }}
+        loading={isLoading}
+      />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

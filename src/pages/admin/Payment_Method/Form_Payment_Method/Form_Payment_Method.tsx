@@ -43,7 +43,7 @@ const Form_Payment_Method = () => {
           message.success('Cập nhật phương thức thanh toán thành công')
           nav('/admin/list-payment-method')
         } else {
-          message.error('Cập nhật phương thức thanh toán thất bại')
+          message.error('Đã xảy ra lỗi khi cập nhật phương thức thanh toán')
         }
       } else {
         const res = await addPaymentMethodMutation({ name })
@@ -52,7 +52,7 @@ const Form_Payment_Method = () => {
           message.success('Thêm mới phương thức thanh toán thành công')
           nav('/admin/list-payment-method')
         } else {
-          message.error('Thêm mới phương thức thanh toán thất bại')
+          message.error('Đã xảy ra lỗi khi thêm mới phương thức thanh toán')
         }
       }
     } catch (error) {
