@@ -48,3 +48,17 @@ export interface TCreateCourse {
   category_id: TCategory
   level_id: TLevel
 }
+
+export interface TEditCourse  extends TCreateCourse {
+  id: number
+  video: any
+  description: string
+  price: number
+  _method: string
+}
+
+// Mở rộng kiểu RcFile để bao gồm status dùng cho xem ảnh phía form Course
+export interface CustomRcFile extends RcFile {
+  status?: 'done' | 'uploading' | 'error'; // Thêm status vào kiểu RcFile
+  url?: any; // Đảm bảo là bạn có thể lưu trữ URL
+}

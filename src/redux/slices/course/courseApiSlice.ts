@@ -1,7 +1,8 @@
 import { customBaseQuery } from '@/Api'
-import { TCourse } from '@/interfaces/TCourse'
+import { TCourse, TEditCourse } from '@/interfaces/TCourse'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
 import { createApi } from '@reduxjs/toolkit/query/react'
+import { get } from 'http';
 
 export const courseApiSlice = createApi({
   reducerPath: 'courseApi',
@@ -74,17 +75,37 @@ export const courseApiSlice = createApi({
 
     //Teacher
     getAllCourseOfTeacher: builder.query({
-      query: ({ per_page,page }) => `teacher/courses?per_page=${per_page}&page=${page}`
+      query: ({ per_page,page }) => `teacher/courses?per_page=${per_page}&page=${page}`,
+      providesTags: ['Course']
     }),
     
+    // CREATE COURSE OF TEACHER
     createCourseOfTeacher: builder.mutation<string, { formData: FormData }>({
       query: (data) => ({
-          url: '/teacher/courses',
-          method: 'POST',
-          body: data.formData,
-        })
+        url: '/teacher/courses',
+        method: 'POST',
+        body: data.formData,
       }),
+      invalidatesTags: ['Course']
+    }),
     
+    // GET COURSE BY ID OF TEACHER
+    getCourseByIdOfTeacher: builder.query({
+      query: (id) => `/teacher/course/${id}`,
+      providesTags: ['Course']
+    }),
+    
+
+    // UPDATE COURSE OF TEACHER
+    updateCourseOfteacher: builder.mutation<string, {updateData: FormData}>({
+      query: (data) => ({
+          url: `/teacher/course/${data.updateData.get('id')}`,
+          method: 'POST',
+          body: data.updateData,
+        }),
+      invalidatesTags: ['Course']
+    })
+
   })
 })
 
@@ -100,5 +121,7 @@ export const {
   useGetAllCourseOfTeacherQuery,
   useCreateCourseOfTeacherMutation,
   useGetAllPurchasedCoursesByUserIdQuery,
-  useGetAllPurchasedCoursesByTeacherIdQuery
+  useGetAllPurchasedCoursesByTeacherIdQuery,
+  useGetCourseByIdOfTeacherQuery,
+  useUpdateCourseOfteacherMutation
 } = courseApiSlice

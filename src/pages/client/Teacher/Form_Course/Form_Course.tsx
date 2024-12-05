@@ -4,29 +4,39 @@ import { routerConfigTeacher } from '@/constants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
-import { TCreateCourse } from '@/interfaces/TCourse'
+import { TCreateCourse, TEditCourse } from '@/interfaces/TCourse'
 import { TLevel } from '@/interfaces/TLevel'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
-import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseApiSlice'
+import { useCreateCourseOfTeacherMutation, useGetCourseByIdOfTeacherQuery, useUpdateCourseOfteacherMutation } from '@/redux/slices/course/courseApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { LoadingOutlined, UploadOutlined } from '@ant-design/icons'
-import { Form, GetProp, message, TreeSelect, UploadProps } from 'antd'
+import { Form, Image, message, TreeSelect } from 'antd'
 import Input from 'antd/es/input/Input'
 import TextArea from 'antd/es/input/TextArea'
 import { TreeNode } from 'antd/es/tree-select'
 import Dragger from 'antd/es/upload/Dragger'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
+import { validatePrice, validateThumbnail, validateVideo } from '@/Validators/course_form_validator'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { is } from 'date-fns/locale'
 
 const Form_Course = () => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
-  const { id } = useParams()
   const [form] = Form.useForm() //<TCourse>
-  const { data: levels } = useGetAlllevelQuery({})
-  const { data: catalogues } = useGetAllCategoryQuery({})
+  const { id } = useParams() as { id: string }
+  const {data: levels} = useGetAlllevelQuery({})
+  const {data: catalogues}  = useGetAllCategoryQuery({})
   const [createCourse] = useCreateCourseOfTeacherMutation()
+  const [updateCourse] =  useUpdateCourseOfteacherMutation()
+
+  const {data: courseData, isLoading, error, refetch, isFetching} = useGetCourseByIdOfTeacherQuery(Number(id))
+
+  // set video và ảnh khi upload lên đưa vào preview
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null) 
+  const [videoPreview, setVideoPreview] = useState<string | null>(null)
 
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
   const location = useLocation()
@@ -69,65 +79,91 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
   const nav = useNavigate()
   const { loading, startLoading, stopLoading } = useLoading()
 
-  type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
+  // Lấy dữ liệu khóa học theo id để hiển thị lên form
+  useEffect(() => {
+    if(courseData){
+      console.log(courseData)
+      form.setFieldsValue({
+        name: courseData.data.name,
+        category_id: courseData.data.category.id,
+        level_id: courseData.data.level.id,
+        prirce: courseData.data.price,
+        description: courseData.data.description,
+        summary: courseData.data.summary,
+        price: courseData.data.price,
+        thumbnail:courseData.data.thumbnail ?
+            [{
+                uid: '-1', // UID tạm thời cho file
+                name: 'thumbnail', // Tên file bất kỳ
+                status: 'done', // Đánh dấu là hoàn tất upload
+                url: courseData.data.thumbnail, // URL của ảnh từ API
+            }] : [],
+         video: courseData.data.video ?
+            [{
+                uid: '-1', // UID tạm thời cho file
+                name: 'video', // Tên file bất kỳ
+                status: 'done', // Đánh dấu là hoàn tất upload
+                url: courseData.data.video, // URL của ảnh từ API
+            }] : [],
+      })
+      setVideoPreview(courseData.data.video)
+      setThumbnailPreview(courseData.data.thumbnail)
+    }
+  }, [courseData, form])
 
-  const getBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve(reader.result as string)
-      reader.onerror = (error) => reject(error)
-    })
-  }
 
-  const validateFile = async (file: FileType) => {
-    if (!file) return Promise.reject('Vui lòng chọn file')
-
-    const isFileize = file.size / 1024 / 1024 < 2
-    if (!isFileize) return Promise.reject('File phải nhỏ hơn 2MB')
-
-    const isFileFormat =
-      file.type === 'image/jpeg' ||
-      file.type === 'image/png' ||
-      file.type === 'image/jpg' ||
-      file.type === 'image/gif' ||
-      file.type === 'image/svg'
-
-    if (!isFileFormat) return Promise.reject('File không đúng định dạng')
-
-    return Promise.resolve()
-  }
-
-  const onfinish = async (data: TCreateCourse) => {
+  const onfinish =async (data: TCreateCourse | TEditCourse ) => {
     try {
       startLoading()
-      const { name, category_id, level_id, summary } = data
-      const thumbnailFile = data.thumbnail?.fileList?.[0].originFileObj
+      if(id){
+        const {name, category_id, level_id, summary, description, price, video} = data as TEditCourse
+        console.log(video)
+        const updateData = new FormData()
+        updateData.append('id', id.toString())
+        updateData.append('category_id', category_id.toString());
+        updateData.append('level_id', level_id.toString());
+        updateData.append('name', name);
+        updateData.append('summary', summary);
+        updateData.append('description', description);
+        updateData.append('price', price.toString());
+        updateData.append('_method', 'PUT');
+        if(video?.fileList?.[0].originFileObj){
+          updateData.append('video', video?.fileList?.[0].originFileObj);
+        }
+        const thumbnailFile = data.thumbnail?.fileList?.[0].originFileObj
+        if (thumbnailFile ) {
+          updateData.append('thumbnail', thumbnailFile );
+        }
+        await updateCourse({updateData}).unwrap()
+        message.success('Cập nhật khóa học thành công')
+      }else {
+        console.log(data)
+        const {name, category_id, level_id, summary } = data
       
-      console.log(thumbnailFile)
+        // Tạo FormData
+        const formData = new FormData();
+        formData.append('category_id', category_id.toString());
+        formData.append('level_id', level_id.toString());
+        formData.append('name', name);
+        formData.append('summary', summary);
+        const thumbnailFile = data.thumbnail?.fileList?.[0].originFileObj
+        if (thumbnailFile) {
+          formData.append('thumbnail', thumbnailFile);
+        }
 
-      // Tạo FormData
-      const formData = new FormData()
-      formData.append('category_id', category_id.toString())
-      formData.append('level_id', level_id.toString())
-      formData.append('name', name)
-      formData.append('summary', summary)
-
-      if (thumbnailFile) {
-        formData.append('thumbnail', thumbnailFile)
+        // Gửi FormData
+        await createCourse({ formData }).unwrap();
+        message.success('Tạo khóa học thành công');
+        nav(router.myCourses)
       }
+      stopLoading();
 
-      // Gửi FormData
-      await createCourse({ formData }).unwrap()
-      message.success('Tạo khóa học thành công')
-      nav(router.myCourses)
-      stopLoading()
     } catch (error) {
       console.log(error)
       stopLoading()
     }
   }
-
+  
   // Điều kiện rending text cho thẻ title H1
   const textH1 =
     id && !hideCourseFunctionAdmin
@@ -135,12 +171,16 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
       : hideCourseFunctionAdmin
         ? 'Tổng quan khóa học'
         : 'Thêm mới khóa học'
+  
 
   return (
     <div className='px-[16px]'>
       <div
         className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)]' : ''} p-[16px] lg:p-14 rounded-lg dark:bg-[#2b2838]`}
       >
+        {isLoading || isFetching ? ( <div className="min-h-screen flex justify-center items-center"><Loading /></div>
+        ) : (
+        <>
         <div className=''>
           <Form form={form} onFinish={onfinish} layout='vertical'>
             <h1 className='text-[28px] font-title text-[#f66962] mb-6'>{textH1}</h1>
@@ -199,8 +239,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   name='category_id'
                   label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Danh mục khóa học</label>}
                   rules={[
-                    { required: true, message: 'Danh mục không được trống.' }
-                    // { validator: validateO },
+                    { required: true, message: 'Danh mục không được trống.' },
                   ]}
                 >
                   <CustomTreeSelect
@@ -209,6 +248,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                     placeholder='Vui lòng chọn--'
                     showSearch
+                    // value={courseData.data?.category_id.id}
                     disabled={hideCourseFunctionAdmin}
                   >
                     {catalogues &&
@@ -222,60 +262,82 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
               {/* Danh mục con phần này lấy theo danh mục cha(danh mục khóa học)*/}
               {id ? (
                 <>
-                  {/* Danh mục con */}
+                  {/* Giá */}
                   <div className='mb-8'>
-                    <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Danh mục con</label>
-                    <CustomTreeSelect
-                      treeDataSimpleMode
-                      style={{ width: '100%', height: 44 }}
-                      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                      placeholder='Vui lòng chọn--'
-                      showSearch
-                      disabled={hideCourseFunctionAdmin}
+                    <Form.Item
+                      name='price'
+                      label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Giá</label>}
+                      rules={[{
+                        validator: async (_, value) =>  validatePrice(value)
+                      }]}
                     >
-                      <TreeNode value='jav' title='Jav' />
-                      <TreeNode value='forn' title='Forn Hub' />
-                    </CustomTreeSelect>
+                    <Input
+                      style={{backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
+                      type='number'
+                      className='py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                      h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                      focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+                      placeholder='Giá khóa học'
+                      disabled={hideCourseFunctionAdmin}
+                    />
+                    </Form.Item>
                   </div>
 
                   {/* Video giới thiệu */}
                   <div className='mb-8'>
-                    <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Video giới thiệu</label>
-                    <Dragger
-                      name='file'
-                      action={``}
-                      listType='picture'
-                      maxCount={1}
-                      style={{ marginTop: 12, padding: 18 }}
-                      disabled={hideCourseFunctionAdmin}
-                      onChange={async (info) => {
-                        // Kiểm tra trạng thái của file khi thay đổi
-                        if (info.file.status === 'done') {
-                          const file = info.file.originFileObj
-                          if (file) {
-                            try {
-                              // Kiểm tra file nếu có originFileObj
-                              await validateFile(file) // Kiểm tra file khi tải lên
-                            } catch (error) {
-                              console.log(error) // Xử lý lỗi nếu file không hợp lệ
+                      <Form.Item
+                      name='video'
+                      label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Video giới thiệu khóa học</label>}
+                      rules={[
+                        {
+                          validator: async (_, value) => {
+                            // Gọi hàm validateFile để kiểm tra file
+                            return validateVideo(value?.file || null);
+                          },
+                        }
+                      ]}
+                    >
+                      <Dragger
+                        name='file'
+                        listType='picture'
+                        maxCount={1}
+                        style={{  padding: 18 }}
+                        disabled={hideCourseFunctionAdmin}
+                        beforeUpload={() => false}
+                        multiple={false}
+                        onChange={({ fileList }) => {
+                          // Kiểm tra nếu fileList không rỗng
+                          if (fileList && fileList.length > 0) {
+                            const file = fileList[0];  // Lấy tệp đầu tiên
+                            if (file && file.originFileObj) {
+                              const previewUrl = URL.createObjectURL(file.originFileObj);
+                              setVideoPreview(previewUrl);  // Cập nhật trạng thái videoPreview
+                            } else {
+                              setVideoPreview(null);  // Nếu không có file, reset preview
                             }
                           } else {
-                            console.log('File không hợp lệ')
+                            setVideoPreview(null);  // Nếu fileList rỗng, reset preview
                           }
-                        }
-                      }}
-                    >
-                      <p className='ant-upload-drag-icon'>
-                        <UploadOutlined style={{ color: '#f66962' }} />
-                      </p>
-                      <p className='text-[16px] dark:text-[#b9b7c0] mb-1'>
-                        Nhấp hoặc kéo tệp vào khu vực này để tải lên
-                      </p>
-                      <p className='text-[#00000073] dark:text-[#b9b7c0]'>
-                        Hỗ trợ tải lên một tệp. Nghiêm cấm tải lên dữ liệu công ty hoặc các tệp bị cấm khác.
-                      </p>
-                    </Dragger>
+                        }}
+                        fileList={videoPreview ? [{
+                          uid: '-1',
+                          name: 'video', // Tên hiển thị
+                          status: 'done',
+                          url: videoPreview, // Sử dụng URL của ảnh preview
+                        }]
+                      :  []}
+                      >
+                        <p className='ant-upload-drag-icon'>
+                          <UploadOutlined style={{ color: '#f66962' }} />
+                        </p>
+                        <p className='text-[16px] dark:text-[#b9b7c0] mb-1'>Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
+                        <p className='text-[#00000073] dark:text-[#b9b7c0]'>
+                          Hỗ trợ tải lên một tệp. Nghiêm cấm tải lên dữ liệu công ty hoặc các tệp bị cấm khác.
+                        </p>
+                      </Dragger>
+                    </Form.Item>
                   </div>
+                  
                 </>
               ) : (
                 <></>
@@ -285,13 +347,14 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
               <div className='mb-8'>
                 <Form.Item
                   name='thumbnail'
-                  label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ảnh bìa khóa học</label>}
+                  label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ảnh thu nhỏ khóa học</label>}
                   rules={[
                     {
                       validator: async (_, value) => {
                         // Gọi hàm validateFile để kiểm tra file
-                        return validateFile(value?.file || null)
-                      }
+                          const isUsingOldThumbnail = id && courseData?.data?.thumbnail && !value?.file;
+                          return validateThumbnail(value?.file, isUsingOldThumbnail);
+                      },
                     }
                   ]}
                 >
@@ -301,31 +364,62 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     maxCount={1}
                     style={{ padding: 18 }}
                     disabled={hideCourseFunctionAdmin}
-                    beforeUpload={() => false}
+                    beforeUpload={() => false} // Ngừng upload file tự động
                     multiple={false}
+                    onChange={({ fileList }) => {
+                      const file = fileList[0];
+                      if (file && file.originFileObj) {
+                        const previewUrl = URL.createObjectURL(file.originFileObj); 
+                        setThumbnailPreview(previewUrl); // Cập nhật trạng thái thumbnailPreview với URL mới
+                      } else {
+                        setThumbnailPreview(null);
+                      }
+                    }}
+                    showUploadList={{showPreviewIcon: false}}
+                    fileList={thumbnailPreview ? [{
+                      uid: '+1',
+                      name: 'image', // Tên hiển thị
+                      status: 'done',
+                      url: thumbnailPreview, // Sử dụng URL của ảnh preview
+                    }]
+                  :  []}
                   >
                     <p className='ant-upload-drag-icon'>
                       <UploadOutlined style={{ color: '#f66962' }} />
                     </p>
                     <p className='text-[16px] dark:text-[#b9b7c0] mb-1'>Nhấp hoặc kéo tệp vào khu vực này để tải lên</p>
                     <p className='text-[#00000073] dark:text-[#b9b7c0]'>
-                      Hỗ trợ tải lên một tệp. Nghiêm cấm tải lên dữ liệu công ty hoặc các tệp bị cấm khác.
+                      Hỗ trợ tải lên một tệp JPEG, PNG, GIF, SVG, JPG.
                     </p>
                   </Dragger>
                 </Form.Item>
+                {id && (
+                  <>
+                  {/* Hiển thị ảnh nếu có */}
+                    {thumbnailPreview && (
+                    <div className='mt-4 flex justify-center'>
+                      <Image
+                        src={thumbnailPreview} // Sử dụng URL ảnh từ fileList hoặc từ courseData
+                        alt="Ảnh bìa khóa học"
+                        style={{ maxWidth: '100%', maxHeight: 300 }}
+                      />
+                    </div>
+                  )}</>
+                )}
               </div>
-
+              
+      
               {/* Tóm tắt */}
-              <div className='mb-8'>
-                <Form.Item
-                  name='summary'
-                  label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>}
-                  rules={[
-                    { required: true, message: 'Tóm tắt không được để trống.' },
-                    { type: 'string', message: 'Tóm tắt phải là một chuỗi.' },
-                    { max: 255, message: 'Tóm tắt không được vượt quá 255 ký tự.' }
-                  ]}
-                >
+            <div className='mb-8'>
+              <Form.Item
+                    name='summary'
+                    label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tóm tắt khóa học</label>}
+                    rules={[
+                      {required: true, message: 'Tóm tắt không được để trống.'},
+                      {type: 'string', message: 'Tóm tắt phải là một chuỗi.'},
+                      {max: 255, message: 'Tóm tắt không được vượt quá 255 ký tự.'}
+                    ]}
+                  >
                   <TextArea
                     style={{
                       height: 160,
@@ -335,7 +429,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
-                    placeholder='Mô tả'
+                    placeholder='Tóm tắt khóa học'
                     disabled={hideCourseFunctionAdmin}
                   />
                 </Form.Item>
@@ -344,15 +438,29 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
               {/* Mô tả */}
               {id ? (
                 <div className='mb-8'>
-                  <label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tóm tắt khóa học</label>
+               <Form.Item
+                    name='description'
+                    label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>}
+                  >
                   <TextArea
-                    style={{ height: 160 }}
+                    style={{ height: 160 , backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
                     className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
-                h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
-                focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
-                    placeholder='Mô tả'
+                  h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                  focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
+                    placeholder='Mô tả khóa học'
                     disabled={hideCourseFunctionAdmin}
                   />
+              </Form.Item>
+              <Form.Item
+                name='_method'
+                initialValue={'PUT'}
+              >
+                <Input
+                  hidden
+                  type='text'
+                  disabled={hideCourseFunctionAdmin}
+                />
+              </Form.Item>
                 </div>
               ) : (
                 <></>
@@ -366,13 +474,16 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                 >
                   {!hideCourseFunctionTeacher && (
                     <Link
-                      to={`${router.home}`}
+                      to={`${router.revenue}`}
                       className='w-full md:w-[180px] lg:w-[180px] mb-5  md:mb-0 lg:mb-0 flex justify-center border-[1px] font-title border-[#685f78] text-[#fff] bg-[#685f78] p-2.5 rounded-lg hover:bg-transparent hover:text-[#685f78]'
                     >
                       Quay lại
                     </Link>
                   )}
-                  <button className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'>
+                  <button
+                    disabled={loading}
+                    className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'
+                  >
                     {loading ? <LoadingOutlined /> : id ? 'Lưu' : 'Thêm mới khóa học'}
                   </button>
                 </div>
@@ -382,6 +493,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
             )}
           </Form>
         </div>
+        </>)}
       </div>
     </div>
   )

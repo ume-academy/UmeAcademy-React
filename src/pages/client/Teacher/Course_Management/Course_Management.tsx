@@ -4,7 +4,7 @@ import { MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icon
 import { Drawer, Steps, Tooltip, TreeSelect } from 'antd';
 import { AlignJustify, ChevronLeft, X } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Form_Course from '../Form_Course/Form_Course';
 import FormLesson from './FormLesson/Form_Lesson';
 import Voucher from './Voucher/Voucher';
@@ -21,7 +21,7 @@ const Course_Management = () => {
   const [current, setCurrent] = useState(0); // State để kiểm soát step hiện tại
   const [extraSelected, setExtraSelected] = useState(false); // State để kiểm soát mục mới
   const {theme, toggleTheme} = useContext(ThemeContext) as ThemeContextType;
-  
+
   // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
   const location = useLocation();
   const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
@@ -177,7 +177,6 @@ const Course_Management = () => {
             <div className={`pt-12 ${!hideCourseFunction ? 'pl-4' : 'pl-4'}`}>
           <Steps
             className='min-h-[400px] font-desc text-[16px] pl-4 '
-            
             onChange={handleStepChange}
             direction="vertical" 
             current={current}
