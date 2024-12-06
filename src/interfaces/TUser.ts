@@ -17,3 +17,19 @@ export interface TProfile {
   email: string
   bio: string
 }
+
+export interface TProfileTeacher {
+  id: number
+  fullname: string
+  email: string
+  avatar: string
+  total_course: number
+  bio: string
+  rating: number
+  job_title: string
+  facebook: string
+  twitter: string
+  linkedin: string
+  youtube: string
+  created_at: string
+}

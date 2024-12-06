@@ -1,37 +1,34 @@
 import { formatPrice } from '@/constants/utils'
-import useLoading from '@/hooks/useLoading'
+import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
 import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 import { useCheckOutMutation } from '@/redux/slices/payment/checkOutApiSlice'
+import { useGetPaymentMethodsQuery } from '@/redux/slices/payment_method/paymentMethodApiSlice'
 import { useCheckVoucherMutation } from '@/redux/slices/voucher/checkVoucherApiSlice'
-import { BookFilled } from '@ant-design/icons'
-import { message, Radio } from 'antd'
+import { BookFilled, LoadingOutlined } from '@ant-design/icons'
+import { Input, message, Radio } from 'antd'
 import { CircleAlert } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../constants/client'
 import './RadioAntd.scss'
-import { useGetPaymentMethodsQuery } from '@/redux/slices/payment_method/paymentMethodApiSlice'
-import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
 
 const Course_Payment_Method = () => {
   const [selectedMethod, setSelectedMethod] = useState<number | null>(null)
-  const { startLoading, loading, stopLoading } = useLoading()
   const { id } = useParams()
   const courseId = Number(id)
   const { data: course } = useGetInfoCourseByIdQuery(courseId)
   const { data: methob } = useGetPaymentMethodsQuery({})
-  const [checkOut] = useCheckOutMutation()
-  const [checkVoucher] = useCheckVoucherMutation()
+  const [checkOut, { isLoading: loadingCheckout }] = useCheckOutMutation()
+  const [checkVoucher, { isLoading }] = useCheckVoucherMutation()
   const [voucherCode, setVouCherCode] = useState<String | undefined>(undefined)
   const [voucherId, setVoucherId] = useState<Number | null>(null)
-  const [discountPrice, setDiscountPrice] = useState<Number>()
-
-  // console.log(methob?.data)
+  const [discountPrice, setDiscountPrice] = useState<Number | null>(null)
 
   const onChangeMethod = (e: any) => {
     setSelectedMethod(e.target.value)
   }
+
   const handleVoucher = async () => {
     try {
       const voucher = {
@@ -39,46 +36,63 @@ const Course_Payment_Method = () => {
         course_id: courseId
       }
       const res = await checkVoucher(voucher)
+      console.log(res)
       if (res.data) {
         setVoucherId(res.data.id)
         const discountPercentage = res.data.discount || 0
-
         const discountAmount = ((course?.price as number) * discountPercentage) / 100
-
         const discountedPrice = (course?.price as number) - discountAmount
         setDiscountPrice(discountedPrice)
         message.success('Sử dụng voucher thành công!')
       } else {
         message.error('Voucher không hợp lệ hoặc đã hết hạn')
+        setDiscountPrice(null)
       }
     } catch (error) {
       console.log(error)
+      setDiscountPrice(null)
     }
   }
 
+  const handleVoucherCodeChange = (e: any) => {
+    setVouCherCode(e.target.value)
+
+    if (e.target.value === '') {
+      setDiscountPrice(null)
+    }
+  }
+
+  const handleClearVoucher = () => {
+    setVoucherId(null)
+    setDiscountPrice(null)
+    setVouCherCode('')
+  }
+
   const handleSubmitPayment = async () => {
-    startLoading
     try {
       const paymentData: any = {
         origin_price: course?.price,
         course_id: Number(id),
         payment_method_id: selectedMethod
       }
-      if (voucherId != null) {
-        paymentData.voucher_id = voucherId
-      }
-      const res = await checkOut(paymentData)
 
+      if (voucherId) {
+        paymentData.voucher_id = Number(voucherId)
+        console.log(paymentData.voucher_id)
+      }
+      console.log(paymentData)
+
+      const res = await checkOut(paymentData)
+      console.log(res)
       const checkout = res.data
 
       if (checkout) {
+        message.success('Vui lòng chờ trong giây lát')
         window.location.href = checkout.checkoutUrl
       }
     } catch (error) {
       console.log(error)
       message.error('Đã có lỗi xảy ra. Vui lòng thử lại sau!')
-    } finally {
-      stopLoading
     }
   }
 
@@ -96,7 +110,6 @@ const Course_Payment_Method = () => {
             <div className='space-y-4 w-full'>
               {methob?.data.map((m: TPaymentMethob) => (
                 <Radio value={Number(m.id)} className='w-full' key={m.id}>
-                  {/* <img src={vmpayLogo} alt='VNPAY' width='50' className='rounded-lg border' /> */}
                   <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
                     Thanh toán qua phương thức {m.name}
                   </span>
@@ -108,7 +121,7 @@ const Course_Payment_Method = () => {
 
         <div className='w-full lg:w-[39%] dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none mb-7'>
           <p className='text-2xl font-title border-b border-[#e9ecef] dark:border-[#5a5a5a] p-4 md:p-6'>Chi tiết</p>
-          <div className='space-y-3 p-4 md:px-6'>
+          <div className='space-y-3 p-4 md:px-6  mb-6'>
             <p className='text-lg font-medium h-11'>{course?.name}</p>
             <p className='text-[14px]'>
               Giảng viên: <span>{course?.teacher.fullname}</span>
@@ -123,42 +136,50 @@ const Course_Payment_Method = () => {
               </p>
             </div>
             <div className='flex justify-between items-center'>
-              <input
+              <Input
                 type='text'
                 placeholder='Mã giảm giá'
-                className='border border-[#dce0eb] outline-none dark:bg-[#4a4755] dark:border-[#2b2838] h-11 pl-4 text-[14px] rounded-lg w-[70%] '
+                className=' dark:bg-[#2b2838] px-3 py-3 text-[14px] rounded-lg w-[72%] '
                 value={voucherCode as string}
-                onChange={(e) => setVouCherCode(e.target.value)}
+                onChange={handleVoucherCodeChange}
+                allowClear
+                onClear={handleClearVoucher}
               />
               <button
                 type='button'
-                className='bg-[#ff5364] text-white h-10 w-20  text-[14px] rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+                className='bg-[#ff5364] text-white w-20 py-3 border border-[#ff5364]  text-[14px] rounded-lg hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
                 onClick={handleVoucher}
                 disabled={!voucherCode}
               >
-                Sử dụng
+                {isLoading ? <LoadingOutlined /> : <span>Sử dụng</span>}
               </button>
             </div>
-            {discountPrice && (
+
+            {discountPrice !== null && discountPrice !== undefined && (
               <p className='text-[14px]'>
-                Số tiền đã được giảm: {formatPrice(Number(course?.price) - Number(discountPrice))}
+                Số tiền đã được giảm:{' '}
+                {discountPrice === course?.price
+                  ? formatPrice(Number(course?.price) )
+                  : formatPrice(Number(course?.price) - Number(discountPrice) )}
               </p>
             )}
 
             <div className='flex justify-between w-full font-subtitle text-xl pt-3'>
               <p>Tổng tiền:</p>
               <span>
-                {formatPrice(Math.min(Number(discountPrice) || Number(course?.price), Number(course?.price) || 0))}
+                {discountPrice !== null && discountPrice !== undefined
+                  ? formatPrice(Number(discountPrice))
+                  : formatPrice(Number(course?.price))}
               </span>
             </div>
             <div className='flex justify-center'>
               <button
                 type='submit'
-                className='bg-[#ff5364] text-white h-12 w-full text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
+                className='bg-[#ff5364] text-white h-12 w-full border-[#ff5364]  text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
                 disabled={!selectedMethod}
                 onClick={handleSubmitPayment}
               >
-                Thanh toán
+                Thanh toán {loadingCheckout && <LoadingOutlined />}
               </button>
             </div>
             {!selectedMethod && (

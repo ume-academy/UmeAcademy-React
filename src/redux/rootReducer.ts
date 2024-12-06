@@ -22,6 +22,7 @@ import { withdrawApiSlice } from "./slices/teacher/withdraw/withdrawApiSlice";
 import { roleApiSlice } from "./slices/role/roleApiSlice";
 import { refundApiSlice } from "./slices/transaction/refundApiSlice";
 import { targetApiSlice } from "./slices/target/targetApiSlice";
+import { profileTeacherApiSlice } from "./slices/teacher/profile/profileTeacherApiSlice";
 
 
 const rootReducer = combineReducers({
@@ -47,7 +48,8 @@ const rootReducer = combineReducers({
   [withdrawApiSlice.reducerPath]: withdrawApiSlice.reducer,
   [refundApiSlice.reducerPath]: refundApiSlice.reducer,
   [roleApiSlice.reducerPath]: roleApiSlice.reducer,
-  [targetApiSlice.reducerPath]: targetApiSlice.reducer
+  [targetApiSlice.reducerPath]: targetApiSlice.reducer,
+  [profileTeacherApiSlice.reducerPath]: profileTeacherApiSlice.reducer
 })
 
 export default rootReducer

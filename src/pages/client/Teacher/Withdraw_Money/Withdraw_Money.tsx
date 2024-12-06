@@ -112,7 +112,7 @@ const Withdraw_Money = () => {
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
               <p className='text-xs md:text-lg  dark:hover:text-white'>
-                Bạn đang có: <strong>{formatPrice(Number(price))}</strong>
+                Bạn đang có: {price ? <strong>{formatPrice(Number(price))}</strong> : <strong>0 đ</strong>}
               </p>
             </div>
           </div>
@@ -213,15 +213,15 @@ const Withdraw_Money = () => {
         <h2 className='text-xl md:text-2xl font-title border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 lg:p-6'>
           Lịch sử rút tiền
         </h2>
-        
-          <Table
-            columns={columns}
-            dataSource={data?.data}
-            pagination={false}
-            className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
-            scroll={{ x: 670 }}
-            loading={isLoading}
-          />
+
+        <Table
+          columns={columns}
+          dataSource={data?.data}
+          pagination={false}
+          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 lg:p-6'
+          scroll={{ x: 670 }}
+          loading={isLoading}
+        />
       </div>
 
       <div className='flex justify-between items-center my-6 text-sm'>

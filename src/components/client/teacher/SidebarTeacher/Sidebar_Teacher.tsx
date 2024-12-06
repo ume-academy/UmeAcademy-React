@@ -1,11 +1,13 @@
 import { router } from '@/configs/routes'
-import { Avatar } from 'antd'
+import { Avatar, Image } from 'antd'
 import { HandCoins, Rocket, Wallet, WalletCards } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
+  const { data } = useGetProfileQuery({})
 
   return (
     <>
@@ -15,16 +17,18 @@ const Sidebar_Teacher = () => {
         >
           <div className={`${styles['top']} bg-[#f84563]`}>
             <div className={`${styles['avt']}`}>
-              <Avatar
-                src='https://i.pravatar.cc/300'
-                className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] lg:w-[100px] lg:h-[100px] border-4 border-white'
+              <Image
+                src={data?.avatar}
+                className='border-4 border-white rounded-full object-cover'
+                width={166}
+                height={166}
               />
             </div>
           </div>
 
-          <div className={`${styles['info']} bg-transparent pt-16 md:pt-32 lg:pt-16`}>
+          <div className={`${styles['info']} bg-transparent pt-[120px] md:pt-32`}>
             <div className='name'>
-              <h4 className='font-title text-2xl dark:text-[#efeff2]'>Eugene Andre</h4>
+              <h4 className='font-title text-2xl dark:text-[#efeff2]'>{data?.fullname}</h4>
             </div>
 
             <div className='role'>
@@ -69,7 +73,8 @@ const Sidebar_Teacher = () => {
                   <NavLink
                     to={router.revenue}
                     className={({ isActive }) =>
-                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : 'text-[#685f78] dark:text-[#B9B7C0]'
+                      `flex items-center gap-4 hover:text-[#F84563] ${
+                        isActive ? 'text-[#F84563] font-title' : 'text-[#685f78] dark:text-[#B9B7C0]'
                       }`
                     }
                   >

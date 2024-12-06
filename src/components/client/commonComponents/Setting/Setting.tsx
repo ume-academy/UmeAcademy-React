@@ -13,18 +13,19 @@ const Setting = ({ data }: any) => {
   const [changePassword, { isLoading: loadingPass }] = useChangePasswordMutation()
   const [preview, setPreview] = useState<string>('')
   const [fileList, setFileList] = useState<any[]>([])
-  const [form] = Form.useForm()
+  const [formProfile] = Form.useForm()
+  const [formPassword] = Form.useForm()
 
   useEffect(() => {
     if (data) {
-      form.setFieldsValue({
+      formProfile.setFieldsValue({
         fullname: fullname || '',
         email: email || '',
         avatar: avatar || '',
         bio: bio || ''
       })
     }
-  }, [data, form])
+  }, [data, formProfile])
 
   const handleProfile = async (data: TProfile) => {
     try {
@@ -74,20 +75,20 @@ const Setting = ({ data }: any) => {
               {
                 key: '1',
                 label: (
-                  <div className='flex items-center justify-center gap-3'>
+                  <div className='flex items-center justify-center gapx-3 py-3'>
                     <EditFilled />
                     Chỉnh sửa hồ sơ
                   </div>
                 ),
                 children: (
                   <Form
-                    form={form}
+                    form={formProfile}
                     layout='vertical'
                     onFinish={handleProfile}
                     className={`${styles['tabContent']} dark:text-[#B9B7C0]`}
                   >
                     <div
-                      className={`${styles['info']} flex flex-col justify-center items-center space-x-0 p-4 md:p-6 md:flex-row md:justify-start md:items-start md:space-x-4`}
+                      className={`${styles['info']} flex flex-col justify-center items-center space-x-0 p-4 md:p-6 md:flex-row md:justify-start md:items-start md:space-x-4 border-b-2 dark:border-b-[#5a5a5a]`}
                     >
                       <div className='avt'>
                         <Image
@@ -148,7 +149,7 @@ const Setting = ({ data }: any) => {
                         <p>Chỉnh sửa thông tin tài khoản</p>
                       </div>
 
-                      <div className={`${styles['formContent']} space-y-2`}>
+                      <div className={`${styles['formContent']} `}>
                         <div className={`${styles['formGrid']} flex flex-col md:flex-row`}>
                           <div className={`${styles['formGroup']}`}>
                             <label htmlFor='fullname'>Tên đầy đủ</label>
@@ -159,7 +160,7 @@ const Setting = ({ data }: any) => {
                                 { type: 'string', message: 'Tên phải là một chuỗi.' }
                               ]}
                             >
-                              <Input type='text' className='p-3' />
+                              <Input type='text' className='px-3 py-3' />
                             </Form.Item>
                           </div>
                         </div>
@@ -168,7 +169,7 @@ const Setting = ({ data }: any) => {
                           <div className={`${styles['formGroup']}`}>
                             <label htmlFor='email'>Email</label>
                             <Form.Item name='email'>
-                              <Input type='text' className='p-3' disabled />
+                              <Input type='text' className='px-3 py-3' disabled />
                             </Form.Item>
                           </div>
 
@@ -176,7 +177,7 @@ const Setting = ({ data }: any) => {
                             <label htmlFor='is_teacher'>Chức vụ</label>
                             <Input
                               type='text'
-                              className='p-3'
+                              className='px-3 py-3'
                               value={is_teacher ? 'Giảng viên' : 'Học viên'}
                               disabled
                             />
@@ -189,7 +190,7 @@ const Setting = ({ data }: any) => {
                             <textarea
                               id='bio'
                               rows={5}
-                              className={`${styles['formTextarea']} w-full dark:bg-[#131022]`}
+                              className={`${styles['formTextarea']} w-full dark:bg-[#2B2838] dark:text-[#B9B7C0] border dark:border-[#5a5a5a]`}
                             />
                           </Form.Item>
                         </div>
@@ -210,14 +211,14 @@ const Setting = ({ data }: any) => {
               {
                 key: '2',
                 label: (
-                  <div className='flex items-center justify-center gap-3'>
+                  <div className='flex items-center justify-center gapx-3 py-3'>
                     <LockFilled />
                     Thay đổi mật khẩu
                   </div>
                 ),
                 children: (
                   <Form
-                    form={form}
+                    form={formPassword}
                     onFinish={handlePassword}
                     className={` dark:text-[#B9B7C0] p-4 md:p-6 space-y-10 mt-6`}
                   >

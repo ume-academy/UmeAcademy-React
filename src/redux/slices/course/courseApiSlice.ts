@@ -60,7 +60,6 @@ export const courseApiSlice = createApi({
       transformResponse: (res: { data: TCourseDetail }) => res.data
     }),
 
-    
     // ! GET ALL PURCHASED COURSES BY USER ID
     getAllPurchasedCoursesByUserId: builder.query({
       query: (userId) => `/admin/student/${userId}/purchased-courses`,
@@ -92,6 +91,7 @@ export const courseApiSlice = createApi({
     // GET COURSE BY ID OF TEACHER
     getCourseByIdOfTeacher: builder.query({
       query: (id) => `/teacher/course/${id}`,
+      transformResponse: (res: { data: TCourseDetail }) => res.data,
       providesTags: ['Course']
     }),
     
