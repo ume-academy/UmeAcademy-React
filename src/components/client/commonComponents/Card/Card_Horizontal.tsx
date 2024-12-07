@@ -1,12 +1,12 @@
+import { router } from '@/configs/routes'
+import { getButtonDetails } from '@/constants/client'
+import { formatPrice, formatSeconds } from '@/constants/utils'
+import { TCourse } from '@/interfaces/TCourse'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { message, Rate } from 'antd'
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Link, useLocation, useParams } from 'react-router-dom'
-import { getButtonDetails } from '@/constants/client'
-import { router } from '@/configs/routes'
-import { TCourse } from '@/interfaces/TCourse'
-import { formatPrice, formatSeconds } from '@/constants/utils'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Card_Horizontal = ({
   thumbnail,
@@ -19,12 +19,15 @@ const Card_Horizontal = ({
   teacher,
   duration,
   is_wishlist,
-  is_enrolled
+  is_enrolled,
+  status
 }: TCourse) => {
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
-  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id)
-  const location = useLocation()
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status)
+
+  console.log(is_wishlist)
+  console.log(status)
 
   useEffect(() => {
     setHeart(is_wishlist)
@@ -89,7 +92,7 @@ const Card_Horizontal = ({
           </div>
 
           <div className='space-y-5'>
-            <h3 className='text-[17px] md:text-lg h-12 hover:text-[#ff5364] w-[90%] line-clamp-2 md:mt-4'>{name}</h3>
+            <h3 className='text-[17px] md:text-lg  hover:text-[#ff5364] line-clamp-2 md:mt-4'>{name}</h3>
             <div className='flex items-center justify-between gap-4 pb-4'>
               <div className='flex items-center gap-1'>
                 <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />

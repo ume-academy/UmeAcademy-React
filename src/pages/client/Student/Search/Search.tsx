@@ -41,7 +41,11 @@ const Search = () => {
     page: currentPage
   })
 
-  const { data } = useSearchCourseQuery(filter)
+  const { data, refetch } = useSearchCourseQuery(filter)
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   useEffect(() => {
     const updatedFilter = {
@@ -100,12 +104,14 @@ const Search = () => {
       <div className='flex flex-col-reverse lg:flex-row gap-8 md:gap-6 '>
         <div className='left w-full lg:w-[70%] space-y-4'>
           <div className='flex justify-between'>
-            <h5 className='font-title text-[16px] md:text-xl dark:text-[#B9B7C0] pt-2'>
-              Kết quả tìm kiếm cho: <span>"{filter.name}"</span>
-            </h5>
-            <button onClick={toggleMenu} className='lg:hidden p-2 flex justify-between items-center'>
+            {filter.name && (
+              <h5 className='font-title text-[16px] md:text-xl dark:text-[#B9B7C0] pt-2'>
+                Kết quả tìm kiếm cho: <span>"{filter.name}"</span>
+              </h5>
+            )}
+            <div onClick={toggleMenu} className='lg:hidden p-2 flex justify-between items-center'>
               <MenuIcon size={30} />
-            </button>
+            </div>
           </div>
 
           {loading ? (

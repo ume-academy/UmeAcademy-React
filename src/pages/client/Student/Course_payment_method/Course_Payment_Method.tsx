@@ -1,17 +1,17 @@
 import { formatPrice } from '@/constants/utils'
 import { TPaymentMethob } from '@/interfaces/TPaymentMethob'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
-import { useCheckOutMutation } from '@/redux/slices/payment/checkOutApiSlice'
+import { useCheckOutMutation, useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
 import { useGetPaymentMethodsQuery } from '@/redux/slices/payment_method/paymentMethodApiSlice'
-import { useCheckVoucherMutation } from '@/redux/slices/voucher/checkVoucherApiSlice'
+import { useCheckVoucherMutation } from '@/redux/slices/voucher/voucherApiSlice'
 import { BookFilled, LoadingOutlined } from '@ant-design/icons'
 import { Input, message, Radio } from 'antd'
 import { CircleAlert } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../constants/client'
 import './RadioAntd.scss'
+import { router } from '@/configs/routes'
 
 const Course_Payment_Method = () => {
   const [selectedMethod, setSelectedMethod] = useState<number | null>(null)
@@ -19,15 +19,23 @@ const Course_Payment_Method = () => {
   const courseId = Number(id)
   const { data: course } = useGetInfoCourseByIdQuery(courseId)
   const { data: methob } = useGetPaymentMethodsQuery({})
-  const [checkOut, { isLoading: loadingCheckout }] = useCheckOutMutation()
+  const [checkOut, { isLoading: loadingCheckout, error }] = useCheckOutMutation()
   const [checkVoucher, { isLoading }] = useCheckVoucherMutation()
   const [voucherCode, setVouCherCode] = useState<String | undefined>(undefined)
   const [voucherId, setVoucherId] = useState<Number | null>(null)
   const [discountPrice, setDiscountPrice] = useState<Number | null>(null)
+  const nav = useNavigate()
 
   const onChangeMethod = (e: any) => {
     setSelectedMethod(e.target.value)
   }
+
+  useEffect(() => {
+    if (course?.is_enrolled) {
+      message.warning('Bạn đã sỡ hữu khóa học này rồi.')
+      nav(`${router.purchasedCourses}`)
+    }
+  }, [course?.is_enrolled, nav])
 
   const handleVoucher = async () => {
     try {
@@ -68,6 +76,13 @@ const Course_Payment_Method = () => {
     setVouCherCode('')
   }
 
+  useEffect(() => {
+    const errorData = (error as { data?: any })?.data
+    if (errorData && errorData.error) {
+      message.error(errorData.error)
+    }
+  }, [error])
+
   const handleSubmitPayment = async () => {
     try {
       const paymentData: any = {
@@ -83,18 +98,25 @@ const Course_Payment_Method = () => {
       console.log(paymentData)
 
       const res = await checkOut(paymentData)
-      console.log(res)
-      const checkout = res.data
 
-      if (checkout) {
-        message.success('Vui lòng chờ trong giây lát')
-        window.location.href = checkout.checkoutUrl
+      console.log(res)
+
+      const successData = (res.data as { data?: string }).data
+      if (successData && successData === 'success') {
+        message.success('Thanh toán khóa học thành công!')
+        nav(`${router.courseDetail.replace(':id', String(id))}`)
       }
+
+      if (res.data && res.data?.checkoutUrl) {
+        message.success('Vui lòng chờ trong giây lát')
+        window.location.href = res.data.checkoutUrl
+      }
+
     } catch (error) {
       console.log(error)
-      message.error('Đã có lỗi xảy ra. Vui lòng thử lại sau!')
     }
   }
+  console.log(discountPrice)
 
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20'>
@@ -159,8 +181,8 @@ const Course_Payment_Method = () => {
               <p className='text-[14px]'>
                 Số tiền đã được giảm:{' '}
                 {discountPrice === course?.price
-                  ? formatPrice(Number(course?.price) )
-                  : formatPrice(Number(course?.price) - Number(discountPrice) )}
+                  ? formatPrice(Number(course?.price))
+                  : formatPrice(Number(course?.price) - Number(discountPrice))}
               </p>
             )}
 

@@ -92,6 +92,11 @@ export const router = {
   // Route danh sách sản phẩm hoàn tiền
   listRefundCourses: `${prefixAdmin}/refund-courses`,
 
+  // Route voucher
+  listVouchers: `${prefixAdmin}/vouchers`,
+  VouchersCreate: `${prefixAdmin}/vouchers/create`,
+  VouchersUpdate: `${prefixAdmin}/vouchers/update/:id`,
+
   // < ===== Not_Found ===== >
   notFound: '*',
 

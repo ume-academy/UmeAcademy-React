@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 const Profile_Teacher = () => {
   const { data, isFetching,isLoading } = useGetInfoProfileQuery({})
   // console.log(data)
+
   if (isLoading && isFetching)
     return (
       <div className='min-h-screen flex justify-center items-center'>

@@ -1,8 +1,9 @@
 import { customBaseQuery } from '@/Api'
 import { TCourse, TEditCourse } from '@/interfaces/TCourse'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
+import { TPaymentDetails } from '@/interfaces/TPayment'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { get } from 'http';
+import { get } from 'http'
 
 export const courseApiSlice = createApi({
   reducerPath: 'courseApi',
@@ -37,7 +38,7 @@ export const courseApiSlice = createApi({
     getPurchasedCourses: builder.query({
       query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`
     }),
-    
+
     // ! GET ALL
     getAllCourseAdmin: builder.query({
       query: ({ page }) => `/admin/courses?page=${page}`,
@@ -63,49 +64,56 @@ export const courseApiSlice = createApi({
     // ! GET ALL PURCHASED COURSES BY USER ID
     getAllPurchasedCoursesByUserId: builder.query({
       query: (userId) => `/admin/student/${userId}/purchased-courses`,
-      providesTags: ["Course"]
+      providesTags: ['Course']
     }),
 
     // ! GET ALL COURSES BY TEACHER ID
     getAllPurchasedCoursesByTeacherId: builder.query({
       query: (teacherId) => `/admin/teacher/${teacherId}/courses`,
-      providesTags: ["Course"]
+      providesTags: ['Course']
     }),
 
     //Teacher
     getAllCourseOfTeacher: builder.query({
-      query: ({ per_page,page }) => `teacher/courses?per_page=${per_page}&page=${page}`,
+      query: ({ per_page, page }) => `teacher/courses?per_page=${per_page}&page=${page}`,
       providesTags: ['Course']
     }),
-    
+
     // CREATE COURSE OF TEACHER
     createCourseOfTeacher: builder.mutation<string, { formData: FormData }>({
       query: (data) => ({
         url: '/teacher/courses',
         method: 'POST',
-        body: data.formData,
+        body: data.formData
       }),
       invalidatesTags: ['Course']
     }),
-    
+
     // GET COURSE BY ID OF TEACHER
     getCourseByIdOfTeacher: builder.query({
       query: (id) => `/teacher/course/${id}`,
       transformResponse: (res: { data: TCourseDetail }) => res.data,
       providesTags: ['Course']
     }),
-    
 
     // UPDATE COURSE OF TEACHER
-    updateCourseOfteacher: builder.mutation<string, {updateData: FormData}>({
+    updateCourseOfteacher: builder.mutation<string, { updateData: FormData }>({
       query: (data) => ({
-          url: `/teacher/course/${data.updateData.get('id')}`,
-          method: 'POST',
-          body: data.updateData,
-        }),
+        url: `/teacher/course/${data.updateData.get('id')}`,
+        method: 'POST',
+        body: data.updateData
+      }),
       invalidatesTags: ['Course']
+    }),
+    checkOut: builder.mutation<TPaymentDetails,{voucher_id: number;origin_price: number;course_id: number;payment_method_id: number}>({
+      query: (body) => ({
+        url: '/checkout',
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['Course']
+      // transformResponse: (res: { data: TPaymentDetails }) => res,
     })
-
   })
 })
 
@@ -123,5 +131,6 @@ export const {
   useGetAllPurchasedCoursesByUserIdQuery,
   useGetAllPurchasedCoursesByTeacherIdQuery,
   useGetCourseByIdOfTeacherQuery,
-  useUpdateCourseOfteacherMutation
+  useUpdateCourseOfteacherMutation,
+  useCheckOutMutation
 } = courseApiSlice

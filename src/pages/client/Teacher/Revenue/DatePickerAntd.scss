@@ -33,3 +33,8 @@
   color: #b9b7c0;
 }
 //  <====== Kết thúc inp nhập Date ======>
+
+.dark .ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled) {
+  background-color: #2b2838 !important;
+
+}

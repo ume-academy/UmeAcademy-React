@@ -43,6 +43,8 @@ import Not_Found from './../pages/Not_found/Not_Found'
 import ResetPassword from '@/pages/auth/ForgotPassword/ResetPassword'
 import System_Users from '@/pages/admin/System_User/List/System_Users'
 import Create_User_System from '@/pages/admin/System_User/Form/Create_User_System'
+import List_Voucher from '@/pages/admin/voucher/List_Voucher/List_Voucher'
+import Form_Voucher from '@/pages/admin/voucher/Form_Voucher/Form_Voucher'
 
 // Routes cho student
 export const studentRoutes = [
@@ -107,7 +109,7 @@ export const adminRoutes = [
   { path: router.listRole, element: List_Role },
   { path: router.rolesCreate, element: Form_Role },
   { path: router.rolesUpdate, element: Form_Role },
-  {path: router.rolePermission, element: Form_Role_Permission},
+  { path: router.rolePermission, element: Form_Role_Permission },
   { path: router.listCatalogues, element: List_Catalogues },
   { path: router.cataloguesCreate, element: Catalog_Form_Submit },
   { path: router.cataloguesUpdate, element: Catalog_Form_Submit },
@@ -115,7 +117,10 @@ export const adminRoutes = [
   { path: router.listPaymentMethod, element: List_Payment_Method },
   { path: router.paymentMethodCreate, element: Form_Payment_Method },
   { path: router.paymentMethodUpdate, element: Form_Payment_Method },
-  { path: router.listRefundCourses, element: List_Refund }
+  { path: router.listRefundCourses, element: List_Refund },
+  { path: router.listVouchers, element: List_Voucher },
+  { path: router.VouchersCreate, element: Form_Voucher },
+  { path: router.VouchersUpdate, element: Form_Voucher }
 ]
 
 export const notFoundRoutes = {

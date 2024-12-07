@@ -142,7 +142,7 @@ const List_Refund = () => {
       <Helmet>
         <title>{getTitleTab('Yêu cầu hoàn tiền')}</title>
       </Helmet>
-      <div className='flex flex-col lg:flex-row lg:justify-between mb-4'>
+      <div className='flex flex-col lg:flex-row lg:justify-between items-center mb-4'>
         <p className='text-xl font-semibold'>Danh sách yêu cầu hoàn tiền</p>
         <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
           {/* <div className='flex gap-2 items-center'>

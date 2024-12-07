@@ -133,7 +133,7 @@ const List_Transactions = () => {
       <Helmet>
         <title>{getTitleTab('Quản lý giao dịch')}</title>
       </Helmet>
-      <div className='flex flex-col lg:flex-row lg:justify-between mb-4'>
+      <div className='flex flex-col lg:flex-row lg:justify-between items-center mb-4'>
         <p className='text-xl font-semibold'>Danh sách giao dịch</p>
         <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
           {/* <div className='flex gap-2 items-center'>

@@ -30,7 +30,6 @@ export interface TCourse {
   is_wishlist: boolean
   is_enrolled: boolean
   created_at: string
-
 }
 
 export interface TContent {

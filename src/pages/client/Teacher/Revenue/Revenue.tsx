@@ -5,10 +5,15 @@ import { HandCoins, Star, Users } from 'lucide-react'
 import { Helmet } from 'react-helmet'
 import Chart from './Chart'
 import './DatePickerAntd.scss'
+import { useEffect } from 'react'
 
 const Revenue = () => {
-  const { data } = useGetStatisticQuery({})
+  const { data, refetch } = useGetStatisticQuery({})
   
+  useEffect(()=>{
+    refetch()
+  },[])
+
   return (
     <div className='md:flex md:flex-col md:justify-center lg:flex-none p-4 lg:p-0'>
       <Helmet>

@@ -5,7 +5,7 @@ import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { getTitleTab } from '../../../../constants/client'
@@ -13,7 +13,11 @@ import { getTitleTab } from '../../../../constants/client'
 const Purchased_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const perPage = 24
-  const { data, isFetching, isLoading } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
+  const { data, isFetching, isLoading, refetch } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)

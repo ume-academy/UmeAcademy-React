@@ -6,14 +6,19 @@ import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetAllCourseOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 const My_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, isLoading, isFetching } = useGetAllCourseOfTeacherQuery({ per_page: 6, page: currentPage })
+  const { data, isLoading, isFetching, refetch } = useGetAllCourseOfTeacherQuery({ per_page: 6, page: currentPage })
 
+  useEffect(() => {
+    refetch()
+  }, [])
+
+  // useEffect(()=>{},[data])
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()

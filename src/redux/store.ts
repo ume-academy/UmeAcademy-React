@@ -4,13 +4,12 @@ import { authApiSlice } from './slices/auth/authApiSlice'
 import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice'
 import { courseApiSlice } from './slices/course/courseApiSlice'
 import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
-import { checkOutApiSlice } from './slices/payment/checkOutApiSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
 import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { userSlice } from './slices/user/userSlice'
-import { checkVoucherApiSlice } from './slices/voucher/checkVoucherApiSlice'
+import { voucherApiSlice } from './slices/voucher/voucherApiSlice'
 import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
 import { categoryApiSlice } from './slices/category/categoryApiSlice'
 import { levelApiSlice } from './slices/level/levelApiSlice'
@@ -32,8 +31,7 @@ export const store = configureStore({
       profileApiSlice.middleware,
       courseApiSlice.middleware,
       lessonApiSlice.middleware,
-      checkOutApiSlice.middleware,
-      checkVoucherApiSlice.middleware,
+      voucherApiSlice.middleware,
       userSlice.middleware,
       paymentMethodApiSlice.middleware,
       walletApiSlice.middleware,

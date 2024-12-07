@@ -17,7 +17,7 @@ const List_Payment_Method = () => {
   const { data, isLoading } = useGetPaymentMethodsQuery({})
   const [removePaymentMethod] = useRemovePaymentMethodMutation()
   const [messageApi, contextHolder] = message.useMessage()
-  const {  startLoading, stopLoading } = useLoading()
+  const { startLoading, stopLoading } = useLoading()
 
   const handleRemove = (id: number) => {
     Modal.confirm({
@@ -47,10 +47,12 @@ const List_Payment_Method = () => {
                 type: 'success',
                 content: `Xóa phương thức thành công!`
               })
-            }else{ messageApi.open({
-              type: 'error',
-              content: `Xóa phương thức không thành công!`
-            })}
+            } else {
+              messageApi.open({
+                type: 'error',
+                content: `Xóa phương thức không thành công!`
+              })
+            }
 
             stopLoading
             resolve(undefined)
@@ -101,12 +103,12 @@ const List_Payment_Method = () => {
   ]
 
   return (
-    <div>
+    <>
       <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
         <Helmet>
           <title>{getTitleTab('Quản lý phương thức thanh toán')}</title>
         </Helmet>
-        <div className='flex justify-between flex-col md:flex-row lg:flex-row mb-4'>
+        <div className='flex justify-between items-center flex-col md:flex-row lg:flex-row mb-4'>
           <p className='font-title text-xl'>Danh sách phương thức thanh toán</p>
           <Link
             to={`${router.paymentMethodCreate}`}
@@ -116,10 +118,17 @@ const List_Payment_Method = () => {
             Thêm mới
           </Link>
         </div>
-        <Table scroll={{ x: 966 }} dataSource={data?.data} columns={columns} pagination={false} rowKey='id' loading={isLoading} />
+        <Table
+          scroll={{ x: 966 }}
+          dataSource={data?.data}
+          columns={columns}
+          pagination={false}
+          rowKey='id'
+          loading={isLoading}
+        />
         {contextHolder}
       </div>
-    </div>
+    </>
   )
 }
 
