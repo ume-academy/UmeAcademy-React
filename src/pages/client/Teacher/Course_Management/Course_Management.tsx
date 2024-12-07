@@ -1,36 +1,53 @@
-import { itemsStep_CourseManagement, useIsMobile, useIsTablet } from '@/constants/client';
+import { router } from '@/configs/routes';
+import { routerConfigAdmin } from '@/constants/admin';
+import { itemsStep_CourseManagement, routerConfigTeacher, useIsMobile, useIsTablet } from '@/constants/client';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
+import { TCourseDetail } from '@/interfaces/TCourseDetail';
+import { useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice';
 import { MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons';
 import { Drawer, Steps, Tooltip, TreeSelect } from 'antd';
+import { TreeNode } from 'antd/es/tree-select';
 import { AlignJustify, ChevronLeft, X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import Form_Course from '../Form_Course/Form_Course';
-import FormLesson from './FormLesson/Form_Lesson';
-import Voucher from './Voucher/Voucher';
-import List_Students from '../Students/List_Students';
-import './Course_Management_Antd.scss'
 import styled from 'styled-components';
+import Form_Course from '../Form_Course/Form_Course';
+import List_Students from '../Students/List_Students';
+import './Course_Management_Antd.scss';
+import FormLesson from './FormLesson/Form_Lesson';
 import Targets from './Targets/Targets';
-import { routerConfigAdmin } from '@/constants/admin';
-import { TreeNode } from 'antd/es/tree-select';
-import { router } from '@/configs/routes';
+import Voucher from './Voucher/Voucher';
 
 const Course_Management = () => {
   const [openDrawer, setOpenDrawer] = useState(false); // State để kiểm soát việc mở và đóng drawer
   const [current, setCurrent] = useState(0); // State để kiểm soát step hiện tại
   const [extraSelected, setExtraSelected] = useState(false); // State để kiểm soát mục mới
   const {theme, toggleTheme} = useContext(ThemeContext) as ThemeContextType;
-
-  // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
+  const {id} = useParams(); // Lấy id từ url
+  
+  // Sử dụng hook để render thông tin vị trí của route hiện tại render component cho phù hợp. Dùng kèm theo việc gọi API
   const location = useLocation();
-  const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
+  const isAdminRoute = routerConfigAdmin.hideCourseFunction.some((route) => {
+    const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
+    return regex.test(location.pathname)
+  })
+  const isTeacherRoute = routerConfigTeacher.isTeacherLayout.some((route) => {
     const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
     return regex.test(location.pathname)
   })
 
+  // API lấy thông tin khóa học theo id cho teacher
+  const {data: dataCrouseAdmin, isLoading: isLoadingAdmin, isFetching:isFetchingAdmin, refetch: isRefetchAdmin } = useGetCourseAdminByIdQuery(id, {skip: isTeacherRoute})
+  const {data: dataCrouseTeacher, isLoading: isLoadingTeacher, isFetching: isFetchingTeacher, refetch: isRefetchTeacher} = useGetCourseByIdOfTeacherQuery(id, {skip: isAdminRoute})
+  
+  // Lấy dữ liệu khóa học tùy theo route
+  const courseData = isAdminRoute ? dataCrouseAdmin : dataCrouseTeacher; 
+  const isLoading = (isAdminRoute ? isLoadingAdmin || isFetchingAdmin : isLoadingTeacher || isFetchingTeacher);
+  const isRefetch = isAdminRoute ? isRefetchAdmin : isRefetchTeacher;
+
   const isMobile = useIsMobile(); // Kiểm tra xem có phải thiết bị di động không
-  const isTable = useIsTablet(); // Kiểm tra xem có phải thiết bị tablet không
+  const isTable = useIsTablet(); // Kiểm tra xem có phải thiết bị tablet không được 
+
 
   // Hàm xử lý khi click vào nút mở drawer
   const showDrawer = () => {
@@ -92,7 +109,7 @@ const Course_Management = () => {
   return (
     <div >
       {/* header */}
-      {!hideCourseFunction && (
+      {!isAdminRoute && (
         <div className='fixed top-0 right-0 left-0 z-50 bg-[#3d3a4e] h-[70px] flex items-center justify-between'>
           <div className='flex items-center h-full'>
             <Link to={`${router.myCourses}`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#3b3657] hover:text-[#fff] h-full flex items-center text-[#fff]'>
@@ -120,12 +137,12 @@ const Course_Management = () => {
       )}
 
       {/* content */}
-      <div className={`max-w-[768px] md:max-w-[1024px] lg:max-w-[1290px] mx-auto grid grid-cols-1 min-h-screen lg:grid-cols-[2fr_8fr] gap-5  ${!hideCourseFunction ? 'pt-[60px] md:pt-[60px] lg:pt-[120px]' : 'pt-[40px] md:pt-10 lg:pt-[40px]'} pb-[60px]`}>
+      <div className={`max-w-[768px] md:max-w-[1024px] lg:max-w-[1290px] mx-auto grid grid-cols-1 min-h-screen lg:grid-cols-[2fr_8fr] gap-5  ${!isAdminRoute ? 'pt-[60px] md:pt-[60px] lg:pt-[120px]' : 'pt-[40px] md:pt-10 lg:pt-[40px]'} pb-[60px]`}>
         {isMobile || isTable ? (
           <div className='custom-drawer'>
-            <div className={`${!hideCourseFunction ? 'pt-12' : 'pt-0'} px-[16px] flex justify-between items-center`}>
+            <div className={`${!isAdminRoute ? 'pt-12' : 'pt-0'} px-[16px] flex justify-between items-center`}>
               <AlignJustify onClick={() => showDrawer()} color={theme === 'light' ? '#333' : '#fff'} />
-              {!hideCourseFunction ? (
+              {!isAdminRoute ? (
                 <button className=" px-4 py-1.5 rounded-lg cursor-pointer bg-[#f66962] w-[50%] text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]">Gửi đi xét duyệt</button>
               ) : (
                 <CustomTreeSelect
@@ -158,7 +175,7 @@ const Course_Management = () => {
                   current={current}
                   items={itemsStep_CourseManagement}
                 />
-                {!hideCourseFunction && (
+                {!isAdminRoute && (
                   <button className={`flex justify-center items-center pl-4 group`} onClick={handleListStudent}>
                   <UsergroupDeleteOutlined 
                     className={`w-[32px] h-[32px] flex justify-center items-center rounded-full mr-4 
@@ -174,7 +191,7 @@ const Course_Management = () => {
           
         ) : (
           <>
-            <div className={`pt-12 ${!hideCourseFunction ? 'pl-4' : 'pl-4'}`}>
+            <div className={`pt-12 ${!isAdminRoute ? 'pl-4' : 'pl-4'}`}>
           <Steps
             className='min-h-[400px] font-desc text-[16px] pl-4 '
             onChange={handleStepChange}
@@ -183,7 +200,7 @@ const Course_Management = () => {
             items={itemsStep_CourseManagement} // Các bước step được đặt trong contant client 
           />
           {/* Nút gửi yêu cầu */}
-          {!hideCourseFunction ? (
+          {!isAdminRoute ? (
             <>
               <button
               className={`flex justify-center items-center pl-4 group`}
@@ -213,8 +230,8 @@ const Course_Management = () => {
         )}
         
         <div className="">
-          {current === 0 && (<Form_Course />)}
-          {current === 1 && (<Targets />)}
+          {current === 0 && (<Form_Course courseData={courseData as TCourseDetail} isLoading={isLoading}/>)}
+          {current === 1 && (<Targets courseData={courseData as TCourseDetail} isLoading={isLoading} isRefetch={isRefetch} />)}
           {current === 2 && (<FormLesson />)}
           {current === 3 && (<Voucher />)}
           {extraSelected && (<List_Students />)} {/* Render component khi extra được chọn */}

@@ -77,7 +77,8 @@ export const routerConfigTeacher = {
       `${router.formCourse}`,
       `${router.courseManagement}`,
       `${router.profileTeacher}`,
-    ]
+    ],
+  isTeacherRoute: [`${router.courseManagement}`]
 }
 
 // Tiêu đề các bước trong quản trị khóa học

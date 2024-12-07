@@ -3,7 +3,7 @@ import { router } from '@/configs/routes'
 import Catalog_Form_Submit from '@/pages/admin/Catalogues/Form_Submit/Catalog_Form_Submit'
 import List_Catalogues from '@/pages/admin/Catalogues/List_Catalogues/List_Catalogues'
 import Commission_Rate from '@/pages/admin/Commission_Rate/Commission_Rate'
-import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
+// import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import List_Courses from '@/pages/admin/Course/List_Courses/List_Courses'
 import Form_Payment_Method from '@/pages/admin/Payment_Method/Form_Payment_Method/Form_Payment_Method'
 import List_Payment_Method from '@/pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
@@ -101,7 +101,7 @@ export const adminRoutes = [
   { path: router.userDetail, element: Details_User },
   { path: router.coursesList, element: List_Courses },
   //cho detail khóa học admin để tạm
-  { path: router.checkCourse, element: Course_Detail },
+  { path: router.checkCourse, element: Course_Management },
   { path: router.listTransactions, element: List_Transactions },
   { path: router.listOfWithdrawalRequests, element: List_Withdrawal_Requests },
   { path: router.listRole, element: List_Role },

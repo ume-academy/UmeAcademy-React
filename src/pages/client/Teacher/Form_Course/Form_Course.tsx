@@ -1,3 +1,5 @@
+import { validatePrice, validateThumbnail, validateVideo } from '@/Validators/course_form_validator'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { routerConfigAdmin } from '@/constants/admin'
 import { routerConfigTeacher } from '@/constants/client'
@@ -5,9 +7,10 @@ import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCreateCourse, TEditCourse } from '@/interfaces/TCourse'
+import { TCourseDetail } from '@/interfaces/TCourseDetail'
 import { TLevel } from '@/interfaces/TLevel'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
-import { useCreateCourseOfTeacherMutation, useGetCourseByIdOfTeacherQuery, useUpdateCourseOfteacherMutation } from '@/redux/slices/course/courseApiSlice'
+import { useCreateCourseOfTeacherMutation, useUpdateCourseOfteacherMutation } from '@/redux/slices/course/courseApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { LoadingOutlined, UploadOutlined } from '@ant-design/icons'
 import { Form, Image, message, TreeSelect } from 'antd'
@@ -19,26 +22,13 @@ import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
-import { validatePrice, validateThumbnail, validateVideo } from '@/Validators/course_form_validator'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
-import { is } from 'date-fns/locale'
 
-const Form_Course = () => {
+const Form_Course = ({courseData, isLoading} : {courseData: TCourseDetail; isLoading: boolean}) => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const [form] = Form.useForm() //<TCourse>
-  const { id } = useParams() as { id: string }
-  const {data: levels} = useGetAlllevelQuery({})
-  const {data: catalogues}  = useGetAllCategoryQuery({})
-  const [createCourse] = useCreateCourseOfTeacherMutation()
-  const [updateCourse] =  useUpdateCourseOfteacherMutation()
+  const { id } = useParams()
 
-  const {data: courseData, isLoading, error, refetch, isFetching} = useGetCourseByIdOfTeacherQuery(Number(id))
-
-  // set video và ảnh khi upload lên đưa vào preview
-  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null) 
-  const [videoPreview, setVideoPreview] = useState<string | null>(null)
-
-  // Sử dụng hook để thông tin vị trí của route hiện tại render component cho phù hợp
+  // Sử dụng hook để lấy thông tin vị trí của route hiện tại render component cho phù hợp và call API
   const location = useLocation()
   const hideCourseFunctionAdmin = routerConfigAdmin.hideCourseFunction.some((route) => {
     const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
@@ -49,6 +39,18 @@ const Form_Course = () => {
     const regex = new RegExp(`^${route.replace(':id', '[^/]+')}$`)
     return regex.test(location.pathname)
   })
+
+  const {data: levels} = useGetAlllevelQuery({}, {skip: hideCourseFunctionAdmin})
+  const {data: catalogues}  = useGetAllCategoryQuery({}, {skip: hideCourseFunctionAdmin})
+  const [createCourse] = useCreateCourseOfTeacherMutation()
+  const [updateCourse] =  useUpdateCourseOfteacherMutation()
+
+
+  // set video và ảnh khi upload lên đưa vào preview
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null) 
+  const [videoPreview, setVideoPreview] = useState<string | null>(null)
+
+
 
   // Custom lại thẻ select
   const CustomTreeSelect = styled(TreeSelect)`
@@ -79,35 +81,34 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
   const nav = useNavigate()
   const { loading, startLoading, stopLoading } = useLoading()
 
-  // Lấy dữ liệu khóa học theo id để hiển thị lên form
+  // // Lấy dữ liệu khóa học theo id để hiển thị lên form
   useEffect(() => {
     if(courseData){
-      console.log(courseData)
       form.setFieldsValue({
-        name: courseData.data.name,
-        category_id: courseData.data.category.id,
-        level_id: courseData.data.level.id,
-        prirce: courseData.data.price,
-        description: courseData.data.description,
-        summary: courseData.data.summary,
-        price: courseData.data.price,
-        thumbnail:courseData.data.thumbnail ?
+        name: courseData.name,
+        category_id: courseData.category.id,
+        level_id: courseData.level.id,
+        prirce: courseData.price,
+        description: courseData.description,
+        summary: courseData.summary,
+        price: courseData.price,
+        thumbnail:courseData.thumbnail ?
             [{
                 uid: '-1', // UID tạm thời cho file
                 name: 'thumbnail', // Tên file bất kỳ
                 status: 'done', // Đánh dấu là hoàn tất upload
-                url: courseData.data.thumbnail, // URL của ảnh từ API
+                url: courseData.thumbnail, // URL của ảnh từ API
             }] : [],
-         video: courseData.data.video ?
+         video: courseData.video ?
             [{
                 uid: '-1', // UID tạm thời cho file
                 name: 'video', // Tên file bất kỳ
                 status: 'done', // Đánh dấu là hoàn tất upload
-                url: courseData.data.video, // URL của ảnh từ API
+                url: courseData.video, // URL của ảnh từ API
             }] : [],
       })
-      setVideoPreview(courseData.data.video)
-      setThumbnailPreview(courseData.data.thumbnail)
+      setVideoPreview(courseData.video)
+      setThumbnailPreview(courseData.thumbnail)
     }
   }, [courseData, form])
 
@@ -160,6 +161,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
 
     } catch (error) {
       console.log(error)
+      message.error('Tạo khóa học thất bại');
       stopLoading()
     }
   }
@@ -171,6 +173,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
       : hideCourseFunctionAdmin
         ? 'Tổng quan khóa học'
         : 'Thêm mới khóa học'
+        console.log('trạng thái loading', isLoading)
   
 
   return (
@@ -178,7 +181,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
       <div
         className={`bg-[#fff] ${id ? 'shadow-[0_2px_4px_rgba(0,0,0,0.08),_0_4px_12px_rgba(0,0,0,0.16)]' : ''} p-[16px] lg:p-14 rounded-lg dark:bg-[#2b2838]`}
       >
-        {isLoading || isFetching ? ( <div className="min-h-screen flex justify-center items-center"><Loading /></div>
+        {isLoading ? ( <div className="min-h-screen flex justify-center items-center"><Loading /></div>
         ) : (
         <>
         <div className=''>
@@ -352,7 +355,8 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     {
                       validator: async (_, value) => {
                         // Gọi hàm validateFile để kiểm tra file
-                          const isUsingOldThumbnail = id && courseData?.data?.thumbnail && !value?.file;
+
+                          const isUsingOldThumbnail = !!(id && courseData.thumbnail && !value?.file);
                           return validateThumbnail(value?.file, isUsingOldThumbnail);
                       },
                     }
@@ -490,10 +494,12 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
               </>
             ) : (
               <></>
-            )}
+            )
+            }
           </Form>
         </div>
-        </>)}
+        </>
+       )} 
       </div>
     </div>
   )
