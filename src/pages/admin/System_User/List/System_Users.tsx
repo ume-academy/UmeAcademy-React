@@ -1,14 +1,19 @@
 import { router } from "@/configs/routes";
 import { getTitleTab } from "@/constants/client";
 import { TUser } from "@/interfaces/TUser";
-import { Image, message, Modal, Space, Switch, Table, TableColumnsType, TreeSelect } from "antd";
+import { Form, Image, message, Modal, Select, Space, Switch, Table, TableColumnsType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import '../../User/List_Users/List_User_Antd.scss';
 import { PlusCircleOutlined } from "@ant-design/icons";
+import { useAssignRoleUserByIdMutation, useGetAllUsersSystemQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
+import { useGetAllRoleQuery } from "@/redux/slices/role/roleApiSlice";
+import Loading from "@/components/client/commonComponents/Loading/Loading";
+import { TRole } from "@/interfaces/TRole";
+import useLoading from "@/hooks/useLoading";
 
 const CustomTreeSelect = styled(TreeSelect)`
 .ant-select-selector {
@@ -31,17 +36,77 @@ const System_Users = () => {
 
   const [data, setData] = useState<any>([]);
 
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const [searchText, setSearchText] = useState<string>("");
 
   const [selectedRole, setSelectedRole] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(0);
+  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+
+  const { data: usersSystem, isLoading, isFetching } = useGetAllUsersSystemQuery([]);
+
+  const [lockUser] = useLockUserMutation();
+
+  const [unLockUser] = useUnLockUserMutation();
+
+  const { data: roles } = useGetAllRoleQuery([]);
+
+  const [updateRole] = useAssignRoleUserByIdMutation();
+
+  // console.log(data);
+
+  useEffect(() => {
+    if (usersSystem?.data) {
+
+      if (usersSystem?.data) {
+        setData(usersSystem?.data);
+      }
+    }
+  }, [undefined, usersSystem, data]);
+
+  const onHandleChangeUpdateRole = async (roleName: string, userId: number) => {
+
+
+    try {
+      startLoading();
+  
+      const res = await updateRole({
+        id: userId,
+        role: roleName
+      }).unwrap();
+  
+      if (res?.data) {
+        // Cập nhật lại state với role mới
+        // setData((prevData: TUser[]) =>
+        //   prevData.map((user) =>
+        //     user.id === userId
+        //       ? {
+        //           ...user,
+        //           role: user.role.map((r) =>
+        //             r.name === roleName ? { ...r, name: roleName } : r
+        //           ),
+        //         }
+        //       : user
+        //   )
+        // );
+  
+        stopLoading();
+        return message.success('Cập nhật vai trò thành công!');
+      }
+    } catch (error) {
+      console.error(error);
+      stopLoading();
+      message.error('Cập nhật vai trò thất bại!');
+    }
+  };
+  
 
   const handleChangeStatus = (id: string, checked: any) => {
     Modal.confirm({
@@ -67,33 +132,25 @@ const System_Users = () => {
       width: 600,
       icon: null,
       onOk: async () => {
-        // try {
+        try {
 
-        //   if(!id) return;
+          if (!id) return;
 
-        //   const res = checked ? await unLockUser(id).unwrap() : await lockUser(id).unwrap();
+          const res = checked ? await unLockUser(id).unwrap() : await lockUser(id).unwrap();
 
-        //   console.log(res)
+          console.log(res)
 
-        //   if(res?.data) {
-        //      message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
-        //   }
+          if (res?.data) {
+            message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
+          }
 
-        // } catch (error: any) {
-        //   console.log(error)
+        } catch (error: any) {
+          console.log(error)
 
-        //   return message.error(error?.data?.message || 'Có lỗi từ hệ thống, vui lòng thử lại sau')
-        // }
+          return message.error(error?.data?.message || 'Có lỗi từ hệ thống, vui lòng thử lại sau')
+        }
       }
     });
-  };
-
-  const handleChangeRole = (id: number, value: number) => {
-    setData((prevData: any) =>
-      prevData.map((user: TUser) =>
-        user.id === id ? { ...user, role: value } : user
-      )
-    );
   };
 
   const handleSearch = (value: string) => {
@@ -107,6 +164,14 @@ const System_Users = () => {
 
     return isMatchingEmail && isMatchingRole && isMatchingStatus;
   });
+
+  const rolesData = roles?.data?.data?.map((item: TRole, index: number) => (
+    {
+      key: index + 1,
+      value: item.id,
+      label: item.name
+    }
+  ));
 
   const columns: TableColumnsType<TUser> = [
     {
@@ -125,7 +190,7 @@ const System_Users = () => {
     {
       title: "Avatar",
       render: (_: any, record: TUser) => (
-        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} />
+        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} className="object-cover" />
       ),
       align: "center",
     },
@@ -155,7 +220,6 @@ const System_Users = () => {
             unCheckedChildren="Khóa"
             checked={record?.is_lock === 0}
             onChange={(checked) => handleChangeStatus(record?.id, checked)}
-          // onClick={() => console.log(record)}
           />
         </Space>
       ),
@@ -163,21 +227,22 @@ const System_Users = () => {
     },
     {
       title: "Vai trò",
-      render: (_: any, record, index: number) => (
-        <CustomTreeSelect
-          value={record?.is_teacher}
-          treeDefaultExpandAll
-          className="w-full md:w-32"
-          onChange={(value) => handleChangeRole(record?.id, value as number)}
-          key={index + 1}
-          treeData={[
-            { value: 0, title: <span className="text-[#ff4667]">Admin</span> },
-            { value: false, title: <span className="text-green-500">User</span> },
-            { value: true, title: <span className="text-green-500">Teacher</span> },
-          ]}
-        />
+      render: (_: any, record) => (
+        record?.role?.map((role) => (
+          <Select
+            loading={loading}
+            key={`${record.id}-${role.id}`}
+            options={rolesData}
+            style={{ width: '100%' }}
+            onChange={(newRoleId) => {
+              const selectedRole = rolesData.find((r: any) => r.value === newRoleId);
+              onHandleChangeUpdateRole(selectedRole?.label, record.id);
+            }}
+            defaultValue={role.id} // Hiển thị name hiện tại
+          />
+        ))
       ),
-      width: 120
+      width: 120,
     },
     {
       title: <div>Chi tiết</div>,
@@ -193,7 +258,7 @@ const System_Users = () => {
     }
   ];
 
-  // if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
+  if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
   return (
     <div className="dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4">
@@ -207,8 +272,8 @@ const System_Users = () => {
         {/* <Link to={router.userSystemCreate}>Thêm mới</Link> */}
 
         <Link
-            to={router.userSystemCreate}
-            className='
+          to={router.userSystemCreate}
+          className='
             border 
             border-[#F84563] 
             w-auto
@@ -224,12 +289,12 @@ const System_Users = () => {
             hover:text-[#F84563] 
             gap-x-3
             md:py-2 md:px-5
-            lg:w-[10%]
+            lg:w-auto
             '
-          >
-            <PlusCircleOutlined />
-            Thêm mới
-          </Link>
+        >
+          <PlusCircleOutlined />
+          Thêm mới
+        </Link>
       </div>
 
 
@@ -272,6 +337,7 @@ const System_Users = () => {
           allowClear
         />
       </div>
+
       <Table
         columns={columns}
         pagination={false}

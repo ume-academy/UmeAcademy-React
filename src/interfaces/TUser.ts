@@ -1,3 +1,5 @@
+import { TRole } from "./TRole"
+
 export interface TUser {
   id?: any
   avatar: any
@@ -9,6 +11,7 @@ export interface TUser {
   is_lock: number
   is_teacher: boolean
   bio: string
+  role: TRole[]
 }
 
 export interface TProfile {

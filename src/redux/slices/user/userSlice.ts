@@ -48,7 +48,42 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    //! GET ALL USERS SYSTEM 
+    getAllUsersSystem: builder.query({
+      query: () => `/admin/user-system`,
+      providesTags: ["User"],
+    }), 
+
+    //! CREATE USER SYSTEM
+    createUserSystem: builder.mutation({
+      query: (dataForm) => ({
+        url: `/admin/user-system`,
+        method: "POST",
+        body: dataForm,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    //! UPDATE ROLE FOR USER SYSTEM BY ID
+    assignRoleUserById: builder.mutation({
+      query: (dataForm) => ({
+        url: `/admin/user-system/${dataForm.id}/roles`,
+        method: 'POST',
+        body: dataForm
+      }),
+      invalidatesTags: ['User']
+    })
   })
 });
 
-export const { useGetUsersQuery, useGetAStudentByIdQuery, useGetATeacherByIdQuery, useLockUserMutation, useUnLockUserMutation } = userSlice;
+export const { 
+  useGetUsersQuery, 
+  useGetAStudentByIdQuery, 
+  useGetATeacherByIdQuery, 
+  useLockUserMutation, 
+  useUnLockUserMutation, 
+  useGetAllUsersSystemQuery,
+  useCreateUserSystemMutation,
+  useAssignRoleUserByIdMutation
+} = userSlice;

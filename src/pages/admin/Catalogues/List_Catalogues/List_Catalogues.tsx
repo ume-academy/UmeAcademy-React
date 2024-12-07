@@ -128,8 +128,8 @@ const List_Catalogues = () => {
             className='
             border 
             border-[#F84563] 
-            py-2
-            px-3
+            p-2
+            
             w-auto
             rounded-md 
             bg-[#F84563] 
@@ -141,9 +141,8 @@ const List_Catalogues = () => {
             hover:bg-white 
             hover:border-[#F84563] 
             hover:text-[#F84563] 
-            gap-3
-            md:py-2 md:px-5
-            lg:w-[20%]
+            gap-2
+            lg:w-[10%]
             '
           >
             <PlusCircleOutlined />

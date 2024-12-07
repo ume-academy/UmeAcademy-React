@@ -59,7 +59,9 @@ export const roleApiSlice = createApi({
         body: { name }
       }),
       invalidatesTags: ['role']
-    })
+    }),
+
+    
   })
 })
 
@@ -71,5 +73,5 @@ export const {
   useGetRoleByIdQuery,
   useGetAllPermissonQuery,
   useGetRolePermissonByIdQuery,
-  useAddPermissionToRoleMutation
+  useAddPermissionToRoleMutation,
 } = roleApiSlice

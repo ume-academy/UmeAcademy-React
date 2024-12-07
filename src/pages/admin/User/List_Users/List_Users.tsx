@@ -146,7 +146,7 @@ const List_Users = () => {
     {
       title: "Avatar",
       render: (_: any, record: TUser) => (
-        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} />
+        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} className="object-cover"/>
       ),
       align: "center",
     },
@@ -182,26 +182,6 @@ const List_Users = () => {
       ),
       width: 100
     },
-    // {
-    //   title: "Vai trò",
-    //   dataIndex: "role",
-    //   key: "role",
-    //   render: (_: any, record, index: number) => (
-    //     <CustomTreeSelect
-    //       value={record?.is_teacher}
-    //       treeDefaultExpandAll
-    //       className="w-full md:w-32"
-    //       onChange={(value) => handleChangeRole(record?.id, value as number)}
-    //       key={index + 1}
-    //       treeData={[
-    //         { value: 0, title: <span className="text-[#ff4667]">Admin</span> },
-    //         { value: false, title: <span className="text-green-500">User</span> },
-    //         { value: true, title: <span className="text-green-500">Teacher</span> },
-    //       ]}
-    //     />
-    //   ),
-    //   width: 120
-    // },
     {
       title: <div>Chi tiết</div>,
       key: "actions",
