@@ -12,7 +12,7 @@ export const authApiSlice = createApi({
         url: '/auth/register/email',
         method: 'POST',
         body: data
-      })
+      }),
     }),
 
     login: builder.mutation<TResponseLogin, TLogin>({
@@ -20,7 +20,7 @@ export const authApiSlice = createApi({
         url: '/auth/login/email',
         method: 'POST',
         body: data
-      })
+      }),
     }),
 
     logoutApi: builder.mutation<void, void>({
@@ -34,13 +34,12 @@ export const authApiSlice = createApi({
       }
     }),
 
-
     forgotPassword: builder.mutation<string, { email: string }>({
       query: ({ email }) => ({
         url: '/auth/forgot-password',
         method: 'POST',
         body: email
-      })
+      }),
     }),
 
     resetPassword: builder.mutation<TResetPass, TResetPass>({
@@ -48,8 +47,8 @@ export const authApiSlice = createApi({
         url: `/auth/reset-password`,
         method: 'POST',
         body: data
-      })
-    })
+      }),
+    }),
   })
 })
 

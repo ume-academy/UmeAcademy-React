@@ -9,19 +9,20 @@ import { router } from '@/configs/routes'
 import { dataCarousel } from '@/constants/auth'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
+import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
 import { TLogin, TResponseLogin } from '@/interfaces/TAuth'
 import { useLoginMutation } from '@/redux/slices/auth/authApiSlice'
 import { setToken } from '@/redux/slices/auth/authSlice'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import { FacebookFilled, GoogleCircleFilled, LoadingOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 import { Helmet } from 'react-helmet'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
-import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
-import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Login = () => {
+  const [dataUser, setdataUser] = useState<any>()
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const { loading, startLoading, stopLoading } = useLoading()
   const [login] = useLoginMutation()
@@ -31,6 +32,9 @@ const Login = () => {
   const [index, setIndex] = useState(0)
   const { refetch } = useGetProfileQuery({})
 
+  // console.log(dataProfile?.id_admin)
+
+  // Slide banner
   const next = () => {
     if (index === dataCarousel.length - 1) {
       setIndex(0) // Nếu đã đến cuối mảng, quay lại chỉ số 0
@@ -48,11 +52,13 @@ const Login = () => {
       clearInterval(interval) // Clear interval khi component bị hủy
     }
   }, [index])
+  // End slide banner
 
   const onfinish = async (data: TLogin) => {
     try {
       startLoading()
-      const { access_token, refresh_token, expires_in }: TResponseLogin = await login(data).unwrap()
+
+      const { access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
 
       dispatch(
         setToken({
@@ -61,10 +67,15 @@ const Login = () => {
           expiresIn: expires_in
         })
       )
+      
       await refetch() // Lấy thông tin người dùng MỚI NHẤT sau khi đăng nhập
+
       stopLoading()
-      message.success('Đăng nhập thành công')
-      nav(router.home)
+
+      message.success('Đăng nhập thành công') 
+
+      nav(router.dashBoard)
+      
     } catch (error) {
       stopLoading()
       let err = error as TLoginError

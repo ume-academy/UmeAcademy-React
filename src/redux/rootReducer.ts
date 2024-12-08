@@ -1,3 +1,4 @@
+
 import { combineReducers } from '@reduxjs/toolkit'
 import { authApiSlice } from './slices/auth/authApiSlice'
 import { authSlice } from './slices/auth/authSlice'
@@ -22,6 +23,9 @@ import { roleApiSlice } from './slices/role/roleApiSlice'
 import { refundApiSlice } from './slices/transaction/refundApiSlice'
 import { targetApiSlice } from './slices/target/targetApiSlice'
 import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
+import { checkAdminApiSlice } from "./slices/admin/checkAdminApiSlice";
+
+
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -46,7 +50,8 @@ const rootReducer = combineReducers({
   [refundApiSlice.reducerPath]: refundApiSlice.reducer,
   [roleApiSlice.reducerPath]: roleApiSlice.reducer,
   [targetApiSlice.reducerPath]: targetApiSlice.reducer,
-  [profileTeacherApiSlice.reducerPath]: profileTeacherApiSlice.reducer
+  [profileTeacherApiSlice.reducerPath]: profileTeacherApiSlice.reducer,
+  [checkAdminApiSlice.reducerPath]: checkAdminApiSlice.reducer
 })
 
 export default rootReducer

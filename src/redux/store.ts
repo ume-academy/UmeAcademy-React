@@ -22,6 +22,7 @@ import { refundApiSlice } from './slices/transaction/refundApiSlice'
 import { roleApiSlice } from './slices/role/roleApiSlice'
 import { targetApiSlice } from './slices/target/targetApiSlice'
 import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
+import { checkAdminApiSlice } from './slices/admin/checkAdminApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -48,7 +49,8 @@ export const store = configureStore({
       refundApiSlice.middleware,
       roleApiSlice.middleware,
       targetApiSlice.middleware,
-      profileTeacherApiSlice.middleware
+      profileTeacherApiSlice.middleware,
+      checkAdminApiSlice.middleware
     )
 })
 

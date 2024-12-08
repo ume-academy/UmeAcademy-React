@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
+import { authApiSlice } from '@/redux/slices/auth/authApiSlice'
 
 const Header = () => {
   const nav = useNavigate()
@@ -53,7 +54,11 @@ const Header = () => {
     try {
       // await logoutApi().unwrap()
       // console.log(1)
-      dispatch(logoutLocal())
+
+      dispatch(authApiSlice.util.resetApiState());
+
+      dispatch(logoutLocal());
+
       message.success('Đăng xuất thành công')
       nav('/')
     } catch (error) {

@@ -2,7 +2,6 @@ import { TAuthState } from "@/interfaces/TAuth";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-
 const initialState: TAuthState = {
   isAuthenticated: !!localStorage.getItem('access_Token'),
   accessToken: localStorage.getItem('access_Token') || '',
@@ -37,6 +36,7 @@ export const authSlice = createSlice({
 
       localStorage.removeItem('access_Token')
       Cookies.remove('refresh_Token')
+      
     }
   }
 })

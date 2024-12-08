@@ -1,3 +1,4 @@
+
 export interface TRegister {
   fullname: string
   email: string

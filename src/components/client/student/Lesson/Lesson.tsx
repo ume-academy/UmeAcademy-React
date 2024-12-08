@@ -18,9 +18,14 @@ import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constan
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
 import VideoPlayer from '../../commonComponents/VideoPlayer/VideoPlayer'
 import style from './Lesson.module.scss'
+import useRedirectToPurchase from '@/hooks/useRedirectToPurchase'
 
 const Lesson = () => {
   const { id } = useParams();
+
+  // const { isEnrolled } = useRedirectToPurchase();
+
+  // console.log(isEnrolled)
 
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const { data: courseData, isLoading } = useGetLessonByCourseIdQuery(Number(id))

@@ -5,7 +5,7 @@ import { adminRoutes, authRoutes, forbiddenRoutes, notFoundRoutes, protectedStud
 import Layout_Admin from './layouts/Layout_Admin'
 import Layout_Client from './layouts/Layout_Client'
 import Layout_Teacher from './layouts/Layout_Teacher'
-import { PrivateRouteStudent, PriveteRouteAdmin } from './layouts/PriveteRoute'
+import { PrivateRouteAdmin, PrivateRouteStudent, PriveteRouteTeacher } from './layouts/PriveteRoute'
 import './scss/App.scss'
 
 function App() {
@@ -23,45 +23,53 @@ function App() {
     <>
       <Routes>
 
-          <Route path='/' element={<Layout_Client />}>
-            {/* <===== student =====> */}
+        <Route path='/' element={<Layout_Client />}>
+          {/* <===== student =====> */}
 
-            {studentRoutes.map((route, index) => {
+          {studentRoutes.map((route, index) => {
             const isProtected = protectedStudentRoutes.some(
               (protectedRoute) => protectedRoute.path === route.path
             )
 
             return (
               <Route key={index} path={route.path} element={isProtected ? (
-                  <PrivateRouteStudent>
-                    <route.element />
-                  </PrivateRouteStudent>
-                ) : (
+                <PrivateRouteStudent>
                   <route.element />
-                )} />
-              )
-            })}
-          </Route>
+                </PrivateRouteStudent>
+              ) : (
+                <route.element />
+              )} />
+            )
+          })}
+        </Route>
 
 
-            {/* Teacher */}
-            <Route path={prefixTeacher} element={
-              <PriveteRouteAdmin>
-                <Layout_Teacher />
-              </PriveteRouteAdmin>
-            }>
-              {teacherRoutes.map((route, index) => (
-                <Route key={index} path={route.path} element={<route.element />} />
-              ))}
-            </Route>
+        {/* Teacher */}
+        <Route path={prefixTeacher} element={
+          <PriveteRouteTeacher>
+            <Layout_Teacher />
+          </PriveteRouteTeacher>
+        }>
+          {teacherRoutes.map((route, index) => (
+            <Route key={index} path={route.path} element={<route.element />} />
+          ))}
+        </Route>
 
         {/* <===== Admin =====> */}
-        <Route path='/admin' element={<Layout_Admin />}>
+        <Route
+          path="/admin"
+          element={
+            <PrivateRouteAdmin>
+              <Layout_Admin />
+            </PrivateRouteAdmin>
+          }
+        >
           <Route index element={<h1>Dashboard</h1>} />
           {adminRoutes.map((route, index) => (
             <Route key={index} path={route.path} element={<route.element />} />
           ))}
         </Route>
+
 
         {/* <===== Auth =====> */}
         {authRoutes.map((route, index) => (

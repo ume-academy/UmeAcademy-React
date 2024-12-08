@@ -19,6 +19,7 @@ export interface TProfile {
   fullname: string
   email: string
   bio: string
+  id_admin?: boolean
 }
 
 export interface TProfileTeacher {
