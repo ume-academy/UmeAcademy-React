@@ -1,18 +1,18 @@
+import { routerConfigAdmin } from "@/constants/admin";
+import { ThemeContext, ThemeContextType } from "@/contexts/ThemeContext";
 import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from "@ant-design/icons";
 import { Collapse, CollapseProps, Input, message, Modal, UploadFile } from "antd";
 import Upload, { UploadProps } from "antd/es/upload/Upload";
-import { ChevronRight, Plus } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useContext, useState } from "react";
-import './Form_Lesson_Antd.scss';
 import { useLocation } from "react-router-dom";
-import { routerConfigAdmin } from "@/constants/admin";
-import { ThemeContext, ThemeContextType } from "@/contexts/ThemeContext";
+import './Form_Lesson_Antd.scss';
 
 interface Props  {
   id?: number,
 }
 
-const FormLesson = ({ id} : Props) => {
+const FormChapter = ({ id} : Props) => {
   const {theme, toggleTheme} = useContext(ThemeContext) as ThemeContextType;
   // <==== State cho Upload video===>
   const [fileList, setFileList] = useState<UploadFile[] >([])
@@ -267,4 +267,4 @@ const FormLesson = ({ id} : Props) => {
   );
 }
 
-export default FormLesson;
+export default FormChapter;

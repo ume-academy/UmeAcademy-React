@@ -23,7 +23,12 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
 
-const Form_Course = ({courseData, isLoading} : {courseData: TCourseDetail; isLoading: boolean}) => {
+interface CourseProps  {
+  courseData?: any
+  isLoading?: any
+}
+
+const Form_Course = ({courseData, isLoading}: CourseProps) => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const [form] = Form.useForm() //<TCourse>
   const { id } = useParams()
@@ -173,8 +178,6 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
       : hideCourseFunctionAdmin
         ? 'Tổng quan khóa học'
         : 'Thêm mới khóa học'
-        console.log('trạng thái loading', isLoading)
-  
 
   return (
     <div className='px-[16px]'>

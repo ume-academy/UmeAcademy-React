@@ -1,0 +1,269 @@
+// ChapterList.tsx
+import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import { TChapter, TFormLesson, TLesson } from '@/interfaces/TLesson'
+import { useCreateLessonMutation, useUpdateLessonMutation } from '@/redux/slices/lesson/lessonApiSlice'
+import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from '@ant-design/icons'
+import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Upload, UploadFile, UploadProps } from 'antd'
+import { ChevronRight } from 'lucide-react'
+import React, { useContext, useState } from 'react'
+import {  useParams } from 'react-router-dom'
+
+interface LessonProps {
+  hideCourseFunction: boolean
+  chapter: TChapter
+  isRefetch: () => void 
+}
+
+const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) => {
+  const { theme } = useContext(ThemeContext) as ThemeContextType
+  const { id } = useParams()
+  const [form] = Form.useForm()
+  const id_Course = id
+  const [createLesson] = useCreateLessonMutation()
+  const [updateLesson] = useUpdateLessonMutation()
+  console.log(chapter)
+  // State để set loading cho comfirm
+
+  // <==== State cho Upload video===>
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+
+  // <==== Xử lí logic cho xóa chương =====>
+  const handleChangeDeleteChapter = (id: number) => {
+    Modal.confirm({
+      title: 'Vui lòng xác nhận',
+      content: `Bạn sắp xóa một chương trình giảng dạy. Bạn có chắc chắn muốn tiếp tục không?`,
+      okText: 'Đồng ý',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      onOk: () => {
+        // setConfirmLoading(true)
+        // return new Promise((resolve) => {
+        //   setTimeout(() => {
+        //     message.success('thành công rồi')
+        //     // Thay bằng logic xóa của bạn
+        //     setConfirmLoading(false) // Dừng loading
+        //     resolve(undefined)
+        //   }, 2000)
+        // })
+      }
+    })
+  }
+  // <==== Kết thúc xử lí logic cho xóa chương =====>
+
+  const handleSubmitLesson = async (chapter_id?: number, lesson?: TFormLesson) => {
+    
+    try {
+      if(lesson?.id && chapter_id){
+          updateLesson({id_course: Number(id_Course), id_chapter: chapter_id ,lesson: {id: lesson.id, name: lesson.name}}).unwrap()
+      }else{
+        if(lesson?.name && chapter_id){
+          createLesson({id_course: Number(id_Course), id_chapter: chapter_id ,lesson: {name: lesson?.name}}).unwrap()
+        }
+      }
+      isRefetch()
+      message.success(lesson?.id ? 'Cập nhật bài học thành công' : 'Thêm mới bài học thành công')
+    } catch (error) {
+      console.log('lỗi rồi', error)
+      message.error(lesson?.id ? 'Cập nhật bài học thất bại' : 'Thêm mới bài học thất bại')
+    }
+  }
+
+
+  // <==== Xử lí logic cho CẬP NHẬT & THÊM bài học =====>
+  const handleFormLesson = (id_chapter: number, lesson?: TFormLesson) => {
+    let inputRef = React.createRef<InputRef>()
+    Modal.confirm({
+      title: <h2>{lesson?.id ? 'Cập nhật bài học' : 'Thêm mới bài học'}</h2>,
+      content: (
+        <div className='flex justify-center items-center'>
+          <Form layout="vertical" className="w-full" form={form} >
+          <Form.Item
+            name='name'
+            label={<h2 className=" mr-2">Bài học:</h2>}
+            rules={[{ required: true}]}
+          >
+            <Input 
+              ref={inputRef}
+              className=' py-1 px-2 bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+              dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] text-[14px]
+              focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+              defaultValue={lesson?.id ? `${lesson.name}` : ''} placeholder="Vui lòng nhập tên bài học"
+              />
+            </Form.Item>
+          </Form>
+        </div>
+      ),
+      okText: 'Đồng ý',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      onOk: async () => {
+        try {
+          // Gọi validateFields để kiểm tra tất cả các trường hợp
+          const values = await form.validateFields()
+
+          const inputValue = values.name // Lấy giá trị hợp lệ từ form
+          handleSubmitLesson(id_chapter, { id: lesson?.id, name: inputValue })
+          form.resetFields() // Reset form sau khi gửi
+        } catch (error) {
+          // Nếu validation thất bại, báo lỗi
+          message.error('Vui lòng điền đầy đủ thông tin')
+        }
+      }
+    })
+  }
+
+  // <==== Kết thúc xử lí logic cho CẬP NHẬT & THÊM chương =====>
+
+  // <==== Kết thúc xử lí logic cho CẬP NHẬT & THÊM chương =====>
+
+  // <==== Hàm này để setFileList khi đã có video thì sẽ ẩn button upload đi ===>
+  const handleUploadFile: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
+    setFileList(newFileList)
+  }
+
+  // <====Bắt đầu Upload ====>
+  const propsUpload: UploadProps = {
+    name: 'file',
+    maxCount: 1,
+    listType: 'text',
+    progress: {
+      strokeColor: {
+        '0%': '#108ee9',
+        '100%': '#87d068'
+      },
+      strokeWidth: 3,
+      format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`
+    }
+  }
+  // <====Kết thúc Upload ====>
+
+  // <==== Bắt đầu collapse con ====>
+  const listLesson = (chapter_id: number, lesson: TLesson, index: number): CollapseProps['items'] => [
+    {
+      key: `${lesson.id}`,
+      label: (
+        <div className='flex items-center dark:text-[#b9b7c0]'>
+          <h1 className='mr-1'>Bài {index + 1}:</h1><h1 className='mr-4'>{lesson.name}</h1>
+          {!hideCourseFunction && (
+            <>
+              {/* Modal */}
+              <EditFilled
+                onClick={() => handleFormLesson(chapter_id,{ id: lesson.id, name: lesson.name })}
+                style={{ fontSize: 16, color: `${theme === 'dark' ? '#b9b7c0' : '#1e1e1e'}`, marginRight: '12px' }}
+              />
+              <DeleteFilled
+                onClick={() => handleChangeDeleteChapter(1)}
+                style={{
+                  fontSize: 16,
+                  height: '18px',
+                  color: `${theme === 'dark' ? '#b9b7c0' : '#1e1e1e'}`,
+                  cursor: 'pointer'
+                }}
+              />
+            </>
+          )}
+        </div>
+      ),
+      children: (
+        <>
+          <div>
+            <div
+              className={`grid  ${!hideCourseFunction ? 'grid-cols-[3fr_1fr] md:grid-cols-[4fr_1fr] lg:grid-cols-[11.5fr_0.5fr]' : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 place-items-center'} gap-4 w-full mb-5 min-h-6`}
+            >
+              <Upload
+                listType='picture'
+                fileList={fileList}
+                maxCount={1}
+                onChange={handleUploadFile}
+                showUploadList={{ showRemoveIcon: false }}
+                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
+              >
+                {fileList.length === 0 && (
+                  <button
+                    className={`${!hideCourseFunction ? 'w-[30vh] md:w-[60vh] lg:w-[760px]' : 'w-[36vh] md:w-[58vh] lg:w-[720px] '}  border-[2px] px-4 py-1 border-[#ff5364] rounded-lg text-[12px] text-[#ff5364] font-subtitle`}
+                  >
+                    <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
+                    Upload
+                  </button>
+                )}
+              </Upload>
+              {!hideCourseFunction && (
+                <DeleteOutlined
+                  onClick={() => handleChangeDeleteChapter(2)}
+                  className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
+                />
+              )}
+              <Upload
+                listType='picture'
+                fileList={fileList}
+                maxCount={1}
+                onChange={handleUploadFile}
+                showUploadList={{ showRemoveIcon: false }}
+                {...propsUpload}
+              >
+                {fileList.length === 0 && (
+                  <button
+                    className={`${!hideCourseFunction ? 'w-[30vh] md:w-[60vh] lg:w-[760px]' : 'w-[36vh] md:w-[58vh] lg:w-[720px]'} flex items-center justify-center border-[2px] rounded-lg border-[#ff5364] text-[#ff5364] text-[12px] px-2 py-1 font-subtitle"><Plus size={12} color="#ff5364" className="mr-1`}
+                  >
+                    {' '}
+                    Tài nguyên
+                  </button>
+                )}
+              </Upload>
+              {!hideCourseFunction && (
+                <DeleteOutlined
+                  onClick={() => handleChangeDeleteChapter(2)}
+                  className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )
+    }
+  ]
+  // <==== Kết thúc collapse con ====>
+
+  return (
+    <>
+      {chapter.lessons.map((lesson, index) => (
+        <Collapse
+          key={lesson.id}
+          items={listLesson(chapter.id, lesson, index)}
+          className='dark:bg-[#3a3545] dark:border-[#c7c7c740] border-[1px] border-[#d9d9d9] mb-3'
+          collapsible='icon'
+          expandIcon={({ isActive }) => (
+            <ChevronRight
+              strokeWidth={3}
+              size={16}
+              style={{
+                fontSize: '20px',
+                transform: `rotate(${isActive ? 270 : 90}deg)`,
+                color: `${theme === 'dark' ? '#b9b7c0' : '#1e1e1e'}`
+              }}
+            />
+          )}
+          expandIconPosition='end'
+        />
+      ))}
+      <div className='flex justify-start mt-6'>
+        {!hideCourseFunction && (
+          <button
+            onClick={() => handleFormLesson(chapter.id)}
+            className='flex justify-center items-center mt-2 px-2 py-1.5 rounded-full border-[1px] border-[#ff5364] bg-[#ff5364]'
+          >
+            <EditFilled style={{ fontSize: 12, color: '#fff', marginRight: '12px' }} />
+            <p className='text-[#fff] text-[12px] font-title '>Thêm bài học mới</p>
+          </button>
+        )}
+      </div>
+    </>
+  )
+}
+
+export default Form_Lesson

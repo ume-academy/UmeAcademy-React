@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import Form_Course from '../Form_Course/Form_Course';
 import List_Students from '../Students/List_Students';
 import './Course_Management_Antd.scss';
-import FormLesson from './FormLesson/Form_Lesson';
+import FormChapter from './FormChapter/Form_Chapter';
 import Targets from './Targets/Targets';
 import Voucher from './Voucher/Voucher';
 
@@ -112,13 +112,11 @@ const Course_Management = () => {
       {!isAdminRoute && (
         <div className='fixed top-0 right-0 left-0 z-50 bg-[#3d3a4e] h-[70px] flex items-center justify-between'>
           <div className='flex items-center h-full'>
-            <Link to={`${router.myCourses}`} className='mr-2 px-4 border-r-[1px] border-gray-600 hover:bg-[#3b3657] hover:text-[#fff] h-full flex items-center text-[#fff]'>
+            <Link to={`${router.myCourses}`} className='mr-4 px-4 border-r-[1px] border-gray-600 hover:bg-[#3b3657] hover:text-[#fff] h-full flex items-center text-[#fff]'>
             <ChevronLeft strokeWidth={3} size={18} /><p className=' hidden lg:block text-[14px]'>Quay lại khóa học</p>
             </Link>
             
-            <Tooltip title="Tên của khóa học" placement='bottom' color='pink'>
-              <span className='font-title text-[14px] text-[#fff] h-full flex items-center lg:text-[16px] max-w-[200px] lg:max-w-[300px] truncate border-transparent'>Tên của khóa họcTên của khóa họcTên của khóa họcTên của khóa học</span>
-            </Tooltip>
+            <span className='font-title text-[14px] text-[#fff] h-full flex items-center lg:text-[16px] max-w-[200px] lg:max-w-[300px] truncate border-transparent'>{courseData?.name}</span>
             <h2 className='ml-6 text-[#fff] text-[14px] border-[1px] px-2 py-0.5 font-title bg-[#b4a7f5] border-transparent rounded-lg'>Bản nháp</h2>
           </div>
           <div className=' items-center mr-4 hidden md:flex lg:flex'>
@@ -230,9 +228,9 @@ const Course_Management = () => {
         )}
         
         <div className="">
-          {current === 0 && (<Form_Course courseData={courseData as TCourseDetail} isLoading={isLoading}/>)}
+          {current === 0 && (<Form_Course courseData={courseData as any} isLoading={isLoading as any}/>)}
           {current === 1 && (<Targets courseData={courseData as TCourseDetail} isLoading={isLoading} isRefetch={isRefetch} />)}
-          {current === 2 && (<FormLesson />)}
+          {current === 2 && (<FormChapter courseData={courseData as TCourseDetail} isRefetch={isRefetch}/>)}
           {current === 3 && (<Voucher />)}
           {extraSelected && (<List_Students />)} {/* Render component khi extra được chọn */}
         </div>

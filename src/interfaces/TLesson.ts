@@ -22,6 +22,18 @@ export interface TChapter {
   lessons: TLesson[]
 }
 
+export interface TFormChapter {
+  id?: number,
+  name: string
+}
+
+export interface TFormLesson {
+  id?: number,
+  name: string,
+  video_link?: string,
+  video_duration?: number
+}
+
 export interface TLesson {
   id: number,
   is_completed: boolean

@@ -22,6 +22,7 @@ import { refundApiSlice } from './slices/transaction/refundApiSlice'
 import { roleApiSlice } from './slices/role/roleApiSlice'
 import { targetApiSlice } from './slices/target/targetApiSlice'
 import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
+import { chapterApiSlice } from './slices/chapter/chapterApiSlice'
 import { checkAdminApiSlice } from './slices/admin/checkAdminApiSlice'
 import { favoriteCourseApiSlice } from './slices/course/favorite/favoriteCourseApiSlice'
 import { transactionHistoryApiSlice } from './slices/transaction_history/transactionHistoryApiSlice'
@@ -53,6 +54,7 @@ export const store = configureStore({
       roleApiSlice.middleware,
       targetApiSlice.middleware,
       profileTeacherApiSlice.middleware,
+      chapterApiSlice.middleware,
       checkAdminApiSlice.middleware,
       favoriteCourseApiSlice.middleware,
       transactionHistoryApiSlice.middleware,
