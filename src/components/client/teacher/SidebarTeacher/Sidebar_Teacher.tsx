@@ -1,6 +1,6 @@
 import { router } from '@/configs/routes'
 import { Avatar, Image } from 'antd'
-import { HandCoins, Rocket, Wallet, WalletCards } from 'lucide-react'
+import { FileClock, HandCoins, Rocket, Wallet, WalletCards } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styles from './sidebarTeacher.module.scss'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
@@ -109,13 +109,13 @@ const Sidebar_Teacher = () => {
 
                 <li>
                   <NavLink
-                    to={router.withdrawMoney}
+                    to={router.walletMoney}
                     className={({ isActive }) =>
                       `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
                     }
                   >
                     <Wallet />
-                    Rút tiền
+                    Ví Ume
                   </NavLink>
                 </li>
 
@@ -128,6 +128,17 @@ const Sidebar_Teacher = () => {
                   >
                     <WalletCards />
                     Phương thức rút tiền
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={router.withdrawHistories}
+                    className={({ isActive }) =>
+                      `flex items-center gap-4 hover:text-[#F84563] ${isActive ? 'text-[#F84563] font-title' : ''}`
+                    }
+                  >
+                    <FileClock />
+                    Lịch sử rút tiền
                   </NavLink>
                 </li>
               </ul>

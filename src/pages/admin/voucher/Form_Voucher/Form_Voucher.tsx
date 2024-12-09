@@ -109,7 +109,7 @@ const Form_Voucher = () => {
               <Input id='code' placeholder='Nhập mã giảm giá' className='p-3 w-full' />
             </Form.Item>
 
-            <div className='flex flex-wrap justify-between gap-x-6 w-full lg:w-auto'>
+            <div className='flex flex-wrap justify-between gap-x-6 w-full lg:w-[49%]'>
               <Form.Item
                 name='start_date'
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Ngày bắt đầu</span>}
@@ -118,7 +118,7 @@ const Form_Voucher = () => {
                 <DatePicker
                   format='YYYY-MM-DD'
                   placeholder='Ngày bắt đầu'
-                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[313px]'
+                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[266px]'
                 />
               </Form.Item>
 
@@ -130,13 +130,13 @@ const Form_Voucher = () => {
                 <DatePicker
                   format='YYYY-MM-DD'
                   placeholder='Ngày kết thúc'
-                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[313px]'
+                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[266px]'
                 />
               </Form.Item>
             </div>
           </div>
 
-          <div className='flex flex-wrap justify-between gap-x-6'>
+          <div className='flex flex-wrap justify-between '>
             <Form.Item
               name='quantity'
               label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số lượng mã giảm giá</span>}

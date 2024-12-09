@@ -43,7 +43,10 @@ export const router = {
   withdrawalMethods: `${prefixTeacher}/withdrawal-methods`,
 
   // Route ví và rút tiền
-  withdrawMoney: `${prefixTeacher}/withdraw-money`,
+  walletMoney: `${prefixTeacher}/wallet-money`,
+
+  // Route lịch sử rút tiền
+  withdrawHistories: `${prefixTeacher}/withdraw-histories`,
 
   // Route Tạo mới khóa học
   formCourse: `${prefixTeacher}/form-course`,

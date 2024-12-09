@@ -34,7 +34,6 @@ import New_Instructor from '@/pages/client/Teacher/New_Instructor/New_Instructor
 import Profile_Teacher from '@/pages/client/Teacher/Profile_Teacher/Profile_Teacher'
 import Revenue from '@/pages/client/Teacher/Revenue/Revenue'
 import List_Students from '@/pages/client/Teacher/Students/List_Students'
-import Withdraw_Money from '@/pages/client/Teacher/Withdraw_Money/Withdraw_Money'
 import Payment_Methods from '@/pages/client/Teacher/Withdrawal_Methods/Withdrawal_Methods'
 import Forbidden from '@/pages/Forbidden/Forbidden'
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email'
@@ -46,6 +45,8 @@ import Create_User_System from '@/pages/admin/System_User/Form/Create_User_Syste
 import List_Voucher from '@/pages/admin/voucher/List_Voucher/List_Voucher'
 import Form_Voucher from '@/pages/admin/voucher/Form_Voucher/Form_Voucher'
 import Favorite_Courses from '@/pages/client/Student/Courses/Favorite_Course/Favorite_Courses'
+import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
+import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
 
 // Routes cho student
 export const studentRoutes = [
@@ -78,7 +79,8 @@ export const teacherRoutes = [
   { path: router.listStudents, element: List_Students },
   { path: router.myCourses, element: My_Courses },
   { path: router.withdrawalMethods, element: Payment_Methods },
-  { path: router.withdrawMoney, element: Withdraw_Money },
+  { path: router.walletMoney, element: Wallet_Money },
+  { path: router.withdrawHistories, element: Withdraw_Histories },
   { path: router.formCourse, element: Form_Course },
   { path: router.courseManagement, element: Course_Management },
   { path: router.profileTeacher, element: Profile_Teacher }

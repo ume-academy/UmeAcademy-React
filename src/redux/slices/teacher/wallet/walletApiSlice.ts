@@ -1,5 +1,4 @@
-import { customBaseQuery } from "@/Api";
-import { THistoryWallet } from "@/interfaces/THistoryWallet";
+import { customBaseQuery } from '@/Api'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const walletApiSlice = createApi({
@@ -9,28 +8,41 @@ export const walletApiSlice = createApi({
   endpoints: (builder) => ({
     walletBalance: builder.query({
       query: () => '/teacher/wallet-balance',
-      transformResponse: (res: { data: number }) => res.data
-    }),
-    transactionHistory: builder.query({
-      query: ({ page }) => `/teacher/wallet-transaction?page=${page}`
+      transformResponse: (res: { data: number }) => res.data,
+      providesTags: ['wallet']
     }),
 
-     //! GET HISTORIES WALLET BY USER ID 
-     getHistoriesWalletByUserId: builder.query({
+    transactionHistory: builder.query({
+      query: ({ page }) => `/teacher/wallet-transaction?page=${page}`,
+      providesTags: ['wallet']
+    }),
+
+    createWithdrawalRequest: builder.mutation<number, { money: number }>({
+      query: ({ money }) => ({
+        url: '/teacher/withdraw-requests',
+        method: 'POST',
+        body: {money}
+      }),
+      invalidatesTags: ['wallet']
+    }),
+
+    //! GET HISTORIES WALLET BY USER ID
+    getHistoriesWalletByUserId: builder.query({
       query: (userId: any) => `/admin/student/${userId}/wallet-transactions`,
-      providesTags: ["wallet"],
+      providesTags: ['wallet']
     }),
 
     //! GET HISTORIES WALLET BY TEACHER ID
     getHistoriesWalletByTeacherId: builder.query({
       query: (teacherId: string) => `/admin/teacher/${teacherId}/wallet-transactions`,
-      providesTags: ["wallet"],
-    }), 
+      providesTags: ['wallet']
+    })
   })
 })
-export const { 
-  useWalletBalanceQuery, 
-  useTransactionHistoryQuery, 
-  useGetHistoriesWalletByTeacherIdQuery, 
-  useGetHistoriesWalletByUserIdQuery 
+export const {
+  useWalletBalanceQuery,
+  useTransactionHistoryQuery,
+  useGetHistoriesWalletByTeacherIdQuery,
+  useGetHistoriesWalletByUserIdQuery,
+  useCreateWithdrawalRequestMutation
 } = walletApiSlice

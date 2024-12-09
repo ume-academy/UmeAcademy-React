@@ -7,6 +7,9 @@ export const withdrawApiSlice = createApi({
   baseQuery: baseUrl,
   tagTypes: ['withdraw'],
   endpoints: (builder) => ({
+    getWithdrawHistories: builder.query({
+      query: ({ page }) => `/teacher/withdraw-histories?page=${page}`
+    }),
     getAllBank: builder.query({
       query: () => '/banks',
       transformResponse: (res: { data: [] }) => res?.data
@@ -55,5 +58,6 @@ export const {
   useAddWithdrawMutation,
   useEditWithdrawMutation,
   useGetAllWithdrawRequestQuery,
-  useUpdateStatusWithdrawRequestMutation
+  useUpdateStatusWithdrawRequestMutation,
+  useGetWithdrawHistoriesQuery
 } = withdrawApiSlice

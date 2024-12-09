@@ -21,6 +21,7 @@ export const voucherApiSlice = createApi({
       query: ({ per_page, page }) => `/admin/voucher?per_page=${per_page}&page=${page}`,
       providesTags: ['Voucher']
     }),
+    
     addVoucherByAdmin: builder.mutation<TVoucher, TVoucher>({
       query: (body) => ({
         url: '/admin/voucher',
