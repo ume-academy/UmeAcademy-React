@@ -2,6 +2,7 @@ import { router } from '@/configs/routes'
 import { getButtonDetails } from '@/constants/client'
 import { formatPrice, formatSeconds } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
+import { useAddCourseToFavoriteMutation, useRemoveCourseInFavoriteMutation } from '@/redux/slices/course/courseApiSlice'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { message, Modal, Rate, TreeSelect } from 'antd'
 import { motion } from 'framer-motion'
@@ -49,22 +50,33 @@ const Card = ({
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
-  console.log(is_wishlist)
-  console.log(status)
+  const [addToFav] = useAddCourseToFavoriteMutation();
+  const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation();
+
+  // console.log(is_wishlist)
+  // console.log(status)
 
   useEffect(() => {
     setHeart(is_wishlist)
     setIsEnrolled(is_enrolled)
   }, [is_wishlist, is_enrolled])
 
-  const handleClick = () => {
-    if (heart) {
-      setHeart(false)
-      message.error('Đã bỏ khóa học khỏi danh sách yêu thích')
-    } else {
-      setHeart(true)
-      message.success('Đã thêm khóa học vào danh sách yêu thích')
+  // ADD, REMOVE COURSE IN FAV
+  const handleClickForFav = async (courseId: string | number) => {
+
+    try {
+
+      await message.loading({ content: `Đang xử lý...`, key: 'loading' });
+
+      heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId);
+
+      message.success(`${heart ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+
+    } catch (error) {
+      console.log(error)
+      return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
     }
+
   }
 
   const handleOpenModal = (type: 'refund' | 'delete' | 'review') => {
@@ -141,7 +153,7 @@ const Card = ({
           </div>
           <div className='absolute bottom-3 right-3 px-4 py-2 rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900'>
             <p className='text-[15px] font-bold text-[#ff5364] dark:text-[#B9B7C0]'>{formatPrice(price)}</p>
-            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{}</p>
+            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{ }</p>
           </div>
         </div>
       </Link>
@@ -155,7 +167,7 @@ const Card = ({
               <p className=''>Giảng viên</p>
             </div>
           </div>
-          <div onClick={handleClick} className='cursor-pointer text-xl'>
+          <div onClick={() => handleClickForFav(id)} className='cursor-pointer text-xl'>
             {heart ? (
               <HeartFilled className='text-[#ff5364] group-hover:text-white' />
             ) : (

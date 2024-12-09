@@ -23,7 +23,6 @@ import { targetApiSlice } from "./slices/target/targetApiSlice";
 import { profileTeacherApiSlice } from "./slices/teacher/profile/profileTeacherApiSlice";
 import { voucherApiSlice } from "./slices/voucher/voucherApiSlice";
 import { chapterApiSlice } from "./slices/chapter/chapterApiSlice";
-import { favoriteCourseApiSlice } from "./slices/course/favorite/favoriteCourseApiSlice";
 import { checkAdminApiSlice } from "./slices/admin/checkAdminApiSlice";
 import { transactionHistoryApiSlice } from "./slices/transaction_history/transactionHistoryApiSlice";
 import { walletHistoryApiSlice } from "./slices/student/walletHistoryApiSlice";
@@ -55,7 +54,6 @@ const rootReducer = combineReducers({
   [profileTeacherApiSlice.reducerPath]: profileTeacherApiSlice.reducer,
   [chapterApiSlice.reducerPath]: chapterApiSlice.reducer,
   [checkAdminApiSlice.reducerPath]: checkAdminApiSlice.reducer,
-  [favoriteCourseApiSlice.reducerPath]: favoriteCourseApiSlice.reducer,
   [transactionHistoryApiSlice.reducerPath]: transactionHistoryApiSlice.reducer,
   [walletHistoryApiSlice.reducerPath]: walletHistoryApiSlice.reducer,
 })

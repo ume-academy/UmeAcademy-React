@@ -39,11 +39,37 @@ export const courseApiSlice = createApi({
       query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`
     }),
 
-    // ! GET ALL
+    //! GET ALL COURSES FOR ADMIN
     getAllCourseAdmin: builder.query({
       query: ({ page }) => `/admin/courses?page=${page}`,
       // transformResponse: (res: { data: TCourse }) => res.data
       providesTags: ['Course']
+    }),
+
+    //! GET ALL FAVORITE COURSES FOR PER ACCOUNT
+    getAllFavoriteCourses: builder.query({
+      query: () => `/course/wishlist`,
+      providesTags: ["Course"],
+    }),
+
+    //! ADD COURSE TO FAVORITE
+    addCourseToFavorite: builder.mutation({
+      query: (courseId) => ({
+        url: `/course/${courseId}/add-wishlist`,
+        method: "POST",
+        body: courseId,
+      }),
+      invalidatesTags: ["Course"],
+    }),
+
+    //! REMOVE COURSE IN FAVORITE
+    removeCourseInFavorite: builder.mutation({
+      query: (courseId) => ({
+        url: `/course/${courseId}/remove-wishlist`,
+        method: "POST",
+        body: courseId,
+      }),
+      invalidatesTags: ["Course"],
     }),
 
     //Admin
@@ -105,6 +131,7 @@ export const courseApiSlice = createApi({
       }),
       invalidatesTags: ['Course']
     }),
+
     checkOut: builder.mutation<TPaymentDetails,{voucher_id: number;origin_price: number;course_id: number;payment_method_id: number}>({
       query: (body) => ({
         url: '/checkout',
@@ -132,5 +159,8 @@ export const {
   useGetAllPurchasedCoursesByTeacherIdQuery,
   useGetCourseByIdOfTeacherQuery,
   useUpdateCourseOfteacherMutation,
-  useCheckOutMutation
+  useCheckOutMutation,
+  useGetAllFavoriteCoursesQuery,
+  useAddCourseToFavoriteMutation,
+  useRemoveCourseInFavoriteMutation
 } = courseApiSlice

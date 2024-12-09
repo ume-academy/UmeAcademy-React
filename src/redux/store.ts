@@ -1,32 +1,31 @@
 import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
+import { checkAdminApiSlice } from './slices/admin/checkAdminApiSlice'
 import { authApiSlice } from './slices/auth/authApiSlice'
+import { categoryApiSlice } from './slices/category/categoryApiSlice'
 import { commissionRateApiSlice } from './slices/commission_rate/commissionRateApiSlice'
 import { courseApiSlice } from './slices/course/courseApiSlice'
+import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
 import { lessonApiSlice } from './slices/lesson/lessonApiSlice'
+import { levelApiSlice } from './slices/level/levelApiSlice'
 import { paymentMethodApiSlice } from './slices/payment_method/paymentMethodApiSlice'
 import { profileApiSlice } from './slices/profile/profileApiSlice'
-import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
-import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
-import { userSlice } from './slices/user/userSlice'
-import { voucherApiSlice } from './slices/voucher/voucherApiSlice'
-import { searchCourseApiSlice } from './slices/course/searchCourseApiSlice'
-import { categoryApiSlice } from './slices/category/categoryApiSlice'
-import { levelApiSlice } from './slices/level/levelApiSlice'
+import { roleApiSlice } from './slices/role/roleApiSlice'
+import { walletHistoryApiSlice } from './slices/student/walletHistoryApiSlice'
+import { targetApiSlice } from './slices/target/targetApiSlice'
 import { checkTeacherApiSlice } from './slices/teacher/checkIsTeacher/checkTeacherApiSlice'
+import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
 import { registerTeacherApiSlice } from './slices/teacher/register/registerTeacherApiSlice'
+import { revenueApiSlice } from './slices/teacher/revenue/revenueApiSlice'
 import { studentApiSlice } from './slices/teacher/student/studentApiSlice'
-import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
+import { walletApiSlice } from './slices/teacher/wallet/walletApiSlice'
 import { withdrawApiSlice } from './slices/teacher/withdraw/withdrawApiSlice'
 import { refundApiSlice } from './slices/transaction/refundApiSlice'
-import { roleApiSlice } from './slices/role/roleApiSlice'
-import { targetApiSlice } from './slices/target/targetApiSlice'
-import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
 import { chapterApiSlice } from './slices/chapter/chapterApiSlice'
-import { checkAdminApiSlice } from './slices/admin/checkAdminApiSlice'
-import { favoriteCourseApiSlice } from './slices/course/favorite/favoriteCourseApiSlice'
+import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
 import { transactionHistoryApiSlice } from './slices/transaction_history/transactionHistoryApiSlice'
-import { walletHistoryApiSlice } from './slices/student/walletHistoryApiSlice'
+import { userSlice } from './slices/user/userSlice'
+import { voucherApiSlice } from './slices/voucher/voucherApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -56,9 +55,8 @@ export const store = configureStore({
       profileTeacherApiSlice.middleware,
       chapterApiSlice.middleware,
       checkAdminApiSlice.middleware,
-      favoriteCourseApiSlice.middleware,
       transactionHistoryApiSlice.middleware,
-      walletHistoryApiSlice.middleware
+      walletHistoryApiSlice.middleware,
     )
 })
 

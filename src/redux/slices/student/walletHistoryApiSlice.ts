@@ -15,7 +15,7 @@ export const walletHistoryApiSlice = createApi({
 
     //! GET WALLET HISTORIES 
     getWalletHistories: builder.query({
-      query: () => `/wallet-transaction`,
+      query: (page) => `/wallet-transaction?page=${page}`,
       providesTags: ["WalletHistory"],
     })
   }),

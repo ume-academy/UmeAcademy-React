@@ -14,12 +14,12 @@ const Wallet_History = () => {
 
   const [page, setPage] = useState(1)
 
-  const { data: walletBalance, isLoading, isFetching } = useGetWalletBalanceQuery(page, {
+  const { data: walletBalance, isLoading, isFetching } = useGetWalletBalanceQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true
   })
 
-  const { data: walletHistories } = useGetWalletHistoriesQuery(undefined, {
+  const { data: walletHistories } = useGetWalletHistoriesQuery(page, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true
   });
