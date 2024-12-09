@@ -44,9 +44,9 @@ export const validateVideo = async (file: FileType) => {
 
 
 export const validatePrice = (value: number) => {
-  if (value === undefined || value >= 0) {
+  if (value === undefined || value >= 10000) {
     return Promise.resolve();
   } else {
-    return Promise.reject(new Error('Giá tiền không hợp lệ'));
+    return Promise.reject(new Error('Giá tiền không hợp lệ. Giá phải lớn hơn hoặc bằng 10,000đ.'));
   }
 } 

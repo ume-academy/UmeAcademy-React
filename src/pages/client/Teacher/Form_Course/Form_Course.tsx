@@ -166,7 +166,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
 
     } catch (error) {
       console.log(error)
-      message.error('Tạo khóa học thất bại');
+      message.error(id ? 'Cập nhật khóa học thất bại' : 'Tạo khóa học thất bại');
       stopLoading()
     }
   }

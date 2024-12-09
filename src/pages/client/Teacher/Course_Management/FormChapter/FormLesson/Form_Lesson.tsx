@@ -5,7 +5,7 @@ import { useCreateLessonMutation, useUpdateLessonMutation } from '@/redux/slices
 import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from '@ant-design/icons'
 import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Upload, UploadFile, UploadProps } from 'antd'
 import { ChevronRight } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom'
 
 interface LessonProps {
@@ -22,10 +22,9 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   const [createLesson] = useCreateLessonMutation()
   const [updateLesson] = useUpdateLessonMutation()
   console.log(chapter)
-  // State để set loading cho comfirm
+  const [videoPreview, setVideoPreview] = useState<string | null>(null)
 
-  // <==== State cho Upload video===>
-  const [fileList, setFileList] = useState<UploadFile[]>([])
+
 
   // <==== Xử lí logic cho xóa chương =====>
   const handleChangeDeleteChapter = (id: number) => {
@@ -121,14 +120,17 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
 
   // <==== Kết thúc xử lí logic cho CẬP NHẬT & THÊM chương =====>
 
+  // <==== State cho Upload video===>
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+
   // <==== Hàm này để setFileList khi đã có video thì sẽ ẩn button upload đi ===>
   const handleUploadFile: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
     setFileList(newFileList)
   }
 
   // <====Bắt đầu Upload ====>
-  const propsUpload: UploadProps = {
-    name: 'file',
+  const propsUpload: UploadProps =  {
+    name: 'name',
     maxCount: 1,
     listType: 'text',
     progress: {
@@ -141,7 +143,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
     }
   }
   // <====Kết thúc Upload ====>
-
+  const getToken = localStorage.getItem('access_Token')
   // <==== Bắt đầu collapse con ====>
   const listLesson = (chapter_id: number, lesson: TLesson, index: number): CollapseProps['items'] => [
     {
@@ -175,13 +177,43 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
             <div
               className={`grid  ${!hideCourseFunction ? 'grid-cols-[3fr_1fr] md:grid-cols-[4fr_1fr] lg:grid-cols-[11.5fr_0.5fr]' : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 place-items-center'} gap-4 w-full mb-5 min-h-6`}
             >
+              {!hideCourseFunction && (<>
               <Upload
                 listType='picture'
                 fileList={fileList}
                 maxCount={1}
                 onChange={handleUploadFile}
                 showUploadList={{ showRemoveIcon: false }}
-                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
+                
+              customRequest={async ({ file, onSuccess, onError }) => {
+                const formData = new FormData();
+                
+                // Thêm file và tên (name) vào FormData
+                formData.append('name', file);
+
+                try {
+                  const response = await fetch(`https://umeacademy.me/api/v1/teacher/course/${id_Course}/chapter/${chapter_id}/lesson/${lesson.id}/videos`, {
+                    method: 'POST',
+                    headers: {
+                      'Authorization': `Bearer ${getToken}`,  // Thêm token vào header Authorization
+                    },
+                    body: formData,
+                  });
+
+                  if (response.ok) {
+                    const data = await response.json();
+                    message.success('Upload bài học thành công');
+                    onSuccess?.(data);
+                     // Lưu URL video vào fileList để hiển thị lại sau khi reload
+                  } else {
+                    message.error('Video đã tồn tại trong bài học này.');
+                    onError?.(new Error('Upload failed'));
+                  }
+                } catch (error: any) {
+                  onError?.(error);
+                }
+              }}
+                
               >
                 {fileList.length === 0 && (
                   <button
@@ -192,13 +224,13 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                   </button>
                 )}
               </Upload>
-              {!hideCourseFunction && (
+              
                 <DeleteOutlined
                   onClick={() => handleChangeDeleteChapter(2)}
                   className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
                 />
-              )}
-              <Upload
+              </>)}
+              {/* <Upload
                 listType='picture'
                 fileList={fileList}
                 maxCount={1}
@@ -220,7 +252,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                   onClick={() => handleChangeDeleteChapter(2)}
                   className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
                 />
-              )}
+              )} */}
             </div>
           </div>
         </>
@@ -228,7 +260,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
     }
   ]
   // <==== Kết thúc collapse con ====>
-
+  console.log(videoPreview)
   return (
     <>
       {chapter.lessons.map((lesson, index) => (
