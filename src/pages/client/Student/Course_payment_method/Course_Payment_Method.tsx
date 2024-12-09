@@ -76,6 +76,7 @@ const Course_Payment_Method = () => {
     setVouCherCode('')
   }
 
+  //Hiển thị lỗi bên be trả về
   useEffect(() => {
     const errorData = (error as { data?: any })?.data
     if (errorData && errorData.error) {
@@ -111,7 +112,6 @@ const Course_Payment_Method = () => {
         message.success('Vui lòng chờ trong giây lát')
         window.location.href = res.data.checkoutUrl
       }
-
     } catch (error) {
       console.log(error)
     }

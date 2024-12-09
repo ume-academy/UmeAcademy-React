@@ -17,7 +17,7 @@ import { getTitleTab, logo } from '../../../constants/client'
 const ForgotPassword = () => {
   const [index, setIndex] = useState(0)
   const [form] = Form.useForm()
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
+  const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation({})
 
   const next = () => {
     if (index === dataCarousel.length - 1) {
@@ -39,12 +39,19 @@ const ForgotPassword = () => {
     }
   }, [index])
 
+  //Hiển thị lỗi bên be trả về
+  useEffect(() => {
+    const errorData = (error as { data?: any })?.data
+    if (errorData && errorData.errors?.email) {
+      message.error(errorData.errors?.email)
+    }
+  }, [error])
+
   const onFinish = async (email: string) => {
     try {
       await forgotPassword({ email }).unwrap()
       message.success('Đã gửi yêu cầu khôi phục lại mật khẩu cho email của bạn')
     } catch (error) {
-      message.error('Đã xảy ra lỗi khi đặt lại mật khẩu')
       console.log(error)
     }
   }
