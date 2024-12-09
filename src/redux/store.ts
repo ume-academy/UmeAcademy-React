@@ -23,6 +23,7 @@ import { roleApiSlice } from './slices/role/roleApiSlice'
 import { targetApiSlice } from './slices/target/targetApiSlice'
 import { profileTeacherApiSlice } from './slices/teacher/profile/profileTeacherApiSlice'
 import { checkAdminApiSlice } from './slices/admin/checkAdminApiSlice'
+import { favoriteCourseApiSlice } from './slices/course/favorite/favoriteCourseApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -50,7 +51,8 @@ export const store = configureStore({
       roleApiSlice.middleware,
       targetApiSlice.middleware,
       profileTeacherApiSlice.middleware,
-      checkAdminApiSlice.middleware
+      checkAdminApiSlice.middleware,
+      favoriteCourseApiSlice.middleware,
     )
 })
 

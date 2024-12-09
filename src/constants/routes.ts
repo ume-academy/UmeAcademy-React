@@ -45,6 +45,7 @@ import System_Users from '@/pages/admin/System_User/List/System_Users'
 import Create_User_System from '@/pages/admin/System_User/Form/Create_User_System'
 import List_Voucher from '@/pages/admin/voucher/List_Voucher/List_Voucher'
 import Form_Voucher from '@/pages/admin/voucher/Form_Voucher/Form_Voucher'
+import Favorite_Courses from '@/pages/client/Student/Courses/Favorite_Course/Favorite_Courses'
 
 // Routes cho student
 export const studentRoutes = [
@@ -57,7 +58,8 @@ export const studentRoutes = [
   { path: router.lesson, element: Lesson },
   { path: router.search, element: Search },
   { path: router.profileStudent, element: Profile },
-  { path: router.newInstructor, element: New_Instructor }
+  { path: router.newInstructor, element: New_Instructor },
+  { path: router.favoriteCourses, element: Favorite_Courses },
 ]
 
 export const protectedStudentRoutes = [
