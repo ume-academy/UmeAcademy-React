@@ -22,7 +22,7 @@
 //   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
 //   const { id } = useParams()
 //   const location = useLocation()
-//   const [approvalCourse, { isLoading }] = useApprovalCourseMutation()
+  // const [approvalCourse, { isLoading }] = useApprovalCourseMutation()
 //   const nav = useNavigate()
 //   const { data } = useGetCourseAdminByIdQuery(id)
 

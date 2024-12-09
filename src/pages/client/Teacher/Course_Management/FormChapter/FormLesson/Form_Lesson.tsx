@@ -1,6 +1,7 @@
 // ChapterList.tsx
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { TChapter, TFormLesson, TLesson } from '@/interfaces/TLesson'
+import { useApprovalCourseMutation } from '@/redux/slices/course/courseApiSlice'
 import { useCreateLessonMutation, useUpdateLessonMutation } from '@/redux/slices/lesson/lessonApiSlice'
 import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from '@ant-design/icons'
 import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Upload, UploadFile, UploadProps } from 'antd'

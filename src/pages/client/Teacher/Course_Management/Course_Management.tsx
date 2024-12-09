@@ -3,12 +3,12 @@ import { routerConfigAdmin } from '@/constants/admin';
 import { itemsStep_CourseManagement, routerConfigTeacher, useIsMobile, useIsTablet } from '@/constants/client';
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext';
 import { TCourseDetail } from '@/interfaces/TCourseDetail';
-import { useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice';
+import { useApprovalCourseMutation, useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice';
 import { MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons';
-import { Drawer, Steps, Tooltip, TreeSelect } from 'antd';
+import { Drawer, message, Steps, Tooltip, TreeSelect } from 'antd';
 import { TreeNode } from 'antd/es/tree-select';
 import { AlignJustify, ChevronLeft, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Form_Course from '../Form_Course/Form_Course';
@@ -36,10 +36,27 @@ const Course_Management = () => {
     return regex.test(location.pathname)
   })
 
+  const [selectedValue, setSelectedValue] = useState(null); // State để lưu giá trị của select duyệt khóa học phía admin
+
   // API lấy thông tin khóa học theo id cho teacher
   const {data: dataCrouseAdmin, isLoading: isLoadingAdmin, isFetching:isFetchingAdmin, refetch: isRefetchAdmin } = useGetCourseAdminByIdQuery(id, {skip: isTeacherRoute})
   const {data: dataCrouseTeacher, isLoading: isLoadingTeacher, isFetching: isFetchingTeacher, refetch: isRefetchTeacher} = useGetCourseByIdOfTeacherQuery(id, {skip: isAdminRoute})
+  const [approvalCourse] = useApprovalCourseMutation() // Duyệt khóa học phía admin
   
+  // Hàm xử lý khi thay đổi select duyệt khóa học
+  const handleApproval = (status: number) => {
+    try {
+      if(id){
+        // console.log(id, status)
+        approvalCourse({id, status}).unwrap()
+        message.success('Duyệt khóa học thành công')
+      }
+    } catch (error) {
+      message.error('Duyệt khóa học thất bại')
+    }
+  };
+
+  console.log(dataCrouseAdmin)
   // Lấy dữ liệu khóa học tùy theo route
   const courseData = isAdminRoute ? dataCrouseAdmin : dataCrouseTeacher; 
   const isLoading = (isAdminRoute ? isLoadingAdmin || isFetchingAdmin : isLoadingTeacher || isFetchingTeacher);
@@ -218,9 +235,11 @@ const Course_Management = () => {
             style={{ width: '90%', marginTop: 12, height: 44, marginLeft: 18 }}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder='Vui lòng chọn--'
+            onChange={(value) => handleApproval(Number(value))}
           >
-            <TreeNode value='jav' title='Xác nhận duyệt' />
-            <TreeNode value='forn' title='Từ chối' />
+            <TreeNode value='0' title='Nháp' />
+            <TreeNode value='1' title='Chờ phê duyệt' />
+            <TreeNode value='2' title='Đã phê duyệt' />
           </CustomTreeSelect>
           )}
         </div>
