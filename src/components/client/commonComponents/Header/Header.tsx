@@ -15,12 +15,12 @@ import {
   WalletOutlined
 } from '@ant-design/icons'
 import { Avatar, Dropdown, MenuProps, message, Space } from 'antd'
+import { History } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
-import { authApiSlice } from '@/redux/slices/auth/authApiSlice'
 
 const Header = () => {
   const nav = useNavigate()
@@ -55,9 +55,10 @@ const Header = () => {
       // await logoutApi().unwrap()
       // console.log(1)
 
-      dispatch(authApiSlice.util.resetApiState());
 
       dispatch(logoutLocal());
+
+
 
       message.success('Đăng xuất thành công')
       nav('/')
@@ -105,7 +106,7 @@ const Header = () => {
     // Chỉ hiển thị key 2-4 nếu mode === 'student'
     // Không thêm mục nào nếu mode không phải là 'student'
     ...(!isTeacherLayout
-      ? [1, 3, 4].map((key) => ({
+      ? [1, 3, 4, 5].map((key) => ({
         key: `${key}`,
         label: (() => {
           switch (key) {
@@ -128,6 +129,13 @@ const Header = () => {
                 <Link className='flex justify-start items-center' to={`${router.walletHistory}`}>
                   <WalletOutlined className='mr-2' style={{ width: 16, height: 16 }} />
                   Ví Ume
+                </Link>
+              )
+            case 5:
+              return (
+                <Link className='flex justify-start items-center' to={`${router.transactionHistory}`}>
+                  <History className='mr-2' style={{ width: 16, height: 16 }} />
+                  Lịch sử giao dịch
                 </Link>
               )
             default:

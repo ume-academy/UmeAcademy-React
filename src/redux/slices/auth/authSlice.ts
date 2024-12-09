@@ -34,6 +34,8 @@ export const authSlice = createSlice({
       state.expiresIn = null
       state.isAuthenticated = false
 
+      
+
       localStorage.removeItem('access_Token')
       Cookies.remove('refresh_Token')
       

@@ -1,67 +1,37 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
+import { formatDate, formatPrice } from '@/constants/utils'
+import { TWalletHistoryStudent } from '@/interfaces/TWalletHistoryStudent'
+import { useGetWalletBalanceQuery, useGetWalletHistoriesQuery } from '@/redux/slices/student/walletHistoryApiSlice'
+import '@/scss/TableAntd.scss'
 import { WalletFilled } from '@ant-design/icons'
 import { Pagination, Table } from 'antd'
-import '@/scss/TableAntd.scss'
-import { useState } from 'react'
 import { CircleAlert, X } from 'lucide-react'
+import { useState } from 'react'
 
-interface WalletTransaction {
-  id: string
-  courseName: string
-  type: string
-  method: string
-  date: string
-  amount: string
-  note: string
-}
-
-const wallet: WalletTransaction[] = [
-  {
-    id: 'dh73232đww33',
-    courseName: "React cho người mới bắt đầu",
-    type: 'Mua hàng',
-    date: '10/12/2024',
-    method: 'Chuyển khoản ngân hàng',
-    amount: '-1000222',
-    note: 'giao dep trai'
-  },
-  {
-    id: 'dh73232đww33',
-    courseName: 'Xây dựng Website Thực tế với HTML5 và CSS3',
-    type: 'Hoàn tiền',
-    method: 'Chuyển khoản ngân hàng',
-    date: '10/12/2024',
-    amount: '500000',
-    note: 'giao dep trai'
-  },
-  {
-    id: 'dh73232đww33',
-    courseName: 'Hướng dẫn Cơ bản về Angular',
-    type: 'Nạp tiền',
-    method: 'Chuyển khoản ngân hàng',
-    date: '10/12/2024',
-    amount: '300000',
-    note: 'giao dep trai'
-  },
-  {
-    id: 'dh73232đww33',
-    courseName: 'Hướng dẫn Cơ bản về Angular',
-    type: 'Mua hàng',
-    method: 'Chuyển khoản ngân hàng',
-    date: '10/12/2024',
-    amount: '-300000',
-    note: 'giao dep trai'
-  }
-]
-
-const formatCurrency = (amount: string) => {
-  const absAmount = Math.abs(parseInt(amount))
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-  return `${parseInt(amount) < 0 ? '-' : ''}${absAmount} ₫`
-}
 
 const Wallet_History = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [page, setPage] = useState(1)
+
+  const { data: walletBalance, isLoading, isFetching } = useGetWalletBalanceQuery(page, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true
+  })
+
+  const { data: walletHistories } = useGetWalletHistoriesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true
+  });
+
+  console.log(walletHistories)
+
+  const dataSourse = walletHistories?.data?.map((item: TWalletHistoryStudent, index: number) => (
+    {
+      key: index + 1,
+      ...item
+    }
+  ))
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -70,58 +40,49 @@ const Wallet_History = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const columns = [
     {
+      title: "STT",
+      dataIndex: "key",
+      key: "key",
+      width: 20,
+      align: 'center' as const,
+    },
+    {
       title: 'Mã giao dịch',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'code',
+      key: 'code',
+      align: 'center' as const,
       width: 130
     },
     {
       title: 'Loại giao dịch',
       dataIndex: 'type',
       key: 'type',
-      width: 130,
-      render: (type: string) => <div className='text-sm md:text-[15px]'>{type}</div>
-    },
-    {
-      title: 'Tên khóa học',
-      dataIndex: 'courseName',
-      key: 'courseName',
-      width: 200,
-      render: (courseName: string) => <div className='text-sm md:text-[15px]'>{courseName}</div>
-    },
-    {
-      title: 'Phương thức thanh toán',
-      dataIndex: 'method',
-      key: 'method',
-      width: 180
-    },
-    {
-      title: 'Ngày',
-      dataIndex: 'date',
-      key: 'date',
-      width: 140,
-      render: (date: string) => <div className='text-sm md:text-[15px]'>{date}</div>
+      width: 180,
     },
     {
       title: 'Số tiền',
-      dataIndex: 'amount',
-      key: 'amount',
-      width: 140,
-      render: (amount: string) => (
-        <span className='text-sm md:text-[15px]' style={{ color: parseInt(amount) < 0 ? 'red' : 'green' }}>
-          {formatCurrency(amount)}
-        </span>
-      )
+      width: 200,
+      render: (_: any, record: TWalletHistoryStudent) => <span className=''>{formatPrice(record?.balance_tracking)}</span>,
+      align: 'center' as const,
     },
     {
       title: 'Ghi chú',
       dataIndex: 'note',
       key: 'note',
       width: 180
-    }
+    },
+    {
+      title: 'Ngày giao dịch',
+      width: 200,
+      render: (_: any, record: TWalletHistoryStudent) => <span className=''>{formatDate(record?.created_at)}</span>,
+      align: 'center' as const,
+    },
   ]
+
+  if (isLoading || isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /></div>
 
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto mt-20 mb-10 md:mt-40 md:mb-32'>
@@ -134,7 +95,7 @@ const Wallet_History = () => {
             </div>
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
-              <p className='text-xs md:text-lg  dark:hover:text-white'>Bạn đang có: <strong>1.000.000.000 ₫</strong></p>
+              <p className='text-xs md:text-lg  dark:hover:text-white'>Bạn đang có: <strong>{formatPrice(walletBalance?.data)}</strong></p>
             </div>
           </div>
           <button onClick={openModal}
@@ -189,17 +150,37 @@ const Wallet_History = () => {
       )}
       <div className='rounded-lg border border-[#e9ecef] dark:border-none dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78]'>
         <h2 className='font-title text-xl md:text-2xl border-b border-[#e9ecef]  dark:border-[#5a5a5a] p-4 md:p-6'>Lịch sử giao dịch</h2>
-        <Table
-          columns={columns}
-          dataSource={wallet}
-          pagination={false}
-          className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 md:p-6 '
-          scroll={{ x: 670 }}
-        />
+
+        {
+          walletHistories?.data?.length === 0 ? (
+            <div className="text-center py-20">
+              <h3>Không tìm thấy lịch sử giao dịch ở tài khoản hiện tại!</h3>
+            </div>
+          ) : (
+            <Table
+              columns={columns}
+              dataSource={dataSourse}
+              pagination={false}
+              className='dark:bg-[#2b2838] dark:text-[#B9B7C0] p-4 md:p-6 '
+              scroll={{ x: 670 }}
+            />
+          )
+        }
+
       </div>
-      <div className='flex justify-end mt-10'>
-        <Pagination defaultCurrent={1} total={22} />
-      </div>
+
+      {
+        walletHistories?.data?.length > 0 && (
+          <div className='flex justify-end mt-10'>
+            <Pagination
+              pageSize={walletHistories?.meta?.per_page}
+              total={walletHistories?.meta?.total}
+              current={walletHistories?.meta?.current_page}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        )
+      }
     </div>
   )
 }

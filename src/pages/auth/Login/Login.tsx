@@ -20,6 +20,7 @@ import { Helmet } from 'react-helmet'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
+import { walletHistoryApiSlice } from '@/redux/slices/student/walletHistoryApiSlice'
 
 const Login = () => {
   const [dataUser, setdataUser] = useState<any>()
@@ -59,6 +60,7 @@ const Login = () => {
       startLoading()
 
       const { access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
+
 
       dispatch(
         setToken({
