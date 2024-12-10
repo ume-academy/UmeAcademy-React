@@ -20,7 +20,6 @@ import { Helmet } from 'react-helmet'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { getTitleTab, logo } from '../../../constants/client'
-import { walletHistoryApiSlice } from '@/redux/slices/student/walletHistoryApiSlice'
 
 const Login = () => {
   const [dataUser, setdataUser] = useState<any>()
@@ -31,6 +30,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [index, setIndex] = useState(0)
+  const authorization = localStorage.getItem('access_Token') || ''; 
   const { refetch } = useGetProfileQuery({})
 
   // console.log(dataProfile?.id_admin)
@@ -81,7 +81,7 @@ const Login = () => {
     } catch (error) {
       stopLoading()
       let err = error as TLoginError
-      message.error(err.data?.error ?? 'Tài khoản hoặc mật khẩu không chính xác.')
+      message.error(err.data?.error ?? 'Tài khoản hoặc mật khẩu không chính xác!')
       console.log(error)
     }
   }

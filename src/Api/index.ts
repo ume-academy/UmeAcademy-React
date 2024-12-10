@@ -26,17 +26,25 @@ export const customBaseQuery: BaseQueryFn<
   FetchBaseQueryError // Error type
 > = async (arg, api, extraOptions) => {
   const result = await baseUrl(arg, api, extraOptions)
-  if(result.error) {
-    // console.log(result.error)
-    const {status} = result.error
-
-    if(status === 401 && window.location.pathname !== `${router.search}`){
-      api.dispatch(logoutLocal())
+  if (result.error) {
+    const { status, data } = result.error;
+  
+    if (status === 401) {
+      // Kiểm tra lỗi đến từ màn hình login
+      const isLoginRequest = window.location.pathname === '/login'; // Đường dẫn login
+  
+      if (isLoginRequest) {
+        // Không điều hướng, chỉ xử lý lỗi đăng nhập sai
+        return result;
+      }
+  
+      // Nếu không phải lỗi từ login, xử lý lỗi xác thực token
+      api.dispatch(logoutLocal());
       if (window.location.pathname !== '/') {
         window.location.href = '/';
       }
     }
-  }
+  }  
 
   return result
 }
