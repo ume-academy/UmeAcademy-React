@@ -2,20 +2,21 @@ import Card from '@/components/client/commonComponents/Card/Card';
 import Loading from '@/components/client/commonComponents/Loading/Loading';
 import { getTitleTab } from '@/constants/client';
 import { formatDate, formatPrice } from '@/constants/utils';
+import useLoading from '@/hooks/useLoading';
 import { TCourse } from '@/interfaces/TCourse';
 import { THistoryWallet } from '@/interfaces/THistoryWallet';
+import { useGetCommissionRateTeacherByIdQuery, useUpdateCommissionRateTeacherMutation } from '@/redux/slices/commission_rate/commissionRateApiSlice';
 import { useGetAllPurchasedCoursesByTeacherIdQuery } from '@/redux/slices/course/courseApiSlice';
 import { useGetHistoriesWalletByTeacherIdQuery } from '@/redux/slices/teacher/wallet/walletApiSlice';
 import { useGetATeacherByIdQuery } from '@/redux/slices/user/userSlice';
 import { FileDoneOutlined, HistoryOutlined } from '@ant-design/icons';
-import { Avatar, Button, Form, Input, Pagination, Rate, Table, Tabs } from 'antd';
+import { Avatar, Button, Form, Input, message, Pagination, Rate, Table, Tabs } from 'antd';
 import { PercentCircle, User } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useParams } from 'react-router-dom';
 import styles from '../Details_User/detailsUser.module.scss';
 import '../Details_User/detailsUserAntd.scss';
-import useLoading from '@/hooks/useLoading';
 
 const Details_Teacher = () => {
 
@@ -33,7 +34,10 @@ const Details_Teacher = () => {
 
   const { data: teacherCourses } = useGetAllPurchasedCoursesByTeacherIdQuery(id);
 
-  // const { data: rateCommission, isFetching, isError, error } = useGetCommissionRateQuery('1');
+  const { data: rateCommission } = useGetCommissionRateTeacherByIdQuery(id);
+
+  const [updateRate] = useUpdateCommissionRateTeacherMutation();
+
 
   // console.log(teacherCourses);
 
@@ -89,17 +93,35 @@ const Details_Teacher = () => {
   ]
 
   // Fill data to form 
-  // useEffect(() => {
-  //   if (rateCommission) {
-  //     form.setFieldsValue(rateCommission);
-  //   }
-  // }, [rateCommission, form])
+  useEffect(() => {
+    if (rateCommission) {
+      form.setFieldsValue(rateCommission);
+    }
+  }, [rateCommission, form])
 
 
   // Form submit update fee for a teacher
-  const onFinish = (values: any) => {
-    console.log(values);
-  }
+  const onFinish = async (values: any) => {
+
+    if(!values) return;
+
+    try {
+      startLoading();
+      const res = await updateRate({ id: id, _method: "PUT", ...values }).unwrap();
+
+      message.success(res?.message);
+      stopLoading();
+      
+
+    } catch (error: any) {
+      console.log(error);
+
+      if(error.status === 500) return (
+        stopLoading(),
+        message.error(`Cập nhật tỷ lệ hoa hồng thất bại!`)
+      )
+    }
+  };
 
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
