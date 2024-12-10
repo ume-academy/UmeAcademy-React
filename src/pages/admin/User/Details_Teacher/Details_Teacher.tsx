@@ -8,17 +8,22 @@ import { useGetAllPurchasedCoursesByTeacherIdQuery } from '@/redux/slices/course
 import { useGetHistoriesWalletByTeacherIdQuery } from '@/redux/slices/teacher/wallet/walletApiSlice';
 import { useGetATeacherByIdQuery } from '@/redux/slices/user/userSlice';
 import { FileDoneOutlined, HistoryOutlined } from '@ant-design/icons';
-import { Avatar, Pagination, Rate, Table, Tabs } from 'antd';
-import { User } from 'lucide-react';
+import { Avatar, Button, Form, Input, Pagination, Rate, Table, Tabs } from 'antd';
+import { PercentCircle, User } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from '../Details_User/detailsUser.module.scss';
 import '../Details_User/detailsUserAntd.scss';
+import useLoading from '@/hooks/useLoading';
 
 const Details_Teacher = () => {
 
   const [page, setPage] = useState(1);
+
+  const {loading, startLoading, stopLoading} = useLoading();
+
+  const [form] = Form.useForm();
 
   const { id } = useParams();
 
@@ -28,9 +33,11 @@ const Details_Teacher = () => {
 
   const { data: teacherCourses } = useGetAllPurchasedCoursesByTeacherIdQuery(id);
 
-  console.log(teacherCourses);
+  // const { data: rateCommission, isFetching, isError, error } = useGetCommissionRateQuery('1');
 
-  // Ưallet history
+  // console.log(teacherCourses);
+
+  // Wallet history
   const dataSource = walletTeacherHistories?.data?.map((item: THistoryWallet, index: number) => (
     {
       key: index + 1,
@@ -80,6 +87,19 @@ const Details_Teacher = () => {
       key: 'note',
     }
   ]
+
+  // Fill data to form 
+  // useEffect(() => {
+  //   if (rateCommission) {
+  //     form.setFieldsValue(rateCommission);
+  //   }
+  // }, [rateCommission, form])
+
+
+  // Form submit update fee for a teacher
+  const onFinish = (values: any) => {
+    console.log(values);
+  }
 
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
@@ -133,7 +153,7 @@ const Details_Teacher = () => {
                         <div className="flex-1 flex items-center gap-x-2">
                           <span className='font-title'>Họ và tên: </span>
 
-                          <p>{infoTeacher?.name}</p>
+                          <p>{infoTeacher?.fullname}</p>
                         </div>
 
                         {/* Email */}
@@ -337,6 +357,62 @@ const Details_Teacher = () => {
                     )
                   }
 
+                </div>
+              </Tabs.TabPane>
+
+              <Tabs.TabPane
+                tab={
+                  <div className="flex items-center justify-center gap-3">
+                    <PercentCircle size={18} />
+                    Cập nhật tỷ lệ % hoa hồng
+                  </div>
+                }
+                key="4"
+              >
+                <div className={`${styles['tabContent']} dark:text-[#B9B7C0] p-4 md:p-6`}>
+
+
+                  <div className="content">
+                    <Form
+                      layout='vertical'
+                      form={form}
+                      onFinish={onFinish}
+                      style={{ maxWidth: '100%' }}
+                    // className='formSubmit'
+                    >
+                      <Form.Item
+                        name="fee"
+                        label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tỷ lệ hoa hồng (%)</span>}
+                        rules={[
+                          { required: true, message: 'Vui lòng nhập tỷ lệ!' },
+                          // { type: 'number', message: 'Tỷ lệ chỉ chấp nhận dữ liệu là ký tự số!' },
+                          // { min: 1, message: 'Tỷ lệ không được phép dưới 0!' },
+                          // { max: 100, message: 'Tỷ lệ không được phép lớn hơn 100!' }
+                        ]}
+                      >
+                        <Input type="number" placeholder="%" className='p-3' />
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          loading={loading}
+                          htmlType='submit'
+                          className='
+                        border-none 
+                        px-4
+                        rounded-md
+                      bg-[#F84563] 
+                      text-white
+                      hover:bg-[#ee9aa8]
+                      hover:text-black
+                        w-[100%]
+                        md:w-auto'
+                        >
+                          Cập nhật tỷ lệ hoa hồng
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </div>
                 </div>
               </Tabs.TabPane>
             </Tabs>
