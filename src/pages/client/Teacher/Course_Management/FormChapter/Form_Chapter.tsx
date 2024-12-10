@@ -38,13 +38,12 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
     try {
       if(chapter?.id){
         console.log(chapter?.id, chapter?.name)
-        await updateChapter({id_course: Number(id_Course), id_chapter: chapter?.id, name: chapter?.name})
+        await updateChapter({id_course: Number(id_Course), id_chapter: chapter?.id, name: chapter?.name}).unwrap()
       }else{
         if(chapter?.name){
-          await createChapter({id_course: Number(id_Course), name: chapter?.name})
+          await createChapter({id_course: Number(id_Course), name: chapter?.name}).unwrap()
         }
       }
-      stopLoading()
       isRefetch()
       message.success(chapter?.id ? 'Cập nhật chương học thành công' : 'Thêm mới chương học thành công')
     } catch (error) {
@@ -83,6 +82,7 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
       centered: true,
       maskClosable: false,
       width: 600,
+      onCancel: () => {form.resetFields()},
       onOk:  async () => {
         try {
           // Validate form
@@ -92,6 +92,8 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
         } catch (error) {
           console.log('Validation failed:', error);
           message.error('Vui lòng điền đầy đủ thông tin');
+        }finally{
+          form.resetFields()
         }
       },
     });
@@ -141,9 +143,9 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
         )} 
         </div>
         ),
-      children:(<><Form_Lesson hideCourseFunction={hideCourseFunction} chapter={chapter} isRefetch={isRefetch}/></>),
+      children: hideCourseFunction && chapter.lessons.length === 0 ? (<h1 className="text-red-600 flex justify-center">Chưa có bài học nào</h1>) : (<><Form_Lesson hideCourseFunction={hideCourseFunction} chapter={chapter} isRefetch={isRefetch}/></>),
     }]
-
+    console.log(courseData.content.chapters)
   // <==== Kết thúc collapse cha ====>
 
   return (

@@ -238,13 +238,13 @@ const Lesson = () => {
           <div className='flex items-center'>
             <Progress
               className='mr-4'
-              size={40}
+              size={42}
               type='circle'
               strokeWidth={5}
               trailColor='#4d4f50'
               strokeColor={'#f66962'}
               percent={courseData?.progress}
-              format={(percent) => <p className='text-[#fff] font-desc text-[12px]'>{percent} %</p>}
+              format={(percent) => <p className='text-[#fff] font-desc text-[11px]'>{percent} %</p>}
             />
             {!isMobile && (
               <>
@@ -325,9 +325,9 @@ const Lesson = () => {
                           />
                         </div>
                         <div className='flex text-[12px]'>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.lesson_completed}</span>
+                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.lesson_completed} bài</span>
                           <div className='border-l-[0.5px] border-[#29303b] mt-[4px] mb-[4px] mx-1.5 dark:border-[#b9b7c0]'></div>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.chapter_duration}</span>
+                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.chapter_duration}s</span>
                         </div>
                       </div>
 
