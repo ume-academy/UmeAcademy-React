@@ -6,9 +6,9 @@ import { TCourseDetail } from "@/interfaces/TCourseDetail";
 import { TChapter, TFormChapter } from "@/interfaces/TLesson";
 import { useCreateChapterMutation, useUpdateChapterMutation } from "@/redux/slices/chapter/chapterApiSlice";
 import { EditFilled } from "@ant-design/icons";
-import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal } from "antd";
+import { Button, Collapse, CollapseProps, Form, Input, InputRef, message, Modal } from "antd";
 import { ChevronRight } from "lucide-react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./Form_Lesson_Antd.scss";
 import Form_Lesson from "./FormLesson/Form_Lesson";
@@ -26,6 +26,18 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
   const id_Course = id
   const [createChapter] = useCreateChapterMutation()
   const [updateChapter] = useUpdateChapterMutation()
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Hàm xử lý sự kiện hover button submit
+  const handleMouseEnter = () => {
+    setIsHovered(true); // Cập nhật state khi hover vào
+  };
+
+  // Hàm xử lý sự kiện hover button submit
+  const handleMouseLeave = () => {
+    setIsHovered(false); // Cập nhật state khi rời khỏi
+  };
 
   const location = useLocation();
   const hideCourseFunction = routerConfigAdmin.hideCourseFunction.some((route) => {
@@ -46,9 +58,11 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
       }
       isRefetch()
       message.success(chapter?.id ? 'Cập nhật chương học thành công' : 'Thêm mới chương học thành công')
+      stopLoading()
     } catch (error) {
       console.log('lỗi rồi', error)
       message.error(chapter?.id ? 'Cập nhật chương học thất bại' : 'Thêm mới chương học thất bại')
+      stopLoading()
     }
   }
 
@@ -143,9 +157,9 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
         )} 
         </div>
         ),
-      children: hideCourseFunction && chapter.lessons.length === 0 ? (<h1 className="text-red-600 flex justify-center">Chưa có bài học nào</h1>) : (<><Form_Lesson hideCourseFunction={hideCourseFunction} chapter={chapter} isRefetch={isRefetch}/></>),
+      children: !hideCourseFunction && chapter.lessons === null ? (<h1>Chưa có bài học nào</h1>) : (<><Form_Lesson hideCourseFunction={hideCourseFunction} chapter={chapter} isRefetch={isRefetch}/></>),
     }]
-    console.log(courseData.content.chapters)
+
   // <==== Kết thúc collapse cha ====>
 
   return (
@@ -170,7 +184,16 @@ const FormChapter = ({courseData, isRefetch} : ChapterProps) => {
 
         {!hideCourseFunction && (
         <div className="flex justify-end mt-12">
-            <button onClick={() => handleFormChapter()} className=" w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]">thêm phần</button>
+            <Button 
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              style={{border: '2px solid #ff5364', color: `${isHovered === false ? '#fff' : '#ff5364'}` }}
+              className='w-full md:w-[180px] lg:w-[180px] font-title bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
+              disabled={loading}
+              onClick={() => handleFormChapter()}
+            >
+              Tạo chương mới
+            </Button>
         </div> 
         )}
     </div>

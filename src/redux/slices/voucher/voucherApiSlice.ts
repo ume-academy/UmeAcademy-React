@@ -1,5 +1,5 @@
 import { customBaseQuery } from '@/Api'
-import { TVoucher } from '@/interfaces/TVoucher'
+import { TVoucher, TVoucherForm } from '@/interfaces/TVoucher'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const voucherApiSlice = createApi({
@@ -29,8 +29,17 @@ export const voucherApiSlice = createApi({
         body
       }),
       invalidatesTags: ['Voucher']
+    }),
+
+    addVoucherByTeacher: builder.mutation<TVoucher, {id: number, data: TVoucherForm}>({
+      query: ({id, data}) => ({
+        url: `/teacher/course/${id}/vouchers`,
+        method: 'POST',
+        body: data
+      }),
+      invalidatesTags: ['Voucher']
     })
   })
 })
 
-export const { useCheckVoucherMutation, useAddVoucherByAdminMutation, useGetAllVoucherByAdminQuery } = voucherApiSlice
+export const { useCheckVoucherMutation, useAddVoucherByAdminMutation, useGetAllVoucherByAdminQuery, useAddVoucherByTeacherMutation } = voucherApiSlice

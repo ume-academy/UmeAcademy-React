@@ -2,17 +2,15 @@ import { router } from '@/configs/routes'
 import { routerConfigAdmin } from '@/constants/admin'
 import { itemsStep_CourseManagement, routerConfigTeacher, useIsMobile, useIsTablet } from '@/constants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import useLoading from '@/hooks/useLoading'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
-import {
-  useApprovalCourseMutation,
-  useGetCourseAdminByIdQuery,
-  useGetCourseByIdOfTeacherQuery
-} from '@/redux/slices/course/courseApiSlice'
-import { MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons'
-import { Drawer, message, Steps, Tag, Tooltip, TreeSelect } from 'antd'
+import {useApprovalCourseMutation, useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
+import { useRequestApprovalCourseMutation } from '@/redux/slices/teacher/requestApprovalCourse/requestApprovalCourseApiSlice'
+import { LoadingOutlined, MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons'
+import { Drawer, message, Steps, Tag, TreeSelect } from 'antd'
 import { TreeNode } from 'antd/es/tree-select'
 import { AlignJustify, ChevronLeft, X } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Form_Course from '../Form_Course/Form_Course'
@@ -21,7 +19,6 @@ import './Course_Management_Antd.scss'
 import FormChapter from './FormChapter/Form_Chapter'
 import Targets from './Targets/Targets'
 import Voucher from './Voucher/Voucher'
-import { is } from 'date-fns/locale'
 
 const Course_Management = () => {
   const [openDrawer, setOpenDrawer] = useState(false) // State để kiểm soát việc mở và đóng drawer
@@ -29,7 +26,9 @@ const Course_Management = () => {
   const [extraSelected, setExtraSelected] = useState(false) // State để kiểm soát mục mới
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const { id } = useParams() // Lấy id từ url
+  const { loading, startLoading, stopLoading } = useLoading()
 
+  const [requestApprovalCourseTeacher] = useRequestApprovalCourseMutation()
   // Sử dụng hook để render thông tin vị trí của route hiện tại render component cho phù hợp. Dùng kèm theo việc gọi API
   const location = useLocation()
   const isAdminRoute = routerConfigAdmin.hideCourseFunction.some((route) => {
@@ -41,7 +40,6 @@ const Course_Management = () => {
     return regex.test(location.pathname)
   })
 
-  const [selectedValue, setSelectedValue] = useState(null) // State để lưu giá trị của select duyệt khóa học phía admin
 
   // API lấy thông tin khóa học theo id cho teacher
   const {
@@ -58,7 +56,7 @@ const Course_Management = () => {
   } = useGetCourseByIdOfTeacherQuery(id, { skip: isAdminRoute })
   const [approvalCourse] = useApprovalCourseMutation() // Duyệt khóa học phía admin
 
-  // Hàm xử lý khi thay đổi select duyệt khóa học
+  // Hàm xử lý khi thay đổi select duyệt khóa học phía ADMIN
   const handleApproval = (status: number) => {
     try {
       if (id) {
@@ -72,7 +70,32 @@ const Course_Management = () => {
     }
   }
 
-  console.log(dataCrouseAdmin)
+  // Call API gửi yêu cầu duyệt khóa học phía TEACHER
+  const handleRequestApprovalCourse = async () => {
+    startLoading()
+    try {
+      if(id){
+        await requestApprovalCourseTeacher(Number(id)).unwrap()
+        isRefetchTeacher()
+        message.success('Gửi yêu cầu duyệt khóa học thành công')
+      }
+      stopLoading()
+    } catch (error) {
+      const errorData = (error as { data?: any })?.data;
+      // Kiểm tra và hiển thị tất cả các lỗi trong errors
+      // Nếu có trường error trong data, hiển thị thông báo lỗi
+      if (errorData?.error) {
+        message.error(errorData.error); // Hiển thị thông báo lỗi từ trường error trong data
+      } else {
+        // Nếu không có trường error, hiển thị thông báo lỗi mặc định
+        message.error('Đã có lỗi xảy ra. Vui lòng thử lại!');
+      }
+      stopLoading()
+    }
+  }
+
+ 
+
   // Lấy dữ liệu khóa học tùy theo route
   const courseData = isAdminRoute ? dataCrouseAdmin : dataCrouseTeacher
   const isLoading = isAdminRoute ? isLoadingAdmin || isFetchingAdmin : isLoadingTeacher || isFetchingTeacher
@@ -258,9 +281,32 @@ const Course_Management = () => {
                       Danh sách học viên
                     </p>
                   </button>
-                  <button className='mt-12 px-4 py-2 rounded-lg cursor-pointer bg-[#f66962] w-full text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]'>
-                    Gửi đi xét duyệt
-                  </button>
+                  {dataCrouseTeacher?.status === 0 ? (<button 
+                    onClick={() => handleRequestApprovalCourse()}
+                    className='mt-12 px-4 py-2 rounded-lg cursor-pointer bg-[#f66962] w-full text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]'>
+                    {loading ? <LoadingOutlined /> : 'Gửi đi xét duyệt'}
+                  </button>) :(
+                    <Tag
+                      className='text-[16px] py-2 mt-12 w-[86%] text-center'
+                      color={
+                        dataCrouseTeacher?.status === 0
+                          ? 'red'
+                          : dataCrouseTeacher?.status === 1
+                            ? 'blue'
+                            : dataCrouseTeacher?.status === 2
+                              ? 'green'
+                              : 'gold'
+                      }
+                    >
+                      {dataCrouseTeacher?.status === 0
+                        ? 'Nháp '
+                        : dataCrouseTeacher?.status === 1
+                          ? 'Chờ phê duyệt'
+                          : dataCrouseTeacher?.status === 2
+                            ? 'Đã phê duyệt'
+                            : 'Lưu trữ'}
+                    </Tag>
+                  )}
                 </>
               ) : dataCrouseAdmin?.status === 1 ? (
                 <CustomTreeSelect
@@ -303,7 +349,7 @@ const Course_Management = () => {
           {current === 0 && <Form_Course courseData={courseData as any} isLoading={isLoading as any} />}
           {current === 1 && <Targets courseData={courseData as TCourseDetail} isLoading={isLoading} isRefetch={isRefetch} />}
           {current === 2 && <FormChapter courseData={courseData as TCourseDetail} isRefetch={isRefetch} />}
-          {current === 3 && <Voucher />}
+          {current === 3 && <Voucher  isRefetch={isRefetch}/>}
           {extraSelected && <List_Students />} {/* Render component khi extra được chọn */}
         </div>
       </div>

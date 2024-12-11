@@ -26,6 +26,7 @@ import { transactionApiSlice } from './slices/transaction/transactionApiSlice'
 import { transactionHistoryApiSlice } from './slices/transaction_history/transactionHistoryApiSlice'
 import { userSlice } from './slices/user/userSlice'
 import { voucherApiSlice } from './slices/voucher/voucherApiSlice'
+import { requestApprovalCourseApiSlice } from './slices/teacher/requestApprovalCourse/requestApprovalCourseApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -57,6 +58,7 @@ export const store = configureStore({
       checkAdminApiSlice.middleware,
       transactionHistoryApiSlice.middleware,
       walletHistoryApiSlice.middleware,
+      requestApprovalCourseApiSlice.middleware
     )
 })
 

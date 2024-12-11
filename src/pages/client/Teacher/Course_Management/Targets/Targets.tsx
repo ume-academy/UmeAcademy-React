@@ -1,5 +1,6 @@
 import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { routerConfigAdmin } from '@/constants/admin'
+import { smoothScrollToTop } from '@/constants/utils'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
@@ -44,12 +45,14 @@ const Targets = ({ courseData, isLoading, isRefetch }: { courseData: TCourseDeta
         }
         await updateTarget(payload).unwrap()
         isRefetch()
+        smoothScrollToTop()
         message.success('Cập nhật mục tiêu khóa học thành công')
         stopLoading()
       }
     } catch (error) {
       message.error('Có lỗi xảy ra, vui lòng thử lại')
       console.log(error)
+      stopLoading()
     }
   }
   

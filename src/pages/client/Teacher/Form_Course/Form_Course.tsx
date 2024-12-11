@@ -7,13 +7,12 @@ import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCreateCourse, TEditCourse } from '@/interfaces/TCourse'
-import { TCourseDetail } from '@/interfaces/TCourseDetail'
 import { TLevel } from '@/interfaces/TLevel'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
 import { useCreateCourseOfTeacherMutation, useUpdateCourseOfteacherMutation } from '@/redux/slices/course/courseApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { LoadingOutlined, UploadOutlined } from '@ant-design/icons'
-import { Form, Image, message, TreeSelect } from 'antd'
+import { Button, Form, Image, message, TreeSelect } from 'antd'
 import Input from 'antd/es/input/Input'
 import TextArea from 'antd/es/input/TextArea'
 import { TreeNode } from 'antd/es/tree-select'
@@ -22,6 +21,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
+import { smoothScrollToTop } from '@/constants/utils'
 
 interface CourseProps  {
   courseData?: any
@@ -32,6 +32,17 @@ const Form_Course = ({courseData, isLoading}: CourseProps) => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
   const [form] = Form.useForm() //<TCourse>
   const { id } = useParams()
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Hàm xử lý sự kiện hover button submit
+  const handleMouseEnter = () => {
+    setIsHovered(true); // Cập nhật state khi hover vào
+  };
+
+  // Hàm xử lý sự kiện hover button submit
+  const handleMouseLeave = () => {
+    setIsHovered(false); // Cập nhật state khi rời khỏi
+  };
 
   // Sử dụng hook để lấy thông tin vị trí của route hiện tại render component cho phù hợp và call API
   const location = useLocation()
@@ -66,7 +77,7 @@ const Form_Course = ({courseData, isLoading}: CourseProps) => {
     }
 
     .dark & .ant-select-selector {
-      background-color: #131022 !important;
+      background-color: #2b2838 !important;
       border: 1px solid #c7c7c740 !important;
     }
 
@@ -141,6 +152,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
           updateData.append('thumbnail', thumbnailFile );
         }
         await updateCourse({updateData}).unwrap()
+        smoothScrollToTop()
         message.success('Cập nhật khóa học thành công')
       }else {
         console.log(data)
@@ -191,6 +203,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
           <Form form={form} onFinish={onfinish} layout='vertical'>
             <h1 className='text-[28px] font-title text-[#f66962] mb-6'>{textH1}</h1>
             <div className='lg:mb-[40px]'>
+
               {/* Tên khóa học */}
               <div className='mb-8'>
                 <Form.Item
@@ -202,11 +215,10 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   ]}
                 >
                   <Input
-                    style={{ backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2` }}
                     type='text'
-                    className='py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
-                  h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
-                  focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+                    className='w-full py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                          h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                          focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                     placeholder='Tiêu đề khóa học'
                     disabled={hideCourseFunctionAdmin}
                   />
@@ -278,11 +290,10 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       }]}
                     >
                     <Input
-                      style={{backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
                       type='number'
-                      className='py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
-                      h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
-                      focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+                      className='w-full py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                          h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                          focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                       placeholder='Giá khóa học'
                       disabled={hideCourseFunctionAdmin}
                     />
@@ -430,11 +441,9 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   <TextArea
                     style={{
                       height: 160,
-                      backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`,
-                      border: `#c1c9d2`
                     }}
-                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
-                  h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
+                   dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
                     placeholder='Tóm tắt khóa học'
                     disabled={hideCourseFunctionAdmin}
@@ -450,8 +459,8 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                     label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Mô tả khóa học</label>}
                   >
                   <TextArea
-                    style={{ height: 160 , backgroundColor: `${theme === 'light' ? '#fafafa' : '#131022'}`, border: `#c1c9d2`}}
-                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
+                    style={{ height: 160}}
+                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
                     placeholder='Mô tả khóa học'
@@ -487,12 +496,16 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       Quay lại
                     </Link>
                   )}
-                  <button
+                  <Button
+                    htmlType='submit'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                     disabled={loading}
-                    className='w-full md:w-[180px] lg:w-[180px] border-[1px] font-title border-[#ff5364] bg-[#ff5364] text-[#fff] p-2.5 rounded-lg hover:bg-transparent hover:text-[#ff5364]'
+                    style={{border: '2px solid #ff5364', color: `${isHovered === false ? '#fff' : '#ff5364'}` }}
+                    className='w-full md:w-[180px] lg:w-[180px] font-title bg-[#ff5364] text-[#fff] p-5 rounded-lg hover:bg-transparent'
                   >
                     {loading ? <LoadingOutlined /> : id ? 'Lưu' : 'Thêm mới khóa học'}
-                  </button>
+                  </Button>
                 </div>
               </>
             ) : (

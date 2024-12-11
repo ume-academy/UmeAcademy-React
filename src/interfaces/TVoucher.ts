@@ -12,3 +12,11 @@ export interface TVoucher {
     id: number
   }
 }
+
+export interface TVoucherForm {
+  code: string | undefined
+  discount: number
+  quantity: number
+  start_date: any
+  end_date: any
+}
