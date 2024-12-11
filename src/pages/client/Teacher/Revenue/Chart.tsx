@@ -23,8 +23,8 @@ const Chart = () => {
 
   const handleRevenue = () => {
     filterRevenue({
-      start_date: startDate || undefined,
-      end_date: endDate || undefined
+      start_date: startDate,
+      end_date: endDate
     })
   }
 

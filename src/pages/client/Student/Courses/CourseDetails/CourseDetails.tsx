@@ -1,6 +1,11 @@
 import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 import { router } from '@/configs/routes'
-import { useGetContentCourseByIdQuery, useGetInfoCourseByIdQuery, useGetOverviewCourseByIdQuery, useGetReviewsCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
+import {
+  useGetContentCourseByIdQuery,
+  useGetInfoCourseByIdQuery,
+  useGetOverviewCourseByIdQuery,
+  useGetReviewsCourseByIdQuery
+} from '@/redux/slices/course/courseApiSlice'
 import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
 import { Avatar, Collapse, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
@@ -13,60 +18,64 @@ import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
 
 const CourseDetails = () => {
+  const [modal2Open, setModal2Open] = useState(false)
 
-  const [modal2Open, setModal2Open] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
 
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const { id } = useParams()
 
-  const { id } = useParams();
-
-  const { data: course, isLoading, isFetching, isError, error } = useGetInfoCourseByIdQuery(id);
-  const { data: courseContent } = useGetContentCourseByIdQuery(id);
-  const { data: courseReviews } = useGetReviewsCourseByIdQuery(id);
-  const { data: courseOverview } = useGetOverviewCourseByIdQuery(id);
+  const { data: course, isLoading, isFetching, isError, error } = useGetInfoCourseByIdQuery(id)
+  const { data: courseContent } = useGetContentCourseByIdQuery(id)
+  const { data: courseReviews } = useGetReviewsCourseByIdQuery(id)
+  const { data: courseOverview } = useGetOverviewCourseByIdQuery(id)
 
   const [currentVideoPath, setCurrentVideoPath] = useState('')
 
-  if(id) localStorage.setItem('courseId', id);
+  if (id) localStorage.setItem('courseId', id)
 
   const handlePreviewClick = (path: string) => {
     setCurrentVideoPath(path) // Cập nhật đường dẫn video hiện tại
     setModal2Open(true)
   }
 
-  const userExist = localStorage.getItem('access_Token');
+  const userExist = localStorage.getItem('access_Token')
 
   // convert seconds to minutes
   function formatTime(seconds: number): string {
     // Tạo khoảng thời gian từ 0 đến giây cần định dạng
-    const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+    const duration = intervalToDuration({ start: 0, end: seconds * 1000 })
 
     // Loại bỏ các đơn vị không cần thiết ngoài phút và giây
     const formatted = formatDuration(duration, {
       format: ['minutes', 'seconds'], // Chỉ hiển thị phút và giây
-      locale: vi, // Định dạng ngôn ngữ tiếng Việt
-    });
+      locale: vi // Định dạng ngôn ngữ tiếng Việt
+    })
 
     // Trường hợp giây dưới 60, thêm "0 phút" vào trước
-    return formatted.includes("phút") ? formatted : `0 phút ${formatted}`;
+    return formatted.includes('phút') ? formatted : `0 phút ${formatted}`
   }
 
   // convert seconds to min:sec
   function formatToMinutesAndSeconds(seconds: number) {
-    const date = new Date(seconds * 1000); // Chuyển đổi thành milliseconds
-    return format(date, "m:ss");
+    const date = new Date(seconds * 1000) // Chuyển đổi thành milliseconds
+    return format(date, 'm:ss')
   }
 
-  // format ISO 
+  // format ISO
   function formatDate(isoDate: any) {
-    const date = new Date(isoDate);
-    return format(date, "dd-MM-yyyy");
+    const date = new Date(isoDate)
+    return format(date, 'dd-MM-yyyy')
   }
 
-  // format number 
-  const formatNumber = (number: any) => new Intl.NumberFormat('vi-VN').format(number);
+  // format number
+  const formatNumber = (number: any) => new Intl.NumberFormat('vi-VN').format(number)
 
-  if (isLoading && isFetching) return <div className="min-h-screen flex items-center justify-center"><LoadingOutlined size={100} /></div>
+  if (isLoading && isFetching)
+    return (
+      <div className='min-h-screen flex items-center justify-center'>
+        <LoadingOutlined size={100} />
+      </div>
+    )
 
   return (
     <>
@@ -80,7 +89,6 @@ const CourseDetails = () => {
         >
           <div className='max-w-[1280px] mx-auto'>
             <div className='flex flex-col'>
-
               {/* Overview */}
               <div className={`${styles['introduce']} flex justify-between items-start`}>
                 <div className='flex items-center gap-4'>
@@ -90,7 +98,10 @@ const CourseDetails = () => {
 
                   <div className='info'>
                     {/* Tên tác giả (giảng viên) */}
-                    <Link to={''} className='font-title text-xl text-white hover:text-[#F6694F]'>
+                    <Link
+                      to={`${router.teacherInfoCourse.replace(':id', String(id))}`}
+                      className=' font-title text-xl text-white hover:text-[#ff5364]'
+                    >
                       {course?.teacher?.fullname}
                     </Link>
                     {/* <p className='text-sm'>UI/UX Designer</p> */}
@@ -232,11 +243,9 @@ const CourseDetails = () => {
                   <div className={`${styles['groupItems']}`}>
                     <div className='pl-4'>
                       <ul className='grid grid-cols-2 gap-4 gap-x-6 items-stretch'>
-                        {
-                          courseOverview?.data?.course_learning_benefit?.map((item: any, index: number) => (
-                            <li key={index}>{item}</li>
-                          ))
-                        }
+                        {courseOverview?.data?.course_learning_benefit?.map((item: any, index: number) => (
+                          <li key={index}>{item}</li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -248,11 +257,9 @@ const CourseDetails = () => {
 
                   <div className='pl-4'>
                     <ul className='grid grid-cols-2 gap-4 items-stretch'>
-                      {
-                        courseOverview?.data?.course_requirement?.map((item: any, index: number) => (
-                          <li key={index}>{item}</li>
-                        ))
-                      }
+                      {courseOverview?.data?.course_requirement?.map((item: any, index: number) => (
+                        <li key={index}>{item}</li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -265,67 +272,82 @@ const CourseDetails = () => {
 
                   {/* Tổng số bài giảng, thời gian của khóa học */}
                   <p className={`${styles['infoLesson']} dark:text-[#B9B7C0] text-black`}>
-                    {courseContent?.data?.total_chapter} bài giảng, {courseContent?.data?.total_duration ? formatTime(courseContent.data.total_duration) : 'N/A'}
+                    {courseContent?.data?.total_chapter} bài giảng,{' '}
+                    {courseContent?.data?.total_duration ? formatTime(courseContent.data.total_duration) : 'N/A'}
                   </p>
                 </div>
 
                 <div className={`${styles['content']}`}>
                   <Collapse expandIconPosition='end' className='rounded-none'>
+                    {courseContent?.data?.chapters?.map((chap: any, index: string) => (
+                      <Collapse.Panel
+                        header={
+                          <span className='font-subtitle dark:text-[#B9B7C0]'>
+                            Chương {index + 1}: {chap.name}
+                          </span>
+                        }
+                        key={index}
+                        className='bg-slate-200 dark:bg-[#585858] !rounded-none '
+                      >
+                        {/* đổ lesson */}
+                        <div>
+                          {chap?.lessons?.map((item: any, indexItem: number) => (
+                            <div
+                              className={`${styles['lecture']} w-full flex justify-between items-center dark:text-[#B9B7C0]`}
+                              key={indexItem}
+                            >
+                              <div className='flex items-center space-x-3'>
+                                <svg
+                                  width='24'
+                                  height='24'
+                                  viewBox='0 0 24 24'
+                                  fill='none'
+                                  xmlns='httpwww.w3.org/2000/svg'
+                                >
+                                  <path
+                                    d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
+                                    fill='#FE893E'
+                                  />
+                                  <path
+                                    opacity='0.4'
+                                    d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
+                                    fill='#FE893E'
+                                  />
+                                </svg>
 
-                    {
-                      courseContent?.data?.chapters?.map((chap: any, index: string) => (
-                        <Collapse.Panel
-                          header={
-                            <span className='font-subtitle dark:text-[#B9B7C0]'>
-                              Chương {index + 1}: {chap.name}
-                            </span>
-                          }
-                          key={index}
-                          className='bg-slate-200 dark:bg-[#585858] !rounded-none '
-                        >
-                          {/* đổ lesson */}
-                          <div>
-                            {
-                              chap?.lessons?.map((item: any, indexItem: number) => (
+                                <p className='font-subtitle'>{item?.name}</p>
+                              </div>
 
-                                <div className={`${styles['lecture']} w-full flex justify-between items-center dark:text-[#B9B7C0]`} key={indexItem}>
-                                  <div className='flex items-center space-x-3'>
-                                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='httpwww.w3.org/2000/svg'>
-                                      <path
-                                        d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
-                                        fill='#FE893E'
-                                      />
-                                      <path
-                                        opacity='0.4'
-                                        d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
-                                        fill='#FE893E'
-                                      />
-                                    </svg>
-
-                                    <p className='font-subtitle'>{item?.name}</p>
-                                  </div>
-
-                                  <div className='flex items-center space-x-6'>
-                                    {item.is_preview && (
-                                      <div className=''>
-                                        <p className='cursor-pointer underline hover:text-[#f66962] text-[13px] md:text-[14px]' onClick={() => handlePreviewClick(item.path)}>
+                              <div className='flex items-center space-x-6'>
+                                {item.is_preview && (
+                                  <div className=''>
+                                    <p
+                                      className='cursor-pointer underline hover:text-[#f66962] text-[13px] md:text-[14px]'
+                                      onClick={() => handlePreviewClick(item.path)}
+                                    >
+                                      Xem trước
+                                    </p>
+                                    <Modal
+                                      title={
+                                        <p className='text-center font-subtitle dark:bg-[#2B2838] text-black dark:text-[#B9B7C0]'>
                                           Xem trước
                                         </p>
-                                        <Modal
-                                          title={
-                                            <p className='text-center font-subtitle dark:bg-[#2B2838] text-black dark:text-[#B9B7C0]'>Xem trước</p>
-                                          }
-                                          centered
-                                          open={modal2Open}
-                                          onOk={() => setModal2Open(false)}
-                                          onCancel={() => setModal2Open(false)}
-                                          footer={null}
-                                          className=''
-                                        >
-                                          <div className='mt-4'>
-                                            <VideoPlayer videoURL={item?.video_link} thumbnail={course?.thumbnail} height={"270px"} />
+                                      }
+                                      centered
+                                      open={modal2Open}
+                                      onOk={() => setModal2Open(false)}
+                                      onCancel={() => setModal2Open(false)}
+                                      footer={null}
+                                      className=''
+                                    >
+                                      <div className='mt-4'>
+                                        <VideoPlayer
+                                          videoURL={item?.video_link}
+                                          thumbnail={course?.thumbnail}
+                                          height={'270px'}
+                                        />
 
-                                            {/* <video 
+                                        {/* <video 
                                               playsInline 
                                               controls 
                                               poster={course?.thumbnail}
@@ -334,19 +356,17 @@ const CourseDetails = () => {
 
                                               
                                             </video> */}
-                                          </div>
-                                        </Modal>
                                       </div>
-                                    )}
-                                    <p>{formatToMinutesAndSeconds(item?.video_duration)}</p>
+                                    </Modal>
                                   </div>
-                                </div>
-                              ))
-                            }
-                          </div>
-                        </Collapse.Panel>
-                      ))
-                    }
+                                )}
+                                <p>{formatToMinutesAndSeconds(item?.video_duration)}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </Collapse.Panel>
+                    ))}
                   </Collapse>
                 </div>
               </div>
@@ -354,28 +374,25 @@ const CourseDetails = () => {
               {/* Feedback */}
               <div className={`${styles['feedback']} dark:bg-[#2B2838] p-6 bg-white rounded-xl space-y-2 md:space-y-4`}>
                 <div className={`${styles['headingFeedback']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
-                  {
-                    courseReviews?.data?.length !== 0 ? (
-                      <h5 className='flex items-center gap-2'>
-                        <StarFilled className='text-yellow-400' /> {course?.rating}/5 trên {courseReviews?.data?.length} lượt đánh giá
-                      </h5>
-                    ) : (
-                      <h5 className='flex items-center gap-2'>
-                        Đánh giá
-                      </h5>
-                    )
-                  }
+                  {courseReviews?.data?.length !== 0 ? (
+                    <h5 className='flex items-center gap-2'>
+                      <StarFilled className='text-yellow-400' /> {course?.rating}/5 trên {courseReviews?.data?.length}{' '}
+                      lượt đánh giá
+                    </h5>
+                  ) : (
+                    <h5 className='flex items-center gap-2'>Đánh giá</h5>
+                  )}
                 </div>
 
-                {
-                  courseReviews?.data?.length !== 0 ? (
-                    <>
-                      <div className={`${styles['contentFeedback']} flex overflow-x-auto md:grid md:grid-cols-2 justify-between items-stretch gap-4`}>
-                        {
-                          courseReviews?.data?.slice(0, 4)?.map((feedback: any, index: number) => (
-                            <div className="min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1">
-                              <div
-                                className={`${styles['infoFeedback']} 
+                {courseReviews?.data?.length !== 0 ? (
+                  <>
+                    <div
+                      className={`${styles['contentFeedback']} flex overflow-x-auto md:grid md:grid-cols-2 justify-between items-stretch gap-4`}
+                    >
+                      {courseReviews?.data?.slice(0, 4)?.map((feedback: any, index: number) => (
+                        <div className='min-w-[90%] border border-[#e9ecef] rounded-md p-4 md:outline-none md:flex-1'>
+                          <div
+                            className={`${styles['infoFeedback']} 
                                 flex 
                                 flex-col 
                                 justify-start 
@@ -385,68 +402,73 @@ const CourseDetails = () => {
                                 md:justify-between 
                                 md:items-center 
                                 md:flex-row 
-                              `}>
-                                <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                  <div className={`${styles['avt']}`}>
-                                    <Avatar src={feedback?.user?.avatar} className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] ' />
-                                  </div>
+                              `}
+                          >
+                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                              <div className={`${styles['avt']}`}>
+                                <Avatar
+                                  src={feedback?.user?.avatar}
+                                  className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] '
+                                />
+                              </div>
 
-                                  <div className=''>
-                                    <div className='name font-title text-sm md:text-lg '>
-                                      <Link to={''} className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'>
-                                        {feedback?.user?.fullname}
-                                      </Link>
-                                    </div>
+                              <div className=''>
+                                <div className='name font-title text-sm md:text-lg '>
+                                  <Link
+                                    to={''}
+                                    className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'
+                                  >
+                                    {feedback?.user?.fullname}
+                                  </Link>
+                                </div>
 
-                                    <div className='flex items-center gap-6 text-sm dark:text-[#B9B7C0]'>
-                                      <Rate disabled defaultValue={feedback?.rating} />
+                                <div className='flex items-center gap-6 text-sm dark:text-[#B9B7C0]'>
+                                  <Rate disabled defaultValue={feedback?.rating} />
 
-                                      {/* feedback at */}
-                                      <span>{formatDate(feedback?.created_at)}</span>
-                                    </div>
-                                  </div>
+                                  {/* feedback at */}
+                                  <span>{formatDate(feedback?.created_at)}</span>
                                 </div>
                               </div>
-
-                              <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
-                                <p className='text-justify py-3 text-sm md:text-md md:py-4'>
-                                  {feedback?.content}
-                                </p>
-                              </div>
                             </div>
-                          ))
-                        }
-                      </div>
-
-                      {/* see more */}
-                      <div
-                        className="seeMore rounded-md text-center p-2 cursor-pointer outline outline-[#f66962] outline-1 w-full md:w-[30%] dark:text-[#B9B7C0] text-[#392c7d]"
-                        onClick={() => setFeedbackOpen(true)}
-                      >
-                        Hiển tất cả đánh giá
-                      </div>
-
-                      {/* modal feedback */}
-                      <Modal
-                        centered
-                        open={feedbackOpen}
-                        onOk={() => setFeedbackOpen(false)}
-                        onCancel={() => setFeedbackOpen(false)}
-                        width={1000}
-                        footer={null}
-                        className="md:h-auto h-[100vh] pb-2 md:pb-0" // h-auto cho màn hình lớn và 100vh cho mobile
-                      >
-                        <div className="h-auto md:h-[500px]">
-                          <div className="headingFeedbackModal dark:text-[#B9B7C0] text-[#392c7d] font-subtitle">
-                            <h5 className="text-md md:text-lg flex items-center gap-2">
-                              <StarFilled className='text-yellow-400' /> {course?.rating}/5 trên {courseReviews?.data?.length} lượt đánh giá
-                            </h5>
                           </div>
 
-                          <div className="contentFeedbackModal flex flex-col md:flex-row items-stretch py-6">
-                            {/* rating chart */}
-                            <div className="left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]">
-                              {/* <div className="space-y-3">
+                          <div className={`${styles['text']}  dark:text-[#B9B7C0]`}>
+                            <p className='text-justify py-3 text-sm md:text-md md:py-4'>{feedback?.content}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* see more */}
+                    <div
+                      className='seeMore rounded-md text-center p-2 cursor-pointer outline outline-[#f66962] outline-1 w-full md:w-[30%] dark:text-[#B9B7C0] text-[#392c7d]'
+                      onClick={() => setFeedbackOpen(true)}
+                    >
+                      Hiển tất cả đánh giá
+                    </div>
+
+                    {/* modal feedback */}
+                    <Modal
+                      centered
+                      open={feedbackOpen}
+                      onOk={() => setFeedbackOpen(false)}
+                      onCancel={() => setFeedbackOpen(false)}
+                      width={1000}
+                      footer={null}
+                      className='md:h-auto h-[100vh] pb-2 md:pb-0' // h-auto cho màn hình lớn và 100vh cho mobile
+                    >
+                      <div className='h-auto md:h-[500px]'>
+                        <div className='headingFeedbackModal dark:text-[#B9B7C0] text-[#392c7d] font-subtitle'>
+                          <h5 className='text-md md:text-lg flex items-center gap-2'>
+                            <StarFilled className='text-yellow-400' /> {course?.rating}/5 trên{' '}
+                            {courseReviews?.data?.length} lượt đánh giá
+                          </h5>
+                        </div>
+
+                        <div className='contentFeedbackModal flex flex-col md:flex-row items-stretch py-6'>
+                          {/* rating chart */}
+                          <div className='left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]'>
+                            {/* <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                   <Rate disabled value={5} className="min-w-[140px]" />
                                   <span>71%</span>
@@ -473,154 +495,150 @@ const CourseDetails = () => {
                                 </div>
                               </div> */}
 
-                              <div className="">
-                                <form action="">
-                                  <input type="text" placeholder="Tìm kiếm đánh giá" className="border p-2 w-full" />
-                                </form>
-                              </div>
+                            <div className=''>
+                              <form action=''>
+                                <input type='text' placeholder='Tìm kiếm đánh giá' className='border p-2 w-full' />
+                              </form>
                             </div>
+                          </div>
 
-                            <div className="right flex-1 p-0 md:p-6 relative w-full h-[480px]">
-                              <div className="flex-1 overflow-y-auto h-full px-0 md:px-4">
+                          <div className='right flex-1 p-0 md:p-6 relative w-full h-[480px]'>
+                            <div className='flex-1 overflow-y-auto h-full px-0 md:px-4'>
+                              {courseReviews?.data?.map((feedback: any, index: number) => (
+                                <div className='flex-1 border-t border-[#d1d7dc] py-6'>
+                                  <div
+                                    className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
+                                  >
+                                    <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                      <div className={`${styles['avt']}`}>
+                                        <Avatar
+                                          src={feedback?.user?.avatar}
+                                          className='w-[40px] h-[40px]  md:w-[40px] md:h-[40px]'
+                                        />
+                                      </div>
 
-                                {
-                                  courseReviews?.data?.map((feedback: any, index: number) => (
-                                    <div className="flex-1 border-t border-[#d1d7dc] py-6">
-                                      <div
-                                        className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
-                                      >
-                                        <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
-                                          <div className={`${styles['avt']}`}>
-                                            <Avatar
-                                              src={feedback?.user?.avatar}
-                                              className="w-[40px] h-[40px]  md:w-[40px] md:h-[40px]"
-                                            />
-                                          </div>
+                                      <div className=''>
+                                        <div className='name font-title text-sm md:text-lg'>
+                                          <Link
+                                            to={''}
+                                            className='dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md'
+                                          >
+                                            {feedback?.user?.fullname}
+                                          </Link>
+                                        </div>
 
-                                          <div className="">
-                                            <div className="name font-title text-sm md:text-lg">
-                                              <Link to={''} className="dark:text-[#B9B7C0] text-[#392c7d] hover:text-[#f66962] text-md md:text-md">
-                                                {feedback?.user?.fullname}
-                                              </Link>
-                                            </div>
+                                        <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
+                                          <Rate disabled defaultValue={feedback?.rating} className='text-[16px]' />
 
-                                            <div className="flex items-center gap-3 text-sm dark:text-[#B9B7C0]">
-                                              <Rate disabled defaultValue={feedback?.rating} className="text-[16px]" />
-
-                                              {/* feedback at */}
-                                              <span>{formatDate(feedback?.created_at)}</span>
-                                            </div>
-                                          </div>
+                                          {/* feedback at */}
+                                          <span>{formatDate(feedback?.created_at)}</span>
                                         </div>
                                       </div>
-
-                                      <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
-                                        <p className="text-justify py-3 text-sm md:text-md md:py-6">
-                                          {feedback?.content}
-                                        </p>
-                                      </div>
                                     </div>
-                                  ))
-                                }
-                              </div>
+                                  </div>
+
+                                  <div className={`${styles['text']} dark:text-[#B9B7C0]`}>
+                                    <p className='text-justify py-3 text-sm md:text-md md:py-6'>{feedback?.content}</p>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </div>
-                      </Modal>
-                    </>
-                  ) : (
-                    <div className="w-full text-center dark:text-[#B9B7C0] text-sm md:text-lg">Hiện tại khóa học chưa có đánh giá!</div>
-                  )
-                }
-              </div >
+                      </div>
+                    </Modal>
+                  </>
+                ) : (
+                  <div className='w-full text-center dark:text-[#B9B7C0] text-sm md:text-lg'>
+                    Hiện tại khóa học chưa có đánh giá!
+                  </div>
+                )}
+              </div>
 
               {/* Post Comment */}
-              <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`
-              }>
+              <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
                 <div className={`${styles['heading']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
                   <h5>Viết đánh giá</h5>
                 </div>
 
-                {
-                  userExist ? (
-                    <div className={`${styles['content']}`}>
-                      <form action=''>
-                        <div className='flex flex-col space-y-4'>
-                          <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
-                            <input
-                              type='text'
-                              placeholder='Tên hiển thị'
-                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                            />
+                {userExist ? (
+                  <div className={`${styles['content']}`}>
+                    <form action=''>
+                      <div className='flex flex-col space-y-4'>
+                        <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
+                          <input
+                            type='text'
+                            placeholder='Tên hiển thị'
+                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                          />
 
-                            <input
-                              type='email'
-                              placeholder='Email'
-                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                            />
-                          </div>
+                          <input
+                            type='email'
+                            placeholder='Email'
+                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                          />
+                        </div>
 
-                          <div className={`${styles['formGroup']}`}>
-                            <div className="flex items-center gap-2">
-                              <label className='dark:text-[#B9B7C0] text-[#392c7d] text-[13px]'>Đánh giá:</label>
-                              <Rate className='text-red' defaultValue={1} />
-                            </div>
-                          </div>
-
-                          <div className={`${styles['formGroup']}`}>
-                            <textarea
-                              rows={5}
-                              placeholder='Viết bình luận'
-                              className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                            />
-                          </div>
-
-                          <div>
-                            <button className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-transparent dark:text-[#B9B7C0] `}>
-                              Đăng bình luận
-                            </button>
+                        <div className={`${styles['formGroup']}`}>
+                          <div className='flex items-center gap-2'>
+                            <label className='dark:text-[#B9B7C0] text-[#392c7d] text-[13px]'>Đánh giá:</label>
+                            <Rate className='text-red' defaultValue={1} />
                           </div>
                         </div>
-                      </form>
-                    </div>
-                  ) : (
-                    <div className="text-center text-sm md:text-lg">Vui lòng <Link to={'/login'} className='underline text-[#F87171]'>đăng nhập</Link> để viết đánh giá!</div>
-                  )
-                }
 
+                        <div className={`${styles['formGroup']}`}>
+                          <textarea
+                            rows={5}
+                            placeholder='Viết bình luận'
+                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                          />
+                        </div>
 
-              </div >
-            </div >
+                        <div>
+                          <button
+                            className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-transparent dark:text-[#B9B7C0] `}
+                          >
+                            Đăng bình luận
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  <div className='text-center text-sm md:text-lg'>
+                    Vui lòng{' '}
+                    <Link to={'/login'} className='underline text-[#F87171]'>
+                      đăng nhập
+                    </Link>{' '}
+                    để viết đánh giá!
+                  </div>
+                )}
+              </div>
+            </div>
 
             <div className={`${styles['right']} space-y-6`}>
               <div className={`${styles['cardCourse']} dark:bg-[#2B2838] dark:text-[#B9B7C0] bg-white p-6 rounded-xl`}>
                 <div className={`${styles['media']}`}>
-                  <img src={course?.thumbnail} alt="thumbnail_course" />
+                  <img src={course?.thumbnail} alt='thumbnail_course' />
                 </div>
 
                 <div className={`${styles['act']}`}>
                   <div className={`${styles['prices']} flex justify-between items-center`}>
-                    {
-                      course?.is_enrolled ? (
-                        <div className="py-2"></div>
-                      ) : (
-
-                        <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
-                          {formatNumber(course?.price)}đ
-                        </h2>
-                      )
-                    }
+                    {course?.is_enrolled ? (
+                      <div className='py-2'></div>
+                    ) : (
+                      <h2 className={`${styles['sale']} dark:text-[#B9B7C0] text-[#159f46] my-4 font-title`}>
+                        {formatNumber(course?.price)}đ
+                      </h2>
+                    )}
                   </div>
 
                   <div className={`${styles['btns']} space-y-6`}>
                     {/* fav */}
                     <div className={`${styles['btnsGroup']} space-x-4`}>
-                      {
-                        course?.is_wishlist ? (
-
-
-                          <button
-                            className='
+                      {course?.is_wishlist ? (
+                        <button
+                          className='
                               rounded-full 
                               py-2 
                               flex 
@@ -632,14 +650,14 @@ const CourseDetails = () => {
                               dark:bg-[#201d2e] 
                               dark:text-white 
                             '
-                            disabled
-                          >
-                            <HeartFilled className='text-white' />
-                            Đã thích
-                          </button>
-                        ) : (
-                          <button
-                            className='
+                          disabled
+                        >
+                          <HeartFilled className='text-white' />
+                          Đã thích
+                        </button>
+                      ) : (
+                        <button
+                          className='
                           rounded-full 
                           py-2 
                           flex 
@@ -655,12 +673,11 @@ const CourseDetails = () => {
                           dark:hover:bg-[#3b2b4c] 
                           dark:hover:text-[#f66962]
                         '
-                          >
-                            <HeartOutlined />
-                            Yêu thích
-                          </button>
-                        )
-                      }
+                        >
+                          <HeartOutlined />
+                          Yêu thích
+                        </button>
+                      )}
 
                       <button
                         className='
@@ -685,13 +702,11 @@ const CourseDetails = () => {
                       </button>
                     </div>
 
-                    <div className="">
-
-                      {
-                        course?.is_enrolled ? (
-                          <Link
-                            to={router.lesson.replace(':id', String(id))}
-                            className='
+                    <div className=''>
+                      {course?.is_enrolled ? (
+                        <Link
+                          to={router.lesson.replace(':id', String(id))}
+                          className='
                         bg-[#f66962] 
                           py-3 
                           rounded-full 
@@ -701,15 +716,13 @@ const CourseDetails = () => {
                           dark:hover:bg-[#3b2b4c] 
                         dark:hover:text-[#f66962]
                       '
-                          >
-                            <button className={`${styles['enrollBtn']} `}>
-                              Xem ngay
-                            </button>
-                          </Link>
-                        ) : (
-                          <Link
-                            to={router.coursePaymentMethod.replace(':id', String(id))}
-                            className='
+                        >
+                          <button className={`${styles['enrollBtn']} `}>Xem ngay</button>
+                        </Link>
+                      ) : (
+                        <Link
+                          to={router.coursePaymentMethod.replace(':id', String(id))}
+                          className='
                           bg-[#f66962] 
                           py-3 
                           rounded-full 
@@ -719,13 +732,10 @@ const CourseDetails = () => {
                           dark:hover:bg-[#3b2b4c] 
                         dark:hover:text-[#f66962]
                       '
-                          >
-                            <button className={`${styles['enrollBtn']} `}>
-                              Đăng ký ngay
-                            </button>
-                          </Link>
-                        )
-                      }
+                        >
+                          <button className={`${styles['enrollBtn']} `}>Đăng ký ngay</button>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -931,9 +941,9 @@ const CourseDetails = () => {
                 </div>
               </div>
             </div>
-          </div >
-        </div >
-      </div >
+          </div>
+        </div>
+      </div>
     </>
   )
 }

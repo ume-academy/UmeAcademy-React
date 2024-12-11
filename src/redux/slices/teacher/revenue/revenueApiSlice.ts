@@ -1,5 +1,5 @@
 import { customBaseQuery } from '@/Api'
-import { TRevenue } from '@/interfaces/TRevenue'
+import { TChart, TRevenue } from '@/interfaces/TRevenue'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const revenueApiSlice = createApi({
@@ -11,7 +11,8 @@ export const revenueApiSlice = createApi({
       query: () => '/teacher/statistic',
       transformResponse: (res: { data: TRevenue }) => res.data
     }),
-    filterRevenue: builder.mutation<TRevenue, { start_date: string; end_date: string }>({
+    
+    filterRevenue: builder.mutation<any, { start_date: string; end_date: string }>({
       query: ({ start_date, end_date }) => {
         if (!start_date && end_date) {
           return {

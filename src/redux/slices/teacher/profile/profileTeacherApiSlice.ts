@@ -1,4 +1,5 @@
 import { baseUrl } from '@/Api'
+import { TTeacherInfoCourse } from '@/interfaces/TTeacher'
 import { TProfileTeacher } from '@/interfaces/TUser'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
@@ -12,6 +13,10 @@ export const profileTeacherApiSlice = createApi({
       providesTags: ['profileTeacher'],
       transformResponse: (res: { data: TProfileTeacher }) => res.data
     }),
+    teacherInfoCourse: builder.query({
+      query: ({ id }) => `/course/${id}/teacher-information`,
+      transformResponse: (res: { data: TTeacherInfoCourse }) => res.data
+    }),
 
     updateProfile: builder.mutation<TProfileTeacher, TProfileTeacher>({
       query: (body) => ({
@@ -19,9 +24,9 @@ export const profileTeacherApiSlice = createApi({
         method: 'PUT',
         body
       }),
-      invalidatesTags:['profileTeacher']
+      invalidatesTags: ['profileTeacher']
     })
   })
 })
 
-export const { useGetInfoProfileQuery, useUpdateProfileMutation } = profileTeacherApiSlice
+export const { useGetInfoProfileQuery,useTeacherInfoCourseQuery, useUpdateProfileMutation } = profileTeacherApiSlice

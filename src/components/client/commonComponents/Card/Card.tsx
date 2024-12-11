@@ -50,8 +50,8 @@ const Card = ({
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
-  const [addToFav] = useAddCourseToFavoriteMutation();
-  const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation();
+  const [addToFav] = useAddCourseToFavoriteMutation()
+  const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
 
   // console.log(is_wishlist)
   // console.log(status)
@@ -63,20 +63,16 @@ const Card = ({
 
   // ADD, REMOVE COURSE IN FAV
   const handleClickForFav = async (courseId: string | number) => {
-
     try {
+      await message.loading({ content: `Đang xử lý...`, key: 'loading' })
 
-      await message.loading({ content: `Đang xử lý...`, key: 'loading' });
-
-      heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId);
+      heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
 
       message.success(`${heart ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
-
     } catch (error) {
       console.log(error)
       return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
     }
-
   }
 
   const handleOpenModal = (type: 'refund' | 'delete' | 'review') => {
@@ -153,20 +149,26 @@ const Card = ({
           </div>
           <div className='absolute bottom-3 right-3 px-4 py-2 rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900'>
             <p className='text-[15px] font-bold text-[#ff5364] dark:text-[#B9B7C0]'>{formatPrice(price)}</p>
-            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{ }</p>
+            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{}</p>
           </div>
         </div>
       </Link>
 
       {!isMyCoursesPage && (
         <div className='mt-6 flex justify-between items-center'>
-          <div className='flex items-center'>
-            <img src={teacher?.avatar as string} alt='avatarTeacher' className='w-12 h-12 rounded-full object-cover' />
-            <div className='ml-3'>
-              <p className='hover:text-[#ff5364] text-[16px]'>{teacher?.fullname}</p>
-              <p className=''>Giảng viên</p>
+          <Link to={`${router.teacherInfoCourse.replace(':id', String(id))}`} className='hover:text-inherit'>
+            <div className='flex items-center'>
+              <img
+                src={teacher?.avatar as string}
+                alt='avatarTeacher'
+                className='w-12 h-12 rounded-full object-cover'
+              />
+              <div className='ml-3'>
+                <p className='hover:text-[#ff5364] text-[16px]'>{teacher?.fullname}</p>
+                <p className=''>Giảng viên</p>
+              </div>
             </div>
-          </div>
+          </Link>
           <div onClick={() => handleClickForFav(id)} className='cursor-pointer text-xl'>
             {heart ? (
               <HeartFilled className='text-[#ff5364] group-hover:text-white' />

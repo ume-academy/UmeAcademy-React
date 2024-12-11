@@ -47,6 +47,7 @@ import Form_Voucher from '@/pages/admin/voucher/Form_Voucher/Form_Voucher'
 import Favorite_Courses from '@/pages/client/Student/Courses/Favorite_Course/Favorite_Courses'
 import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
 import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
+import Teacher_Info_Course from '@/pages/client/Student/Teacher_Info_Course/Teacher_Info_Course'
 
 // Routes cho student
 export const studentRoutes = [
@@ -61,6 +62,7 @@ export const studentRoutes = [
   { path: router.profileStudent, element: Profile },
   { path: router.newInstructor, element: New_Instructor },
   { path: router.favoriteCourses, element: Favorite_Courses },
+  { path: router.teacherInfoCourse, element: Teacher_Info_Course }
 ]
 
 export const protectedStudentRoutes = [

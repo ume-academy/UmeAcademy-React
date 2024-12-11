@@ -8,8 +8,8 @@ import { TProfileTeacher } from '@/interfaces/TUser'
 const ProfileTeacher = ({ props }: any) => {
   const { avatar, bio, email, fullname, facebook, twitter, youtube, job_title, linkedin } = props || {}
   const [form] = Form.useForm()
-  
-  const [updateProfileTeacher, {isLoading}] = useUpdateProfileMutation({})
+
+  const [updateProfileTeacher, { isLoading }] = useUpdateProfileMutation({})
 
   useEffect(() => {
     if (props) {
@@ -29,8 +29,7 @@ const ProfileTeacher = ({ props }: any) => {
 
   const handleUpdateProfile = async (data: TProfileTeacher) => {
     try {
-      console.log(data)
-      await updateProfileTeacher(data).unwrap()
+      await updateProfileTeacher(data)
       message.success('Cập nhật hồ sơ cá nhân thành công')
     } catch (error) {
       console.log(error)
@@ -83,11 +82,11 @@ const ProfileTeacher = ({ props }: any) => {
                         <div className='space-y-2'>
                           <label>Tên đầy đủ</label>
                           <Form.Item name='fullname'>
-                            <Input className={`px-3 py-3 dark:bg-[#131022]`} disabled/>
+                            <Input className={`px-3 py-3 dark:bg-[#131022]`} disabled />
                           </Form.Item>
                         </div>
 
-                        <div className={`flex flex-col md:flex-row gap-x-4`}>
+                        <div className={`flex flex-col md:flex-row gap-4`}>
                           <div className='w-full space-y-2'>
                             <label>Email</label>
                             <Form.Item name='email' className={`${styles['formGroup']}`}>

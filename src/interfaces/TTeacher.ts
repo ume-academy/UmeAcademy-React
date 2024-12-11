@@ -12,6 +12,7 @@ export interface TTeacher {
   linkedin: string | null
   youtube: string | null
   created_at: string
+  count_review?: number
 }
 
 // Là giáo viên hay không
@@ -24,4 +25,10 @@ export interface TRegisterTeacher {
   message: string
   status: boolean
   error?: string
+}
+
+export interface TTeacherInfoCourse {
+  id: number
+  name: string
+  teacher: TTeacher
 }

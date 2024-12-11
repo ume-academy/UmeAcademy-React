@@ -7,7 +7,7 @@ import {
   useGetAllBankQuery,
   useGetInfoWithdrawQuery
 } from '@/redux/slices/teacher/withdraw/withdrawApiSlice'
-import { Form, Input, message, TreeSelect } from 'antd'
+import { Form, Input, InputNumber, message, TreeSelect } from 'antd'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
@@ -53,6 +53,7 @@ const Withdrawal_Methods = () => {
           id: info.id,
           info: withdraw
         })
+
         if (resEdit.data) {
           message.success('cập nhật phương thức rút tiền thành công')
         } else message.error('Đã xảy ra lỗi khi cập nhật phương thức rút tiền')
@@ -108,17 +109,7 @@ const Withdrawal_Methods = () => {
           )}
 
           {(info || isFormVisible) && (
-            <Form
-              form={form}
-              layout='vertical'
-              className=''
-              initialValues={{
-                name_bank: info?.name_bank || '',
-                name_account: info?.name_account || '',
-                number_account: info?.number_account || ''
-              }}
-              onFinish={onFinish}
-            >
+            <Form form={form} layout='vertical' onFinish={onFinish}>
               <Form.Item
                 name='name_bank'
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Ngân hàng hưởng thụ</span>}
@@ -138,7 +129,23 @@ const Withdrawal_Methods = () => {
               <Form.Item
                 name='name_account'
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Tên tài khoản</span>}
-                rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản' }]}
+                rules={[
+                  {
+                    validator: (_, value) => {
+                      if (!value) {
+                        return Promise.reject(new Error('Vui lòng nhập tên tài khoản'))
+                      }
+                      if (typeof value !== 'string') {
+                        return Promise.reject(new Error('Tên tài khoàn phải là 1 chuõi kí tự'))
+                      }
+                      if (value.length > 255) {
+                        return Promise.reject(new Error('Tên tài khoản không được vượt quá 255 kí tự'))
+                      }
+
+                      return Promise.resolve()
+                    }
+                  }
+                ]}
               >
                 <Input placeholder='Nhập tên tài khoản' id='name_account' className='p-3' />
               </Form.Item>
@@ -146,15 +153,33 @@ const Withdrawal_Methods = () => {
               <Form.Item
                 name='number_account'
                 label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số tài khoản</span>}
-                rules={[{ required: true, message: 'Vui lòng nhập số tài khoản' }]}
+                rules={[
+                  {
+                    validator: async (_, value) => {
+                      if (!value) {
+                        return Promise.reject(new Error('Vui lòng nhập số tài khoản'))
+                      }
+                      const valueStr = value.toString()
+                      if (isNaN(valueStr) || valueStr.length < 8 || valueStr.length > 20) {
+                        return Promise.reject(new Error('Số tài khoản phải là số và có độ dài từ 8 đến 20'))
+                      }
+                      return Promise.resolve()
+                    }
+                  }
+                ]}
               >
-                <Input id='number_account' placeholder='Nhập số tài khoản' className='p-3' />
+                <Input
+                  id='number_account'
+                  placeholder='Nhập số tài khoản'
+                  className='p-3'
+                  onChange={() => form.validateFields(['number_account'])}
+                />
               </Form.Item>
 
               <Form.Item>
                 <button
                   type='submit'
-                  className='py-2 px-4 w-full md:w-[20%] mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
+                  className='p-2 w-full md:w-[20%] mt-4 text-white  bg-[#f84563]  rounded-md  border  border-transparent  hover:border-[#f84563]  hover:bg-white  hover:text-[#f84563] dark:hover:bg-[#efeff2] dark:hover:text-[#b9b7c0]'
                 >
                   {info ? 'Cập nhật' : 'Lưu mới'}
                 </button>

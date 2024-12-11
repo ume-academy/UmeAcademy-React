@@ -14,11 +14,13 @@ export const withdrawApiSlice = createApi({
       query: () => '/banks',
       transformResponse: (res: { data: [] }) => res?.data
     }),
+     
     getInfoWithdraw: builder.query({
       query: () => '/teacher/withdraw-method',
       transformResponse: (res: { data: TInfoWithdraw }) => res.data,
       providesTags: ['withdraw']
     }),
+
     addWithdraw: builder.mutation<TInfoWithdraw, TInfoWithdraw>({
       query: (info) => ({
         url: '/teacher/withdraw-method',
@@ -38,9 +40,11 @@ export const withdrawApiSlice = createApi({
 
     //ADMIN
     getAllWithdrawRequest: builder.query({
-      query: ({ per_page, page }) => `/admin/withdraw-request??per_page=${per_page}&page=${page}`,
+      query: ({ per_page, page, start_date, end_date }) =>
+        `/admin/withdraw-request??per_page=${per_page}&page=${page}&start_date=${start_date}&end_date=${end_date}`,
       providesTags: ['withdraw']
     }),
+
     updateStatusWithdrawRequest: builder.mutation<TInfoWithdraw, { id: number; status: number }>({
       query: ({ id, status }) => ({
         url: `/admin/withdraw-request/${id}`,

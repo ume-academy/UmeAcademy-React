@@ -57,15 +57,16 @@
 
 /* Ant Design Inputs */
 .ant-input {
-  border-color: #dce0eb !important; 
+  border-color: #dce0eb !important;
   outline: none !important;
-  box-shadow: none !important; 
+  box-shadow: none !important;
 }
 
 .ant-input:focus {
-  border-color: #f84563 !important;
+  border-color: #f84563 !important; /* Màu đỏ khi focus */
 }
 
+/* Chế độ tối */
 .dark .ant-input {
   color: #b9b7c0 !important;
   background-color: #2b2838 !important;
@@ -73,24 +74,32 @@
 }
 
 .dark .ant-input:focus {
-  border-color: #f84563 !important;
+  border-color: #f84563 !important; /* Màu đỏ khi focus trong chế độ tối */
 }
 
 /* Input with allowClear - Remove clear icon and reset border/box-shadow */
 .ant-input-clear {
-  display: none !important; /* Hide the clear icon */
+  display: none !important; /* Ẩn biểu tượng clear */
 }
 
+.ant-input-affix-wrapper,
 .ant-input-affix-wrapper {
-  border-color: #dce0eb !important; 
-  box-shadow: none !important; /* Remove box-shadow */
-  outline: none !important; /* Remove default focus outline */
-
+  border-color: #dce0eb !important;
+  box-shadow: none !important; /* Loại bỏ box-shadow */
+  outline: none !important; /* Loại bỏ outline mặc định khi focus */
 }
+
+.dark .ant-input-affix-wrapper,
 .dark .ant-input-affix-wrapper {
   color: #b9b7c0 !important;
   background-color: #2b2838 !important;
   border-color: #5a5a5a !important;
 }
 
-
+/* Chế độ tối - có feedback */
+.dark .ant-form-item-has-feedback {
+  color: #b9b7c0 !important;
+  background-color: #2b2838 !important;
+  border-color: #5a5a5a !important;
+  outline: none !important;
+}

@@ -3,22 +3,22 @@ import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TWithdrawalTransaction } from '@/interfaces/TWithdrawalTransaction'
 import { useGetWithdrawHistoriesQuery } from '@/redux/slices/teacher/withdraw/withdrawApiSlice'
 import '@/scss/PaginationAntd.scss'
-import { message, Pagination, Table, TableColumnsType, Tag } from 'antd'
-import { useState } from 'react'
+import { Pagination, Table, TableColumnsType, Tag } from 'antd'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 const Withdraw_Histories = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [messageApi, contextHolder] = message.useMessage()
-  const { data, isLoading, isFetching, error } = useGetWithdrawHistoriesQuery({ page: currentPage })
-
-  console.log(data)
-  console.log(error)
+  const { data, isLoading, isFetching, error, refetch } = useGetWithdrawHistoriesQuery({ page: currentPage })
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   const dataSource = data?.data.map((item: TWithdrawalTransaction, index: number) => ({
     key: index + 1,
@@ -96,8 +96,6 @@ const Withdraw_Histories = () => {
           showSizeChanger={false}
         />
       </div>
-
-      {contextHolder}
     </div>
   )
 }

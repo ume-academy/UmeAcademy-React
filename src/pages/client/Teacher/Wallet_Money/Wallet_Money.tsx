@@ -17,7 +17,7 @@ const Wallet_Money = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading } = useTransactionHistoryQuery({ page: currentPage })
   const { data: price, refetch } = useWalletBalanceQuery({})
-  const [withdrawlaRequest, { isLoading: loadingRequest }] = useCreateWithdrawalRequestMutation({})
+  const [withdrawlaRequest] = useCreateWithdrawalRequestMutation({})
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -70,11 +70,10 @@ const Wallet_Money = () => {
               name='money'
               rules={[
                 {
-                  required: true,
-                  message: 'Nhập số tiền bạn muốn yêu cầu'
-                },
-                {
                   validator: (_, value) => {
+                    if (!value) {
+                      return Promise.reject('Nhập số tiền bạn muốn yêu cầu')
+                    }
                     if (value < 100000) {
                       return Promise.reject('Số tiền rút tối thiểu là 100.000đ')
                     }

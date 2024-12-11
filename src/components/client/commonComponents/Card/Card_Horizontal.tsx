@@ -26,9 +26,6 @@ const Card_Horizontal = ({
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
   const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status)
 
-  console.log(is_wishlist)
-  console.log(status)
-
   useEffect(() => {
     setHeart(is_wishlist)
     setIsEnrolled(is_enrolled)
@@ -55,7 +52,7 @@ const Card_Horizontal = ({
             <motion.img
               src={thumbnail}
               alt='thumbnail'
-              className='image w-full md:w-[360px] h-[220px] object-cover'
+              className='image w-full  md:w-[340px] lg:w-[366px] h-[220px] object-cover'
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
             />
@@ -73,14 +70,21 @@ const Card_Horizontal = ({
                 {rating} ({total_review})
               </span>
             </span>
-            <div className='flex justify-between items-center'>
-              <div className='flex items-center'>
-                <img src={teacher?.avatar as string} alt='avatar' className='w-12 h-12 md:w-14 md:h-14 rounded-full' />
-                <div className='ml-3'>
-                  <p className='hover:text-[#ff5364] text-[16px] md:text-[17px]'>{teacher?.fullname}</p>
-                  <p className='md:text-sm'>Giảng viên</p>
+            <div className='flex justify-between items-start'>
+              <Link to={`${router.teacherInfoCourse.replace(':id', String(id))}`} className='hover:text-inherit'>
+                <div className='flex items-center'>
+                  <img
+                    src={teacher?.avatar as string}
+                    alt='avatar'
+                    className='w-12 h-12 md:w-14 md:h-14 rounded-full'
+                  />
+                  <div className='ml-3'>
+                    <p className='hover:text-[#ff5364] text-[16px] md:text-[17px] line-clamp-1'>{teacher?.fullname}</p>
+                    <p className='md:text-sm'>Giảng viên</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
+
               <div onClick={handleClick} className='cursor-pointer text-xl block md:hidden'>
                 {heart ? (
                   <HeartFilled className='text-[#ff5364] group-hover:text-white' />
@@ -93,7 +97,7 @@ const Card_Horizontal = ({
 
           <div className='space-y-5'>
             <h3 className='text-[17px] md:text-lg  hover:text-[#ff5364] line-clamp-2 md:mt-4'>{name}</h3>
-            <div className='flex items-center justify-between gap-4 pb-4'>
+            <div className='flex justify-between md:justify-start items-center gap-4 pb-4'>
               <div className='flex items-center gap-1'>
                 <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
                 <span>{total_lesson}+ Bài học</span>
@@ -121,8 +125,8 @@ const Card_Horizontal = ({
             {rating} ({total_review})
           </span>
         </span>
-        <Link to={targetPath}>
-          <button className='border-[3px] border-[#b4a7f5] py-2 px-6 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'>
+        <Link to={targetPath} className='hover:text-inherit'>
+          <button className='border-[3px] w-[120px] border-[#b4a7f5] py-3 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'>
             {buttonText}
           </button>
         </Link>

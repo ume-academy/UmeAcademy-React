@@ -170,7 +170,7 @@ const List_Transactions = () => {
         columns={columns}
         dataSource={dataSource}
         pagination={false}
-        scroll={{ x: 'max-content' }}
+        scroll={{ x: 1300 }}
         loading={isLoading}
       />
 
