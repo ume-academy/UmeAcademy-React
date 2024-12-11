@@ -1,0 +1,21 @@
+.ant-progress .ant-progress-inner:not(.ant-progress-circle-gradient) .ant-progress-circle-path {
+  stroke: #1677ff;
+}
+
+.dark .ant-progress .ant-progress-circle-trail {
+  stroke: #b9b7c0;
+}
+
+.dark .ant-progress.ant-progress-circle .ant-progress-text {
+    color: #fff;
+} 
+
+.ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td {
+  position: relative;
+  color: rgb(0 0 0 / 88%);
+  font-weight: 600;
+  text-align: start;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  transition: 0.2s ease;
+}

@@ -95,7 +95,7 @@ const List_Students = () => {
                 className='dark:bg-[#2b2838] dark:text-[#B9B7C0]'
               />
             ) : (
-              <div className='flex justify-center items-center h-[366px] dark:text-[#B9B7C0]'>Chưa có học viên</div>
+              <div className='flex justify-center items-center h-[366px] dark:text-[#B9B7C0]'>Chưa có mã giảm giá</div>
             )}
           </div>
         </div>

@@ -73,7 +73,6 @@ export const routerConfigTeacher = {
       `${router.listStudents}`,
       `${router.myCourses}`,
       `${router.withdrawalMethods}`,
-      `${router.withdrawMoney}`,
       `${router.formCourse}`,
       `${router.courseManagement}`,
       `${router.profileTeacher}`,

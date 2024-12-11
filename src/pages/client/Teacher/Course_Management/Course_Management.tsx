@@ -4,12 +4,12 @@ import { itemsStep_CourseManagement, routerConfigTeacher, useIsMobile, useIsTabl
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import useLoading from '@/hooks/useLoading'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
-import {useApprovalCourseMutation, useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
+import { useApprovalCourseMutation, useGetCourseAdminByIdQuery, useGetCourseByIdOfTeacherQuery } from '@/redux/slices/course/courseApiSlice'
 import { useRequestApprovalCourseMutation } from '@/redux/slices/teacher/requestApprovalCourse/requestApprovalCourseApiSlice'
-import { LoadingOutlined, MoonFilled, SunFilled, UsergroupDeleteOutlined } from '@ant-design/icons'
+import { LoadingOutlined, MoonFilled, SunFilled, TagOutlined, UsergroupDeleteOutlined } from '@ant-design/icons'
 import { Drawer, message, Steps, Tag, TreeSelect } from 'antd'
 import { TreeNode } from 'antd/es/tree-select'
-import { AlignJustify, ChevronLeft, X } from 'lucide-react'
+import { AlignJustify, ChevronLeft, TicketCheck, X } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -19,11 +19,15 @@ import './Course_Management_Antd.scss'
 import FormChapter from './FormChapter/Form_Chapter'
 import Targets from './Targets/Targets'
 import Voucher from './Voucher/Voucher'
+import List_Voucher from './List_Voucher/List_Voucher'
+import { Ticket } from 'lucide'
 
 const Course_Management = () => {
   const [openDrawer, setOpenDrawer] = useState(false) // State để kiểm soát việc mở và đóng drawer
   const [current, setCurrent] = useState(0) // State để kiểm soát step hiện tại
-  const [extraSelected, setExtraSelected] = useState(false) // State để kiểm soát mục mới
+  const [extraSelected, setExtraSelected] = useState(false) // State để kiểm soát danh sách học viên
+  const [extraSelectedVoucherList, setExtraSelectedVoucherList] = useState(false) // State để kiểm soát danh sách voucher
+
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const { id } = useParams() // Lấy id từ url
   const { loading, startLoading, stopLoading } = useLoading()
@@ -48,6 +52,7 @@ const Course_Management = () => {
     isFetching: isFetchingAdmin,
     refetch: isRefetchAdmin
   } = useGetCourseAdminByIdQuery(id, { skip: isTeacherRoute })
+
   const {
     data: dataCrouseTeacher,
     isLoading: isLoadingTeacher,
@@ -118,6 +123,7 @@ const Course_Management = () => {
   const handleStepChange = (current: number) => {
     setCurrent(current)
     setExtraSelected(false) // Khi chuyển step, tắt trạng thái extra
+    setExtraSelectedVoucherList(false)
     setOpenDrawer(false)
   }
 
@@ -125,6 +131,14 @@ const Course_Management = () => {
   const handleListStudent = () => {
     setExtraSelected(true) // Bật trạng thái extra khi người dùng bấm vào
     setCurrent(-1) // Đặt current thành -1 để không hiển thị các step
+    setExtraSelectedVoucherList(false)
+    setOpenDrawer(false)
+  }
+  // Hàm xử lý khi click button danh sách học viên
+  const handleListVoucher = () => {
+    setExtraSelected(false) // Bật trạng thái extra khi người dùng bấm vào
+    setCurrent(-1) // Đặt current thành -1 để không hiển thị các step
+    setExtraSelectedVoucherList(true)
     setOpenDrawer(false)
   }
 
@@ -158,8 +172,13 @@ const Course_Management = () => {
     }
     .dark & .ant-select-selector .ant-select-selection-placeholder {
       color: #e9ecef !important;
-    }
+    }import List_Voucher from './List_Voucher/List_Voucher';
+
   `
+
+  const filteredStep = isAdminRoute 
+  ? itemsStep_CourseManagement.filter((_, index) => index !== 3) // Ví dụ ẩn Step 2
+  : itemsStep_CourseManagement;
 
   return (
     <div>
@@ -202,6 +221,7 @@ const Course_Management = () => {
         className={`max-w-[768px] md:max-w-[1024px] lg:max-w-[1290px] mx-auto grid grid-cols-1 min-h-screen lg:grid-cols-[2fr_8fr] gap-5  ${!isAdminRoute ? 'pt-[60px] md:pt-[60px] lg:pt-[120px]' : 'pt-[40px] md:pt-10 lg:pt-[40px]'} pb-[60px]`}
       >
         {isMobile || isTable ? (
+          // Dành cho thiết bị di động và tablet
           <div className='custom-drawer'>
             <div className={`${!isAdminRoute ? 'pt-12' : 'pt-0'} px-[16px] flex justify-between items-center`}>
               <AlignJustify onClick={() => showDrawer()} color={theme === 'light' ? '#333' : '#fff'} />
@@ -257,22 +277,35 @@ const Course_Management = () => {
             </CustomDrawer>
           </div>
         ) : (
+          //Dành cho thiết bị desktop
           <>
-            <div className={`pt-12 ${!isAdminRoute ? 'pl-4' : 'pl-4'}`}>
+            <div className={`pt-10 ${!isAdminRoute ? 'pl-4' : 'pl-4'}`}>
               <Steps
-                className='min-h-[400px] font-desc text-[16px] pl-4 '
+                className='min-h-[360px] font-desc text-[16px] pl-4 '
                 onChange={handleStepChange}
                 direction='vertical'
                 current={current}
-                items={itemsStep_CourseManagement} // Các bước step được đặt trong contant client
+                items={filteredStep} // Các bước step được đặt trong contant client
               />
-              {/* Nút gửi yêu cầu */}
+              {/*  Danh sách voucher */}
+              <button className={`flex justify-center items-center pl-4 group mb-[40px]`} onClick={handleListVoucher}>
+                  <TagOutlined
+                    className={`w-[32px] h-[32px] flex justify-center items-center rounded-full mr-4 
+                    ${extraSelectedVoucherList ? 'bg-[#f66962] text-[#fff]' : 'bg-[#f0f0f0] dark:bg-[#2b2838] text-[#fff]'}`}
+                  />
+                  <p
+                    className={`font-desc text-[16px] ${extraSelectedVoucherList ? 'text-[#1e1e1e] dark:text-[#b9b7c0]' : 'text-[#c1b6d6] dark:text-[#777779]'}`}
+                  >
+                    Danh sách voucher
+                  </p>
+                </button>
               {!isAdminRoute ? (
                 <>
+                  {/* Danh sách học viên */}
                   <button className={`flex justify-center items-center pl-4 group`} onClick={handleListStudent}>
                     <UsergroupDeleteOutlined
                       className={`w-[32px] h-[32px] flex justify-center items-center rounded-full mr-4 
-                ${extraSelected ? 'bg-[#f66962] text-[#fff]' : 'bg-gray-200 dark:bg-[#2b2838] text-[#fff]'}
+                ${extraSelected ? 'bg-[#f66962] text-[#fff]' : 'bg-[#f0f0f0] dark:bg-[#2b2838] text-[#fff]'}
                 border-[2px] border-transparent group-hover:border-[#d9d9d9] group-hover:text-[#685f78] dark:group-hover:text-[#b9b7c0] dark:group-hover:border-transparent`}
                     />
                     <p
@@ -281,6 +314,8 @@ const Course_Management = () => {
                       Danh sách học viên
                     </p>
                   </button>
+
+                  {/* Duyệt khóa học */}
                   {dataCrouseTeacher?.status === 0 ? (<button 
                     onClick={() => handleRequestApprovalCourse()}
                     className='mt-12 px-4 py-2 rounded-lg cursor-pointer bg-[#f66962] w-full text-[#fff] flex justify-center hover:bg-transparent hover:text-[#f66962] border-[2px] border-[#f66962]'>
@@ -349,7 +384,8 @@ const Course_Management = () => {
           {current === 0 && <Form_Course courseData={courseData as any} isLoading={isLoading as any} />}
           {current === 1 && <Targets courseData={courseData as TCourseDetail} isLoading={isLoading} isRefetch={isRefetch} />}
           {current === 2 && <FormChapter courseData={courseData as TCourseDetail} isRefetch={isRefetch} />}
-          {current === 3 && <Voucher  isRefetch={isRefetch}/>}
+          {!isAdminRoute && current === 3 && <Voucher  isRefetch={isRefetch}/>}
+          {extraSelectedVoucherList && <List_Voucher isLoading={isLoading}  courseData={courseData as TCourseDetail}/>}
           {extraSelected && <List_Students />} {/* Render component khi extra được chọn */}
         </div>
       </div>
