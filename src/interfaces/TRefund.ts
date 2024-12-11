@@ -7,4 +7,5 @@ export interface TRefund{
   status: number; 
   student: string; 
   teacher: string;
+  transaction_code: string;
 }

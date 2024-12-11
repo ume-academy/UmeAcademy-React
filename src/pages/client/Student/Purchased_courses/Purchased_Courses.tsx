@@ -23,6 +23,7 @@ const Purchased_Courses = () => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
+  
 
   if (isLoading || isFetching)
     return (

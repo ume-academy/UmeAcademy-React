@@ -20,11 +20,11 @@ const Card_Horizontal = ({
   duration,
   is_wishlist,
   is_enrolled,
-  status
+  status, refund, transaction_code
 }: TCourse) => {
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
-  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status)
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, transaction_code)
 
   useEffect(() => {
     setHeart(is_wishlist)

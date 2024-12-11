@@ -29,7 +29,9 @@ const List_Refund = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({ per_page: 10, page: currentPage })
-  const [updateStatus] = useUpdateStatusRefundRequestMutation()
+  const [updateStatus] = useUpdateStatusRefundRequestMutation();
+
+  console.log(data)
 
   const filteredStatus = (withdraw: TRefund): boolean => {
     return selectedStatus === undefined || withdraw.status === Number(selectedStatus)
@@ -69,9 +71,9 @@ const List_Refund = () => {
     },
     {
       title: 'Số tiền',
-      key: 'money',
-      dataIndex: 'money',
-      render: (money: number) => <p>{formatPrice(money)}</p>,
+      key: 'price',
+      dataIndex: 'price',
+      render: (price: number) => <p>{formatPrice(price)}</p>,
       width: 110
     },
     {
@@ -92,6 +94,7 @@ const List_Refund = () => {
       title: 'Lý do hoàn trả',
       dataIndex: 'refund_reason',
       key: 'refund_reason',
+      render: (refund_reason: string) => <p>{refund_reason ? refund_reason : 'Trống'}</p>,
       width: 200
     },
     {
@@ -101,7 +104,7 @@ const List_Refund = () => {
       render: (status: number, record: TRefund) => {
         const handleStatusChange = async (value: number) => {
           try {
-            const res = await updateStatus({ id: record.id, status: value })
+            const res = await updateStatus({ transactionCode: record.transaction_code, status: value})
             if (res.data) {
               message.success('Cập nhật trạng thái yêu cầu hoàn tiền thành công')
             } else {

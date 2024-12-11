@@ -36,7 +36,8 @@ export const courseApiSlice = createApi({
 
     // ! Get purchased courses
     getPurchasedCourses: builder.query({
-      query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`
+      query: ({ per_page, page }) => `/purchased-courses?per_page=${per_page}&page=${page}`,
+      providesTags: ['Course']
     }),
 
     //! GET ALL COURSES FOR ADMIN

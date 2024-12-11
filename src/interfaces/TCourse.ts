@@ -1,3 +1,4 @@
+import { RcFile } from "antd/es/upload"
 import { TCategory } from "./TCategory"
 import { TLesson } from "./TLesson"
 import { TLevel } from "./TLevel"
@@ -29,7 +30,9 @@ export interface TCourse {
   badges: TBadges
   is_wishlist: boolean
   is_enrolled: boolean
-  created_at: string
+  created_at: string,
+  refund: boolean,
+  transaction_code: string
 }
 
 export interface TContent {
