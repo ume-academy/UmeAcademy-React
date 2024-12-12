@@ -23,6 +23,7 @@ const Sidebar_Admin: React.FC<Sidebar_Props> = ({ items }) => {
       <div className="flex justify-center p-4 bg-[#001529]" >
         <img src={logo} alt="logo" width={120} />
       </div>
+      
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
     </Sider>
   )

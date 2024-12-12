@@ -52,14 +52,13 @@ const List_Users = () => {
   const [unLockUser] = useUnLockUserMutation();
 
 
-  console.log()
+  console.log(users)
 
   useEffect(() => {
     if (users?.data) {
 
       if (users?.data) {
-        const usersData = users?.data?.filter((user: TUser) => user?.is_teacher === false);
-        setData(usersData);
+        setData(users?.data);
       } 
     }
   }, [users]);
@@ -132,10 +131,12 @@ const List_Users = () => {
   const columns: TableColumnsType<TUser> = [
     {
       title: "STT",
-      key: "stt",
-      render: (_, record, index: number) => <div>{index + 1}</div>,
+      render: (_, record, index: number) => {
+        // Tính toán STT dựa trên trang và số bản ghi mỗi trang
+        return (+users?.meta?.current_page - 1) * (+users?.meta?.per_page) + index + 1;
+      },
       width: 50,
-      align: "center"
+      align: "center",
     },
     {
       title: "Họ và tên",
@@ -231,18 +232,17 @@ const List_Users = () => {
           allowClear
         />
 
-        {/* <CustomTreeSelect
+        <CustomTreeSelect
           placeholder="Lọc theo vai trò"
           value={selectedRole}
           onChange={(value) => setSelectedRole(value as number)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
           treeData={[
-            { value: 1, title: 'Admin' },
-            { value: false, title: 'User' },
-            { value: true, title: 'Teacher' }
+            { value: false, title: 'Học viên' },
+            { value: true, title: 'Giảng viên' }
           ]}
           allowClear
-        /> */}
+        />
       </div>
       <Table
         columns={columns}
@@ -276,7 +276,7 @@ const List_Users = () => {
         </div> */}
 
         <Pagination
-          pageSize={users?.meta?.per_page}
+          pageSize={10}
           total={users?.meta?.total}
           current={users?.meta?.current_page}
           onChange={(page) => setPage(page)}

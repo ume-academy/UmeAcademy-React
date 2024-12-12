@@ -1,7 +1,11 @@
+import { logoutLocal } from "@/redux/slices/auth/authSlice"
+import { useGetProfileQuery } from "@/redux/slices/profile/profileApiSlice"
 import { MoonFilled, SunFilled } from "@ant-design/icons"
+import { Avatar, Button, message } from "antd"
 import { Header } from "antd/es/layout/layout"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
 
 type Header_AdminProps = {
   toggleTheme: () => void
@@ -13,6 +17,33 @@ type Header_AdminProps = {
 const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collapsed, onCollapse }) => {
 
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const nav = useNavigate();
+
+  const { data } = useGetProfileQuery({})
+
+  console.log(data);
+
+  const handleLogout = async () => {
+    // const tokenREF = Cookies.get('refresh_Token')
+
+    try {
+      // await logoutApi().unwrap()
+      // console.log(1)
+
+
+      dispatch(logoutLocal());
+
+
+
+      message.success('Đăng xuất thành công')
+      nav('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   const handleOpen = () => {
@@ -44,6 +75,30 @@ const Header_Admin: React.FC<Header_AdminProps> = ({ toggleTheme, theme, collaps
         <Link to="/">
           <img src="/assets/images/client/Logo/logo.png" className="w-[140px] h-[38px] object-cover" alt="" width="100" height="50" />
         </Link>
+      </div>
+
+      <div className="hidden lg:block px-0 lg:px-8">
+        <div className="flex gap-x-3 justify-between items-center" >
+          <div className="flex items-center gap-x-2">
+            <div className="avt">
+              <Avatar src={data?.avatar} size={42} />
+            </div>
+
+            <div className="info">
+              <p className=" text-sm font-title">{data?.fullname}</p>
+              <p className=" text-xs">{data?.email}</p>
+            </div>
+          </div>
+
+          <div className="">
+            <div
+              className="text-[#F84563] font-title cursor-pointer"
+              onClick={() => handleLogout()}
+            >
+              Đăng xuất
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="">

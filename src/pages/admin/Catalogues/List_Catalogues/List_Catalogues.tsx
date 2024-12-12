@@ -75,10 +75,13 @@ const List_Catalogues = () => {
 
   const columns = [
     {
-      title: 'STT',
-      dataIndex: 'key',
-      key: 'key',
-      align: 'center' as const
+      title: "STT",
+      render: (_: any, record: TCategory, index: number) => {
+        // Tính toán STT dựa trên trang và số bản ghi mỗi trang
+        return (+catalogues?.meta?.current_page - 1) * (+catalogues?.meta?.per_page) + index + 1;
+      },
+      width: 50,
+      align: "center" as const,
     },
     {
       title: 'Tên danh mục',

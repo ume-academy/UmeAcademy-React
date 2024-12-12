@@ -5,10 +5,11 @@ import {
   useGetAllRefundRequestQuery,
   useUpdateStatusRefundRequestMutation
 } from '@/redux/slices/transaction/refundApiSlice'
-import { message, Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
+import { message, Pagination, Select, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
+import './listAntd.scss'
 const CustomTreeSelect = styled(TreeSelect)`
   .ant-select-selector {
     background-color: #fafafa !important;
@@ -25,13 +26,15 @@ const CustomTreeSelect = styled(TreeSelect)`
     color: #e9ecef !important;
   }
 `
+
+
 const List_Refund = () => {
-  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
+  const [selectedStatus, setSelectedStatus] = useState<number | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({ per_page: 10, page: currentPage })
   const [updateStatus] = useUpdateStatusRefundRequestMutation();
 
-  console.log(data)
+  // console.log(data)
 
   const filteredStatus = (withdraw: TRefund): boolean => {
     return selectedStatus === undefined || withdraw.status === Number(selectedStatus)
@@ -40,7 +43,7 @@ const List_Refund = () => {
   const filteredData = data?.data?.filter((withdraw: TRefund) => filteredStatus(withdraw)) || []
 
   const dataSource = filteredData.map((item: TRefund, index: number) => ({
-    key: index + 1,
+    key: (currentPage - 1) * data?.meta?.per_page + index + 1,
     ...item
   }))
 
@@ -51,11 +54,13 @@ const List_Refund = () => {
 
   const columns: TableColumnsType<TRefund> = [
     {
-      title: 'STT',
-      dataIndex: 'key',
-      key: 'key',
-      align: 'center' as const,
-      width: 60
+      title: "STT",
+      render: (_, record, index: number) => {
+        // Tính toán STT dựa trên trang và số bản ghi mỗi trang
+        return (+data?.meta?.current_page - 1) * (+data?.meta?.per_page) + index + 1;
+      },
+      width: 50,
+      align: "center",
     },
     {
       title: 'Tên sinh viên',
@@ -74,7 +79,8 @@ const List_Refund = () => {
       key: 'price',
       dataIndex: 'price',
       render: (price: number) => <p>{formatPrice(price)}</p>,
-      width: 110
+      width: 110,
+      align: 'center' as const,
     },
     {
       title: 'Tên giảng viên',
@@ -88,7 +94,8 @@ const List_Refund = () => {
       key: 'created_at',
       dataIndex: 'created_at',
       render: (created_at: string) => <p>{formatDate(created_at)}</p>,
-      width: 160
+      width: 160,
+      align: 'center' as const,
     },
     {
       title: 'Lý do hoàn trả',
@@ -99,45 +106,46 @@ const List_Refund = () => {
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: number, record: TRefund) => {
-        const handleStatusChange = async (value: number) => {
-          try {
-            const res = await updateStatus({ transactionCode: record.transaction_code, status: value})
-            if (res.data) {
-              message.success('Cập nhật trạng thái yêu cầu hoàn tiền thành công')
-            } else {
-              message.error('Đã xảy ra lỗi khi cập nhật trạng thái yêu cầu hoàn tiền')
-            }
-            console.log(res)
-          } catch (error) {
-            console.log(error)
-          }
-        }
-        if (status === 2) {
-          return (
-            <CustomTreeSelect
-              value={undefined}
-              placeholder='Chờ phê duyệt'
-              onChange={(value) => handleStatusChange(value as number)}
-              className='w-full sm:w-40 h-10'
-              treeData={[
-                { value: 0, title: 'Từ chối' },
-                { value: 1, title: 'Phê duyệt' }
-              ]}
-            />
-          )
-        } else {
-          return (
-            <Tag className='text-sm w-full sm:w-40 py-[10px] text-center' color={status === 0 ? 'red' : 'green'}>
-              {status === 0 ? 'Đã từ chối' : 'Thành công'}
-            </Tag>
-          )
-        }
-      },
-      width: 100
+      render: (_: any, record: TRefund) => (
+        <Select
+          className='selectFormUpdate w-full text-red-600'
+          options={optionStatus}
+          value={record.status}
+          onChange={(value) => handleChangeStatus(value, record.transaction_code)}
+        />
+      ),
+      align: 'center' as const,
     }
+  ]
+
+  console.log(filteredData)
+
+  const handleChangeStatus = async (value: any, transactionCode: string) => {
+
+    // console.log('stt', value, ', code', transactionCode)
+
+    try {
+      const res = await updateStatus({ transactionCode: transactionCode, status: value });
+
+      console.log(res)
+
+
+      if (res.data) {
+        message.success((res as any).data.message)
+      } else {
+        message.error('Không thể quay trở lại trạng thái Chờ phê duyệt!')
+      }
+    } catch (error) {
+      console.log(error);
+
+      message.error('Đã xảy ra lỗi khi cập nhật trạng thái yêu cầu hoàn tiền!')
+    }
+  }
+
+  const optionStatus = [
+    { value: 0, label: 'Đã từ chối' },
+    { value: 1, label: 'Đã phê duyệt' },
+    { value: 2, label: 'Chờ phê duyệt' }
   ]
 
   return (
@@ -166,7 +174,7 @@ const List_Refund = () => {
           <CustomTreeSelect
             placeholder='Lọc theo trạng thái'
             value={selectedStatus}
-            onChange={(value) => setSelectedStatus(value as string)}
+            onChange={(value) => setSelectedStatus(value as number)}
             className='w-full sm:w-40 h-10'
             treeData={[
               { value: 0, title: 'Đã từ chối' },
@@ -184,6 +192,7 @@ const List_Refund = () => {
         pagination={false}
         scroll={{ x: 'max-content' }}
         loading={isLoading}
+        rowKey="key"
       />
 
       <div className='flex justify-between items-center my-6 text-sm'>
