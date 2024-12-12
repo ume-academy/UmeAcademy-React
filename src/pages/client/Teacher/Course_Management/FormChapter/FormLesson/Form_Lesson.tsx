@@ -1,11 +1,10 @@
 // ChapterList.tsx
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { TChapter, TFormLesson, TLesson } from '@/interfaces/TLesson'
-import { useCreateLessonMutation, useUpdateLessonMutation } from '@/redux/slices/lesson/lessonApiSlice'
+import { useCreateLessonMutation, useUpdateLessonMutation, useUpdatePreviewVideoMutation } from '@/redux/slices/lesson/lessonApiSlice'
 import { validateVideoFile } from '@/Validators/upload_lesson_validator'
-import { DeleteFilled, DeleteOutlined, EditFilled, UploadOutlined } from '@ant-design/icons'
-import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Upload, UploadFile, UploadProps } from 'antd'
-import { fi } from 'date-fns/locale'
+import { DeleteFilled, EditFilled, UploadOutlined } from '@ant-design/icons'
+import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Space, Switch, Tooltip, Upload, UploadFile, UploadProps } from 'antd'
 import { ChevronRight } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -23,12 +22,12 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   const id_Course = id
   const [createLesson] = useCreateLessonMutation()
   const [updateLesson] = useUpdateLessonMutation()
-
+  const [updateIsPreview] = useUpdatePreviewVideoMutation()
+  
   // <==== State cho Upload video===>
   const [fileListVideo, setFileListVideo] = useState<UploadFile[]>([])
 
-
-  // Chuyển đổi `lessons` thành định dạng `fileList`
+  // Chuyển đổi `lessonsData` thành định dạng `fileList`
   useEffect(() => {
     if (chapter?.lessons) {
       const initialFiles = chapter.lessons
@@ -86,6 +85,42 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
     }
   }
 
+  const handleChangeIsPreview = async (chapter_id: number, lesson_id: number, checked: boolean) => {
+    Modal.confirm({
+      title: (
+        <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>
+      ),
+      content: (
+        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
+          Bạn có chắc chắn muốn <span className='font-desc'>"{checked ? "mở xem trước" : "khóa xem trước"}"</span> video này không?
+        </p>
+      ),
+      okText: 'Đồng ý',
+      okType: 'danger',
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' },
+      },
+      cancelButtonProps: {
+        className: "custom-cancel-btn",
+      },
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false, 
+      width: 600,
+      icon: null,
+      onOk: async () => {
+        try {
+          if(id){
+            updateIsPreview({id_course: Number(id_Course), id_chapter: chapter_id, id_lesson: lesson_id, isPreview: checked}).unwrap()
+            isRefetch()
+            message.success('Cập nhật trạng thái xem trước video thành công')
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    });
+  }
 
   // <==== Xử lí logic cho CẬP NHẬT & THÊM bài học =====>
   const handleFormLesson = (id_chapter: number, lesson?: TFormLesson) => {
@@ -138,11 +173,12 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   // <==== Kết thúc xử lí logic cho CẬP NHẬT & THÊM chương =====>
 
 
-  // <==== Hàm này để setFileList khi đã có video thì sẽ ẩn button upload đi ===>
-  const handleUploadFile: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
-    setFileListVideo(newFileList)
-  }
+  // // <==== Hàm này để setFileList khi đã có video thì sẽ ẩn button upload đi ===>
+  // const handleUploadFile: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
+  //   setFileListVideo(newFileList)
+  // }
   // <====Kết thúc Upload ====>
+
   const getToken = localStorage.getItem('access_Token')
   // <==== Bắt đầu collapse con ====>
   const listLesson = (chapter_id: number, lesson: TLesson, index: number): CollapseProps['items'] => [
@@ -244,11 +280,24 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                   )
                 )}
               </Upload>
-              {!hideCourseFunction && (<>
-                <DeleteOutlined
-                  onClick={() => handleChangeDeleteChapter(2)}
-                  className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
-                />
+              {!hideCourseFunction && fileListVideo.some((file) => file.uid === `${lesson.id}`) && (<>
+                <div className="flex flex-col justify-around">
+                  <Space direction="vertical" key={index + 1}>
+                    <Tooltip title="Cho xem trước video không">
+                    <Switch
+                      checkedChildren="Mở"
+                      unCheckedChildren="Đóng"
+                      onChange={(checked) => handleChangeIsPreview(chapter_id, lesson.id, checked)}
+                      checked={lesson.is_preview}
+                    />
+                    </Tooltip>
+                  {/* <DeleteOutlined
+                    onClick={() => handleChangeDeleteChapter(2)}
+                    className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
+                  /> */}
+                  </Space>
+                </div>
+
               </>)}
               {/* <Upload
                 listType='picture'

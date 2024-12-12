@@ -1,3 +1,5 @@
+import { is } from "date-fns/locale"
+
 export interface TLessonByCourseID  {
   chapters: TChapter[]
 }
@@ -32,6 +34,7 @@ export interface TFormLesson {
   name: string,
   video_link?: string,
   video_duration?: number
+  is_preview?: boolean
 }
 
 export interface TLesson {

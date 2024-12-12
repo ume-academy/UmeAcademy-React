@@ -20,7 +20,7 @@ export const lessonApiSlice = createApi({
 
     createLesson: builder.mutation<void, { id_course: number; id_chapter: number; lesson: TFormLesson }>({
       query: ({ id_course, id_chapter, lesson }) => {
-        console.log(name, id_course)
+        console.log(id_course)
         return {
           url: `/teacher/course/${id_course}/chapter/${id_chapter}/lessons`,
           method: 'POST',
@@ -38,7 +38,19 @@ export const lessonApiSlice = createApi({
           body: { name: lesson.name }
         }
       }
+    }),
+
+    updatePreviewVideo: builder.mutation<void, { id_course: number; id_chapter: number; id_lesson: number; isPreview: boolean }>({
+      query: ({ id_course, id_chapter, id_lesson, isPreview }) => {
+        return {
+          url: `/teacher/course/${id_course}/chapter/${id_chapter}/lesson/${id_lesson}/videos`,
+          method: 'PUT',
+          body: { is_preview: isPreview === true ? 1 : 0 }
+        }
+      }
     })
+
+
   })
 })
 
@@ -46,5 +58,6 @@ export const {
   useGetLessonByCourseIdQuery, 
   usePostCompletedLessonMutation, 
   useCreateLessonMutation,
-  useUpdateLessonMutation
+  useUpdateLessonMutation,
+  useUpdatePreviewVideoMutation
  } = lessonApiSlice
