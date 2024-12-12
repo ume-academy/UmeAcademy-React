@@ -5,6 +5,7 @@ export const router = {
   home: '/',
 
   // < ===== AUTH ===== >
+  loginAdmin: '/login-admin',
   login: '/login',
   register: '/register',
   forgot_password: '/forgot_password',

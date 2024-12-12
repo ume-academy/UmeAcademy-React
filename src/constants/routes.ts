@@ -48,6 +48,8 @@ import Favorite_Courses from '@/pages/client/Student/Courses/Favorite_Course/Fav
 import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
 import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
 import Teacher_Info_Course from '@/pages/client/Student/Teacher_Info_Course/Teacher_Info_Course'
+import Dashboard from '@/pages/admin/Dashboard/Dashboard'
+import Login_Admin from '@/pages/admin/Auth/Login/Login_Admin'
 
 // Routes cho student
 export const studentRoutes = [
@@ -90,6 +92,7 @@ export const teacherRoutes = [
 
 // Routes cho auth
 export const authRoutes = [
+  { path: router.loginAdmin, element: Login_Admin },
   { path: router.login, element: Login },
   { path: router.register, element: Register },
   { path: router.forgot_password, element: ForgotPassword },
@@ -100,7 +103,8 @@ export const authRoutes = [
 
 // Routes cho admin
 export const adminRoutes = [
-  { path: router.dashBoard, element: '<h1>Dashboard</h1>' },
+  // { path: router.loginAdmin, element: '<h1>Login</h1>' },
+  { path: router.dashBoard, element: Dashboard },
   { path: router.usersSystem, element: System_Users },
   { path: router.userSystemCreate, element: Create_User_System },
   { path: router.users, element: List_Users },

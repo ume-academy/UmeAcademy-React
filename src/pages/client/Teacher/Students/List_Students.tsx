@@ -22,11 +22,13 @@ const List_Students = () => {
 
   const columns: TableColumnType<TStudent>[] = [
     {
-      title: 'STT',
-      dataIndex: 'key',
-      key: 'key',
-      render: (_, __, index: number) => <p>{index + 1}</p>,
-      align: 'center'
+      title: "STT",
+      render: (_, record, index: number) => {
+        // Tính toán STT dựa trên trang và số bản ghi mỗi trang
+        return (+data?.meta?.current_page - 1) * (+data?.meta?.per_page) + index + 1;
+      },
+      width: 50,
+      align: "center",
     },
     {
       title: 'Ảnh',

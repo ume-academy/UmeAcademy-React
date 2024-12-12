@@ -30,6 +30,10 @@ const Header = () => {
   const { data } = useGetProfileQuery({})
   const dispatch = useDispatch()
 
+  const userExist = localStorage.getItem('access_Token');
+
+  // console.log(userExist)
+
   // Lấy số lượng kh yêu thích
   const { data: favCourses, isLoading, isFetching } = useGetAllFavoriteCoursesQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -192,7 +196,7 @@ const Header = () => {
                 <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
-            {!isTeacherLayout && (
+            {!isTeacherLayout || !userExist && (
               <>
                 {/* search input */}
                 <Search />
