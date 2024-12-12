@@ -155,7 +155,6 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
         smoothScrollToTop()
         message.success('Cập nhật khóa học thành công')
       }else {
-        console.log(data)
         const {name, category_id, level_id, summary } = data
       
         // Tạo FormData
@@ -170,9 +169,9 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
         }
 
         // Gửi FormData
-        await createCourse({ formData }).unwrap();
+        const  result = await createCourse({ formData }).unwrap();
+        nav(router.courseManagement.replace(':id', result?.data?.id.toString()))
         message.success('Tạo khóa học thành công');
-        nav(router.myCourses)
       }
       stopLoading();
 
@@ -296,6 +295,13 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                           focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                       placeholder='Giá khóa học'
                       disabled={hideCourseFunctionAdmin}
+                      onChange={(e) => {
+                        let value = Number(e.target.value);
+                        if (value < 0) {
+                          form.setFieldsValue({ price: 0 });
+                        }
+                      }}
+                      
                     />
                     </Form.Item>
                   </div>
@@ -315,6 +321,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       ]}
                     >
                       <Dragger
+                        accept='video/*'
                         name='file'
                         listType='picture'
                         maxCount={1}
@@ -377,6 +384,7 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                   ]}
                 >
                   <Dragger
+                    accept='image/*'
                     name='file'
                     listType='picture'
                     maxCount={1}
@@ -438,13 +446,10 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
                       {max: 255, message: 'Tóm tắt không được vượt quá 255 ký tự.'}
                     ]}
                   >
-                  <TextArea
-                    style={{
-                      height: 160,
-                    }}
-                    className='p-[16px]  w-full bg-[#fafafa] border-[#c1c9d2] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0] block
-                   dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
-                  focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa] focus:outline-none font-desc text-[14px] rounded-lg leading-[1.5]'
+                  <Input
+                    className='w-full py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#2b2838] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                    h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                    focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
                     placeholder='Tóm tắt khóa học'
                     disabled={hideCourseFunctionAdmin}
                   />

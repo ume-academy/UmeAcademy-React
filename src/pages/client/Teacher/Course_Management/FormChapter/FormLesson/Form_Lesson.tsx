@@ -178,6 +178,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
               className={`grid  ${!hideCourseFunction ? 'grid-cols-[3fr_1fr] md:grid-cols-[4fr_1fr] lg:grid-cols-[11.5fr_0.5fr]' : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 place-items-center'} gap-4 w-full mb-5 min-h-6`}
             >
               <Upload 
+                accept='video/*'
                 disabled={hideCourseFunction} // Disable button upload nếu là
                 listType='picture'
                 fileList={fileListVideo.filter((file) => file.uid === `${lesson.id}`)}

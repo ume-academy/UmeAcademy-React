@@ -167,7 +167,7 @@ const Voucher = ({isRefetch}: VoucherProps ) => {
             />
             </Form.Item>
             
-            <Form.Item
+            <Form.Item 
               name='end_date'
               label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ngày kết thúc</label>}
               className='w-full'

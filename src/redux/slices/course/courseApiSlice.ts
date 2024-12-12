@@ -107,7 +107,7 @@ export const courseApiSlice = createApi({
     }),
 
     // CREATE COURSE OF TEACHER
-    createCourseOfTeacher: builder.mutation<string, { formData: FormData }>({
+    createCourseOfTeacher: builder.mutation<{ data: {id: string}}, { formData: FormData }>({
       query: (data) => ({
         url: '/teacher/courses',
         method: 'POST',

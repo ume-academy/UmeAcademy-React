@@ -175,7 +175,7 @@ const Course_Management = () => {
     }import List_Voucher from './List_Voucher/List_Voucher';
 
   `
-
+  // Kiểm tra layout nếu là admin thì ẩn step nào đó 
   const filteredStep = isAdminRoute 
   ? itemsStep_CourseManagement.filter((_, index) => index !== 3) // Ví dụ ẩn Step 2
   : itemsStep_CourseManagement;
