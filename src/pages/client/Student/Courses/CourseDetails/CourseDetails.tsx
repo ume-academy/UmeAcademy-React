@@ -1,23 +1,27 @@
 import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 import { router } from '@/configs/routes'
+import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
+import { Avatar, Collapse, Form, message, Modal, Rate } from 'antd'
 import {
   useAddCourseToFavoriteMutation,
   useGetContentCourseByIdQuery,
   useGetInfoCourseByIdQuery,
-  useGetOverviewCourseByIdQuery,
-  useGetReviewsCourseByIdQuery,
   useRemoveCourseInFavoriteMutation
 } from '@/redux/slices/course/courseApiSlice'
-import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
-import { Avatar, Collapse, message, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
 import { vi } from 'date-fns/locale'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, useParams } from 'react-router-dom'
 import { getTitleTab } from '../../../../../constants/client'
 import './CourseDetailsAntd.scss'
 import styles from './couseDetails.module.scss'
+import {
+  useGetOverviewCourseByIdQuery,
+  useGetReviewsCourseByIdQuery,
+  useSendReviewCourseMutation
+} from '@/redux/slices/course/reviewCourseApiSlice'
+import { TReviewCourse } from '@/interfaces/TReviewCourse'
 
 const CourseDetails = () => {
   const [modal2Open, setModal2Open] = useState(false)
@@ -26,12 +30,34 @@ const CourseDetails = () => {
 
   const { id } = useParams()
 
-  const { data: course, isLoading, isFetching, isError, error } = useGetInfoCourseByIdQuery(id)
+  const { data: course, isLoading, isFetching, refetch } = useGetInfoCourseByIdQuery(id)
   const { data: courseContent } = useGetContentCourseByIdQuery(id)
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id)
   const { data: courseOverview } = useGetOverviewCourseByIdQuery(id)
   const [addToFav] = useAddCourseToFavoriteMutation()
   const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
+
+  const [sendReview, { error }] = useSendReviewCourseMutation({})
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    refetch()
+  }, [])
+
+  useEffect(() => {
+    const errMess = (error as { data: any })?.data
+    if (errMess) {
+      message.error(errMess.error)
+    }
+  }, [error])
+
+  const handleSendReview = async (data: TReviewCourse) => {
+    try {
+      await sendReview({ id: Number(id), rating: data.rating, content: data.content }).unwrap()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const [currentVideoPath, setCurrentVideoPath] = useState('')
 
@@ -49,7 +75,9 @@ const CourseDetails = () => {
 
       course?.is_wishlist ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
 
-      message.success(`${course?.is_wishlist ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+      message.success(
+        `${course?.is_wishlist ? 'Xóa khóa học khỏi danh sách yêu thích thành công!' : 'Thêm mới khóa học vào danh sách yêu thích thành công!'} `
+      )
     } catch (error) {
       console.log(error)
       return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
@@ -169,7 +197,7 @@ const CourseDetails = () => {
                         fill='#F66962'
                       />
                     </svg>
-                    <p>Tổng {course?.total_chapter} bài học</p>
+                    <p>Tổng {course?.total_chapter} chương</p>
                   </div>
 
                   <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
@@ -422,11 +450,11 @@ const CourseDetails = () => {
                                 md:flex-row 
                               `}
                           >
-                            <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                            <div className={`${styles['infoLeft']} flex items-center md:items-start`}>
                               <div className={`${styles['avt']}`}>
                                 <Avatar
                                   src={feedback?.user?.avatar}
-                                  className='w-[40px] h-[40px]  md:w-[60px] md:h-[60px] '
+                                  className='w-[46px] h-[46px]  md:w-[60px] md:h-[60px] '
                                 />
                               </div>
 
@@ -441,7 +469,7 @@ const CourseDetails = () => {
                                 </div>
 
                                 <div className='flex items-center gap-6 text-sm dark:text-[#B9B7C0]'>
-                                  <Rate disabled defaultValue={feedback?.rating} />
+                                  <Rate disabled defaultValue={feedback?.rating} className='text-sm md:text-[16px]' />
 
                                   {/* feedback at */}
                                   <span>{formatDate(feedback?.created_at)}</span>
@@ -484,15 +512,6 @@ const CourseDetails = () => {
                         </div>
 
                         <div className='contentFeedbackModal flex flex-col md:flex-row items-stretch py-6'>
-                          {/* rating chart */}
-                          <div className='left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]'>
-                            <div className=''>
-                              <form action=''>
-                                <input type='text' placeholder='Tìm kiếm đánh giá' className='border p-2 w-full' />
-                              </form>
-                            </div>
-                          </div>
-
                           <div className='right flex-1 p-0 md:p-6 relative w-full h-[480px]'>
                             <div className='flex-1 overflow-y-auto h-full px-0 md:px-4'>
                               {courseReviews?.data?.map((feedback: any, index: number) => (
@@ -500,7 +519,7 @@ const CourseDetails = () => {
                                   <div
                                     className={`${styles['info']} flex flex-col justify-start items-start space-y-2 md:space-y-0 md:justify-between md:items-center md:flex-row`}
                                   >
-                                    <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-3`}>
+                                    <div className={`${styles['infoLeft']} flex items-center md:items-start space-x-1`}>
                                       <div className={`${styles['avt']}`}>
                                         <Avatar
                                           src={feedback?.user?.avatar}
@@ -519,7 +538,11 @@ const CourseDetails = () => {
                                         </div>
 
                                         <div className='flex items-center gap-3 text-sm dark:text-[#B9B7C0]'>
-                                          <Rate disabled defaultValue={feedback?.rating} className='text-[16px]' />
+                                          <Rate
+                                            disabled
+                                            defaultValue={feedback?.rating}
+                                            className='text-sm md:text-[16px]'
+                                          />
 
                                           {/* feedback at */}
                                           <span>{formatDate(feedback?.created_at)}</span>
@@ -547,64 +570,54 @@ const CourseDetails = () => {
               </div>
 
               {/* Post Comment */}
-              <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
-                <div className={`${styles['heading']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
-                  <h5>Viết đánh giá</h5>
-                </div>
-
-                {userExist ? (
+              {course?.is_enrolled && (
+                <div className={`${styles['postComment']} dark:bg-[#2B2838] bg-white p-6 rounded-xl space-y-4`}>
+                  <div className={`${styles['heading']} dark:text-[#B9B7C0] text-[#392c7d] font-title`}>
+                    <h5>Viết đánh giá</h5>
+                  </div>
                   <div className={`${styles['content']}`}>
-                    <form action=''>
+                    <Form form={form} onFinish={handleSendReview}>
                       <div className='flex flex-col space-y-4'>
-                        <div className={`${styles['formGroup']} space-x-0 space-y-4 md:space-x-4 md:space-y-0`}>
-                          <input
-                            type='text'
-                            placeholder='Tên hiển thị'
-                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                          />
-
-                          <input
-                            type='email'
-                            placeholder='Email'
-                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
-                          />
+                        {/* Đánh giá */}
+                        <div className='flex items-center space-x-2'>
+                          <p className='dark:text-[#B9B7C0] text-[#392c7d] text-sm m-0'>Điểm đánh giá:</p>
+                          <Form.Item
+                            name='rating'
+                            rules={[{ required: true, message: 'Vui lòng chọn điểm đánh giá!' }]}
+                            className='m-0'
+                          >
+                            <Rate className='text-red' />
+                          </Form.Item>
                         </div>
 
-                        <div className={`${styles['formGroup']}`}>
-                          <div className='flex items-center gap-2'>
-                            <label className='dark:text-[#B9B7C0] text-[#392c7d] text-[13px]'>Đánh giá:</label>
-                            <Rate className='text-red' defaultValue={1} />
-                          </div>
-                        </div>
-
-                        <div className={`${styles['formGroup']}`}>
+                        {/* Nội dung bình luận */}
+                        <Form.Item
+                          name='content'
+                          rules={[
+                            { required: true, message: 'Vui lòng nhập nội dung bình luận!' },
+                            { max: 1000, message: 'Nội dung đánh giá không đưọc vượt quá 1000 kí tự' }
+                          ]}
+                        >
                           <textarea
                             rows={5}
                             placeholder='Viết bình luận'
-                            className='dark:bg-[#131022] bg-[#e5e5e5] dark:text-[#B9B7C0]'
+                            className='dark:bg-[#131022] bg-[#f5f5f5] dark:text-[#B9B7C0] w-full p-3 outline-none rounded-md'
                           />
-                        </div>
+                        </Form.Item>
 
-                        <div>
+                        {/* Nút đăng bình luận */}
+                        <Form.Item>
                           <button
-                            className={`${styles['btn']} rounded-full py-2 px-6 dark:bg-transparent dark:text-[#B9B7C0] `}
+                            className={`${styles['btn']} text-lg rounded-full py-2 px-6 dark:bg-transparent dark:text-[#B9B7C0]`}
                           >
                             Đăng bình luận
                           </button>
-                        </div>
+                        </Form.Item>
                       </div>
-                    </form>
+                    </Form>
                   </div>
-                ) : (
-                  <div className='text-center text-sm md:text-lg'>
-                    Vui lòng{' '}
-                    <Link to={'/login'} className='underline text-[#F87171]'>
-                      đăng nhập
-                    </Link>{' '}
-                    để viết đánh giá!
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             <div className={`${styles['right']} space-y-6`}>

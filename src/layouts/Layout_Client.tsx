@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { routerConfig } from '../constants/client'
+import { smoothScrollToTop } from '@/constants/utils'
 
 const Layout_Client = () => {
   const [isVisible, setisVisible] = useState(false)
@@ -17,9 +18,9 @@ const Layout_Client = () => {
 
   useEffect(() => {
     const toogleVisible = () => {
-      if(window.scrollY > 500) {
+      if (window.scrollY > 500) {
         setisVisible(true)
-      }else{
+      } else {
         setisVisible(false)
       }
     }
@@ -28,41 +29,39 @@ const Layout_Client = () => {
     return () => window.removeEventListener('scroll', toogleVisible)
   }, [])
 
-  // Hàm cuộn mượt về đầu trang
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div>
       <div className='dark:bg-[#131022] min-h-screen flex flex-col'>
-        {!hidenHeaderFotter && (<><Header /> <Header_Mobile_Tablet /></>)}
-        <main className='flex-grow'><Outlet /></main>
+        {!hidenHeaderFotter && (
+          <>
+            <Header /> <Header_Mobile_Tablet />
+          </>
+        )}
+        <main className='flex-grow'>
+          <Outlet />
+        </main>
         {!hidenHeaderFotter && <Footer />}
         {isVisible && (
           <motion.button
-          onClick={scrollToTop}
-          initial={{ opacity: 0, y: 100 }}  // Bắt đầu ở dưới
-          animate={{ opacity: 1, y: 0 }}    // Xuất hiện tại vị trí 0
-          whileHover={{ scale: 1.2 }}       // xác định trạng thái khi hover vào nút.
-          whileTap={{ scale: 0.9 }}         // Hiệu ứng sau khi click
-          style={{
-            position: "fixed",
-            bottom: "2rem",
-            right: "2rem",
-            padding: "0.5rem 0.8rem",
-            backgroundColor: "#f66962",
-            color: "#fff",
-            border: "none",
-            borderRadius: "0.5rem",
-            cursor: "pointer",
-          }}
-        >
-          ⬆ 
-        </motion.button>
+            onClick={smoothScrollToTop}
+            initial={{ opacity: 0, y: 100 }} // Bắt đầu ở dưới
+            animate={{ opacity: 1, y: 0 }} // Xuất hiện tại vị trí 0
+            whileHover={{ scale: 1.2 }} // xác định trạng thái khi hover vào nút.
+            whileTap={{ scale: 0.9 }} // Hiệu ứng sau khi click
+            style={{
+              position: 'fixed',
+              bottom: '2rem',
+              right: '2rem',
+              padding: '0.5rem 0.8rem',
+              backgroundColor: '#f66962',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer'
+            }}
+          >
+            ⬆
+          </motion.button>
         )}
       </div>
     </div>

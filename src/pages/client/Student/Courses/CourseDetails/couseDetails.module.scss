@@ -1,7 +1,5 @@
 .wrapper {
   .overviewTeacher {
-    // background-image: url('');
-
     background-repeat: no-repeat;
     background-size: cover;
     color: #fff;
@@ -53,7 +51,6 @@
         }
 
         .courseDescription {
-
           h6 {
             font-size: 16px;
           }
@@ -97,7 +94,6 @@
         color: #000;
         border: 1px solid #e9ecef;
 
-
         .heading {
           font-size: 18px;
           // color: #392c7d;
@@ -127,7 +123,6 @@
         // background-color: #fff;
         // color: #000;
         border: 1px solid #e9ecef;
-
 
         .headingFeedback {
           font-size: 18px;
@@ -178,9 +173,7 @@
               width: 100%;
               display: flex;
 
-
-              input,
-              textarea {
+              input {
                 flex: 1;
                 border: 1px solid #e2e2e2;
                 padding: 10px;
@@ -192,7 +185,7 @@
 
             .btn {
               width: 30%;
-              border: 4px solid #f66962;
+              border: 3px solid #f66962;
 
               // background-color:
               // color: black;
@@ -310,8 +303,6 @@
         }
       }
     }
-
-
   }
 }
 
@@ -371,7 +362,6 @@
           color: #000;
           border: 1px solid #e9ecef;
           padding: 16px;
-
 
           .heading {
             font-size: 18px;
@@ -450,7 +440,7 @@
               // border: 1px solid #000;
               border-left: none;
               border-right: none;
-              
+
               display: flex;
               justify-content: space-between;
             }
@@ -534,9 +524,9 @@
 
                 &:hover {
                   background-color: #f66962;
-                  color: #B9B7C0;
+                  color: #b9b7c0;
                 }
-              } 
+              }
             }
           }
         }
@@ -645,7 +635,6 @@
       }
     }
   }
-
 }
 
 @media (max-width: 1024px) {
@@ -705,7 +694,7 @@
     .content {
       display: flex !important;
       flex-direction: column-reverse !important;
-      
+
       padding: 0 16px;
 
       .left {
@@ -717,7 +706,6 @@
           color: #000;
           border: 1px solid #e9ecef;
           padding: 16px;
-
 
           .heading {
             font-size: 16px;
@@ -796,7 +784,7 @@
               // border: 1px solid #000;
               border-left: none;
               border-right: none;
-              
+
               display: flex;
               justify-content: space-between;
             }
@@ -808,7 +796,6 @@
           // color: #000;
           border: 1px solid #e9ecef;
           padding: 16px;
-          
 
           .heading {
             font-size: 16px;
@@ -993,15 +980,12 @@
       }
     }
   }
-
 }
 
 @media (max-width: 768px) {
-
-
   .wrapper .content .right {
     position: unset;
     width: 100%;
   }
 }
-
+ 

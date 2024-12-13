@@ -6,6 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Footer from '../components/client/commonComponents/Footer/Footer'
 import Header from '../components/client/commonComponents/Header/Header'
 import Sidebar_Teacher from '@/components/client/teacher/SidebarTeacher/Sidebar_Teacher'
+import { smoothScrollToTop } from '@/constants/utils'
 
 const Layout_Teacher = () => {
   const [isVisible, setisVisible] = useState(false)
@@ -36,26 +37,26 @@ const Layout_Teacher = () => {
     return () => window.removeEventListener('scroll', toogleVisible)
   }, [])
 
-  // Hàm cuộn mượt về đầu trang
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
   return (
-    <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}><div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
-    {!hidenHeaderFotterWithId && ((<><Header /> <Header_Mobile_Tablet /></>))}
-    <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] max-w-[1280px] mx-auto' } `}>
-      <div className='flex flex-col lg:flex-row gap-4'>
-        {/* Sidebar */}
-        {!(hideSideBar || hideSideBarWithId) && (
-          <div className='p-4 w-[100%] lg:w-[25%] lg:p-0'>
-          <Sidebar_Teacher />
-        </div>
+    <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
+      <div className={`dark:bg-[#131022] ${hidenHeaderFotterWithId ? '' : 'bg-[#fafafa]'}`}>
+        {!hidenHeaderFotterWithId && (
+          <>
+            <Header /> <Header_Mobile_Tablet />
+          </>
         )}
+        <div className={`${hidenHeaderFotterWithId ? 'py-0' : 'py-[140px] max-w-[1280px] mx-auto'} `}>
+          <div className='flex flex-col lg:flex-row gap-4'>
+            {/* Sidebar */}
+            {!(hideSideBar || hideSideBarWithId) && (
+              <div className='p-4 w-[100%] lg:w-[25%] lg:p-0'>
+                <Sidebar_Teacher />
+              </div>
+            )}
 
-        <div className='flex-1'><Outlet /></div>
+            <div className='flex-1'>
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
@@ -63,7 +64,7 @@ const Layout_Teacher = () => {
       {!hidenHeaderFotterWithId && <Footer />}
       {isVisible && (
         <motion.button
-          onClick={scrollToTop}
+          onClick={smoothScrollToTop}
           initial={{ opacity: 0, y: 100 }} // Bắt đầu ở dưới
           animate={{ opacity: 1, y: 0 }} // Xuất hiện tại vị trí 0
           whileHover={{ scale: 1.2 }} // xác định trạng thái khi hover vào nút.

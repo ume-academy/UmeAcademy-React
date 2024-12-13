@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
-import { routerConfig } from '../../../../../constants/client'
-import { easeInOut, motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
 import Card from '@/components/client/commonComponents/Card/Card'
 import { TCourse } from '@/interfaces/TCourse'
-import { useGetInfoCourseByIdQuery } from '@/redux/slices/course/courseApiSlice'
+import { useGetAllCoursesQuery } from '@/redux/slices/course/courseApiSlice'
+import { easeInOut, motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { routerConfig } from '../../../../../constants/client'
+import { router } from '@/configs/routes'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -20,15 +21,7 @@ const FeaturedCourses = () => {
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
   //data card
-  const { data: data1 } = useGetInfoCourseByIdQuery(22)
-  const { data: data2 } = useGetInfoCourseByIdQuery(24)
-  const { data: data3 } = useGetInfoCourseByIdQuery(25)
-  const { data: data4 } = useGetInfoCourseByIdQuery(32)
-
-  const course: TCourse = data1
-  const course2: TCourse = data2
-  const course3: TCourse = data3
-  const course4: TCourse = data4
+  const { data } = useGetAllCoursesQuery({ per_page: 4, page: 1 })
 
   return (
     <div className=''>
@@ -51,7 +44,7 @@ const FeaturedCourses = () => {
                 <h1 className='dark:text-[#B9B7C0] text-[#0b0b0b] text-[36px] font-title'>Các khóa học nổi bật</h1>
               </div>
               <Link
-                to={``}
+                to={`${router.listAllCourse}`}
                 className='mr-[20px] border-[2px] min-w-[140px] text-center transition-all duration-300 ease-in-out dark:text-[#b9b7c0] flex justify-center items-center rounded-3xl border-[#b4a7f5] text-[#392c7d] px-[15px] py-[10px] hover:bg-[#917cf6] hover:border-transparent dark:hover:text-[#fff] hover:text-[#fff]'
               >
                 Tất cả các khóa học
@@ -75,10 +68,7 @@ const FeaturedCourses = () => {
               ref={bottomRef}
               className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-7'
             >
-              <Card {...course} />
-              <Card {...course2} />
-              <Card {...course3} />
-              <Card {...course4} />
+              {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
             </motion.div>
           </div>
         </div>

@@ -12,7 +12,7 @@ import { getTitleTab } from '../../../../constants/client'
 
 const Purchased_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 24
+  const perPage = 6
   const { data, isFetching, isLoading, refetch } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
 
   useEffect(() => {
@@ -23,7 +23,6 @@ const Purchased_Courses = () => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
-  
 
   if (isLoading || isFetching)
     return (
@@ -33,11 +32,11 @@ const Purchased_Courses = () => {
     )
 
   return (
-    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-40 md:mb-20'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-28 md:mb-20'>
       <Helmet>
         <title>{getTitleTab('Khóa học đã mua')}</title>
       </Helmet>
-      <div className='dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-2xl md:text-3xl sm:text-4xl font-title p-4 md:p-6 mb-7'>
+      <div className='dark:bg-[#2b2838] bg-white rounded-lg border border-[#e9ecef] dark:border-none text-xl font-title p-4 md:p-6 mb-7'>
         Các khóa học đã mua
       </div>
 

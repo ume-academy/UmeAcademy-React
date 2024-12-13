@@ -1,8 +1,6 @@
-// Dùng cho cho các pagination của antd
-/* ====== Bắt đầu pagination ====== */
 /* Màu chữ cho mục phân trang đang được chọn */
 .ant-pagination .ant-pagination-item-active a {
-    color: white;
+  color: white;
 }
 
 /* Viền và nền cho mục phân trang đang được chọn (viền cùng màu với nền) */
@@ -51,7 +49,6 @@
   background-color: transparent; /* Loại bỏ nền xám mặc định */
   border-color: #e9ecef; /* Giữ viền xám mặc định */
   color: #ff4667 !important; /* Màu chữ trắng khi hover */
-
 }
 
 /* Màu cho biểu tượng SVG trong pagination */

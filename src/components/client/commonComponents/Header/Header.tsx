@@ -5,16 +5,16 @@ import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
 import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
+import { useGetAllFavoriteCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
 import { LogoutOutlined, MoonFilled, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, MenuProps, message, Space } from 'antd'
-import { History, Newspaper } from 'lucide-react'
+import { History } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
-import { useGetAllFavoriteCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 
 const Header = () => {
   const nav = useNavigate()
@@ -23,7 +23,7 @@ const Header = () => {
   const { data } = useGetProfileQuery({})
   const dispatch = useDispatch()
 
-  const userExist = localStorage.getItem('access_Token');
+  const userExist = localStorage.getItem('access_Token')
 
   // console.log(userExist)
 
@@ -191,9 +191,7 @@ const Header = () => {
                 <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
-
-            {/* Hiển thị search khi đang ở layout client và đã đăng nhập */}
-            {!isTeacherLayout && userExist && (
+            {!isTeacherLayout && (
               <>
                 {/* search input */}
                 <Search />

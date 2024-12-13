@@ -20,8 +20,11 @@ export const searchCourseApiSlice = createApi({
         return `/courses/search?${pararms.toString()}&per_page=${per_page}&page=${page}`
       }
       // transformResponse: (res: { data: TCourse }) => res.data
+    }),
+    getPriceSearch:builder.query({
+      query:()=>`/course-price`
     })
   })
 })
 
-export const { useSearchCourseQuery } = searchCourseApiSlice
+export const { useSearchCourseQuery, useGetPriceSearchQuery } = searchCourseApiSlice

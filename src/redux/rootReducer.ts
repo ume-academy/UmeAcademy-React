@@ -27,6 +27,7 @@ import { checkAdminApiSlice } from "./slices/admin/checkAdminApiSlice";
 import { transactionHistoryApiSlice } from "./slices/transaction_history/transactionHistoryApiSlice";
 import { walletHistoryApiSlice } from "./slices/student/walletHistoryApiSlice";
 import { requestApprovalCourseApiSlice } from "./slices/teacher/requestApprovalCourse/requestApprovalCourseApiSlice";
+import { reviewCourseApiSlice } from "./slices/course/reviewCourseApiSlice";
 
 
 const rootReducer = combineReducers({
@@ -58,6 +59,8 @@ const rootReducer = combineReducers({
   [transactionHistoryApiSlice.reducerPath]: transactionHistoryApiSlice.reducer,
   [walletHistoryApiSlice.reducerPath]: walletHistoryApiSlice.reducer,
   [requestApprovalCourseApiSlice.reducerPath]: requestApprovalCourseApiSlice.reducer,
+  [reviewCourseApiSlice.reducerPath]: reviewCourseApiSlice.reducer,
+
 })
 
 export default rootReducer

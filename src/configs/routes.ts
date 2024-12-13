@@ -15,7 +15,7 @@ export const router = {
 
   // < ===== STUDENT ===== >
   profileStudent: '/profile',
-  search: '/courses/search',
+  listAllCourse: '/courses/search',
   courseDetail: '/course/:id',
   lesson: '/course/:id/lesson',
   walletHistory: '/wallet-history',

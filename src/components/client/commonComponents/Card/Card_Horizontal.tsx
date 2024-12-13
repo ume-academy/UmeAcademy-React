@@ -20,7 +20,9 @@ const Card_Horizontal = ({
   duration,
   is_wishlist,
   is_enrolled,
-  status, refund, transaction_code
+  status,
+  refund,
+  transaction_code
 }: TCourse) => {
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
@@ -45,14 +47,14 @@ const Card_Horizontal = ({
     <div className='group flex flex-col md:flex-row w-full dark:bg-[#2b2838] hover:bg-[#2b2838] dark:hover:text-white hover:text-white dark:text-[#B9B7C0] bg-white text-[#002058] text-[13px] border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden p-4 cursor-pointer'>
       <Link
         to={`${router.courseDetail.replace(':id', String(id))}`}
-        className='group flex flex-col md:flex-row gap-4 hover:text-white'
+        className='group flex flex-col md:flex-row md:items-center gap-4 hover:text-white'
       >
         <div className='relative'>
           <div className='rounded-[10px] overflow-hidden '>
             <motion.img
               src={thumbnail}
               alt='thumbnail'
-              className='image w-full  md:w-[340px] lg:w-[366px] h-[220px] object-cover'
+              className='image w-full  md:w-[296px] h-[230px] md:h-[186px] object-cover'
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
             />
@@ -63,7 +65,7 @@ const Card_Horizontal = ({
         </div>
 
         <div className='flex flex-col md:flex-col-reverse flex-1'>
-          <div className='space-y-6'>
+          <div className='space-y-6 md:space-y-2'>
             <span className='text-[11px] space-x-2 hidden md:block'>
               <Rate allowHalf value={Number(rating)} className='text-[13px] group-hover:text-white' disabled />
               <span>
@@ -95,8 +97,8 @@ const Card_Horizontal = ({
             </div>
           </div>
 
-          <div className='space-y-5'>
-            <h3 className='text-[17px] md:text-lg  hover:text-[#ff5364] line-clamp-2 md:mt-4'>{name}</h3>
+          <div className='space-y-3'>
+            <h3 className='text-[17px] md:text-lg  hover:text-[#ff5364] line-clamp-2 h-14 mt-3 md:mt-0'>{name}</h3>
             <div className='flex justify-between md:justify-start items-center gap-4 pb-4'>
               <div className='flex items-center gap-1'>
                 <BookFilled className='text-red-400 text-[14px] group-hover:text-white' />
