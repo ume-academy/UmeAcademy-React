@@ -177,7 +177,7 @@ const List_Withdrawal_Requests = () => {
           onClick={() =>
             handleInfoBank({
               ...teacher.bank,
-              qrUrl: `https://img.vietqr.io/image/${teacher.bank.name_bank.replace(/\s+/g, '')}-${teacher.bank.number_account}-compact2.png?amount=${record.money}&addInfo=UmeAcademy`,
+              qrUrl: `https://img.vietqr.io/image/${teacher.bank.name_bank.replace(/\s+/g, '')}-${teacher.bank.number_account}-compact2.png?amount=${record.money}&addInfo=${record.code}`,
               amount: record.money
             })
           }

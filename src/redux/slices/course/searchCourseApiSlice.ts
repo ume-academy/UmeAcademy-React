@@ -7,11 +7,12 @@ export const searchCourseApiSlice = createApi({
   tagTypes: ['search'],
   endpoints: (builder) => ({
     searchCourse: builder.query({
-      query: ({ per_page, page, name, price, rating, categories, levels }) => {
+      query: ({ per_page, page, name, price_min, price_max, rating, categories, levels }) => {
         const pararms = new URLSearchParams()
 
         if (name) pararms.append('name', name)
-        if (price) pararms.append('price', price)
+        if (price_min) pararms.append('price_min', price_min)
+        if (price_max) pararms.append('price_max', price_max)
         if (rating) pararms.append('rating', rating)
         if (categories) pararms.append('categories', categories)
         if (levels) pararms.append('levels', levels)

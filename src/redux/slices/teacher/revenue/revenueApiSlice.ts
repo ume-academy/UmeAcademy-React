@@ -11,30 +11,11 @@ export const revenueApiSlice = createApi({
       query: () => '/teacher/statistic',
       transformResponse: (res: { data: TRevenue }) => res.data
     }),
-    
-    filterRevenue: builder.mutation<any, { start_date: string; end_date: string }>({
-      query: ({ start_date, end_date }) => {
-        if (!start_date && end_date) {
-          return {
-            url: `/teacher/revenue`,
-            method: 'POST'
-          }
-        }
-        const params: Record<string, string> = {}
-        if (start_date) {
-          params.start_date = start_date
-        }
-        if (end_date) {
-          params.end_date = end_date
-        }
-        return {
-          url: `/teacher/revenue`,
-          method: 'POST',
-          body: params
-        }
-      }
+
+    filterRevenue: builder.query({
+      query: ({ start_date, end_date }) => `/teacher/revenue?start_date=${start_date}&end_date=${end_date}`
     })
   })
 })
 
-export const { useGetStatisticQuery, useFilterRevenueMutation } = revenueApiSlice
+export const { useGetStatisticQuery, useFilterRevenueQuery } = revenueApiSlice

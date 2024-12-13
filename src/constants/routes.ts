@@ -50,6 +50,8 @@ import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdr
 import Teacher_Info_Course from '@/pages/client/Student/Teacher_Info_Course/Teacher_Info_Course'
 import Dashboard from '@/pages/admin/Dashboard/Dashboard'
 import Login_Admin from '@/pages/admin/Auth/Login/Login_Admin'
+import List_Blogs from '@/pages/client/Student/Blogs/List_Blogs'
+import Blog_Detail from '@/pages/client/Student/Blogs/Blog_Detail'
 
 // Routes cho student
 export const studentRoutes = [
@@ -64,7 +66,9 @@ export const studentRoutes = [
   { path: router.profileStudent, element: Profile },
   { path: router.newInstructor, element: New_Instructor },
   { path: router.favoriteCourses, element: Favorite_Courses },
-  { path: router.teacherInfoCourse, element: Teacher_Info_Course }
+  { path: router.teacherInfoCourse, element: Teacher_Info_Course },
+  { path: router.listBlogs, element: List_Blogs },
+  { path: router.blogDetail, element: Blog_Detail },
 ]
 
 export const protectedStudentRoutes = [

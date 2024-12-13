@@ -1,5 +1,5 @@
 import Card_Horizontal from '@/components/client/commonComponents/Card/Card_Horizontal'
-import { smoothScrollToTop } from '@/constants/utils'
+import { formatPrice, smoothScrollToTop } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCourse } from '@/interfaces/TCourse'
@@ -7,8 +7,8 @@ import { TLevel } from '@/interfaces/TLevel'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { useSearchCourseQuery } from '@/redux/slices/course/searchCourseApiSlice'
-import { Checkbox, Drawer, Form, Input, Pagination, Rate } from 'antd'
-import { Filter, MenuIcon } from 'lucide-react'
+import { Checkbox, Drawer, Form, Input, Pagination, Rate, Slider } from 'antd'
+import { Filter, MenuIcon, RotateCcw } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -30,10 +30,12 @@ const Search = () => {
   const nav = useNavigate()
   const perPage = 12
   const { loading } = useLoading()
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000000])
 
   const [filter, setFilter] = useState({
     name: queryURL.get('name'),
-    price: price,
+    price_min: priceRange[0],
+    price_max: priceRange[1],
     categories: queryURL.get('category'),
     levels: queryURL.get('level'),
     rating: rating,
@@ -50,7 +52,8 @@ const Search = () => {
   useEffect(() => {
     const updatedFilter = {
       name: queryURL.get('name') || '',
-      price: Number(queryURL.get('price')) || 0,
+      price_min: Number(queryURL.get('price_min')) || priceRange[0],
+      price_max: Number(queryURL.get('price_max')) || priceRange[1],
       categories: queryURL.get('categories') || '',
       levels: queryURL.get('levels') || '',
       rating: Number(queryURL.get('rating')) || 0,
@@ -73,9 +76,16 @@ const Search = () => {
     }))
     updateQueryParams(key, value.toString())
   }
-
-  const handlePrice = () => {
-    updateFilter('price', price)
+  const handlePrice = (value: [number, number]) => {
+    setPriceRange(value)
+    setFilter((prev) => ({
+      ...prev,
+      price_min: value[0],
+      price_max: value[1],
+      page: 1
+    }))
+    updateQueryParams('price_min', value.toString())
+    updateQueryParams('price_max', value.toString())
   }
 
   const handleCategory = (categories: string) => {
@@ -149,30 +159,22 @@ const Search = () => {
             open={isMenuOpen}
           >
             <div className='space-y-6'>
-              <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
-                <div className='font-semibold dark:text-[#B9B7C0]'>Nhập giá tiền bạn muốn tìm</div>
-                <div className='checkboxs py-4 space-y-2'>
-                  <Form.Item name='disabled' valuePropName='keny-white'>
-                    <div className='w-full flex justify-between'>
-                      <CustomInput
-                        allowClear
-                        onChange={(e) => setPrice(Number(e.target.value))}
-                        placeholder='đ'
-                        className='w-[72%] py-1 px-2 border rounded-[4px] '
-                      />
-                      <button onClick={handlePrice} type='submit' className='bg-[#b4a7f5] py-1 px-3 rounded-[4px]'>
-                        Tìm kiếm
-                      </button>
-                    </div>
-                  </Form.Item>
+              <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
+                <div className='font-semibold dark:text-[#B9B7C0]'>Nhập khoảng giá tiền bạn muốn tìm</div>
+                <div className='py-4 space-y-2'>
+                  <Form.Item name='disabled' valuePropName='keny-white'></Form.Item>
                 </div>
               </div>
-              <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+              <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
                 <div className='flex justify-between items-center font-semibold dark:text-[#B9B7C0]'>
                   <p>Danh mục khóa học</p>
-                  <button onClick={() => handleCategory('')}>Đặt lại</button>
+                  <RotateCcw
+                    size={18}
+                    onClick={() => handleCategory('')}
+                    className='hover:text-[#b9b7c0] cursor-pointer'
+                  />
                 </div>
-                <div className='checkboxs py-4 space-y-2'>
+                <div className='py-4 space-y-2'>
                   <Form.Item className='my-0'>
                     <div>
                       {categoriesData &&
@@ -191,12 +193,16 @@ const Search = () => {
                 </div>
               </div>
 
-              <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+              <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
                 <div className='flex justify-between items-center font-semibold dark:text-[#B9B7C0]'>
                   <p>Level khóa học</p>
-                  <button onClick={() => handleLevel('')}>Đặt lại</button>
+                  <RotateCcw
+                    size={18}
+                    onClick={() => handleCategory('')}
+                    className='hover:text-[#b9b7c0] cursor-pointer'
+                  />
                 </div>
-                <div className='checkboxs py-4 space-y-2'>
+                <div className='py-4 space-y-2'>
                   <Form.Item name='disabled' valuePropName='backend' className='my-0'>
                     <div>
                       {levelsData &&
@@ -215,11 +221,11 @@ const Search = () => {
                 </div>
               </div>
 
-              <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+              <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
                 <div className='font-semibold dark:text-[#B9B7C0]'>
                   <p>Số sao đánh giá</p>
                 </div>
-                <div className='checkboxs py-4 space-y-2'>
+                <div className='py-4 space-y-2'>
                   {[1, 2, 3, 4, 5].map((value) => (
                     <Checkbox
                       key={value}
@@ -242,31 +248,40 @@ const Search = () => {
               <Filter size={24} />
               <h5 className='font-title text-[16px] md:text-xl'>Bộ lọc</h5>
             </div>
-
-            <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
-              <div className='font-semibold dark:text-[#B9B7C0]'>Nhập giá tiền bạn muốn tìm</div>
-              <div className='checkboxs py-4 space-y-2'>
+            <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
+              <div className='font-semibold dark:text-[#B9B7C0]'>Tìm theo khoảng giá tiền bạn muốn</div>
+              <div className='py-2'>
                 <Form.Item name='disabled' valuePropName='keny-white'>
-                  <div className='w-full flex justify-between'>
-                    <CustomInput
-                      allowClear
-                      onChange={(e) => setPrice(Number(e.target.value))}
-                      placeholder='đ'
-                      className='w-[72%] py-1 px-2 border rounded-[4px] '
-                    />
-                    <button onClick={handlePrice} type='submit' className='bg-[#b4a7f5] py-1 px-3 rounded-[4px]'>
-                      Tìm kiếm
-                    </button>
-                  </div>
+                  <Slider
+                    range
+                    min={0}
+                    max={10000000}
+                    step={10000}
+                    defaultValue={[0, 10000000]}
+                    value={priceRange}
+                    onChange={(value) => handlePrice(value as [number, number])}
+                  />
                 </Form.Item>
               </div>
+              <div className='text-[16px] dark:text-[#B9B7C0] flex items-center text-center justify-between'>
+                <p>
+                  Từ: <b className='text-red-400'>{formatPrice(priceRange[0])}</b>
+                </p>
+                <p>
+                  Đến: <b className='text-red-400'>{formatPrice(priceRange[1])}</b>
+                </p>
+              </div>
             </div>
-            <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+            <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
               <div className='flex justify-between items-center font-semibold dark:text-[#B9B7C0]'>
                 <p>Danh mục khóa học</p>
-                <button onClick={() => handleCategory('')}>Đặt lại</button>
+                <RotateCcw
+                  size={18}
+                  onClick={() => handleCategory('')}
+                  className='hover:text-[#b9b7c0] cursor-pointer'
+                />
               </div>
-              <div className='checkboxs py-4 space-y-2'>
+              <div className='py-4 space-y-2'>
                 <Form.Item className='my-0'>
                   <div>
                     {categoriesData &&
@@ -285,12 +300,16 @@ const Search = () => {
               </div>
             </div>
 
-            <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+            <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
               <div className='flex justify-between items-center font-semibold dark:text-[#B9B7C0]'>
                 <p>Level khóa học</p>
-                <button onClick={() => handleLevel('')}>Đặt lại</button>
+                <RotateCcw
+                  size={18}
+                  onClick={() => handleCategory('')}
+                  className='hover:text-[#b9b7c0] cursor-pointer'
+                />
               </div>
-              <div className='checkboxs py-4 space-y-2'>
+              <div className='py-4 space-y-2'>
                 <Form.Item name='disabled' valuePropName='backend' className='my-0'>
                   <div>
                     {levelsData &&
@@ -309,11 +328,11 @@ const Search = () => {
               </div>
             </div>
 
-            <div className='p-4 border border-grey-200 rounded-md text-[16px] md:text-lg'>
+            <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
               <div className='font-semibold dark:text-[#B9B7C0]'>
                 <p>Số sao đánh giá</p>
               </div>
-              <div className='checkboxs py-4 space-y-2'>
+              <div className='py-4 space-y-2'>
                 {[1, 2, 3, 4, 5].map((value) => (
                   <Checkbox
                     key={value}

@@ -6,16 +6,9 @@ import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
-import {
-  LogoutOutlined,
-  MoonFilled,
-  StarOutlined,
-  SunFilled,
-  UserOutlined,
-  WalletOutlined
-} from '@ant-design/icons'
+import { LogoutOutlined, MoonFilled, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, MenuProps, message, Space } from 'antd'
-import { History } from 'lucide-react'
+import { History, Newspaper } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
@@ -35,10 +28,14 @@ const Header = () => {
   // console.log(userExist)
 
   // Lấy số lượng kh yêu thích
-  const { data: favCourses, isLoading, isFetching } = useGetAllFavoriteCoursesQuery(undefined, {
+  const {
+    data: favCourses,
+    isLoading,
+    isFetching
+  } = useGetAllFavoriteCoursesQuery(undefined, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true
-  });
+  })
 
   // Bật trạng thái trong suốt khi ở trang home
   const transperent = routerConfig.transparentHeader.includes(location.pathname)
@@ -49,7 +46,6 @@ const Header = () => {
   const isTeacherApi = dataIsTeacher?.is_teacher
 
   const handleToggle = () => {
-
     if (isTeacherLayout) {
       nav(`${router.home}`) // Chuyển sang trang dành cho student
     } else {
@@ -66,10 +62,7 @@ const Header = () => {
       // await logoutApi().unwrap()
       // console.log(1)
 
-
-      dispatch(logoutLocal());
-
-
+      dispatch(logoutLocal())
 
       message.success('Đăng xuất thành công')
       nav('/')
@@ -118,69 +111,71 @@ const Header = () => {
     // Không thêm mục nào nếu mode không phải là 'student'
     ...(!isTeacherLayout
       ? [1, 3, 4, 5].map((key) => ({
-        key: `${key}`,
-        label: (() => {
-          switch (key) {
-            case 1:
-              return (
-                <Link to={`${router.profileStudent}`}>
-                  <UserOutlined className='mr-2' />
-                  Hồ sơ
-                </Link>
-              )
-            case 3:
-              return (
-                <Link to={`${router.purchasedCourses}`}>
-                  <StarOutlined className='mr-2' />
-                  Danh sách đã mua
-                </Link>
-              )
-            case 4:
-              return (
-                <Link className='flex justify-start items-center' to={`${router.walletHistory}`}>
-                  <WalletOutlined className='mr-2' style={{ width: 16, height: 16 }} />
-                  Ví Ume
-                </Link>
-              )
-            case 5:
-              return (
-                <Link className='flex justify-start items-center' to={`${router.transactionHistory}`}>
-                  <History className='mr-2' style={{ width: 16, height: 16 }} />
-                  Lịch sử giao dịch
-                </Link>
-              )
-            default:
-              return null
-          }
-        })()
-      }))
+          key: `${key}`,
+          label: (() => {
+            switch (key) {
+              case 1:
+                return (
+                  <Link to={`${router.profileStudent}`}>
+                    <UserOutlined className='mr-2' />
+                    Hồ sơ
+                  </Link>
+                )
+              case 3:
+                return (
+                  <Link to={`${router.purchasedCourses}`}>
+                    <StarOutlined className='mr-2' />
+                    Danh sách đã mua
+                  </Link>
+                )
+              case 4:
+                return (
+                  <Link className='flex justify-start items-center' to={`${router.walletHistory}`}>
+                    <WalletOutlined className='mr-2' style={{ width: 16, height: 16 }} />
+                    Ví Ume
+                  </Link>
+                )
+              case 5:
+                return (
+                  <Link className='flex justify-start items-center' to={`${router.transactionHistory}`}>
+                    <History className='mr-2' style={{ width: 16, height: 16 }} />
+                    Lịch sử giao dịch
+                  </Link>
+                )
+              default:
+                return null
+            }
+          })()
+        }))
       : [1].map((key) => ({
-        key: `${key}`,
-        label: (() => {
-          switch (key) {
-            case 1:
-              return (
-                <Link to={`${router.profileTeacher}`}>
-                  <UserOutlined className='mr-2' />
-                  Hồ sơ
-                </Link>
-              )
-            default:
-              return null
-          }
-        })()
-      }))),
+          key: `${key}`,
+          label: (() => {
+            switch (key) {
+              case 1:
+                return (
+                  <Link to={`${router.profileTeacher}`}>
+                    <UserOutlined className='mr-2' />
+                    Hồ sơ
+                  </Link>
+                )
+              default:
+                return null
+            }
+          })()
+        }))),
     {
       key: '',
       label: (
-        <button onClick={() => handleLogout()} className='border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]'>
+        <button
+          onClick={() => handleLogout()}
+          className='border-none w-full flex justify-start p-0 items-center shadow-none dark:text-[#b9b7c0]'
+        >
           <LogoutOutlined className='mr-2' />
           Đăng xuất
         </button>
       )
     }
   ]
-
 
   return (
     <>
@@ -208,7 +203,9 @@ const Header = () => {
             {isAuthenticated === true ? (
               <>
                 {/* teacher */}
-                <button onClick={handleToggle} className='mr-[20px] flex items-center dark:text-[#b9b7c0] hover'>{isTeacherLayout === true ? 'Học viên' : 'Giảng viên'}</button>
+                <button onClick={handleToggle} className='mr-[20px] flex items-center dark:text-[#b9b7c0] hover'>
+                  {isTeacherLayout === true ? 'Học viên' : 'Giảng viên'}
+                </button>
                 {/* dark mode */}
                 <button
                   className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'
@@ -223,6 +220,10 @@ const Header = () => {
 
                 {/* icon */}
                 <div className='flex items-center w-[120px] justify-between mx-[20px]'>
+                  {/* <Link to={router.listBlogs}>
+                    <Newspaper size={22} className='text-green-400' />
+                  </Link> */}
+
                   {/* svg tin nhắn */}
                   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                     <path
@@ -249,33 +250,26 @@ const Header = () => {
                   </svg>
 
                   {/* svg yêu thích */}
-                  <Link to={router.favoriteCourses} className="relative cursor-pointer">
-                    <div className="relative">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                  <Link to={router.favoriteCourses} className='relative cursor-pointer'>
+                    <div className='relative'>
+                      <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
                         <path
-                          d="M22 8.6901C22 9.8801 21.81 10.9801 21.48 12.0001H2.52C2.19 10.9801 2 9.8801 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.37 3.1001 10.99 3.9801 12 5.3301C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901Z"
-                          fill="#F66962"
+                          d='M22 8.6901C22 9.8801 21.81 10.9801 21.48 12.0001H2.52C2.19 10.9801 2 9.8801 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.37 3.1001 10.99 3.9801 12 5.3301C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901Z'
+                          fill='#F66962'
                         />
                         <path
-                          opacity="0.4"
-                          d="M21.4795 12C19.8995 17 15.0295 19.99 12.6195 20.81C12.2795 20.93 11.7195 20.93 11.3795 20.81C8.96953 19.99 4.09953 17 2.51953 12H21.4795Z"
-                          fill="#F66962"
+                          opacity='0.4'
+                          d='M21.4795 12C19.8995 17 15.0295 19.99 12.6195 20.81C12.2795 20.93 11.7195 20.93 11.3795 20.81C8.96953 19.99 4.09953 17 2.51953 12H21.4795Z'
+                          fill='#F66962'
                         />
                       </svg>
 
                       {/* Hiển thị số lượng */}
-                      <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                      <div className='absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full'>
                         {favCourses?.data?.length > 9 ? '9+' : favCourses?.data?.length}
                       </div>
                     </div>
                   </Link>
-
 
                   {/* svg thông báo */}
                   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>

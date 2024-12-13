@@ -6,6 +6,7 @@ import { useAddVoucherByAdminMutation } from '@/redux/slices/voucher/voucherApiS
 import { LoadingOutlined, CheckOutlined } from '@ant-design/icons'
 import { Button, DatePicker, Form, Input, message } from 'antd'
 import { MoveLeft } from 'lucide-react'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams, useNavigate, Link } from 'react-router-dom'
@@ -118,7 +119,10 @@ const Form_Voucher = () => {
                 <DatePicker
                   format='YYYY-MM-DD'
                   placeholder='Ngày bắt đầu'
-                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[266px]'
+                  className='dark:bg-[#2b2838] bg-white p-3 w-full md:w-[350px] lg:w-[266px] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                           dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                          focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+                  disabledDate={(current) => current && current < moment().endOf('day')}
                 />
               </Form.Item>
 
@@ -130,7 +134,10 @@ const Form_Voucher = () => {
                 <DatePicker
                   format='YYYY-MM-DD'
                   placeholder='Ngày kết thúc'
-                  className='dark:bg-[#2b2838] bg-white p-3 w-[330px] lg:w-[266px]'
+                  className='dark:bg-[#2b2838] bg-white p-3 w-full md:w-[350px] lg:w-[266px] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
+                           dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
+                          focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
+                  disabledDate={(current) => current && current < moment().endOf('day')}
                 />
               </Form.Item>
             </div>
@@ -141,24 +148,65 @@ const Form_Voucher = () => {
               name='quantity'
               label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số lượng mã giảm giá</span>}
               rules={[
-                { required: true, message: 'Vui lòng nhập số lượng!' },
-                { min: 1, message: 'Số lượng phải lớn hơn hoặc bằng 1!' }
+                {
+                  validator: async (_, value) => {
+                    if (!value) {
+                      return Promise.reject(new Error('Vui lòng nhập số lượng mã giảm giá'))
+                    }
+                    const valueStr = value.toString()
+                    if (isNaN(valueStr) || valueStr < 0 || valueStr > 100) {
+                      return Promise.reject(new Error('Số lượng mã giảm giá phải lớn hơn 0 và nhỏ hơn 100'))
+                    }
+                    return Promise.resolve()
+                  }
+                }
               ]}
               className='w-full lg:w-[49%]'
             >
-              <Input type='number' id='quantity' placeholder='Nhập số lượng' className='p-3 w-full' />
+              <Input
+                id='quantity'
+                placeholder='Nhập số lượng'
+                className='p-3 w-full'
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                    e.preventDefault()
+                  }
+                }}
+                min={1}
+              />
             </Form.Item>
 
             <Form.Item
               name='discount'
               label={<span className='dark:text-[#b9b7c0] text-[#685f78]'>Số % giảm giá</span>}
               rules={[
-                { required: true, message: 'Vui lòng nhập số % giảm giá!' },
-                { min: 1, max: 100, message: 'Phần trăm phải từ 1 đến 100!' }
+                {
+                  validator: async (_, value) => {
+                    if (!value) {
+                      return Promise.reject(new Error('Vui lòng nhập số % giảm giá'))
+                    }
+                    const valueStr = value.toString()
+                    if (isNaN(valueStr) || valueStr < 0 || valueStr > 100) {
+                      return Promise.reject(new Error('Số % giảm giá phải lớn hơn 0 và nhỏ hơn 100'))
+                    }
+                    return Promise.resolve()
+                  }
+                }
               ]}
               className='w-full lg:w-[49%]'
             >
-              <Input type='number' id='discount' placeholder='Nhập số % giảm giá' className='p-3 w-full' />
+              <Input
+                id='discount'
+                placeholder='Nhập số % giảm giá'
+                className='p-3 w-full'
+                onKeyDown={(e) => {
+                  if (e.key === '-' || e.key === '+' || e.key === 'e') {
+                    e.preventDefault()
+                  }
+                }}
+                min={1}
+                max={100}
+              />
             </Form.Item>
           </div>
         </div>

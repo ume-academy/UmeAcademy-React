@@ -23,7 +23,9 @@ export const router = {
   transactionHistory: '/transaction-history',
   coursePaymentMethod: '/course-payment-method/:id',
   favoriteCourses: '/favorite-courses',
-  teacherInfoCourse: '/course/:id/teacher-information',
+  teacherInfoCourse: '/teacher/:id',
+  listBlogs: '/blogs',
+  blogDetail: '/blog/:id',
 
   // < ===== TEACHER ===== >
   // Route index

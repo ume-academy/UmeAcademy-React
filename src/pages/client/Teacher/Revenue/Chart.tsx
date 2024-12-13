@@ -1,32 +1,21 @@
-import { useFilterRevenueMutation } from '@/redux/slices/teacher/revenue/revenueApiSlice'
-import { DatePicker } from 'antd'
-import { useState, useEffect } from 'react'
-import ReactECharts from 'echarts-for-react'
-import * as echarts from 'echarts'
-import { LoadingOutlined } from '@ant-design/icons'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { formatPrice } from '@/constants/utils'
+import { useFilterRevenueQuery } from '@/redux/slices/teacher/revenue/revenueApiSlice'
+import { DatePicker } from 'antd'
+import * as echarts from 'echarts'
+import ReactECharts from 'echarts-for-react'
 import moment from 'moment'
+import { useState } from 'react'
 
 const Chart = () => {
   const [startDate, setStartDate] = useState<string | ''>('')
   const [endDate, setEndDate] = useState<string | ''>('')
-  const [filterRevenue, { data, isLoading }] = useFilterRevenueMutation()
+  const { data, isLoading, isFetching } = useFilterRevenueQuery({ start_date: startDate, end_date: endDate })
+
+  console.log(data)
 
   const dateData = data ? data?.data?.map((item: { date: string }) => item.date) : []
   const revenueData = data ? data?.data?.map((item: { revenue: number }) => item.revenue) : []
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      handleRevenue()
-    }
-  }, [startDate, endDate])
-
-  const handleRevenue = () => {
-    filterRevenue({
-      start_date: startDate,
-      end_date: endDate
-    })
-  }
 
   const option = {
     tooltip: {
@@ -124,15 +113,7 @@ const Chart = () => {
           />
         </div>
 
-        {data ? (
-          <ReactECharts option={option} className='w-full min-h-[400px]' />
-        ) : (
-          <div className='w-full min-h-[400px] flex items-center justify-center'>
-            <button onClick={handleRevenue} className='border border-[#f24f3a] text-[#f24f3a] rounded-lg px-3 py-2'>
-              Tải dữ liệu biểu đồ {isLoading && <LoadingOutlined />}
-            </button>
-          </div>
-        )}
+        <ReactECharts option={option} className='w-full min-h-[400px]' loadingOption={isLoading} />
       </div>
     </div>
   )

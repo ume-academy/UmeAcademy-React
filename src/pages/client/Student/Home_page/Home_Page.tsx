@@ -5,6 +5,7 @@ import { Introduce } from '@/components/client/student/HomeSecssion/Introduce/In
 import MasterSkills from '@/components/client/student/HomeSecssion/MasterSkills/MasterSkills'
 import TopCategory from '@/components/client/student/HomeSecssion/TopCategory/TopCategory'
 import { getTitleTab } from '@/constants/client'
+import NewBlog from '@/components/client/student/HomeSecssion/NewBlogs/NewBlog'
 
 
 const Home_Page = () => {
@@ -17,6 +18,7 @@ const Home_Page = () => {
       <TopCategory />
       <FeaturedCourses />
       <MasterSkills />
+      <NewBlog/>
     </div>
   )
 }

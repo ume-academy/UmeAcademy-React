@@ -161,7 +161,7 @@ const Withdrawal_Methods = () => {
                       }
                       const valueStr = value.toString()
                       if (isNaN(valueStr) || valueStr.length < 8 || valueStr.length > 20) {
-                        return Promise.reject(new Error('Số tài khoản phải là số và có độ dài từ 8 đến 20'))
+                        return Promise.reject(new Error('Số tài khoản phải có độ dài từ 8 đến 20'))
                       }
                       return Promise.resolve()
                     }

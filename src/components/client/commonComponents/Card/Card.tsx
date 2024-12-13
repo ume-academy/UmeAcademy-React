@@ -297,7 +297,7 @@ const Card = ({
               handleOpenModal(buttonText === 'Hoàn tiền' ? 'refund' : 'refund')
               form.resetFields();
             }}
-            className='border-[3px] border-[#b4a7f5] py-2 px-5 rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'
+            className='border-[3px] border-[#b4a7f5] py-2 px-[17px] rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'
           >
             {buttonText}
           </button>

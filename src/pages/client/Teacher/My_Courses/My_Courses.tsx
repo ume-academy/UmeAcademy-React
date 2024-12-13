@@ -18,7 +18,6 @@ const My_Courses = () => {
     refetch()
   }, [])
 
-  // useEffect(()=>{},[data])
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()
@@ -41,7 +40,7 @@ const My_Courses = () => {
           <p className='p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title'>Các khóa học của tôi</p>
         </div>
         {data?.data && data?.data.length > 0 ? (
-          <div className='flex flex-wrap gap-10 justify-center md:justify-between lg:justify-start lg:gap-x-[9px] p-3'>
+          <div className='flex flex-wrap gap-10 justify-center md:justify-between lg:justify-start lg:gap-x-2 p-3'>
             {data?.data.map((course: TCourse) => <Card {...course} key={course.id} />)}
           </div>
         ) : (
