@@ -5,25 +5,32 @@ import {
   useGetAllRefundRequestQuery,
   useUpdateStatusRefundRequestMutation
 } from '@/redux/slices/transaction/refundApiSlice'
-import { message, Pagination, Select, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
+import { message, Pagination, Table, TableColumnsType, TreeSelect, TreeSelectProps } from 'antd'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import './listAntd.scss'
-const CustomTreeSelect = styled(TreeSelect)`
+interface CustomTreeSelectProps extends TreeSelectProps<any> {
+  value?: number
+}
+
+const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => <TreeSelect {...props} />)`
   .ant-select-selector {
-    background-color: #fafafa !important;
-    border: 1px solid #c1c9d2 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .dark & .ant-select-selector {
-    background-color: #131022 !important;
-    border: 1px solid #c7c7c740 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .ant-select-selector .ant-select-selection-placeholder {
-    color: #6e82a3 !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
+
   .dark & .ant-select-selector .ant-select-selection-placeholder {
-    color: #e9ecef !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
 `
 
@@ -107,12 +114,24 @@ const List_Refund = () => {
     {
       title: 'Trạng thái',
       render: (_: any, record: TRefund) => (
-        <Select
-          className='selectFormUpdate w-full text-red-600'
-          options={optionStatus}
-          value={record.status}
-          onChange={(value) => handleChangeStatus(value, record.transaction_code)}
-        />
+        // <Select
+        //   className='selectFormUpdate w-full text-red-600'
+        //   options={optionStatus}
+        //   value={record.status}
+        //   onChange={(value) => handleChangeStatus(value, record.transaction_code)}
+        // />
+
+        <CustomTreeSelect
+            value={record.status}
+            placeholder={record.status === 0 ? 'Đã từ chối' : record.status === 1 ? 'Đã phê duyệt' : 'Chờ phê duyệt'}
+            onChange={(value) => handleChangeStatus(value, record.transaction_code)}
+            className='w-36 h-10'
+            treeData={[
+              { value: 0, title: 'Đã từ chối' },
+              { value: 2, title: 'Chờ phê duyệt' },
+              { value: 1, title: 'Đã phê duyệt' }
+            ]}
+          />
       ),
       align: 'center' as const,
     }

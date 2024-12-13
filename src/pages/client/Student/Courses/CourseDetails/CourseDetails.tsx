@@ -1,13 +1,15 @@
 import VideoPlayer from '@/components/client/commonComponents/VideoPlayer/VideoPlayer'
 import { router } from '@/configs/routes'
 import {
+  useAddCourseToFavoriteMutation,
   useGetContentCourseByIdQuery,
   useGetInfoCourseByIdQuery,
   useGetOverviewCourseByIdQuery,
-  useGetReviewsCourseByIdQuery
+  useGetReviewsCourseByIdQuery,
+  useRemoveCourseInFavoriteMutation
 } from '@/redux/slices/course/courseApiSlice'
 import { HeartFilled, HeartOutlined, LoadingOutlined, ShareAltOutlined, StarFilled } from '@ant-design/icons'
-import { Avatar, Collapse, Modal, Rate } from 'antd'
+import { Avatar, Collapse, message, Modal, Rate } from 'antd'
 import { format, formatDuration, intervalToDuration } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import { useState } from 'react'
@@ -28,6 +30,8 @@ const CourseDetails = () => {
   const { data: courseContent } = useGetContentCourseByIdQuery(id)
   const { data: courseReviews } = useGetReviewsCourseByIdQuery(id)
   const { data: courseOverview } = useGetOverviewCourseByIdQuery(id)
+  const [addToFav] = useAddCourseToFavoriteMutation()
+  const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
 
   const [currentVideoPath, setCurrentVideoPath] = useState('')
 
@@ -36,6 +40,20 @@ const CourseDetails = () => {
   const handlePreviewClick = (path: string) => {
     setCurrentVideoPath(path) // Cập nhật đường dẫn video hiện tại
     setModal2Open(true)
+  }
+
+  // ADD, REMOVE COURSE IN FAV
+  const handleClickForFav = async (courseId: string | number) => {
+    try {
+      await message.loading({ content: `Đang xử lý...`, key: 'loading' })
+
+      course?.is_wishlist ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
+
+      message.success(`${course?.is_wishlist ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+    } catch (error) {
+      console.log(error)
+      return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
+    }
   }
 
   const userExist = localStorage.getItem('access_Token')
@@ -272,7 +290,7 @@ const CourseDetails = () => {
 
                   {/* Tổng số bài giảng, thời gian của khóa học */}
                   <p className={`${styles['infoLesson']} dark:text-[#B9B7C0] text-black`}>
-                    {courseContent?.data?.total_chapter} bài giảng,{' '}
+                    {courseContent?.data?.total_chapter} chương,{' '}
                     {courseContent?.data?.total_duration ? formatTime(courseContent.data.total_duration) : 'N/A'}
                   </p>
                 </div>
@@ -468,33 +486,6 @@ const CourseDetails = () => {
                         <div className='contentFeedbackModal flex flex-col md:flex-row items-stretch py-6'>
                           {/* rating chart */}
                           <div className='left py-6 space-y-6 flex flex-col dark:text-[#B9B7C0] text-[#392c7d]'>
-                            {/* <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                  <Rate disabled value={5} className="min-w-[140px]" />
-                                  <span>71%</span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                  <Rate disabled value={4} className="min-w-[140px]" />
-                                  <span>24%</span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                  <Rate disabled value={3} className="min-w-[140px]" />
-                                  <span>3%</span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                  <Rate disabled value={2} className="min-w-[140px]" />
-                                  <span>1%</span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                  <Rate disabled value={1} className="min-w-[140px] text-yellow-200" />
-                                  <span>1%</span>
-                                </div>
-                              </div> */}
-
                             <div className=''>
                               <form action=''>
                                 <input type='text' placeholder='Tìm kiếm đánh giá' className='border p-2 w-full' />
@@ -650,7 +641,7 @@ const CourseDetails = () => {
                               dark:bg-[#201d2e] 
                               dark:text-white 
                             '
-                          disabled
+                          onClick={() => handleClickForFav(id as any)}
                         >
                           <HeartFilled className='text-white' />
                           Đã thích
@@ -673,6 +664,7 @@ const CourseDetails = () => {
                           dark:hover:bg-[#3b2b4c] 
                           dark:hover:text-[#f66962]
                         '
+                          onClick={() => handleClickForFav(id as any)}
                         >
                           <HeartOutlined />
                           Yêu thích

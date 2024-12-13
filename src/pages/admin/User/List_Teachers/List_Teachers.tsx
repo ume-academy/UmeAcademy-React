@@ -2,7 +2,7 @@ import Loading from "@/components/client/commonComponents/Loading/Loading";
 import { router } from "@/configs/routes";
 import { getTitleTab } from "@/constants/client";
 import { TUser } from "@/interfaces/TUser";
-import { useGetUsersQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
+import { useGetTeachersQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
 import { Image, message, Modal, Pagination, Space, Switch, Table, TableColumnType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -45,9 +45,9 @@ const List_Teachers = () => {
   const [page, setPage] = useState(1);
 
   // mặc định sẽ lấy trang đầu tiên
-  const { data: users, isLoading, isFetching, isError, error } = useGetUsersQuery(page);
+  const { data: teachers, isLoading, isFetching, isError, error } = useGetTeachersQuery(page);
 
-  console.log(users)
+  console.log(teachers)
 
   const [lockUser] = useLockUserMutation();
 
@@ -57,13 +57,12 @@ const List_Teachers = () => {
   console.log()
 
   useEffect(() => {
-    if (users?.data) {
+    if (teachers?.data) {
 
-      const teachersData = users?.data?.filter((user: TUser) => user?.is_teacher !== false);
-      setData(teachersData);
+      setData(teachers?.data);
 
     }
-  }, [users]);
+  }, [teachers]);
 
   const handleChangeStatus = (id: string, checked: any) => {
     Modal.confirm({
@@ -135,7 +134,7 @@ const List_Teachers = () => {
       title: "STT",
       render: (_, record, index: number) => {
         // Tính toán STT dựa trên trang và số bản ghi mỗi trang
-        return (+users?.meta?.current_page - 1) * (+users?.meta?.per_page) + index + 1;
+        return (+teachers?.meta?.current_page - 1) * (+teachers?.meta?.per_page) + index + 1;
       },
       width: 50,
       align: "center",
@@ -257,7 +256,7 @@ const List_Teachers = () => {
       {contextHolder}
 
       <div className="pt-4 space-x-3 flex items-center justify-between">
-        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{users?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{users?.meta?.last_page}</span> trang</p>
+        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{teachers?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{teachers?.meta?.last_page}</span> trang</p>
 
         {/* <div className="space-x-2">
           {users?.meta?.last_page > 0 && (
@@ -278,13 +277,13 @@ const List_Teachers = () => {
           )}
         </div> */}
 
-        {/* <Pagination
+        <Pagination 
           pageSize={10}
-          total={users?.meta?.total}
-          current={users?.meta?.current_page}
+          total={teachers?.meta?.total}
+          current={teachers?.meta?.current_page}
           onChange={(page) => setPage(page)}
           
-        /> */}
+        />
       </div>
     </div>
   );

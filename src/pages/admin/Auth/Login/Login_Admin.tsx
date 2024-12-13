@@ -1,16 +1,57 @@
 import { router } from '@/configs/routes'
-import { Button, Form, Input } from 'antd'
+import useLoading from '@/hooks/useLoading'
+import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
+import { TLogin, TResponseLogin } from '@/interfaces/TAuth'
+import { useLoginMutation } from '@/redux/slices/auth/authApiSlice'
+import { setToken } from '@/redux/slices/auth/authSlice'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
+import { Button, Form, Input, message } from 'antd'
 import { ArrowLeftIcon } from 'lucide-react'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login_Admin = () => {
+  const { loading, startLoading, stopLoading } = useLoading()
 
-  const nav = useNavigate();
+  const [login] = useLoginMutation()
 
-  const onFinish = (values: any) => {
-    console.log(values)
+  const [form] = Form.useForm()
 
-    nav(router.dashBoard)
+  const dispatch = useDispatch()
+
+  const nav = useNavigate()
+
+  const { refetch } = useGetProfileQuery({})
+
+  const onFinish = async (data: TLogin) => {
+    try {
+      startLoading()
+
+      const { access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
+
+
+      dispatch(
+        setToken({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          expiresIn: expires_in
+        })
+      )
+      
+      await refetch() // Lấy thông tin người dùng MỚI NHẤT sau khi đăng nhập
+
+      stopLoading()
+
+      message.success('Đăng nhập thành công') 
+
+      nav(router.dashBoard)
+      
+    } catch (error) {
+      stopLoading()
+      let err = error as TLoginError
+      message.error(err.data?.error ?? 'Tài khoản hoặc mật khẩu không chính xác!')
+      console.log(error)
+    }
   }
 
   return (
@@ -38,7 +79,8 @@ const Login_Admin = () => {
                 label={<span className='font-subtitle'>Email</span>}
                 name="email"
                 rules={[
-                  { required: true, message: 'Không được bỏ trống!' }
+                  { required: true, message: 'Không được bỏ trống!' },
+                  { type: 'email', message: 'Email không hợp lệ' },
                 ]}
               >
                 <Input className='py-2' />
@@ -48,7 +90,13 @@ const Login_Admin = () => {
                 label={<span className='font-subtitle'>Mật khẩu</span>}
                 name="password"
                 rules={[
-                  { required: true, message: 'Không được bỏ trống!' }
+                  { required: true, message: 'Vui lòng nhập mật khẩu' },
+                  { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự' },
+                  { max: 32, message: 'Mật khẩu không được vượt quá 32 ký tự' },
+                  {
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message: 'Mật khẩu bao gồm a-z, A-Z, 0-9 và phải chứa ít nhất một ký tự đặc biệt.'
+                  }
                 ]}
               >
                 <Input.Password className='py-2' />

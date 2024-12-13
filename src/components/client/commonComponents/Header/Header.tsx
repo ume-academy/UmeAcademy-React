@@ -191,7 +191,9 @@ const Header = () => {
                 <img src={logo} className='w-full h-full object-cover' alt='Logo' width={100} height={50} />
               </Link>
             </div>
-            {!isTeacherLayout || !userExist && (
+
+            {/* Hiển thị search khi đang ở layout client và đã đăng nhập */}
+            {!isTeacherLayout && userExist && (
               <>
                 {/* search input */}
                 <Search />

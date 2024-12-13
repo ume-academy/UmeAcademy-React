@@ -17,6 +17,11 @@ export const userSlice = createApi({
       // transformResponse: (res: { data: TUser }) => res.data
     }),
 
+    getTeachers: builder.query({
+      query: (page) => `/admin/teachers?page=${page}`,
+      providesTags: ["User"],
+    }),
+
     //! GET ONE USER IS STUDENT
     getAStudentById: builder.query<TUser, any>({
       query: (studentId) => `/admin/user/${studentId}`,
@@ -79,6 +84,7 @@ export const userSlice = createApi({
 
 export const { 
   useGetUsersQuery, 
+  useGetTeachersQuery,
   useGetAStudentByIdQuery, 
   useGetATeacherByIdQuery, 
   useLockUserMutation, 
