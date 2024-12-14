@@ -4,10 +4,7 @@ import { Input } from 'antd'
 const Search = () => {
   return (
     <div>
-      <form
-        action='/courses/search'
-        className='flex justify-between bg-white p-2 mb-6 lg:mb-0 rounded-full dark:bg-[#3d3a4e]'
-      >
+      <form action='/courses' className='flex justify-between bg-white p-2 mb-6 lg:mb-0 rounded-full dark:bg-[#3d3a4e]'>
         <SearchOutlined style={{ color: '#f66962', marginRight: 10, paddingLeft: 10 }} />
         <Input
           type='text'

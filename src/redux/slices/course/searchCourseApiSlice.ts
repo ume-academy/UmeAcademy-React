@@ -17,7 +17,7 @@ export const searchCourseApiSlice = createApi({
         if (categories) pararms.append('categories', categories)
         if (levels) pararms.append('levels', levels)
 
-        return `/courses/search?${pararms.toString()}&per_page=${per_page}&page=${page}`
+        return `/courses?${pararms.toString()}&per_page=${per_page}&page=${page}`
       }
       // transformResponse: (res: { data: TCourse }) => res.data
     }),

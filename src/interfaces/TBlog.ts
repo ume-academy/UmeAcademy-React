@@ -3,8 +3,11 @@ export interface TBlog {
   title: string
   content: string
   thumbnail: string
-  user_id: number
+  user:{
+    email:string,
+    fullname:string
+  }
   status: number
-  create_at:string
+  created_at:string
   category:string
 }

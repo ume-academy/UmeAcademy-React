@@ -1,11 +1,11 @@
 import Card_Horizontal from '@/components/client/commonComponents/Card/Card_Horizontal'
+import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
 import { formatPrice, smoothScrollToTop } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCourse } from '@/interfaces/TCourse'
 import { TLevel } from '@/interfaces/TLevel'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
-import { useGetAllCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 import { useGetPriceSearchQuery, useSearchCourseQuery } from '@/redux/slices/course/searchCourseApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { Checkbox, Drawer, Form, Pagination, Rate, Slider } from 'antd'
@@ -45,9 +45,7 @@ const ListAllCourse = () => {
     page: currentPage
   })
 
-  const { data, refetch } = useSearchCourseQuery(filter)
-  const { data: course } = useGetAllCoursesQuery({})
-  console.log(course)
+  const { data, refetch,isLoading, isFetching } = useSearchCourseQuery(filter)
 
   useEffect(() => {
     refetch()
@@ -157,8 +155,10 @@ const ListAllCourse = () => {
             </div>
           </div>
 
-          {loading ? (
-            <div></div>
+          {loading || isLoading || isFetching ? (
+            <div className='min-h-screen'>
+              <DotLoader/>
+            </div>
           ) : data?.data.length > 0 ? (
             <div>
               <div className='space-y-4 md:space-y-6'>

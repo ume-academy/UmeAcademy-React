@@ -1,5 +1,4 @@
 import Card from '@/components/client/commonComponents/Card/Card'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
@@ -9,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { getTitleTab } from '../../../../constants/client'
+import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
 
 const Purchased_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -24,13 +24,6 @@ const Purchased_Courses = () => {
     smoothScrollToTop()
   }
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
-
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-28 md:mb-20'>
       <Helmet>
@@ -40,7 +33,11 @@ const Purchased_Courses = () => {
         Các khóa học đã mua
       </div>
 
-      {data?.data && data?.data.length > 0 ? (
+      {isLoading || isFetching ? (
+        <div className='min-h-screen'>
+          <DotLoader/>
+        </div>
+      ) : data?.data && data?.data.length > 0 ? (
         <div className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'>
           {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
         </div>

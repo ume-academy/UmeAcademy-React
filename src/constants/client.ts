@@ -17,6 +17,8 @@ export const imgCarousel = '/assets/images/client/auth/login_banner.png'
 
 export const logo = '/assets/images/client/Logo/logo.png' //biến dùng cho logo trang web
 
+export const logo2 = '/assets/images/client/Logo/logo-2.png' //biến dùng cho logo trang web
+
 export const backgroundImageCommon = '/assets/images/client/homeBGR/banner.png' //biến dùng cho bgr dùng chung
 
 export const imageIntroduce = '/assets/images/client/homeBGR/introduce.webp' //biến dùng cho bgr dùng chung

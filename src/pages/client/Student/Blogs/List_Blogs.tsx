@@ -5,45 +5,35 @@ import { CalendarDays, RotateCcw, Tag } from 'lucide-react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Checkbox, Form } from 'antd'
+import { Checkbox, Form, Pagination } from 'antd'
 import { TCategory } from '@/interfaces/TCategory'
 import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
+import { useGetAllArticlePublishedQuery } from '@/redux/slices/blog/blogApiSlice'
+import { useEffect, useState } from 'react'
+import { formatDate, smoothScrollToTop } from '@/constants/utils'
 
 const List_Blogs = () => {
   const [form] = Form.useForm()
   const { data: categoriesData } = useGetAllCategoryQuery({})
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 6
+  const { data, refetch } = useGetAllArticlePublishedQuery({ per_page: perPage, page: currentPage })
 
-  const data: TBlog[] = [
-    {
-      id: 1,
-      title: 'Learn Webs Applications Development from Experts',
-      content:
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti. Sed egestas, ante et vulputate volutpat, eros pede',
-      thumbnail: 'https://dreamslms.dreamstechnologies.com/html/assets/img/blog/blog-05.jpg',
-      user_id: 1,
-      status: 0,
-      create_at: '21/12/2024',
-      category: 'React'
-    },
-    {
-      id: 2,
-      title: 'Expand Your Career Opportunities With Python',
-      content:
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti. Sed egestas, ante et vulputate volutpat, eros pede',
-      thumbnail: '	https://dreamslms.dreamstechnologies.com/html/assets/img/blog/blog-06.jpg',
-      user_id: 2,
-      status: 0,
-      create_at: '21/12/2024',
-      category: 'React'
-    }
-  ]
+  useEffect(() => {
+    refetch()
+  }, [])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    smoothScrollToTop()
+  }
   return (
     <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0]   mb-10 mt-32 md:mb-20 flex flex-wrap gap-y-20 justify-between items-start'>
       <Helmet>
         <title>{getTitleTab('Bài viết')}</title>
       </Helmet>
       <div className=' w-full lg:w-[70%] space-y-16'>
-        {data.map((blog) => (
+        {data?.data.map((blog: TBlog) => (
           <div className='space-y-6' key={blog.id}>
             <Link to={`${router.blogDetail.replace(':id', String(blog.id))}`}>
               <div className='overflow-hidden rounded-md'>
@@ -58,12 +48,12 @@ const List_Blogs = () => {
             </Link>
             <div className='flex items-center gap-6'>
               <div className='flex items-center gap-2'>
-                <CalendarDays size={20} className='text-[#ff5364] text-[14px]' /> <p>{blog.create_at}</p>
+                <CalendarDays size={20} className='text-[#ff5364]' /> <p>{formatDate(blog.created_at)}</p>
               </div>
-              <p>|</p>
+              {/* <p>|</p>
               <div className='flex items-center gap-2'>
-                <Tag size={20} strokeWidth={3} className='text-red-400 text-[14px]' /> <p>{blog.category}</p>
-              </div>
+                <Tag size={20} strokeWidth={3} className='text-red-400' /> <p>{blog.category}</p>
+              </div> */}
             </div>
             <div className='space-y-6'>
               <Link
@@ -72,7 +62,7 @@ const List_Blogs = () => {
               >
                 {blog.title}
               </Link>
-              <p className='text-sm line-clamp-5 md:line-clamp-3'>{blog.content}</p>
+              {/* <p className='text-sm line-clamp-4 md:line-clamp-3'>{blog.content}</p> */}
               <div>
                 <Link
                   to={`${router.blogDetail.replace(':id', String(blog.id))}`}
@@ -84,6 +74,19 @@ const List_Blogs = () => {
             </div>
           </div>
         ))}
+        <div className='flex justify-between items-center my-6 text-sm'>
+          <p className='dark:text-[#b9b7c0]'>
+            Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+            <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+          </p>
+          <Pagination
+            pageSize={data?.meta?.per_page}
+            total={data?.meta?.total}
+            current={data?.meta?.current_page}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
       </div>
       <div className='w-full lg:w-[26%]'>
         <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>

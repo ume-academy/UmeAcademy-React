@@ -1,0 +1,27 @@
+
+.dot {
+  width: 18px;
+  height: 18px;
+  animation: dot-animation 1.5s infinite ease-in-out;
+}
+
+.dot1 {
+  animation-delay: 0s;
+}
+
+.dot2 {
+  animation-delay: 0.4s;
+}
+
+.dot3 {
+  animation-delay: 0.8s;
+}
+
+@keyframes dot-animation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
