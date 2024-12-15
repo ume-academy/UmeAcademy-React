@@ -21,33 +21,50 @@ export const baseUrl = fetchBaseQuery({
 })
 
 export const customBaseQuery: BaseQueryFn<
-  string | FetchArgs, // args
-  any, // Result type
-  FetchBaseQueryError // Error type
+  string | FetchArgs,
+  any,
+  FetchBaseQueryError
 > = async (arg, api, extraOptions) => {
-  const result = await baseUrl(arg, api, extraOptions)
+  const result = await baseUrl(arg, api, extraOptions);
+
   if (result.error) {
-    const { status, data } = result.error;
-  
+    const { status } = result.error;
+
     if (status === 401) {
+      const currentPath = window.location.pathname;
+
       // Kiểm tra lỗi đến từ màn hình login
-      const isLoginRequest = window.location.pathname === '/login'; // Đường dẫn login
+      const isLoginRequest = currentPath === '/login'; // Đường dẫn login
   
       if (isLoginRequest) {
         // Không điều hướng, chỉ xử lý lỗi đăng nhập sai
         return result;
       }
-  
-      // Nếu không phải lỗi từ login, xử lý lỗi xác thực token
+
+      // Các đường dẫn hoặc trang được phép truy cập mà không cần xác thực
+      const publicPaths = ['/courses', '/about', '/contact'];
+
+      // Kiểm tra xem có nằm trong danh sách public không
+      const isPublicPage = publicPaths.some(path => currentPath.startsWith(path));
+      
+      // Nếu trang hiện tại là public, bỏ qua lỗi 401
+      if (isPublicPage) {
+        return result;
+      }
+
+      // Nếu là trang cần xác thực, xử lý logout và redirect
       api.dispatch(logoutLocal());
-      if (window.location.pathname !== '/') {
+
+      // Tránh redirect liên tục bằng cách kiểm tra đường dẫn
+      if (currentPath !== '/') {
         window.location.href = '/';
       }
     }
-  }  
+  }
 
-  return result
-}
+  return result;
+};
+
 
 // export const baseQueryWithReauth = async (arg , api, extraOptions) => {
 
