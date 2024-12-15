@@ -1,4 +1,5 @@
 import Card from '@/components/client/commonComponents/Card/Card'
+import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
 import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
@@ -23,13 +24,6 @@ const My_Courses = () => {
     smoothScrollToTop()
   }
 
-  if (isLoading || isFetching)
-    return (
-      <div className='min-h-screen flex justify-center items-center'>
-        <Loading />
-      </div>
-    )
-
   return (
     <div className='p-4 lg:p-0'>
       <Helmet>
@@ -39,7 +33,12 @@ const My_Courses = () => {
         <div className='border-b border-[#e9ecef]  dark:border-[#5a5a5a]'>
           <p className='p-4 lg:p-6 dark:text-[#b9b7c0] text-[#685f78]  text-2xl font-title'>Các khóa học của tôi</p>
         </div>
-        {data?.data && data?.data.length > 0 ? (
+
+        {isLoading || isFetching ? (
+          <div className='min-h-screen p-4 lg:p-6'>
+            <DotLoader />
+          </div>
+        ) : data?.data && data?.data.length > 0 ? (
           <div className='flex flex-wrap gap-10 justify-center md:justify-between lg:justify-start lg:gap-x-2 p-3'>
             {data?.data.map((course: TCourse) => <Card {...course} key={course.id} />)}
           </div>

@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import Chart from './Chart'
 import './DatePickerAntd.scss'
 import { useEffect } from 'react'
+import Courses_Top from './Courses_Top'
 
 const Revenue = () => {
   const { data, refetch } = useGetStatisticQuery({})
@@ -59,6 +60,8 @@ const Revenue = () => {
         </div>
         <Chart />
       </div>
+      <Courses_Top/>
+
     </div>
   )
 }

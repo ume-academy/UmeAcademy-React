@@ -96,6 +96,9 @@ export const courseApiSlice = createApi({
       query: ({ per_page, page }) => `teacher/courses?per_page=${per_page}&page=${page}`,
       providesTags: ['Course']
     }),
+    getTopCourse: builder.query({
+      query:()=>`/teacher/courses/top-5-best-seller`
+    }),
 
     // CREATE COURSE OF TEACHER
     createCourseOfTeacher: builder.mutation<{ data: { id: string } }, { formData: FormData }>({
@@ -141,6 +144,7 @@ export const courseApiSlice = createApi({
 
 export const {
   useGetAllCoursesQuery,
+  useGetTopCourseQuery,
   useGetInfoCourseByIdQuery,
   useGetContentCourseByIdQuery,
   useGetPurchasedCoursesQuery,
