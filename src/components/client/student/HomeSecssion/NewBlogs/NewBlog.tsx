@@ -10,11 +10,11 @@ import { Link } from 'react-router-dom'
 const NewBlog = () => {
   const topRef = useRef(null)
   const bottomRef = useRef(null)
-  const { data,refetch} = useGetAllArticlePublishedQuery({ per_page: 2, page: 1 })
+  const { data, refetch } = useGetAllArticlePublishedQuery({ per_page: 2, page: 1 })
 
-  useEffect(()=>{
+  useEffect(() => {
     refetch()
-  },[])
+  }, [])
   // Theo dõi theo từng khối ref để tạo hiệu ứng cho nó
   const isTopInView = useInView(topRef, { amount: 0.1, once: true }) //amount: % phần tử khi di chuyển đến sẽ xuất hiện | once: không lặp lại
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
@@ -43,7 +43,7 @@ const NewBlog = () => {
   //   }
   // ]
   return (
-    <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] pb-0 lg:pb-[90px] space-y-10 text-[#685f78] dark:text-[#B9B7C0]'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] pb-0 lg:pb-[90px] space-y-10 text-black dark:text-gray-200'>
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={isTopInView ? { y: 0, opacity: 100 } : {}}
@@ -68,7 +68,7 @@ const NewBlog = () => {
         ref={bottomRef}
         className='w-full grid md:grid-cols-2 gap-x-2 gap-y-10 p-4 md:p-0'
       >
-        {data?.data.map((blog:TBlog) => (
+        {data?.data.map((blog: TBlog) => (
           <div className='space-y-6 w-full md:w-[98%]' key={blog.id}>
             <Link to={`${router.blogDetail.replace(':id', String(blog.id))}`}>
               <div className='overflow-hidden rounded-md'>
@@ -93,7 +93,7 @@ const NewBlog = () => {
             <div className='space-y-6'>
               <Link
                 to={`${router.blogDetail.replace(':id', String(blog.id))}`}
-                className='hover:text-[#ff5364] font-title text-2xl text-black dark:text-gray-200 cursor-pointer line-clamp-2 md:line-clamp-1'
+                className='hover:text-[#ff5364] font-title text-2xl  cursor-pointer line-clamp-2 md:line-clamp-1'
               >
                 {blog.title}
               </Link>

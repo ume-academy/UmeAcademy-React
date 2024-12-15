@@ -11,11 +11,14 @@ import Loading from '@/components/client/commonComponents/Loading/Loading'
 
 const Blog_Detail = () => {
   const { id } = useParams()
-  const { data, refetch,isFetching,isLoading } = useGetArticlePublishedQuery({ id })
+  const { data, refetch, isFetching, isLoading } = useGetArticlePublishedQuery({ id })
+
   useEffect(() => {
     refetch()
   }, [])
+
   const content = data?.content || ''
+
   if (isLoading || isFetching)
     return (
       <div className='min-h-screen flex justify-center items-center'>
@@ -23,7 +26,7 @@ const Blog_Detail = () => {
       </div>
     )
   return (
-    <div className='max-w-[768px] md:max-w-[1024px] p-4 lg:p-0 lg:max-w-[1080px] mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-20 mb-10 md:mt-32 md:mb-32'>
+    <div className='max-w-[768px] md:max-w-[1024px] p-4 lg:p-0 lg:max-w-[1080px] mx-auto  text-gray-800 dark:text-gray-300  mt-20 mb-10 md:mt-32 md:mb-32'>
       <Helmet>
         <title>{getTitleTab('Bài viết')}</title>
       </Helmet>

@@ -28,7 +28,7 @@ const List_Blogs = () => {
     smoothScrollToTop()
   }
   return (
-    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto text-[#685f78] dark:text-[#B9B7C0]   mb-10 mt-32 md:mb-20 flex flex-wrap gap-y-20 justify-between items-start'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto  text-black dark:text-gray-200   mb-10 mt-32 md:mb-20 flex flex-wrap gap-y-20 justify-between items-start'>
       <Helmet>
         <title>{getTitleTab('Bài viết')}</title>
       </Helmet>
@@ -58,7 +58,7 @@ const List_Blogs = () => {
             <div className='space-y-6'>
               <Link
                 to={`${router.blogDetail.replace(':id', String(blog.id))}`}
-                className='hover:text-[#ff5364] font-title text-2xl text-black dark:text-gray-200 cursor-pointer line-clamp-2 md:line-clamp-1'
+                className='hover:text-[#ff5364] font-title text-2xl  cursor-pointer line-clamp-2 md:line-clamp-1'
               >
                 {blog.title}
               </Link>

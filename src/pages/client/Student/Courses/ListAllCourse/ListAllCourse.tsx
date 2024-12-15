@@ -28,6 +28,7 @@ const ListAllCourse = () => {
 
   const minPrice = price?.data.min_price
   const maxPrice = price?.data.max_price
+
   const [priceRange, setPriceRange] = useState<[number, number]>([minPrice | minPrice, maxPrice | maxPrice])
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const ListAllCourse = () => {
     page: currentPage
   })
 
-  const { data, refetch,isLoading, isFetching } = useSearchCourseQuery(filter)
+  const { data, refetch, isLoading, isFetching } = useSearchCourseQuery(filter)
 
   useEffect(() => {
     refetch()
@@ -110,26 +111,30 @@ const ListAllCourse = () => {
   }
 
   const resetFilters = () => {
+    const resetMinPrice = minPrice || priceRange[0]
+    const resetMaxPrice = maxPrice || priceRange[1]
+
+    setPriceRange([resetMinPrice, resetMaxPrice])
+    setRating(0)
+
     const initialFilter = {
-      name: '',
-      price_min: priceRange[0],
-      price_max: priceRange[1],
+      name: filter.name,
+      price_min: resetMinPrice,
+      price_max: resetMaxPrice,
       categories: '',
       levels: '',
       rating: 0,
       per_page: perPage,
-      page: 1
+      page: currentPage
     }
 
     setFilter(initialFilter)
 
-    queryURL.set('name', '')
-    queryURL.set('price_min', priceRange[0].toString())
-    queryURL.set('price_max', priceRange[1].toString())
+    queryURL.set('price_min', resetMinPrice)
+    queryURL.set('price_max', resetMaxPrice)
     queryURL.set('categories', '')
     queryURL.set('levels', '')
     queryURL.set('rating', '0')
-    queryURL.set('page', '1')
 
     nav(`?${queryURL.toString()}`)
   }
@@ -157,7 +162,7 @@ const ListAllCourse = () => {
 
           {loading || isLoading || isFetching ? (
             <div className='min-h-screen'>
-              <DotLoader/>
+              <DotLoader />
             </div>
           ) : data?.data.length > 0 ? (
             <div>
