@@ -105,6 +105,11 @@ export const router = {
   VouchersCreate: `${prefixAdmin}/vouchers/create`,
   VouchersUpdate: `${prefixAdmin}/vouchers/update/:id`,
 
+  // Route bài viết
+  listArticle: `${prefixAdmin}/articles`,
+  articleCreate: `${prefixAdmin}/articles/create`,
+  articleUpdate: `${prefixAdmin}/articles/update/:id`, 
+
   // < ===== Not_Found ===== >
   notFound: '*',
 

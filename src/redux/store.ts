@@ -62,7 +62,7 @@ export const store = configureStore({
       walletHistoryApiSlice.middleware,
       requestApprovalCourseApiSlice.middleware,
       reviewCourseApiSlice.middleware,
-      blogApiSlice.middleware
+      blogApiSlice.middleware,
     )
 })
 

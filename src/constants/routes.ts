@@ -24,7 +24,6 @@ import List_Users from '@/pages/admin/User/List_Users/List_Users'
 import Form_Voucher from '@/pages/admin/voucher/Form_Voucher/Form_Voucher'
 import List_Voucher from '@/pages/admin/voucher/List_Voucher/List_Voucher'
 import ForgotPassword from '@/pages/auth/ForgotPassword/ForgotPassword'
-import ResetPassword from '@/pages/auth/ForgotPassword/ResetPassword'
 import Login from '@/pages/auth/Login/Login'
 import Register from '@/pages/auth/Register/Register'
 import Blog_Detail from '@/pages/client/Student/Blogs/Blog_Detail'
@@ -45,13 +44,17 @@ import New_Instructor from '@/pages/client/Teacher/New_Instructor/New_Instructor
 import Profile_Teacher from '@/pages/client/Teacher/Profile_Teacher/Profile_Teacher'
 import Revenue from '@/pages/client/Teacher/Revenue/Revenue'
 import List_Students from '@/pages/client/Teacher/Students/List_Students'
-import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
-import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
 import Payment_Methods from '@/pages/client/Teacher/Withdrawal_Methods/Withdrawal_Methods'
 import Forbidden from '@/pages/Forbidden/Forbidden'
 import Veryfi_Email from './../pages/auth/Veryfi_Email/Veryfi_Email'
 import Home_Page from './../pages/client/Student/Home_page/Home_Page'
 import Not_Found from './../pages/Not_found/Not_Found'
+import ResetPassword from '@/pages/auth/ForgotPassword/ResetPassword'
+import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
+import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
+import List_Article from '@/pages/admin/Article/List_Article/List_Article'
+import Form_Article from '@/pages/admin/Article/Form_Article/Form_Article'
+
 
 // Routes cho student
 export const studentRoutes = [
@@ -134,7 +137,11 @@ export const adminRoutes = [
   { path: router.listRefundCourses, element: List_Refund },
   { path: router.listVouchers, element: List_Voucher },
   { path: router.VouchersCreate, element: Form_Voucher },
-  { path: router.VouchersUpdate, element: Form_Voucher }
+  { path: router.VouchersUpdate, element: Form_Voucher },
+  { path: router.listArticle, element: List_Article },
+  { path: router.articleCreate, element: Form_Article },
+  { path: router.articleUpdate, element: Form_Article },
+
 ]
 
 export const notFoundRoutes = {

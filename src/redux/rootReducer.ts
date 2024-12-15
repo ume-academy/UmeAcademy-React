@@ -62,6 +62,7 @@ const rootReducer = combineReducers({
   [requestApprovalCourseApiSlice.reducerPath]: requestApprovalCourseApiSlice.reducer,
   [reviewCourseApiSlice.reducerPath]: reviewCourseApiSlice.reducer,
   [blogApiSlice.reducerPath]: blogApiSlice.reducer,
+
 })
 
 export default rootReducer

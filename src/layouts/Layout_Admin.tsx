@@ -18,8 +18,10 @@ import {
   ArrowRightLeft,
   FileClock,
   FileOutputIcon,
+  FilePlus2,
   GitPullRequestCreate,
   LibraryBig,
+  Newspaper,
   PercentCircle,
   ShieldAlert,
   TicketPercent,
@@ -98,7 +100,17 @@ const Layout_Admin: React.FC = () => {
       ),
       getItem(<NavLink to={router.userSystemCreate}>Tạo mới người dùng hệ thống</NavLink>, '15', <UserAddOutlined />)
     ]),
-    getItem(<NavLink to={router.listVouchers}>Mã giảm giá khóa học</NavLink>, '16', <TicketPercent size={15} />)
+    getItem(<NavLink to={router.listVouchers}>Mã giảm giá khóa học</NavLink>, '16', <TicketPercent size={15} />),
+    getItem('Danh sách bài viết', 'sub5', <Newspaper size={15} />, [ 
+      getItem(
+        <NavLink to={router.listArticle} className='truncate'>
+          Danh sách bài viết
+        </NavLink>,
+        '14',
+        <BarsOutlined />
+      ),
+      getItem(<NavLink to={router.articleCreate}>Tạo mới bài viết</NavLink>, '15', <FilePlus2 size={15}/>)
+    ]),
   ]
 
   const handleCollapse = (isCollapsed: any) => {

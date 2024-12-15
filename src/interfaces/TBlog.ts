@@ -11,3 +11,11 @@ export interface TBlog {
   created_at:string
   category:string
 }
+
+export interface TArticle_Form {
+  title: string
+  thumbnail: any
+  content: string
+  status: 'draft' | 'published'  
+  _method?: 'PUT' 
+}
