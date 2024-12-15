@@ -176,9 +176,13 @@ import { useCreateCourseOfTeacherMutation } from '@/redux/slices/course/courseAp
       stopLoading();
 
     } catch (error) {
-      console.log(error)
-      message.error(id ? 'Cập nhật khóa học thất bại' : 'Tạo khóa học thất bại');
+      const errorData = (error as { data?: any })?.data;
+      // Kiểm tra và hiển thị tất cả các lỗi trong errors
+      // Nếu có trường error trong data, hiển thị thông báo lỗi
+      if (errorData?.error) {
+        message.error(errorData.error); // Hiển thị thông báo lỗi từ trường error trong data
       stopLoading()
+      }
     }
   }
   

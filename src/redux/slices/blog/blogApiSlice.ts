@@ -51,8 +51,15 @@ export const blogApiSlice = createApi({
         };
       },
       invalidatesTags: ['blog']
-    })
+    }),
 
+    removeArticle: builder.mutation<void, Number>({
+      query: (id) => ({
+        url: `/admin/articles/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['blog']
+    })
   })
 })
 
@@ -63,5 +70,7 @@ export const {
   useUploadImageInTextEditorMutation,
   useUpdateArticleMutation,
   useGetArticleByIdQuery,
-  useGetAllArticleAdminQuery
+  useGetAllArticleAdminQuery,
+  useRemoveArticleMutation
+  
  } = blogApiSlice

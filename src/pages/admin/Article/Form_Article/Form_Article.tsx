@@ -167,7 +167,7 @@ const Form_Article = () => {
           <div className='mb-8'>
             <Form.Item
               name='title'
-              label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tiêu đề khóa học</label>}
+              label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Tiêu đề bài viết</label>}
               rules={[
                 { required: true, message: 'Tiêu đề không được trống.' },
                 { type: 'string', message: 'Tiêu đề phải là một chuỗi.' },
@@ -188,7 +188,7 @@ const Form_Article = () => {
           <div className='mb-8'>
             <Form.Item
               name='thumbnail'
-              label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ảnh thu nhỏ khóa học</label>}
+              label={<label className='text-[#685f78] dark:text-[#b9b7c0] text-[16px]'>Ảnh thu nhỏ bài viết</label>}
               rules={[
                 {
                   validator: async (_, value) => {

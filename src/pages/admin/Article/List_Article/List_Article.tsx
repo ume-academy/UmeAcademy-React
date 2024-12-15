@@ -1,22 +1,65 @@
 import { router } from '@/configs/routes';
 import { getTitleTab } from '@/constants/client';
-import { formatPrice, formatDate, smoothScrollToTop } from '@/constants/utils';
+import { formatDate, smoothScrollToTop } from '@/constants/utils';
+import useLoading from '@/hooks/useLoading';
+import { TBlog } from '@/interfaces/TBlog';
 import { TTransaction } from '@/interfaces/TTransaction';
-import { useGetAllArticleAdminQuery } from '@/redux/slices/blog/blogApiSlice';
-import { Button, Image, Pagination, Table, TableColumnsType, Tag } from 'antd';
+import { useGetAllArticleAdminQuery, useRemoveArticleMutation } from '@/redux/slices/blog/blogApiSlice';
+import { Button, Image, message, Modal, Pagination, Table, TableColumnsType } from 'antd';
 import { Pen, Trash2 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 
 const List_Article = () => {
+  const {startLoading, stopLoading} = useLoading()
   const [currentPage, setCurrentPage] = useState(1)
   const {data: listArticleData, isLoading} = useGetAllArticleAdminQuery({per_page: 10, page: currentPage})
-  console.log(listArticleData)
+  const [removeArticle] = useRemoveArticleMutation()
+
   const handlePageChange = (page: number) => {
-      setCurrentPage(page)
-      smoothScrollToTop()
-    }
+    setCurrentPage(page)
+    smoothScrollToTop()
+  }
+
+  const handleRemove = async (item: TBlog) => {
+    // Xóa bản ghi
+    Modal.confirm({
+      title: <span className='text-red-500 font-title'>Xác nhận xóa bản ghi</span>,
+      content: (
+        <p className='dark:text-[#b9b7c0] text-[#685f78]'>
+          Bạn có chắc chắn muốn xóa bản ghi có tên <span className='font-desc'>"{item.title}"</span> hay không?
+        </p>
+      ),
+      okText: 'Đồng ý',
+      okType: 'danger',
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }
+      },
+      cancelButtonProps: {
+        className: 'custom-cancel-btn' // Thêm lớp CSS tùy chỉnh
+      },
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null, // Bỏ biểu tượng trong modal
+      onOk: () => {
+        startLoading()
+        try {
+          // Logic
+          removeArticle(item.id) // Xóa bản ghi
+          message.success(`Xoá bài viết thành công!`)
+        } catch (error) {
+          console.log(error)
+          message.success(`Xoá bài viết thất bại!`)
+        } finally {
+          // Dừng loading
+          stopLoading()
+        }
+      }
+    })
+  }
 
   const columns: TableColumnsType<TTransaction> = [
     {
@@ -80,8 +123,8 @@ const List_Article = () => {
               <Pen size={20} />
             </Button>
           </Link>
-        {/* onClick={() => handleRemove(item)} */}
-          <Button type='primary' danger className='ml-2' > 
+        
+          <Button type='primary' danger className='ml-2' onClick={() => handleRemove(item)}> 
             <Trash2 size={20} />
           </Button>
         </div>
