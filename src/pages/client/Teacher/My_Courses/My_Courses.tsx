@@ -34,11 +34,11 @@ const My_Courses = () => {
         </div>
 
         {isLoading || isFetching ? (
-          <div className='min-h-screen p-4 lg:p-6'>
+          <div className='p-4 lg:p-6'>
             <DotLoader />
           </div>
         ) : data?.data && data?.data.length > 0 ? (
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center lg:gap-3 gap-y-3 p-3 lg:p-2 min-h-screen'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center lg:gap-3 gap-y-3 p-3 lg:p-2 '>
             {data?.data.map((course: TCourse) => <Card {...course} key={course.id} />)}
           </div>
         ) : (
@@ -54,19 +54,21 @@ const My_Courses = () => {
         )}
       </div>
 
-      <div className='flex justify-between items-center my-6 text-sm'>
-        <p className='dark:text-[#b9b7c0]'>
-          Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
-          <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
-        </p>
-        <Pagination
-          pageSize={data?.meta?.per_page}
-          total={data?.meta?.total}
-          current={currentPage}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
-      </div>
+      {data?.data && data?.data.length > 0 && (
+        <div className='flex justify-between items-center my-6 text-sm'>
+          <p className='dark:text-[#b9b7c0]'>
+            Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+            <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+          </p>
+          <Pagination
+            pageSize={data?.meta?.per_page}
+            total={data?.meta?.total}
+            current={currentPage}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
     </div>
   )
 }

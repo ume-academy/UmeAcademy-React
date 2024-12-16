@@ -12,8 +12,7 @@ const Courses_Top = () => {
   }, [])
 
   const dataCourse = data?.data?.map((course: TCourse) => ({
-    ...course,
-    revenue: Number(course.price) * Number(course.total_student)
+    ...course
   }))
 
   const columns = [
@@ -28,26 +27,18 @@ const Courses_Top = () => {
       )
     },
     {
-      title: 'Giá bán',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price: number) => <span className=''>{formatPrice(price)}</span>,
-      width: 120
-    },
-    {
       title: 'Lượt bán',
       dataIndex: 'total_student',
       key: 'total_student',
       render: (total_student: number) => <span className=''>{total_student}</span>,
-      width: 110
+      width: 130
     },
-
     {
-      title: 'Doanh thu',
-      dataIndex: 'revenue',
-      key: 'revenue',
-      render: (revenue: number) => <p className=''>{formatPrice(revenue)}</p>,
-      width: 120
+      title: 'Giá bán',
+      dataIndex: 'price',
+      key: 'price',
+      render: (price: number) => <span className=''>{formatPrice(price)}</span>,
+      width: 130
     }
   ]
 

@@ -100,7 +100,7 @@ const Card_Horizontal = ({
               </span>
             </span>
             <div className='flex justify-between items-start'>
-              <Link to={`${router.teacherInfoCourse.replace(':id', String(id))}`} className='hover:text-inherit'>
+              <Link to={`${router.teacherInfoCourse.replace(':id', String(teacher.id))}`} className='hover:text-inherit'>
                 <div className='flex items-center'>
                   <img
                     src={teacher?.avatar as string}

@@ -57,11 +57,7 @@ const Layout_Admin: React.FC = () => {
 
   const items: MenuItem[] = [
     getItem(
-      <NavLink to={router.dashBoard} className=''>
-        Dashboard
-      </NavLink>,
-      '1',
-      <PieChartOutlined />
+      <NavLink to={router.dashBoard} className=''>Dashboard</NavLink>,'1',<PieChartOutlined />
     ),
     // getItem(<NavLink to={router.users}>Tài khoản</NavLink>, '2', <Users size={15} />),
     getItem('Danh mục tài khoản', 'sub1', <Users size={15} />, [
@@ -101,7 +97,7 @@ const Layout_Admin: React.FC = () => {
       getItem(<NavLink to={router.userSystemCreate}>Tạo mới người dùng hệ thống</NavLink>, '15', <UserAddOutlined />)
     ]),
     getItem(<NavLink to={router.listVouchers}>Mã giảm giá khóa học</NavLink>, '16', <TicketPercent size={15} />),
-    getItem('Danh sách bài viết', 'sub5', <Newspaper size={15} />, [ 
+    getItem('Danh sách bài viết', 'sub5', <Newspaper size={15} />, [
       getItem(
         <NavLink to={router.listArticle} className='truncate'>
           Danh sách bài viết
@@ -109,8 +105,9 @@ const Layout_Admin: React.FC = () => {
         '14',
         <BarsOutlined />
       ),
-      getItem(<NavLink to={router.articleCreate}>Tạo mới bài viết</NavLink>, '15', <FilePlus2 size={15}/>)
-    ]),
+      getItem(<NavLink to={router.articleCreate}>Tạo mới bài viết</NavLink>, '177', <FilePlus2 size={15} />)
+    ])
+    
   ]
 
   const handleCollapse = (isCollapsed: any) => {

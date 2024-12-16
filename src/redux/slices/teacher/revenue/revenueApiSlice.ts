@@ -1,5 +1,5 @@
 import { customBaseQuery } from '@/Api'
-import { TChart, TRevenue } from '@/interfaces/TRevenue'
+import { TRevenue } from '@/interfaces/TRevenue'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const revenueApiSlice = createApi({

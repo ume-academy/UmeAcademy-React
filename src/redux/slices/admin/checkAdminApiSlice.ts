@@ -1,5 +1,5 @@
-import { baseUrl } from '@/Api';
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseUrl } from '@/Api'
+import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const checkAdminApiSlice = createApi({
   reducerPath: 'checkAdminApi',
@@ -11,10 +11,9 @@ export const checkAdminApiSlice = createApi({
         url: '/admin/check',
         method: 'POST'
       }),
-      providesTags: ['CheckAdmin'],
+      providesTags: ['CheckAdmin']
     })
   })
-});
+})
 
-
-export const { useCheckAdminQuery } = checkAdminApiSlice;
+export const { useCheckAdminQuery } = checkAdminApiSlice

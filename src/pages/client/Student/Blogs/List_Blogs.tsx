@@ -1,20 +1,18 @@
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
+import { formatDate, smoothScrollToTop } from '@/constants/utils'
 import { TBlog } from '@/interfaces/TBlog'
-import { CalendarDays, RotateCcw, Tag } from 'lucide-react'
+import { useGetAllArticlePublishedQuery } from '@/redux/slices/blog/blogApiSlice'
+import { Pagination } from 'antd'
+import { motion } from 'framer-motion'
+import { CalendarDays } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Checkbox, Form, Pagination } from 'antd'
-import { TCategory } from '@/interfaces/TCategory'
-import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
-import { useGetAllArticlePublishedQuery } from '@/redux/slices/blog/blogApiSlice'
-import { useEffect, useState } from 'react'
-import { formatDate, smoothScrollToTop } from '@/constants/utils'
 
 const List_Blogs = () => {
-  const [form] = Form.useForm()
-  const { data: categoriesData } = useGetAllCategoryQuery({})
+  // const [form] = Form.useForm()
+  // const { data: categoriesData } = useGetAllCategoryQuery({})
   const [currentPage, setCurrentPage] = useState(1)
   const perPage = 6
   const { data, refetch } = useGetAllArticlePublishedQuery({ per_page: perPage, page: currentPage })
@@ -28,11 +26,11 @@ const List_Blogs = () => {
     smoothScrollToTop()
   }
   return (
-    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto  text-black dark:text-gray-200   mb-10 mt-32 md:mb-20 flex flex-wrap gap-y-20 justify-between items-start'>
+    <div className='max-w-[768px] md:max-w-[1024px] lg:p-0 p-4 lg:max-w-[1280px] mx-auto  text-black dark:text-gray-200   mb-10 mt-32 md:mb-20 '>
       <Helmet>
         <title>{getTitleTab('Bài viết')}</title>
       </Helmet>
-      <div className=' w-full lg:w-[70%] space-y-16'>
+      <div className='w-full  flex flex-wrap gap-y-10 items-center justify-center md:justify-between'>
         {data?.data.map((blog: TBlog) => (
           <div className='space-y-6' key={blog.id}>
             <Link to={`${router.blogDetail.replace(':id', String(blog.id))}`}>
@@ -40,7 +38,7 @@ const List_Blogs = () => {
                 <motion.img
                   src={blog.thumbnail as string}
                   alt=''
-                  className='w-full h-full lg:w-[1000px] lg:h-[360px] object-cover hover:rounded-md'
+                  className='w-full h-full lg:w-[626px] lg:h-[360px] object-cover hover:rounded-md'
                   whileHover={{ scale: 1.2 }}
                   transition={{ duration: 0.4, ease: 'easeInOut' }}
                 />
@@ -74,21 +72,21 @@ const List_Blogs = () => {
             </div>
           </div>
         ))}
-        <div className='flex justify-between items-center my-6 text-sm'>
-          <p className='dark:text-[#b9b7c0]'>
-            Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
-            <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
-          </p>
-          <Pagination
-            pageSize={data?.meta?.per_page}
-            total={data?.meta?.total}
-            current={data?.meta?.current_page}
-            onChange={handlePageChange}
-            showSizeChanger={false}
-          />
-        </div>
       </div>
-      <div className='w-full lg:w-[26%]'>
+      <div className='flex justify-between items-center my-6 text-sm mt-10'>
+        <p className='dark:text-[#b9b7c0]'>
+          Trang số <span className='text-[#F84563] font-subtitle'>{data?.meta?.current_page}</span> trên tổng số{' '}
+          <span className='text-[#F84563] font-subtitle'>{data?.meta?.last_page}</span> trang
+        </p>
+        <Pagination
+          pageSize={data?.meta?.per_page}
+          total={data?.meta?.total}
+          current={data?.meta?.current_page}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+      </div>
+      {/* <div className='w-full lg:w-[26%]'>
         <div className='p-4 border dark:border-[#5a5a5a] rounded-md text-[16px] md:text-lg'>
           <div className='flex justify-between items-center font-semibold dark:text-[#B9B7C0]'>
             <p>Danh mục bài viết</p>
@@ -116,7 +114,7 @@ const List_Blogs = () => {
             </Form>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

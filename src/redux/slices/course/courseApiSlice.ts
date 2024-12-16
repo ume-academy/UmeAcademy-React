@@ -33,7 +33,7 @@ export const courseApiSlice = createApi({
 
     //! GET ALL COURSES FOR ADMIN
     getAllCourseAdmin: builder.query({
-      query: ({ page }) => `/admin/courses?page=${page}`,
+      query: ({ page, status }) => `/admin/courses?status=${status}&page=${page}`,
       // transformResponse: (res: { data: TCourse }) => res.data
       providesTags: ['Course']
     }),
@@ -74,6 +74,7 @@ export const courseApiSlice = createApi({
       }),
       invalidatesTags: ['Course']
     }),
+
     getCourseAdminById: builder.query({
       query: (id) => `/admin/course/${id}`,
       transformResponse: (res: { data: TCourseDetail }) => res.data
@@ -97,7 +98,7 @@ export const courseApiSlice = createApi({
       providesTags: ['Course']
     }),
     getTopCourse: builder.query({
-      query:()=>`/teacher/courses/top-5-best-seller`
+      query: () => `/teacher/courses/top-5-best-seller`
     }),
 
     // CREATE COURSE OF TEACHER

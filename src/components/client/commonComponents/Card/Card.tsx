@@ -260,7 +260,7 @@ const Card = ({
 
       {!isMyCoursesPage && (
         <div className='mt-6 flex justify-between items-center'>
-          <Link to={`${router.teacherInfoCourse.replace(':id', String(id))}`} className='hover:text-inherit'>
+          <Link to={`${router.teacherInfoCourse.replace(':id', String(teacher.id))}`} className='hover:text-inherit'>
             <div className='flex items-center'>
               <img
                 src={teacher?.avatar as string}

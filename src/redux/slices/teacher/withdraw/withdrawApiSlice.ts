@@ -40,8 +40,8 @@ export const withdrawApiSlice = createApi({
 
     //ADMIN
     getAllWithdrawRequest: builder.query({
-      query: ({ per_page, page, start_date, end_date }) =>
-        `/admin/withdraw-request??per_page=${per_page}&page=${page}&start_date=${start_date}&end_date=${end_date}`,
+      query: ({ per_page, page, start_date, end_date, status }) =>
+        `/admin/withdraw-request?per_page=${per_page}&page=${page}&start_date=${start_date}&end_date=${end_date}&status=${status}`,
       providesTags: ['withdraw']
     }),
 

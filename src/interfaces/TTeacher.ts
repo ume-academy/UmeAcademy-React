@@ -13,6 +13,7 @@ export interface TTeacher {
   youtube: string | null
   created_at: string
   count_review?: number
+  total_earnings?:number
 }
 
 // Là giáo viên hay không

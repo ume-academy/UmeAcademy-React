@@ -31,8 +31,8 @@ const CustomTreeSelect = styled(TreeSelect)`
 const List_Courses = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, isFetching, isLoading } = useGetAllCourseAdminQuery({
-    page: selectedStatus ? 0 : currentPage,
+  const { data, isLoading } = useGetAllCourseAdminQuery({
+    page: currentPage,
     status: selectedStatus
   })
 
@@ -40,17 +40,19 @@ const List_Courses = () => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
-  const filteredData = data?.data?.filter(
-    (course: TCourse) => selectedStatus === undefined || course.status === Number(selectedStatus)
-  )
+  const dataSource = data?.data.map((item: TCourse, index: number) => ({
+    key: (currentPage - 1) * data?.meta?.per_page + index + 1,
+    ...item
+  }))
 
   const columns: TableColumnsType<TCourse> = [
     {
       title: 'Stt',
       key: 'stt',
-      render: (_, __, index: number) => <div>{index + 1}</div>,
-      width: 50,
-      responsive: ['md']
+      render: (_, record, index: number) => {
+        return (+data?.meta?.current_page - 1) * +data?.meta?.per_page + index + 1
+      },
+      width: 50
     },
     {
       title: 'Ảnh',
@@ -59,8 +61,7 @@ const List_Courses = () => {
       render: (thumbnail: string) => (
         <Image src={thumbnail} alt='Course thumbnail' style={{ width: '80px', height: 'auto', objectFit: 'cover' }} />
       ),
-      width: 80,
-      responsive: ['sm']
+      width: 80
     },
     {
       title: 'Tên khóa học',
@@ -73,7 +74,6 @@ const List_Courses = () => {
       dataIndex: 'teacher',
       key: 'teacher',
       width: 150,
-      responsive: ['md'],
       render: (teacher: TTeacher) => <div>{teacher.fullname}</div>
     },
     {
@@ -81,16 +81,14 @@ const List_Courses = () => {
       dataIndex: 'price',
       key: 'price',
       render: (price: number) => <div>{formatPrice(price)}</div>,
-      width: 100,
-      responsive: ['md']
+      width: 100
     },
     {
       title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
       render: (created_at: string) => <div>{formatDate(created_at)}</div>,
-      width: 150,
-      responsive: ['lg']
+      width: 150
     },
     {
       title: 'Trạng thái',
@@ -131,14 +129,12 @@ const List_Courses = () => {
             value={selectedStatus}
             onChange={(value) => {
               setSelectedStatus(value as string)
-              setCurrentPage(1)
             }}
             className='w-44 h-10 mt-4 md:mt-0'
             treeData={[
-              { value: 0, title: 'Nháp' },
-              { value: 1, title: 'Chờ phê duyệt' },
-              { value: 2, title: 'Đã phê duyệt' },
-              { value: 3, title: 'Lưu trữ' }
+              { value: 'draft', title: 'Nháp' },
+              { value: 'pending', title: 'Chờ phê duyệt' },
+              { value: 'publishsed', title: 'Đã phê duyệt' }
             ]}
             allowClear
           />
@@ -148,7 +144,7 @@ const List_Courses = () => {
             columns={columns}
             pagination={false}
             rowKey='id'
-            dataSource={filteredData}
+            dataSource={dataSource}
             scroll={{ x: 'max-content' }}
             loading={isLoading}
           />

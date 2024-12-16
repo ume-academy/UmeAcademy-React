@@ -16,7 +16,7 @@ export const blogApiSlice = createApi({
     }),
 
     getAllArticleAdmin: builder.query({
-      query: ({ per_page, page }) => `/admin/articles?per_page=${per_page}&page=${page}`,
+      query: ({ per_page, status, page }) => `/admin/articles?per_page=${per_page}&status=${status}&page=${page}`,
       providesTags: ['blog']
     }),
 
@@ -25,30 +25,30 @@ export const blogApiSlice = createApi({
       providesTags: ['blog']
     }),
 
-    createArticle: builder.mutation<void, {formData: FormData}>({
+    createArticle: builder.mutation<void, { formData: FormData }>({
       query: (data) => ({
         url: '/admin/articles',
         method: 'POST',
-        body: data.formData,
+        body: data.formData
       }),
       invalidatesTags: ['blog']
     }),
 
-    uploadImageInTextEditor: builder.mutation<{url: string}, {upload: FormData}>({
+    uploadImageInTextEditor: builder.mutation<{ url: string }, { upload: FormData }>({
       query: (data) => ({
         url: '/upload-image',
         method: 'POST',
-        body: data.upload,
-      }),
+        body: data.upload
+      })
     }),
 
-    updateArticle: builder.mutation<void, {id: number, formData: FormData}>({
+    updateArticle: builder.mutation<void, { id: number; formData: FormData }>({
       query: (data) => {
         return {
           url: `/admin/articles/${data.id}`,
           method: 'POST',
-          body: data.formData,
-        };
+          body: data.formData
+        }
       },
       invalidatesTags: ['blog']
     }),
@@ -56,21 +56,20 @@ export const blogApiSlice = createApi({
     removeArticle: builder.mutation<void, Number>({
       query: (id) => ({
         url: `/admin/articles/${id}`,
-        method: 'DELETE',
+        method: 'DELETE'
       }),
       invalidatesTags: ['blog']
     })
   })
 })
 
-export const { 
-  useGetAllArticlePublishedQuery, 
-  useGetArticlePublishedQuery, 
-  useCreateArticleMutation, 
+export const {
+  useGetAllArticlePublishedQuery,
+  useGetArticlePublishedQuery,
+  useCreateArticleMutation,
   useUploadImageInTextEditorMutation,
   useUpdateArticleMutation,
   useGetArticleByIdQuery,
   useGetAllArticleAdminQuery,
   useRemoveArticleMutation
-  
- } = blogApiSlice
+} = blogApiSlice

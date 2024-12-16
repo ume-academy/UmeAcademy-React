@@ -29,6 +29,7 @@ import { voucherApiSlice } from './slices/voucher/voucherApiSlice'
 import { requestApprovalCourseApiSlice } from './slices/teacher/requestApprovalCourse/requestApprovalCourseApiSlice'
 import { reviewCourseApiSlice } from './slices/course/reviewCourseApiSlice'
 import { blogApiSlice } from './slices/blog/blogApiSlice'
+import { dashboardApiSlice } from './slices/admin/dashboardApiSlice'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -63,6 +64,7 @@ export const store = configureStore({
       requestApprovalCourseApiSlice.middleware,
       reviewCourseApiSlice.middleware,
       blogApiSlice.middleware,
+      dashboardApiSlice.middleware
     )
 })
 

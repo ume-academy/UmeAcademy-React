@@ -6,7 +6,6 @@ import Commission_Rate from '@/pages/admin/Commission_Rate/Commission_Rate'
 // import Course_Detail from '@/pages/admin/Course/Course_Detail/Course_Detail'
 import Login_Admin from '@/pages/admin/Auth/Login/Login_Admin'
 import List_Courses from '@/pages/admin/Course/List_Courses/List_Courses'
-import Dashboard from '@/pages/admin/Dashboard/Dashboard'
 import Form_Payment_Method from '@/pages/admin/Payment_Method/Form_Payment_Method/Form_Payment_Method'
 import List_Payment_Method from '@/pages/admin/Payment_Method/List_Payment_Method/List_Payment_Method'
 import List_Refund from '@/pages/admin/Refund/List_Refund/List_Refund'
@@ -54,7 +53,7 @@ import Wallet_Money from '@/pages/client/Teacher/Wallet_Money/Wallet_Money'
 import Withdraw_Histories from '@/pages/client/Teacher/Withdraw_Histories/Withdraw_Histories'
 import List_Article from '@/pages/admin/Article/List_Article/List_Article'
 import Form_Article from '@/pages/admin/Article/Form_Article/Form_Article'
-
+import Dashboard from '@/pages/admin/Dashboard/Dashboard'
 
 // Routes cho student
 export const studentRoutes = [
@@ -71,7 +70,7 @@ export const studentRoutes = [
   { path: router.favoriteCourses, element: Favorite_Courses },
   { path: router.teacherInfoCourse, element: Teacher_Info_Course },
   { path: router.listBlogs, element: List_Blogs },
-  { path: router.blogDetail, element: Blog_Detail },
+  { path: router.blogDetail, element: Blog_Detail }
 ]
 
 export const protectedStudentRoutes = [
@@ -140,8 +139,7 @@ export const adminRoutes = [
   { path: router.VouchersUpdate, element: Form_Voucher },
   { path: router.listArticle, element: List_Article },
   { path: router.articleCreate, element: Form_Article },
-  { path: router.articleUpdate, element: Form_Article },
-
+  { path: router.articleUpdate, element: Form_Article }
 ]
 
 export const notFoundRoutes = {

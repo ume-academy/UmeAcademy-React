@@ -2,58 +2,59 @@ import { getTitleTab } from '@/constants/client'
 import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TTransaction } from '@/interfaces/TTransaction'
 import { useGetAllTransactionQuery } from '@/redux/slices/transaction/transactionApiSlice'
-import { Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
-import { useState } from 'react'
+import { Pagination, Table, TableColumnsType, Tag, TreeSelect, TreeSelectProps } from 'antd'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-const CustomTreeSelect = styled(TreeSelect)`
+interface CustomTreeSelectProps extends TreeSelectProps<any> {
+  value?: any
+}
+
+const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => <TreeSelect {...props} />)`
   .ant-select-selector {
-    background-color: #fafafa !important;
-    border: 1px solid #c1c9d2 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .dark & .ant-select-selector {
-    background-color: #131022 !important;
-    border: 1px solid #c7c7c740 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .ant-select-selector .ant-select-selection-placeholder {
-    color: #6e82a3 !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
+
   .dark & .ant-select-selector .ant-select-selection-placeholder {
-    color: #e9ecef !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
 `
 const List_Transactions = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
-  const [startDate, setStartDate] = useState<string | null>(null)
-  const [endDate, setEndDate] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
 
-  const { data, isLoading, isFetching } = useGetAllTransactionQuery({ per_page: 10, page: currentPage })
+  console.log(selectedStatus)
+
+  const { data, isLoading, refetch } = useGetAllTransactionQuery({
+    per_page: 10,
+    status: selectedStatus || '',
+    page: currentPage
+  })
+
+  useEffect(() => {
+    if (selectedStatus !== undefined) {
+      refetch()
+    }
+  }, [selectedStatus, currentPage])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()
   }
-  console.log(data)
 
-  // const filteredDate = (transaction: Transaction) => {
-  //   const createdAt = transaction.created_at ? new Date(transaction.created_at) : ''
-
-  //   const start = startDate ? new Date(startDate) : null
-  //   const end = endDate ? new Date(endDate) : null
-
-  //   return (!start || createdAt >= start) && (!end || createdAt <= end)
-  // }
-
-  const filteredStatus = (transaction: TTransaction) => {
-    return selectedStatus === undefined || transaction.status === String(selectedStatus)
-  }
-
-  const filteredData = data?.data.filter((transaction: TTransaction) => filteredStatus(transaction)) || []
-
-  const dataSource = filteredData.map((item: TTransaction, index: number) => ({
-    key: index + 1,
+  const dataSource = data?.data.map((item: TTransaction, index: number) => ({
+    key: (currentPage - 1) * data?.meta?.per_page + index + 1,
     ...item
   }))
 
@@ -62,6 +63,9 @@ const List_Transactions = () => {
       title: 'Stt',
       key: 'key',
       dataIndex: 'key',
+      render: (_, record, index: number) => {
+        return (+data?.meta?.current_page - 1) * +data?.meta?.per_page + index + 1
+      },
       width: 60
     },
     {
@@ -135,26 +139,13 @@ const List_Transactions = () => {
       </Helmet>
       <div className='flex flex-col lg:flex-row lg:justify-between items-center mb-4'>
         <p className='text-xl font-semibold'>Danh sách giao dịch</p>
-        <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
-          {/* <div className='flex gap-2 items-center'>
-            <DatePicker
-              value={startDate}
-              placeholder='Ngày bắt đầu'
-              className='dark:bg-[#2b2838] bg-white h-9'
-              onChange={setStartDate}
-            />
-            <span className='hidden sm:block'>-</span>
-            <DatePicker
-              value={endDate}
-              placeholder='Ngày kết thúc'
-              className='dark:bg-[#2b2838] bg-white h-9'
-              onChange={setEndDate}
-            />
-          </div> */}
+        <div className=' mt-4 md:mt-2 lg:mt-0'>
           <CustomTreeSelect
             placeholder='Lọc theo trạng thái'
             value={selectedStatus}
-            onChange={(value) => setSelectedStatus(value as string)}
+            onChange={(value) => {
+              setSelectedStatus(value as string)
+            }}
             className='w-full sm:w-40 h-10'
             treeData={[
               { value: 'pending', title: 'Chưa thanh toán' },
@@ -166,13 +157,7 @@ const List_Transactions = () => {
         </div>
       </div>
 
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        pagination={false}
-        scroll={{ x: 1300 }}
-        loading={isLoading}
-      />
+      <Table columns={columns} dataSource={dataSource} pagination={false} scroll={{ x: 1300 }} loading={isLoading} />
 
       <div className='flex justify-between items-center my-6 text-sm'>
         <p className='dark:text-[#b9b7c0]'>

@@ -8,12 +8,12 @@ import {
 import { DatePicker, message, Modal, Pagination, Table, TableColumnType, TreeSelect, TreeSelectProps } from 'antd'
 import { Info } from 'lucide-react'
 import moment from 'moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
 interface CustomTreeSelectProps extends TreeSelectProps<any> {
-  value?: number
+  value?: any
 }
 
 const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => <TreeSelect {...props} />)`
@@ -37,7 +37,7 @@ const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => 
 `
 
 const List_Withdrawal_Requests = () => {
-  // const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined)
   const [startDate, setStartDate] = useState<string | ''>('')
   const [endDate, setEndDate] = useState<string | ''>('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -45,9 +45,16 @@ const List_Withdrawal_Requests = () => {
     per_page: 10,
     page: currentPage,
     start_date: startDate,
-    end_date: endDate
+    end_date: endDate,
+    status: selectedStatus || ''
   })
   const [updateStatus] = useUpdateStatusWithdrawRequestMutation()
+
+  useEffect(() => {
+    if (selectedStatus !== undefined) {
+      refetch()
+    }
+  }, [selectedStatus, currentPage])
 
   const handleInfoBank = (bank: any) => {
     Modal.confirm({
@@ -113,14 +120,8 @@ const List_Withdrawal_Requests = () => {
     } else setEndDate('')
   }
 
-  // const filteredStatus = (withdraw: TInfoWithdrawRequest): boolean => {
-  //   return selectedStatus === undefined || withdraw.status === Number(selectedStatus)
-  // }
-
-  // const filteredData = data?.data?.filter((withdraw: TInfoWithdrawRequest) => filteredStatus(withdraw)) || []
-
   const dataSource = data?.data?.map((item: TInfoWithdrawRequest, index: number) => ({
-    key: index + 1,
+    key: (currentPage - 1) * data?.meta?.per_page + index + 1,
     ...item
   }))
 
@@ -129,6 +130,9 @@ const List_Withdrawal_Requests = () => {
       title: 'Stt',
       key: 'key',
       dataIndex: 'key',
+      render: (_, record, index: number) => {
+        return (+data?.meta?.current_page - 1) * +data?.meta?.per_page + index + 1
+      },
       width: 60
     },
     {
@@ -242,18 +246,18 @@ const List_Withdrawal_Requests = () => {
               onChange={handleEndDate}
             />
           </div>
-          {/* <CustomTreeSelect
+          <CustomTreeSelect
             placeholder='Lọc theo trạng thái'
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value as string)}
             className='w-full sm:w-40 h-10'
             treeData={[
-              { value: 0, title: 'Đã từ chối' },
-              { value: 1, title: 'Đã phê duyệt' },
-              { value: 2, title: 'Chờ phê duyệt' }
+              { value: 'reject', title: 'Đã từ chối' },
+              { value: 'pending', title: 'Đã phê duyệt' },
+              { value: 'success', title: 'Chờ phê duyệt' }
             ]}
             allowClear
-          /> */}
+          />
         </div>
       </div>
 

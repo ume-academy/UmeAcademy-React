@@ -6,7 +6,7 @@ import {
   useUpdateStatusRefundRequestMutation
 } from '@/redux/slices/transaction/refundApiSlice'
 import { message, Pagination, Table, TableColumnsType, TreeSelect, TreeSelectProps } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import './listAntd.scss'
@@ -34,22 +34,21 @@ const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => 
   }
 `
 
-
 const List_Refund = () => {
   const [selectedStatus, setSelectedStatus] = useState<number | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState(1)
-  const { data, isLoading, isFetching } = useGetAllRefundRequestQuery({ per_page: 10, page: currentPage })
-  const [updateStatus] = useUpdateStatusRefundRequestMutation();
+  const { data, isLoading, refetch } = useGetAllRefundRequestQuery({
+    per_page: 10,
+    status: selectedStatus || '',
+    page: currentPage
+  })
+  const [updateStatus] = useUpdateStatusRefundRequestMutation()
 
-  // console.log(data)
+  useEffect(() => {
+    refetch()
+  }, [])
 
-  const filteredStatus = (withdraw: TRefund): boolean => {
-    return selectedStatus === undefined || withdraw.status === Number(selectedStatus)
-  }
-
-  const filteredData = data?.data?.filter((withdraw: TRefund) => filteredStatus(withdraw)) || []
-
-  const dataSource = filteredData.map((item: TRefund, index: number) => ({
+  const dataSource = data?.data.map((item: TRefund, index: number) => ({
     key: (currentPage - 1) * data?.meta?.per_page + index + 1,
     ...item
   }))
@@ -61,13 +60,12 @@ const List_Refund = () => {
 
   const columns: TableColumnsType<TRefund> = [
     {
-      title: "STT",
+      title: 'STT',
       render: (_, record, index: number) => {
-        // Tính toán STT dựa trên trang và số bản ghi mỗi trang
-        return (+data?.meta?.current_page - 1) * (+data?.meta?.per_page) + index + 1;
+        return (+data?.meta?.current_page - 1) * +data?.meta?.per_page + index + 1
       },
       width: 50,
-      align: "center",
+      align: 'center'
     },
     {
       title: 'Tên sinh viên',
@@ -87,7 +85,7 @@ const List_Refund = () => {
       dataIndex: 'price',
       render: (price: number) => <p>{formatPrice(price)}</p>,
       width: 110,
-      align: 'center' as const,
+      align: 'center' as const
     },
     {
       title: 'Tên giảng viên',
@@ -102,7 +100,7 @@ const List_Refund = () => {
       dataIndex: 'created_at',
       render: (created_at: string) => <p>{formatDate(created_at)}</p>,
       width: 160,
-      align: 'center' as const,
+      align: 'center' as const
     },
     {
       title: 'Lý do hoàn trả',
@@ -122,32 +120,26 @@ const List_Refund = () => {
         // />
 
         <CustomTreeSelect
-            value={record.status}
-            placeholder={record.status === 0 ? 'Đã từ chối' : record.status === 1 ? 'Đã phê duyệt' : 'Chờ phê duyệt'}
-            onChange={(value) => handleChangeStatus(value, record.transaction_code)}
-            className='w-36 h-10'
-            treeData={[
-              { value: 0, title: 'Đã từ chối' },
-              { value: 2, title: 'Chờ phê duyệt' },
-              { value: 1, title: 'Đã phê duyệt' }
-            ]}
-          />
+          value={record.status}
+          placeholder={record.status === 0 ? 'Đã từ chối' : record.status === 1 ? 'Đã phê duyệt' : 'Chờ phê duyệt'}
+          onChange={(value) => handleChangeStatus(value, record.transaction_code)}
+          className='w-36 h-10'
+          treeData={[
+            { value: 0, title: 'Đã từ chối' },
+            { value: 2, title: 'Chờ phê duyệt' },
+            { value: 1, title: 'Đã phê duyệt' }
+          ]}
+        />
       ),
-      align: 'center' as const,
+      align: 'center' as const
     }
   ]
 
-  console.log(filteredData)
-
   const handleChangeStatus = async (value: any, transactionCode: string) => {
-
-    // console.log('stt', value, ', code', transactionCode)
-
     try {
-      const res = await updateStatus({ transactionCode: transactionCode, status: value });
+      const res = await updateStatus({ transactionCode: transactionCode, status: value })
 
       console.log(res)
-
 
       if (res.data) {
         message.success((res as any).data.message)
@@ -155,7 +147,7 @@ const List_Refund = () => {
         message.error('Không thể quay trở lại trạng thái Chờ phê duyệt!')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
 
       message.error('Đã xảy ra lỗi khi cập nhật trạng thái yêu cầu hoàn tiền!')
     }
@@ -174,31 +166,16 @@ const List_Refund = () => {
       </Helmet>
       <div className='flex flex-col lg:flex-row lg:justify-between items-center mb-4'>
         <p className='text-xl font-semibold'>Danh sách yêu cầu hoàn tiền</p>
-        <div className='flex flex-col sm:flex-row gap-4 lg:gap-6 items-center mt-4 md:mt-2 lg:mt-0'>
-          {/* <div className='flex gap-2 items-center'>
-            <DatePicker
-              value={startDate}
-              placeholder='Ngày bắt đầu'
-              className='dark:bg-[#2b2838] bg-white h-9'
-              onChange={setStartDate}
-            />
-            <span className='hidden sm:block'>-</span>
-            <DatePicker
-              value={endDate}
-              placeholder='Ngày kết thúc'
-              className='dark:bg-[#2b2838] bg-white h-9'
-              onChange={setEndDate}
-            />
-          </div> */}
+        <div className=' mt-4 md:mt-2 lg:mt-0'>
           <CustomTreeSelect
             placeholder='Lọc theo trạng thái'
             value={selectedStatus}
             onChange={(value) => setSelectedStatus(value as number)}
             className='w-full sm:w-40 h-10'
             treeData={[
-              { value: 0, title: 'Đã từ chối' },
-              { value: 1, title: 'Đã phê duyệt' },
-              { value: 2, title: 'Chờ phê duyệt' }
+              { value: 'reject', title: 'Đã từ chối' },
+              { value: 'pending', title: 'Đã phê duyệt' },
+              { value: 'success', title: 'Chờ phê duyệt' }
             ]}
             allowClear
           />
@@ -211,7 +188,7 @@ const List_Refund = () => {
         pagination={false}
         scroll={{ x: 'max-content' }}
         loading={isLoading}
-        rowKey="key"
+        rowKey='key'
       />
 
       <div className='flex justify-between items-center my-6 text-sm'>

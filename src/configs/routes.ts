@@ -60,7 +60,7 @@ export const router = {
 
   // < ===== ADMIN ===== >
   // Route index
-  dashBoard: `${prefixAdmin}`,
+  dashBoard: `${prefixAdmin}/doashboard`,
 
   // Route tài khoản
   users: `${prefixAdmin}/users`,
@@ -108,7 +108,7 @@ export const router = {
   // Route bài viết
   listArticle: `${prefixAdmin}/articles`,
   articleCreate: `${prefixAdmin}/articles/create`,
-  articleUpdate: `${prefixAdmin}/articles/update/:id`, 
+  articleUpdate: `${prefixAdmin}/articles/update/:id`,
 
   // < ===== Not_Found ===== >
   notFound: '*',
