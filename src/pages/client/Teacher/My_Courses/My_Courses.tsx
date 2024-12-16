@@ -1,6 +1,5 @@
 import Card from '@/components/client/commonComponents/Card/Card'
 import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import { smoothScrollToTop } from '@/constants/utils'

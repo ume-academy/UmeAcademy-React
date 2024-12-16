@@ -1,11 +1,11 @@
 import Card from '@/components/client/commonComponents/Card/Card'
+import { router } from '@/configs/routes'
 import { TCourse } from '@/interfaces/TCourse'
 import { useGetAllCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 import { easeInOut, motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { routerConfig } from '../../../../../constants/client'
-import { router } from '@/configs/routes'
 
 const FeaturedCourses = () => {
   const transperentFeaturedCourses = routerConfig.transparentHeader.includes(location.pathname)
@@ -21,14 +21,24 @@ const FeaturedCourses = () => {
   const isBottomInView = useInView(bottomRef, { amount: 0.05, once: true })
 
   //data card
-  const { data } = useGetAllCoursesQuery({ per_page: 4, page: 1 })
+  const { data, refetch } = useGetAllCoursesQuery({ per_page: 4, page: 1 }, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
+  })
+
+  // refetch data trước khi logout
+  const isLogin = localStorage.getItem('access_Token')
+
+  useEffect(() => {
+    refetch()
+  }, [isLogin])
 
   return (
     <div className=''>
       <div
-        className={`min-h-[100vh] pb-[80px] ${
-          transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
-        } dark:bg-[#131022] dark:bg-none`}
+        className={`min-h-[100vh] pb-[80px] ${transperentFeaturedCourses && `bg-[url("/assets/images/client/homeBGR/banner.png")] bg-cover bg-center`
+          } dark:bg-[#131022] dark:bg-none`}
       >
         <div className={`min-h-[100vh] bg-no-repeat bg-[url("/assets/images/client/homeBGR/course-bg.png")]`}>
           <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto pt-[80px] px-[16px] lg:px-0'>
@@ -68,7 +78,7 @@ const FeaturedCourses = () => {
               ref={bottomRef}
               className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-7'
             >
-              {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
+              {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} isLogin={isLogin} refetch={refetch} />)}
             </motion.div>
           </div>
         </div>

@@ -30,6 +30,12 @@ const CustomTreeSelect = styled(TreeSelect)`
     color: #e9ecef !important;
   }
 `
+
+type CardProps = TCourse & {
+  refetch?: () => void; // Hoặc kiểu tương ứng của `refetch`
+  isLogin?: string | null; // Hoặc kiểu tương ứng của `isLogin`
+};
+
 const Card = ({
   thumbnail,
   name,
@@ -45,12 +51,17 @@ const Card = ({
   status,
   refund,
   transaction_code,
-  total_student
-}: TCourse) => {
+  total_student,
+  refetch, // Thêm prop refetch
+  isLogin, // Thêm prop isLogin
+}: CardProps) => {
+
+
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
   const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, transaction_code)
   const location = useLocation()
+
 
   const [form] = Form.useForm()
 
@@ -73,12 +84,33 @@ const Card = ({
 
   // ADD, REMOVE COURSE IN FAV
   const handleClickForFav = async (courseId: string | number) => {
+
+
+    if (!isLogin) return message.error('Vui lòng đăng nhập để thực hiện chức năng này!')
+
     try {
+
       await message.loading({ content: `Đang xử lý...`, key: 'loading' })
 
-      heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
+      // heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
 
-      message.success(`${heart ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+      if (heart) {
+        const res = await removeCourseInFavorite(courseId)
+
+        if (res.error) return message.error((res as any).error.data.error)
+
+      } else {
+        const res = await addToFav(courseId)
+
+        if (res.error) return message.error((res as any).error.data.error)
+      }
+
+      if (refetch) {
+        await refetch()
+      }
+
+      message.success(`${is_wishlist ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+
     } catch (error) {
       console.log(error)
       return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
@@ -97,14 +129,16 @@ const Card = ({
     if (!refund) return
 
     try {
-      const { data, error } = await createRefundRequest({ ...values, transactionCode: transaction_code })
+      const res = await createRefundRequest({ ...values, transactionCode: transaction_code })
 
-      if (data) {
-        message.success(data.message || 'Yêu cầu hoàn tiền thành công!')
+      console.log(res)
+
+      if (res.data) {
+        message.success(res.data.message || 'Yêu cầu hoàn tiền thành công!')
       }
 
-      if (error) {
-        message.error((error as any)?.data?.message || 'Có lỗi từ hệ thống, vui lòng thử lại sau!')
+      if (res.error) {
+        message.error((res.error as any)?.data?.message || 'Có lỗi từ hệ thống, vui lòng thử lại sau!')
       }
     } catch (error: any) {
       console.log(error)
@@ -219,7 +253,7 @@ const Card = ({
           )}
           <div className='absolute bottom-3 right-3 px-4 py-2 rounded-[6px] flex justify-between gap-2 items-center bg-white dark:bg-gray-900'>
             <p className='text-[15px] font-bold text-[#ff5364] dark:text-[#B9B7C0]'>{formatPrice(price)}</p>
-            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{}</p>
+            <p className='text-gray-400 line-through text-[12px] pt-[2px]'>{ }</p>
           </div>
         </div>
       </Link>

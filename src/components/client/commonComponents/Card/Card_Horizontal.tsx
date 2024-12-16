@@ -2,11 +2,17 @@ import { router } from '@/configs/routes'
 import { getButtonDetails } from '@/constants/client'
 import { formatPrice, formatSeconds } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
+import { useAddCourseToFavoriteMutation, useRemoveCourseInFavoriteMutation } from '@/redux/slices/course/courseApiSlice'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { message, Rate } from 'antd'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+type CardProps = TCourse & {
+  refetch: () => void; // Hoặc kiểu tương ứng của `refetch`
+  isLogin?: string | null; // Hoặc kiểu tương ứng của `isLogin`
+};
 
 const Card_Horizontal = ({
   thumbnail,
@@ -22,24 +28,45 @@ const Card_Horizontal = ({
   is_enrolled,
   status,
   refund,
-  transaction_code
-}: TCourse) => {
+  transaction_code,
+  total_student,
+  refetch, // Thêm prop refetch
+  isLogin, // Thêm prop isLogin
+}: CardProps) => {
+
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
   const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, transaction_code)
 
-  useEffect(() => {
-    setHeart(is_wishlist)
-    setIsEnrolled(is_enrolled)
-  }, [is_wishlist, is_enrolled])
+  const nav = useNavigate();
 
-  const handleClick = () => {
-    if (heart) {
-      setHeart(false)
-      message.error('Đã bỏ khóa học khỏi danh sách yêu thích')
-    } else {
-      setHeart(true)
-      message.success('Đã thêm khóa học vào danh sách yêu thích')
+  const [addToFav] = useAddCourseToFavoriteMutation()
+  const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
+
+  useEffect(() => {
+    setHeart(is_wishlist);
+    setIsEnrolled(is_enrolled);
+  }, [is_wishlist, is_enrolled]);
+
+
+  console.log('is_log', isLogin)
+
+
+  // ADD, REMOVE COURSE IN FAV
+  const handleClickForFav = async (courseId: string | number) => {
+
+    if(!isLogin) return message.error('Vui lòng đăng nhập để thực hiện chức năng này!')
+
+    try {
+      await message.loading({ content: `Đang xử lý...`, key: 'loading' })
+
+      heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
+      refetch()
+      message.success(`${heart ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`);
+
+    } catch (error) {
+      console.log(error)
+      return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
     }
   }
 
@@ -87,7 +114,7 @@ const Card_Horizontal = ({
                 </div>
               </Link>
 
-              <div onClick={handleClick} className='cursor-pointer text-xl block md:hidden'>
+              <div onClick={() => handleClickForFav((id))} className='cursor-pointer text-xl block md:hidden'>
                 {heart ? (
                   <HeartFilled className='text-[#ff5364] group-hover:text-white' />
                 ) : (
@@ -112,15 +139,17 @@ const Card_Horizontal = ({
           </div>
         </div>
       </Link>
+
       <span className='bg-gray-500 h-[1px] block md:hidden'></span>
       <div className='flex flex-row md:flex-col flex-1 justify-between items-center md:items-end mt-4'>
-        <div onClick={handleClick} className='cursor-pointer text-xl hidden md:block'>
+        <div onClick={() => handleClickForFav(id)} className='cursor-pointer text-xl'>
           {heart ? (
             <HeartFilled className='text-[#ff5364] group-hover:text-white' />
           ) : (
             <HeartOutlined className='text-[#ff5364] group-hover:text-white' />
           )}
         </div>
+
         <span className='text-[11px] space-x-2 block md:hidden'>
           <Rate allowHalf value={Number(rating)} className='text-[11px] group-hover:text-white' disabled />
           <span>

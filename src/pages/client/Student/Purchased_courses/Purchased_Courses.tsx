@@ -2,7 +2,7 @@ import Card from '@/components/client/commonComponents/Card/Card'
 import { router } from '@/configs/routes'
 import { smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
-import { useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
+import { useGetAllFavoriteCoursesQuery, useGetPurchasedCoursesQuery } from '@/redux/slices/course/courseApiSlice'
 import { Pagination } from 'antd'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -12,8 +12,13 @@ import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
 
 const Purchased_Courses = () => {
   const [currentPage, setCurrentPage] = useState(1)
+  const isLogin = localStorage.getItem('access_Token')
   const perPage = 6
   const { data, isFetching, isLoading, refetch } = useGetPurchasedCoursesQuery({ per_page: perPage, page: currentPage })
+  const { refetch: refetchFav} = useGetAllFavoriteCoursesQuery([])
+
+
+  console.log(data)
 
   useEffect(() => {
     refetch()
@@ -39,7 +44,7 @@ const Purchased_Courses = () => {
         </div>
       ) : data?.data && data?.data.length > 0 ? (
         <div className='flex flex-wrap gap-16 justify-center lg:justify-normal lg:gap-[26px]'>
-          {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} />)}
+          {data?.data.map((courses: TCourse) => <Card key={courses.id} {...courses} refetch={refetchFav} isLogin={isLogin}/>)}
         </div>
       ) : (
         <div className='flex flex-col gap-y-6 justify-center items-center h-[366px] dark:text-[#B9B7C0] text-lg md:text-xl'>

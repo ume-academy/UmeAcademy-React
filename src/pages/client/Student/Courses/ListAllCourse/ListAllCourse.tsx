@@ -31,6 +31,8 @@ const ListAllCourse = () => {
 
   const [priceRange, setPriceRange] = useState<[number, number]>([minPrice | minPrice, maxPrice | maxPrice])
 
+  const isLogin = localStorage.getItem('access_Token') || '';
+
   useEffect(() => {
     setPriceRange([minPrice, maxPrice])
   }, [minPrice, maxPrice])
@@ -79,6 +81,7 @@ const ListAllCourse = () => {
     }))
     updateQueryParams(key, value.toString())
   }
+
   const handlePrice = (value: [number, number]) => {
     setPriceRange(value)
     setFilter((prev) => ({
@@ -167,7 +170,7 @@ const ListAllCourse = () => {
           ) : data?.data.length > 0 ? (
             <div>
               <div className='space-y-4 md:space-y-6'>
-                {data?.data.map((course: TCourse) => <Card_Horizontal key={course.id} {...course} />)}
+                {data?.data.map((course: TCourse) => <Card_Horizontal key={course.id} {...course} refetch={refetch} isLogin={isLogin}/>)}
               </div>
               <div className='flex justify-end mt-10'>
                 <Pagination

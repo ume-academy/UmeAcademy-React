@@ -1,9 +1,10 @@
 import { router } from '@/configs/routes'
-import { Avatar, Image } from 'antd'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
+import { Image } from 'antd'
 import { FileClock, HandCoins, Rocket, Wallet, WalletCards } from 'lucide-react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import './SidebarAntd.scss'
 import styles from './sidebarTeacher.module.scss'
-import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 const Sidebar_Teacher = () => {
   const nav = useNavigate()
@@ -16,7 +17,7 @@ const Sidebar_Teacher = () => {
           className={`${styles['introduce']} dark:bg-[#2b2838] bg-[#fff] dark:border-transparent border border-[#e9ecef]`}
         >
           <div className={`${styles['top']} bg-[#f84563]`}>
-            <div className={`${styles['avt']}`}>
+            <div className='avt absolute top-[50%] right-0 h-full w-full text-center'>
               <Image
                 src={data?.avatar}
                 className='border-4 border-white rounded-full object-cover'

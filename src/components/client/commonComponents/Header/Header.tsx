@@ -2,7 +2,7 @@ import { router } from '@/configs/routes'
 import { logo, routerConfig, routerConfigTeacher } from '@/constants/client'
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
-import { logoutLocal } from '@/redux/slices/auth/authSlice'
+import { authSlice, logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 
 import { useGetAllFavoriteCoursesQuery } from '@/redux/slices/course/courseApiSlice'
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
+import { authApiSlice } from '@/redux/slices/auth/authApiSlice'
 
 const Header = () => {
   const nav = useNavigate()
@@ -63,6 +64,7 @@ const Header = () => {
       // console.log(1)
 
       dispatch(logoutLocal())
+      dispatch(authApiSlice.util.resetApiState());
 
       message.success('Đăng xuất thành công')
       nav('/')

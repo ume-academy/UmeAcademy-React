@@ -9,7 +9,7 @@ import { useRequestApprovalCourseMutation } from '@/redux/slices/teacher/request
 import { LoadingOutlined, MoonFilled, SunFilled, TagOutlined, UsergroupDeleteOutlined } from '@ant-design/icons'
 import { Drawer, message, Steps, Tag, TreeSelect } from 'antd'
 import { TreeNode } from 'antd/es/tree-select'
-import { AlignJustify, ChevronLeft, TicketCheck, X } from 'lucide-react'
+import { AlignJustify, ChevronLeft, X } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,10 +17,9 @@ import Form_Course from '../Form_Course/Form_Course'
 import List_Students from '../Students/List_Students'
 import './Course_Management_Antd.scss'
 import FormChapter from './FormChapter/Form_Chapter'
+import List_Voucher from './List_Voucher/List_Voucher'
 import Targets from './Targets/Targets'
 import Voucher from './Voucher/Voucher'
-import List_Voucher from './List_Voucher/List_Voucher'
-import { Ticket } from 'lucide'
 
 const Course_Management = () => {
   const [openDrawer, setOpenDrawer] = useState(false) // State để kiểm soát việc mở và đóng drawer

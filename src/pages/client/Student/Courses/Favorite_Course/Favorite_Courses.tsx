@@ -11,7 +11,9 @@ const Favorite_Courses = () => {
 
   const [page, setPage] = useState(1)
 
-  const { data: favCourses, isLoading, isFetching } = useGetAllFavoriteCoursesQuery(page, {
+  const isLogin = localStorage.getItem('access_Token')
+
+  const { data: favCourses, refetch, isLoading, isFetching } = useGetAllFavoriteCoursesQuery(page, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true
   });
@@ -48,7 +50,7 @@ const Favorite_Courses = () => {
                 {
                   favCourses?.data?.map((item: TCourse, index: number) => (
                     <div key={index}>
-                      <Card {...item} />
+                      <Card {...item} refetch={refetch} isLogin={isLogin}/>
                     </div>
                   ))
                 }

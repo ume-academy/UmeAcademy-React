@@ -30,7 +30,6 @@ const Login = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [index, setIndex] = useState(0)
-  const authorization = localStorage.getItem('access_Token') || ''; 
   const { refetch } = useGetProfileQuery({})
 
   // console.log(dataProfile?.id_admin)

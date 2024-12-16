@@ -37,6 +37,7 @@ const CourseDetails = () => {
   const [addToFav] = useAddCourseToFavoriteMutation()
   const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
 
+  const isLogin = localStorage.getItem('access_Token')
   const [sendReview, { error }] = useSendReviewCourseMutation({})
   const [form] = Form.useForm()
 
@@ -70,21 +71,39 @@ const CourseDetails = () => {
 
   // ADD, REMOVE COURSE IN FAV
   const handleClickForFav = async (courseId: string | number) => {
+
+
+    if (!isLogin) return message.error('Vui lòng đăng nhập để thực hiện chức năng này!')
+
     try {
+
       await message.loading({ content: `Đang xử lý...`, key: 'loading' })
 
-      course?.is_wishlist ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
+      // heart ? await removeCourseInFavorite(courseId) : await addToFav(courseId)
 
-      message.success(
-        `${course?.is_wishlist ? 'Xóa khóa học khỏi danh sách yêu thích thành công!' : 'Thêm mới khóa học vào danh sách yêu thích thành công!'} `
-      )
+      if (course?.is_wishlist) {
+        const res = await removeCourseInFavorite(courseId)
+
+        if (res.error) return message.error((res as any).error.data.error)
+
+      } else {
+        const res = await addToFav(courseId)
+
+        if (res.error) return message.error((res as any).error.data.error)
+      }
+
+      if (refetch) {
+        await refetch()
+      }
+
+      message.success(`${course?.is_wishlist ? 'Xóa' : 'Thêm mới'} khóa học vào danh sách yêu thích thành công!`)
+
     } catch (error) {
       console.log(error)
       return message.error('Đã xảy ra lỗi, vui lòng thử lại sau!')
     }
   }
 
-  const userExist = localStorage.getItem('access_Token')
 
   // convert seconds to minutes
   function formatTime(seconds: number): string {
@@ -337,79 +356,91 @@ const CourseDetails = () => {
                       >
                         {/* đổ lesson */}
                         <div>
-                          {chap?.lessons?.map((item: any, indexItem: number) => (
-                            <div
-                              className={`${styles['lecture']} w-full flex justify-between items-center dark:text-[#B9B7C0]`}
-                              key={indexItem}
-                            >
-                              <div className='flex items-center space-x-3'>
-                                <svg
-                                  width='24'
-                                  height='24'
-                                  viewBox='0 0 24 24'
-                                  fill='none'
-                                  xmlns='httpwww.w3.org/2000/svg'
-                                >
-                                  <path
-                                    d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
-                                    fill='#FE893E'
-                                  />
-                                  <path
-                                    opacity='0.4'
-                                    d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
-                                    fill='#FE893E'
-                                  />
-                                </svg>
-
-                                <p className='font-subtitle'>{item?.name}</p>
+                          {
+                            chap?.lessons?.length === 0 ? (
+                              <div>
+                                <p className='text-center'>Hiện chưa có bài học nào trong chương này!</p>
                               </div>
+                            ) : (
 
-                              <div className='flex items-center space-x-6'>
-                                {item.is_preview && (
-                                  <div className=''>
-                                    <p
-                                      className='cursor-pointer underline hover:text-[#f66962] text-[13px] md:text-[14px]'
-                                      onClick={() => handlePreviewClick(item.path)}
+                              chap?.lessons?.map((item: any, indexItem: number) => (
+                                <div
+                                  className={`${styles['lecture']} w-full flex justify-between items-center dark:text-[#B9B7C0]`}
+                                  key={indexItem}
+                                >
+                                  <div className='flex items-center space-x-3'>
+                                    <svg
+                                      width='24'
+                                      height='24'
+                                      viewBox='0 0 24 24'
+                                      fill='none'
+                                      xmlns='httpwww.w3.org/2000/svg'
                                     >
-                                      Xem trước
-                                    </p>
-                                    <Modal
-                                      title={
-                                        <p className='text-center font-subtitle dark:bg-[#2B2838] text-black dark:text-[#B9B7C0]'>
+                                      <path
+                                        d='M18.7 8.98001L4.14 17.71C4.05 17.38 4 17.03 4 16.67V7.33001C4 4.25001 7.33 2.33001 10 3.87001L14.04 6.20001L18.09 8.54001C18.31 8.67001 18.52 8.81001 18.7 8.98001Z'
+                                        fill='#FE893E'
+                                      />
+                                      <path
+                                        opacity='0.4'
+                                        d='M18.0897 15.46L14.0397 17.8L9.99973 20.13C8.08973 21.23 5.83973 20.57 4.71973 18.96L5.13973 18.71L19.5797 10.05C20.5797 11.85 20.0897 14.31 18.0897 15.46Z'
+                                        fill='#FE893E'
+                                      />
+                                    </svg>
+
+                                    <p className='font-subtitle'>{item?.name}</p>
+                                  </div>
+
+                                  <div className='flex items-center space-x-6'>
+                                    {item.is_preview && (
+                                      <div className=''>
+                                        <p
+                                          className='cursor-pointer underline hover:text-[#f66962] text-[13px] md:text-[14px]'
+                                          onClick={() => handlePreviewClick(item.path)}
+                                        >
                                           Xem trước
                                         </p>
-                                      }
-                                      centered
-                                      open={modal2Open}
-                                      onOk={() => setModal2Open(false)}
-                                      onCancel={() => setModal2Open(false)}
-                                      footer={null}
-                                      className=''
-                                    >
-                                      <div className='mt-4'>
-                                        <VideoPlayer
-                                          videoURL={item?.video_link}
-                                          thumbnail={course?.thumbnail}
-                                          height={'270px'}
-                                        />
+                                        <Modal
+                                          title={
+                                            <p className='text-center font-subtitle dark:bg-[#2B2838] text-black dark:text-[#B9B7C0]'>
+                                              Xem trước
+                                            </p>
+                                          }
+                                          centered
+                                          open={modal2Open}
+                                          onOk={() => setModal2Open(false)}
+                                          onCancel={() => setModal2Open(false)}
+                                          footer={null}
+                                          className=''
+                                        >
+                                          <div className='mt-4'>
+                                            <VideoPlayer
+                                              videoURL={item?.video_link}
+                                              thumbnail={course?.thumbnail}
+                                              height={'270px'}
+                                            />
 
-                                        {/* <video 
-                                              playsInline 
-                                              controls 
-                                              poster={course?.thumbnail}
-                                            >
-                                              <source src={item?.video_link} type='video/mp4' />
-
-                                              
-                                            </video> */}
+                                            {/* <video 
+                                                  playsInline 
+                                                  controls 
+                                                  poster={course?.thumbnail}
+                                                >
+                                                  <source src={item?.video_link} type='video/mp4' />
+    
+                                                  
+                                                </video> */}
+                                          </div>
+                                        </Modal>
                                       </div>
-                                    </Modal>
+                                    )}
+                                    <p>{formatToMinutesAndSeconds(item?.video_duration)}</p>
                                   </div>
-                                )}
-                                <p>{formatToMinutesAndSeconds(item?.video_duration)}</p>
-                              </div>
-                            </div>
-                          ))}
+                                </div>
+                              ))
+
+                            )
+                          }
+
+
                         </div>
                       </Collapse.Panel>
                     ))}
