@@ -86,12 +86,19 @@ const Course_Management = () => {
       stopLoading()
     } catch (error) {
       const errorData = (error as { data?: any })?.data;
-      // Kiểm tra và hiển thị tất cả các lỗi trong errors
-      // Nếu có trường error trong data, hiển thị thông báo lỗi
-      if (errorData?.error) {
-        message.error(errorData.error); // Hiển thị thông báo lỗi từ trường error trong data
+  
+      if (errorData?.errors) {
+        // Lấy tất cả các thông báo lỗi từ `errors` và hiển thị
+        const errorMessages = Object.values(errorData.errors)
+          .flat() // Trải mảng lồng nhau thành mảng phẳng
+          .join(', '); // Nối các thông báo lỗi bằng dấu phẩy
+        
+        message.error(errorMessages); // Hiển thị tất cả lỗi
+      } else if (errorData?.error) {
+        // Nếu có trường `error` khác
+        message.error(errorData.error);
       } else {
-        // Nếu không có trường error, hiển thị thông báo lỗi mặc định
+        // Hiển thị thông báo lỗi mặc định
         message.error('Đã có lỗi xảy ra. Vui lòng thử lại!');
       }
       stopLoading()

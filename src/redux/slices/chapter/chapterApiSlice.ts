@@ -1,4 +1,5 @@
 import { customBaseQuery } from "@/Api";
+import { TFormChapter } from "@/interfaces/TLesson";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 
@@ -27,10 +28,19 @@ export const chapterApiSlice = createApi({
           body: {name}
         }
       }
+    }),
+
+    removeChapter: builder.mutation<void , {id_course:number, chapter: TFormChapter}>({
+      query: ({id_course, chapter}) => {
+        return {
+          url: `/teacher/course/${id_course}/chapter/${chapter.id}`,
+          method: 'DELETE',
+        }
+      }
     })
 
 
   })
 })
 
-export const { useCreateChapterMutation, useUpdateChapterMutation } = chapterApiSlice
+export const { useCreateChapterMutation, useUpdateChapterMutation, useRemoveChapterMutation } = chapterApiSlice

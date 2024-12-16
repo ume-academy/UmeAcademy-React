@@ -1,7 +1,7 @@
 // ChapterList.tsx
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { TChapter, TFormLesson, TLesson } from '@/interfaces/TLesson'
-import { useCreateLessonMutation, useUpdateLessonMutation, useUpdatePreviewVideoMutation } from '@/redux/slices/lesson/lessonApiSlice'
+import { useCreateLessonMutation, useRemoveLessonMutation, useUpdateLessonMutation, useUpdatePreviewVideoMutation } from '@/redux/slices/lesson/lessonApiSlice'
 import { validateVideoFile } from '@/Validators/upload_lesson_validator'
 import { DeleteFilled, EditFilled, UploadOutlined } from '@ant-design/icons'
 import { Collapse, CollapseProps, Form, Input, InputRef, message, Modal, Space, Switch, Tooltip, Upload, UploadFile, UploadProps } from 'antd'
@@ -23,6 +23,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   const [createLesson] = useCreateLessonMutation()
   const [updateLesson] = useUpdateLessonMutation()
   const [updateIsPreview] = useUpdatePreviewVideoMutation()
+  const [removeLesson] = useRemoveLessonMutation()
   
   // <==== State cho Upload video===>
   const [fileListVideo, setFileListVideo] = useState<UploadFile[]>([])
@@ -44,25 +45,35 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   }, [chapter]);
 
   // <==== Xử lí logic cho xóa chương =====>
-  const handleChangeDeleteChapter = (id: number) => {
+  const handleChangeDeleteChapter = (chapter_id?: number, lesson?: TFormLesson) => {
     Modal.confirm({
       title: 'Vui lòng xác nhận',
-      content: `Bạn sắp xóa một chương trình giảng dạy. Bạn có chắc chắn muốn tiếp tục không?`,
+      content: (<p className='dark:text-[#b9b7c0] text-[#685f78]'>
+        Bạn có chắc chắn muốn xóa bài học có tên <span className='font-desc'>"{lesson?.name}"</span> hay không?
+      </p>),
       okText: 'Đồng ý',
       okType: 'danger',
       cancelText: 'Hủy',
       centered: true,
       maskClosable: false,
       onOk: () => {
-        // setConfirmLoading(true)
-        // return new Promise((resolve) => {
-        //   setTimeout(() => {
-        //     message.success('thành công rồi')
-        //     // Thay bằng logic xóa của bạn
-        //     setConfirmLoading(false) // Dừng loading
-        //     resolve(undefined)
-        //   }, 2000)
-        // })
+       try {
+        if(id && lesson && chapter_id){
+          removeLesson({id_course: Number(id), id_chapter: chapter_id, lesson: lesson}).unwrap()
+          isRefetch()
+          message.success('Xóa bài học thành công')
+        }
+       } catch (error) {
+          const errorData = (error as { data?: any })?.data;
+          // Kiểm tra và hiển thị tất cả các lỗi trong errors
+          // Nếu có trường error trong data, hiển thị thông báo lỗi
+          if (errorData?.error) {
+            message.error(errorData.errors); // Hiển thị thông báo lỗi từ trường error trong data
+          } else {
+            // Nếu không có trường error, hiển thị thông báo lỗi mặc định
+            message.error('Đã có lỗi xảy ra. Vui lòng thử lại!');
+          }
+       }
       }
     })
   }
@@ -195,7 +206,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                 style={{ fontSize: 16, color: `${theme === 'dark' ? '#b9b7c0' : '#1e1e1e'}`, marginRight: '12px' }}
               />
               <DeleteFilled
-                onClick={() => handleChangeDeleteChapter(1)}
+                onClick={() => handleChangeDeleteChapter(chapter_id,{ id: lesson.id, name: lesson.name })}
                 style={{
                   fontSize: 16,
                   height: '18px',
@@ -283,7 +294,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
               {!hideCourseFunction && fileListVideo.some((file) => file.uid === `${lesson.id}`) && (<>
                 <div className="flex flex-col justify-around">
                   <Space direction="vertical" key={index + 1}>
-                    <Tooltip title="Cho xem trước video không">
+                    <Tooltip title="Cho xem trước video không ?">
                     <Switch
                       checkedChildren="Mở"
                       unCheckedChildren="Đóng"

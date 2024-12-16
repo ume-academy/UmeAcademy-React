@@ -5,7 +5,7 @@ import useLoading from '@/hooks/useLoading';
 import { TBlog } from '@/interfaces/TBlog';
 import { TTransaction } from '@/interfaces/TTransaction';
 import { useGetAllArticleAdminQuery, useRemoveArticleMutation } from '@/redux/slices/blog/blogApiSlice';
-import { Button, Image, message, Modal, Pagination, Table, TableColumnsType } from 'antd';
+import { Button, Image, message, Modal, Pagination, Table, TableColumnsType, Tag } from 'antd';
 import { Pen, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -77,43 +77,48 @@ const List_Article = () => {
       key: 'title',
       dataIndex: 'title',
       render: (title: string) => <div>{title}</div>,
-      width: 200
+      width: 200,
+      align: 'center' as const
     },
     {
       title: 'Thumbnail',
       key: 'thumbnail',
       dataIndex: 'thumbnail',
-      render: (thumbnail: string) => <Image src={thumbnail} width={100} height={100}/>,
-      width: 200
+      render: (thumbnail: string) => <Image src={thumbnail} width={160} height={100}/>,
+      width: 200,
+      align: 'center' as const
     },
     {
       title: 'Người tạo',
       key: 'user',
       dataIndex: 'user',
       render: (user: { fullname: string; email: string }) => <p>{user.fullname}</p>,
-      width: 200
+      width: 200,
+      align: 'center' as const
     },
     {
       title: 'Thời gian',
       key: 'created_at',
       dataIndex: 'created_at',
       render: (created_at: string) => <p>{formatDate(created_at)}</p>,
-      width: 200
+      width: 200,
+      align: 'center' as const
     },
-    // {
-    //   title: 'Trạng thái',
-    //   dataIndex: 'status',
-    //   key: 'status',
-    //   render: (status: 'pending' | 'success' | 'canceled') => (
-    //     <Tag
-    //       className='text-sm py-1 px-2 min-w-[120px] text-center'
-    //       color={status === 'pending' ? 'blue' : status === 'success' ? 'green' : 'red'}
-    //     >
-    //       {status === 'pending' ? 'Chưa thanh toán' : status === 'success' ? 'Đã thanh toán' : 'Đã từ chối'}
-    //     </Tag>
-    //   ),
-    //   width: 100
-    // }
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: 'draft' | 'published' ) => (
+        <Tag
+          className='text-sm py-1 px-2 min-w-[120px] text-center'
+          color={status === 'published' ? 'green' :  'red'}
+        >
+          {status === 'draft' ? 'Bản thảo' : 'Xuất bản'}
+        </Tag>
+      ),
+      width: 100,
+      align: 'center' as const
+    },
     {
       title: 'Chức năng',
       render: (_: any, item: any) => (

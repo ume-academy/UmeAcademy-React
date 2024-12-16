@@ -48,8 +48,14 @@ export const lessonApiSlice = createApi({
           body: { is_preview: isPreview === true ? 1 : 0 }
         }
       }
-    })
+    }),
 
+    removeLesson: builder.mutation<void, { id_course: number; id_chapter: number; lesson: TFormLesson }>({
+      query: ({ id_course, id_chapter, lesson }) => ({
+        url: `/teacher/course/${id_course}/chapter/${id_chapter}/lesson/${lesson.id}`,
+        method: 'DELETE'
+      })
+    }),
 
   })
 })
@@ -59,5 +65,6 @@ export const {
   usePostCompletedLessonMutation, 
   useCreateLessonMutation,
   useUpdateLessonMutation,
-  useUpdatePreviewVideoMutation
+  useUpdatePreviewVideoMutation,
+  useRemoveLessonMutation
  } = lessonApiSlice
