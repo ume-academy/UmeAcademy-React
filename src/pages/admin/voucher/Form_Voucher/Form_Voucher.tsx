@@ -1,15 +1,20 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import useLoading from '@/hooks/useLoading'
 import { TVoucher } from '@/interfaces/TVoucher'
-import { useAddVoucherByAdminMutation } from '@/redux/slices/voucher/voucherApiSlice'
-import { LoadingOutlined, CheckOutlined } from '@ant-design/icons'
+import {
+  useAddVoucherByAdminMutation,
+  useEditVoucherByAdminMutation,
+  useGetVoucherByAdminQuery
+} from '@/redux/slices/voucher/voucherApiSlice'
+import { CheckOutlined, LoadingOutlined } from '@ant-design/icons'
 import { Button, DatePicker, Form, Input, message } from 'antd'
 import { MoveLeft } from 'lucide-react'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const Form_Voucher = () => {
   const { id } = useParams()
@@ -18,34 +23,64 @@ const Form_Voucher = () => {
   const nav = useNavigate()
   const { loading, startLoading, stopLoading } = useLoading()
   const [AddVoucher, { error }] = useAddVoucherByAdminMutation({})
+  const { data, isLoading, isFetching } = useGetVoucherByAdminQuery(id)
+  const [editVoucherByAdminMutation] = useEditVoucherByAdminMutation()
 
-  // useEffect(()=>{
-  //   if (data) {
-  //     form.setFieldValue()
-  //   }
-  // },[data,form])
+  useEffect(() => {
+    if (data) {
+      form.setFieldsValue({
+        name: data?.data.name,
+        code: data?.data.code,
+        start_date: moment(data?.data.start_date),
+        end_date: moment(data?.data.end_date),
+        quantity: data?.data.quantity,
+        discount: data?.data.discount
+      })
+    }
+  }, [data, form])
+
+  useEffect(() => {
+    const errorData = (error as { data?: any })?.data
+    console.log(errorData)
+    if (errorData && errorData.errors.end_date) {
+      message.error(errorData.errors.end_date)
+    }
+  }, [error])
 
   const onFinish = async (data: TVoucher) => {
     try {
       startLoading()
-      const voucher = {
+      const voucherData = {
         ...data,
         start_date: data.start_date.format('YYYY-MM-DD'),
         end_date: data.end_date.format('YYYY-MM-DD')
       }
-      if (id) {
-      } else {
-        const res = await AddVoucher(voucher)
-        console.log(res)
-        if (res.data) {
-          message.success('Thêm mới voucher thành công')
-          nav(`${router.listVouchers}`)
-        } else {
-          message.error('Đã xảy ra lỗi khi thêm mới voucher')
-        }
+
+      const startDate = moment(data.start_date)
+      const endDate = moment(data.end_date)
+
+      if (endDate.isBefore(startDate)) {
+        message.error('Ngày kết thúc phải sau ngày bắt đầu!')
+        stopLoading()
+        return
       }
+      if (endDate.isBefore(moment().startOf('day')) || startDate.isBefore(moment().startOf('day'))) {
+        message.error('Ngày bắt đầu và kết thúc không được nhỏ hơn hôm nay!')
+        stopLoading()
+        return
+      }
+      if (id) {
+        await editVoucherByAdminMutation({ id: Number(id), data: voucherData }).unwrap()
+        message.success('Cập nhật voucher thành công')
+      } else {
+        await AddVoucher(voucherData).unwrap()
+        message.success('Thêm mới voucher thành công')
+      }
+      nav(`${router.listVouchers}`)
+
       stopLoading()
     } catch (error) {
+      // message.error('Đã xảy ra lỗi, xin vui lòng thử lại')
       stopLoading()
     }
   }
@@ -53,12 +88,22 @@ const Form_Voucher = () => {
   const validateDates = ({ getFieldValue }: any) => ({
     validator(_: any, value: any) {
       const startDate = getFieldValue('start_date')
-      if (value && startDate && value.isBefore(startDate)) {
+      if (!value) {
+        return Promise.reject(new Error('Vui lòng chọn ngày kết thúc!'))
+      }
+      if (startDate && value.isBefore(startDate)) {
         return Promise.reject(new Error('Ngày kết thúc phải sau ngày bắt đầu!'))
       }
       return Promise.resolve()
     }
   })
+
+  if (isLoading || isFetching)
+    return (
+      <div className='min-h-screen flex justify-center items-center'>
+        <Loading />
+      </div>
+    )
 
   return (
     <div>

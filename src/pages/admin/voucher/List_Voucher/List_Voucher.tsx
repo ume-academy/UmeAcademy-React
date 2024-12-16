@@ -2,9 +2,10 @@ import { router } from '@/configs/routes'
 import { getTitleTab } from '@/constants/client'
 import { formatDate, smoothScrollToTop } from '@/constants/utils'
 import { TVoucher } from '@/interfaces/TVoucher'
-import { useGetAllVoucherByAdminQuery } from '@/redux/slices/voucher/voucherApiSlice'
+import { useGetAllVoucherByAdminQuery, useRemoveVoucherByAdminMutation } from '@/redux/slices/voucher/voucherApiSlice'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { Pagination, Table, TableColumnsType } from 'antd'
+import { Button, message, Modal, Pagination, Table, TableColumnsType } from 'antd'
+import { Pen, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
@@ -13,7 +14,36 @@ const List_Voucher = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading } = useGetAllVoucherByAdminQuery({ per_page: 10, page: currentPage })
   console.log(data)
-
+  const [removeVoucher] = useRemoveVoucherByAdminMutation()
+  const handleRemove = (id: number) => {
+    Modal.confirm({
+      title: <span className='text-red-500 font-title'>Xác nhận xóa giảm giá</span>,
+      content: <p className='dark:text-[#b9b7c0] text-[#685f78]'>Bạn có chắc chắn muốn xóa giảm giá này hay không?</p>,
+      okText: 'Đồng ý',
+      okType: 'danger',
+      okButtonProps: {
+        style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }
+      },
+      cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null,
+      onOk: () => {
+        return new Promise((resolve) => {
+          setTimeout(async () => {
+            try {
+              await removeVoucher(id).unwrap()
+              message.success('Xóa mã giảm giá thành công')
+            } catch (error) {
+              message.error('Đã có lỗi xảy ra khi bạn xóa mã giảm giágiá')
+            }
+            resolve(undefined)
+          }, 666)
+        })
+      }
+    })
+  }
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
     smoothScrollToTop()
@@ -29,20 +59,20 @@ const List_Voucher = () => {
       title: 'Stt',
       key: 'key',
       dataIndex: 'key',
-      width: 60,
+      width: 60
     },
     {
       title: 'Mã giả giá',
       key: 'code',
       dataIndex: 'code',
-      width: 120,
+      width: 120
     },
     {
       title: 'Khóa học',
       key: 'course',
       dataIndex: 'course',
-      render: (course: any) => <p>{course?.name ? (course?.name) :(<span>Áp dụng cho tất cả</span>)}</p>,
-      width: 200,
+      render: (course: any) => <p>{course?.name ? course?.name : <span>Áp dụng cho tất cả</span>}</p>,
+      width: 200
     },
     {
       title: 'Số lượng',
@@ -82,6 +112,24 @@ const List_Voucher = () => {
       render: (end_date: string) => <p>{formatDate(end_date)}</p>,
       width: 140,
       align: 'center'
+    },
+    {
+      title: 'Chức năng',
+      render: (_: any, record: any) => (
+        <div className='flex items-center justify-center gap-2'>
+          <Link to={`${router.VouchersUpdate.replace(':id', record?.id)}`}>
+            <Button type='primary'>
+              <Pen size={20} />
+            </Button>
+          </Link>
+
+          <Button type='primary' danger onClick={() => handleRemove(record.id)}>
+            <Trash2 size={20} />
+          </Button>
+        </div>
+      ),
+      align: 'center',
+      width: 140
     }
   ]
 

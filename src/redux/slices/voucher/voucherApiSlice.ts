@@ -21,7 +21,11 @@ export const voucherApiSlice = createApi({
       query: ({ per_page, page }) => `/admin/voucher?per_page=${per_page}&page=${page}`,
       providesTags: ['Voucher']
     }),
-    
+    getVoucherByAdmin: builder.query({
+      query: (id) => `/admin/voucher/${id}`,
+      providesTags: ['Voucher']
+    }),
+
     addVoucherByAdmin: builder.mutation<TVoucher, TVoucher>({
       query: (body) => ({
         url: '/admin/voucher',
@@ -30,9 +34,24 @@ export const voucherApiSlice = createApi({
       }),
       invalidatesTags: ['Voucher']
     }),
+    editVoucherByAdmin: builder.mutation<TVoucher, { id: number; data: TVoucher }>({
+      query: ({ id, data }) => ({
+        url: `/admin/voucher/${id}`,
+        method: 'PUT',
+        body: data
+      }),
+      invalidatesTags: ['Voucher']
+    }),
+    removeVoucherByAdmin: builder.mutation<TVoucher, number>({
+      query: (id) => ({
+        url: `/admin/voucher/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Voucher']
+    }),
 
-    addVoucherByTeacher: builder.mutation<TVoucher, {id: number, data: TVoucherForm}>({
-      query: ({id, data}) => ({
+    addVoucherByTeacher: builder.mutation<TVoucher, { id: number; data: TVoucherForm }>({
+      query: ({ id, data }) => ({
         url: `/teacher/course/${id}/vouchers`,
         method: 'POST',
         body: data
@@ -42,4 +61,12 @@ export const voucherApiSlice = createApi({
   })
 })
 
-export const { useCheckVoucherMutation, useAddVoucherByAdminMutation, useGetAllVoucherByAdminQuery, useAddVoucherByTeacherMutation } = voucherApiSlice
+export const {
+  useCheckVoucherMutation,
+  useAddVoucherByAdminMutation,
+  useGetAllVoucherByAdminQuery,
+  useAddVoucherByTeacherMutation,
+  useRemoveVoucherByAdminMutation,
+  useEditVoucherByAdminMutation,
+  useGetVoucherByAdminQuery
+} = voucherApiSlice
