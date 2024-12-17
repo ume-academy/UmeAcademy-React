@@ -5,7 +5,7 @@ import useLoading from '@/hooks/useLoading'
 import { TCourseDetail } from '@/interfaces/TCourseDetail'
 import { TChapter, TFormChapter } from '@/interfaces/TLesson'
 import { useCreateChapterMutation, useRemoveChapterMutation, useUpdateChapterMutation } from '@/redux/slices/chapter/chapterApiSlice'
-import { DeleteFilled, EditFilled } from '@ant-design/icons'
+import { DeleteFilled, EditFilled, LoadingOutlined } from '@ant-design/icons'
 import { Button, Collapse, CollapseProps, Form, Input, InputRef, message, Modal } from 'antd'
 import { ChevronRight } from 'lucide-react'
 import React, { useContext, useState } from 'react'
@@ -50,7 +50,6 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
     startLoading()
     try {
       if (chapter?.id) {
-        console.log(chapter?.id, chapter?.name)
         await updateChapter({ id_course: Number(id_Course), id_chapter: chapter?.id, name: chapter?.name }).unwrap()
       } else {
         if (chapter?.name) {
@@ -61,8 +60,15 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
       message.success(chapter?.id ? 'Cập nhật chương học thành công' : 'Thêm mới chương học thành công')
       stopLoading()
     } catch (error) {
-      console.log('lỗi rồi', error)
-      message.error(chapter?.id ? 'Cập nhật chương học thất bại' : 'Thêm mới chương học thất bại')
+      const errorData = (error as { data?: any })?.data
+          // Kiểm tra và hiển thị tất cả các lỗi trong errors
+          // Nếu có trường error trong data, hiển thị thông báo lỗi
+          if (errorData?.error) {
+            message.error(errorData.error) // Hiển thị thông báo lỗi từ trường error trong data
+          } else {
+            // Nếu không có trường error, hiển thị thông báo lỗi mặc định
+            message.error(chapter?.id ? 'Cập nhật chương học thất bại' : 'Thêm mới chương học thất bại')
+          }
       stopLoading()
     }
   }
@@ -129,10 +135,10 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
       cancelText: 'Hủy',
       centered: true,
       maskClosable: false,
-      onOk: () => {
+      onOk: async () => {
         try {
           if (id  && chapter) {
-            removeChapter({ id_course: Number(id), chapter: chapter}).unwrap()
+            await removeChapter({ id_course: Number(id), chapter: chapter}).unwrap()
             isRefetch()
             message.success('Xóa chương học thành công')
           }
@@ -141,7 +147,7 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
           // Kiểm tra và hiển thị tất cả các lỗi trong errors
           // Nếu có trường error trong data, hiển thị thông báo lỗi
           if (errorData?.error) {
-            message.error(errorData.errors) // Hiển thị thông báo lỗi từ trường error trong data
+            message.error(errorData.error) // Hiển thị thông báo lỗi từ trường error trong data
           } else {
             // Nếu không có trường error, hiển thị thông báo lỗi mặc định
             message.error('Đã có lỗi xảy ra. Vui lòng thử lại!')
@@ -182,12 +188,10 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
         </div>
       ),
       children:
-        !hideCourseFunction && chapter.lessons === null ? (
-          <h1>Chưa có bài học nào</h1>
+        hideCourseFunction &&  chapter.lessons?.length === 0 ? (
+          <h1 className='text-red-500'>Chưa có bài học nào</h1>
         ) : (
-          <>
             <Form_Lesson hideCourseFunction={hideCourseFunction} chapter={chapter} isRefetch={isRefetch} />
-          </>
         )
     }
   ]
@@ -232,7 +236,7 @@ const FormChapter = ({ courseData, isRefetch }: ChapterProps) => {
               disabled={loading}
               onClick={() => handleFormChapter()}
             >
-              Tạo chương mới
+              {loading ? <LoadingOutlined /> : 'Tạo chương mới'}
             </Button>
           </div>
         )}

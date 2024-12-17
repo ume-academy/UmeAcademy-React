@@ -43,11 +43,18 @@ export interface TLesson {
   name: string,
   is_preview: boolean,
   video_link: string,
-  video_duration: number
+  video_duration: number,
+  resources: any
 }
 
 export interface TLessonCompleted {
   id_Course: number,
   id_Chapter: number,
   id_Lesson: number
+}
+
+export interface TResource {
+  id: number,
+  name: string,
+  created_at: string
 }

@@ -1,5 +1,5 @@
 import { router } from '@/configs/routes'
-import { TChapter } from '@/interfaces/TLesson'
+import { TChapter, TResource } from '@/interfaces/TLesson'
 import { useGetLessonByCourseIdQuery } from '@/redux/slices/lesson/lessonApiSlice'
 import {
   LeftOutlined,
@@ -18,7 +18,6 @@ import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constan
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
 import VideoPlayer from '../../commonComponents/VideoPlayer/VideoPlayer'
 import style from './Lesson.module.scss'
-import useRedirectToPurchase from '@/hooks/useRedirectToPurchase'
 
 const Lesson = () => {
   const { id } = useParams();
@@ -273,6 +272,7 @@ const Lesson = () => {
             className={`h-full ${isOpenSideBar === true ? 'pr-0' : 'pr-2'} max-h-screen dark:bg-[#131022] overflow-y-auto transition-all duration-300 ${isOpenSideBar ? 'w-[100%]' : 'w-[75%]'} `}
           >
             {selectedVideoLink && (
+              <>
               <VideoPlayer 
                 courseId={Number(id)} 
                 chapterId={chapterId} 
@@ -281,7 +281,23 @@ const Lesson = () => {
                 thumbnail={courseData?.thumbnail} 
                 isCompleted={isLessonCompleted}
                 height={'560px'} />
+                <div className="lg:ml-14 lg:mt-8 lg:pb-36">
+                  <h1 className='font-subtitle text-[26px] mb-6 dark:text-[#b9b7c0]'> {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].name}</h1>
+                  <h1 className='font-desc text-[15px] mb-2 text-[#535050] dark:text-[#b9b7c0]'>Tài liệu giảng dạy:</h1>
+
+                  <ul className='pl-4'>
+                  {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].resources.map((item: TResource) => (
+                    <li key={item.id} className='list-disc text-[14px] mb-2 dark:text-[#b9b7c0]'>
+                      <Link className='hover:text-[#f66962] underline dark:text-[#b9b7c0]' to={`${item.name}`} key={item.id}>
+                      {item.name}
+                    </Link>
+                    </li>
+                  ))}
+                  </ul>
+              </div>
+               </> 
             )}
+            
           </div>
 
           {/* sidebar */}
