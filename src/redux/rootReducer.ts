@@ -30,6 +30,7 @@ import { requestApprovalCourseApiSlice } from './slices/teacher/requestApprovalC
 import { reviewCourseApiSlice } from './slices/course/reviewCourseApiSlice'
 import { blogApiSlice } from './slices/blog/blogApiSlice'
 import { dashboardApiSlice } from './slices/admin/dashboardApiSlice'
+import { notifyApiSlice } from './slices/notification/notifyApiSlice'
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -62,7 +63,8 @@ const rootReducer = combineReducers({
   [requestApprovalCourseApiSlice.reducerPath]: requestApprovalCourseApiSlice.reducer,
   [reviewCourseApiSlice.reducerPath]: reviewCourseApiSlice.reducer,
   [blogApiSlice.reducerPath]: blogApiSlice.reducer,
-  [dashboardApiSlice.reducerPath]: dashboardApiSlice.reducer
+  [dashboardApiSlice.reducerPath]: dashboardApiSlice.reducer,
+  [notifyApiSlice.reducerPath]: notifyApiSlice.reducer,
 })
 
 export default rootReducer
