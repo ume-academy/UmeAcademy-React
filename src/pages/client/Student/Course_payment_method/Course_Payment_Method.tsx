@@ -5,7 +5,7 @@ import { useGetPaymentMethodsQuery } from '@/redux/slices/payment_method/payment
 import { useCheckVoucherMutation } from '@/redux/slices/voucher/voucherApiSlice'
 import { BookFilled, LoadingOutlined } from '@ant-design/icons'
 import { Input, message, Radio } from 'antd'
-import { CircleAlert } from 'lucide-react'
+import { Check, CircleAlert } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -44,7 +44,7 @@ const Course_Payment_Method = () => {
         course_id: courseId
       }
       const res = await checkVoucher(voucher)
-      console.log(res)
+
       if (res.data) {
         setVoucherId(res.data.id)
         const discountPercentage = res.data.discount || 0
@@ -94,7 +94,10 @@ const Course_Payment_Method = () => {
 
       if (voucherId) {
         paymentData.voucher_id = Number(voucherId)
-        console.log(paymentData.voucher_id)
+        if (discountPrice === 0) {
+          paymentData.payment_method_id = 3
+          setSelectedMethod(3)
+        }
       }
       console.log(paymentData)
 
@@ -130,13 +133,15 @@ const Course_Payment_Method = () => {
           </p>
           <Radio.Group onChange={onChangeMethod} value={selectedMethod} className='pl-6 pt-14 pb-14  w-full space-y-6'>
             <div className='space-y-4 w-full'>
-              {methob?.data.map((m: TPaymentMethob) => (
-                <Radio value={Number(m.id)} className='w-full' key={m.id}>
-                  <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
-                    Thanh toán qua phương thức {m.name}
-                  </span>
-                </Radio>
-              ))}
+              {methob?.data
+                .filter((m: TPaymentMethob) => m.id != 3)
+                .map((m: TPaymentMethob) => (
+                  <Radio value={Number(m.id)} className='w-full' key={m.id}>
+                    <span className='ml-2 text-lg text-[#685f78] dark:text-[#B9B7C0] dark:hover:text-white'>
+                      Thanh toán qua phương thức {m.name}
+                    </span>
+                  </Radio>
+                ))}
             </div>
           </Radio.Group>
         </div>
@@ -197,19 +202,29 @@ const Course_Payment_Method = () => {
             <div className='flex justify-center'>
               <button
                 type='submit'
-                className='bg-[#ff5364] text-white h-12 w-full border-[#ff5364]  text-lg rounded-lg hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white transition duration-200'
-                disabled={!selectedMethod}
+                className='bg-[#ff5364] text-white h-12 w-full border-[#ff5364] text-lg rounded-lg 
+              hover:border hover:text-[#ff5364] hover:border-[#ff5364] hover:bg-white 
+              transition duration-200'
+                disabled={discountPrice !== 0 && !selectedMethod}
                 onClick={handleSubmitPayment}
               >
                 Thanh toán {loadingCheckout && <LoadingOutlined />}
               </button>
             </div>
-            {!selectedMethod && (
+
+            {discountPrice !== 0 && !selectedMethod ? (
               <div className='text-red-500 text-sm md:text-[16px] flex gap-1 items-center'>
                 <span>
                   <CircleAlert size={16} />
                 </span>
                 <span>Vui lòng chọn phương thức thanh toán</span>
+              </div>
+            ) : discountPrice === 0 && (
+              <div className='text-green-400 text-sm md:text-[16px] flex gap-1 items-center'>
+                <span>
+                  <Check size={16} />
+                </span>
+                <span>Nhấn thanh toán để hoàn thành thanh toán khóa học</span>
               </div>
             )}
           </div>

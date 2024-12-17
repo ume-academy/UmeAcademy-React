@@ -7,11 +7,14 @@ import moment from 'moment'
 import { useState } from 'react'
 
 const Chart = () => {
-  const [startDate, setStartDate] = useState<string | ''>('')
-  const [endDate, setEndDate] = useState<string | ''>('')
-  const { data, isLoading, isFetching } = useFilterRevenueQuery({ start_date: startDate, end_date: endDate })
+  // Xác định ngày đầu và ngày cuối tháng hiện tại
+  const currentStartOfMonth = moment().startOf('month').format('YYYY-MM-DD')
+  const currentEndOfMonth = moment().endOf('month').format('YYYY-MM-DD')
 
-  console.log(data)
+  // State cho ngày bắt đầu và kết thúc
+  const [startDate, setStartDate] = useState<string>(currentStartOfMonth)
+  const [endDate, setEndDate] = useState<string>(currentEndOfMonth)
+  const { data, isLoading, isFetching } = useFilterRevenueQuery({ start_date: startDate, end_date: endDate })
 
   const dateData = data ? data?.data?.map((item: { date: string }) => item.date) : []
   const revenueData = data ? data?.data?.map((item: { revenue: number }) => item.revenue) : []
@@ -93,7 +96,7 @@ const Chart = () => {
   return (
     <div className='p-4 lg:p-6'>
       <div className='flex flex-wrap space-y-3 justify-between items-center border-b dark:border-[#5a5a5a] pb-6'>
-        <h2 className='text-xl font-subtitle'>Biểu đồ tổng hợp theo thời gian</h2>
+        <h2 className='text-xl font-subtitle'>Biểu đồ doanh thu theo thời gian</h2>
         <div className='text-[14px] space-x-2 flex items-center'>
           <DatePicker
             format='DD/MM/YYYY'

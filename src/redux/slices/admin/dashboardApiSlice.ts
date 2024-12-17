@@ -15,6 +15,13 @@ export const dashboardApiSlice = createApi({
       ,
       providesTags: ['dashboard']
     }),
+      revenueStatistic: builder.query({
+        query: () => ({
+          url: '/admin/statistics/revenue'
+        }),
+        providesTags: ['dashboard']
+      })
+    ,
     topTeacher: builder.query({
       query: () => ({
         url: '/admin/statistics/top-teachers'
@@ -30,4 +37,4 @@ export const dashboardApiSlice = createApi({
   })
 })
 
-export const { useStatisticsAllQuery, useTopTeacherQuery, useTopCourseQuery } = dashboardApiSlice
+export const { useStatisticsAllQuery, useTopTeacherQuery, useTopCourseQuery,useRevenueStatisticQuery } = dashboardApiSlice
