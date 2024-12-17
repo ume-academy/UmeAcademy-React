@@ -78,6 +78,8 @@ export const routerConfigTeacher = {
       `${router.formCourse}`,
       `${router.courseManagement}`,
       `${router.profileTeacher}`,
+      `${router.walletMoney}`,
+      `${router.withdrawHistories}`,
     ],
   isTeacherRoute: [`${router.courseManagement}`]
 }

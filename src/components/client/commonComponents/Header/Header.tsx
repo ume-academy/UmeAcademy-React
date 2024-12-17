@@ -9,7 +9,7 @@ import { formatDate } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { authApiSlice } from '@/redux/slices/auth/authApiSlice'
 import { useGetAllFavoriteCoursesQuery } from '@/redux/slices/course/courseApiSlice'
-import { useGetAllNotifyForStudentQuery, useGetAllNotifyForTeacherQuery } from '@/redux/slices/notification/notifyApiSlice'
+import { useGetAllNotifyForStudentQuery, useGetAllNotifyForTeacherQuery, useMarkAsReadNotiForStudentMutation } from '@/redux/slices/notification/notifyApiSlice'
 import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
 import { CloseOutlined, LogoutOutlined, MoonFilled, ReloadOutlined, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from '@ant-design/icons'
 import { Avatar, Drawer, Dropdown, List, MenuProps, message, Space } from 'antd'
@@ -29,9 +29,11 @@ const Header = () => {
   const { loading, startLoading, stopLoading } = useLoading();
 
   // user's notification
-  const { data: notifyData } = useGetAllNotifyForStudentQuery(undefined, {
+  const { data: notifyData, refetch: refetchNotiStudent } = useGetAllNotifyForStudentQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
+  const [readed] = useMarkAsReadNotiForStudentMutation();
 
   // teacher's notification
   const { data: notifyDataTeacher } = useGetAllNotifyForTeacherQuery(undefined, {
@@ -65,6 +67,8 @@ const Header = () => {
   // Bật trạng thái trong suốt khi ở trang home
   const transperent = routerConfig.transparentHeader.includes(location.pathname)
   const isTeacherLayout = routerConfigTeacher.isTeacherLayout.includes(location.pathname)
+
+  // console.log(isTeacherLayout)
 
   // Lấy data check teacher từ api
   const { data: dataIsTeacher } = useCheckTeacherQuery()
@@ -214,29 +218,43 @@ const Header = () => {
     }, 1000)
   };
 
-  const dataNotify = notifyData?.data?.map((item: any, index: number) => (
+  const dataNotify = dataNoti?.data?.map((item: any, index: number) => (
     {
       key: index + 1,
       ...item
     }
   ));
 
-  const dataNotifyTeacher = notifyDataTeacher?.data?.map((item: any, index: number) => (
-    {
-      key: index + 1,
-      ...item
+  const markAsRead = async (notiId: any) => {
+
+    if (!notiId) return;
+
+    try {
+
+      const res = await readed(notiId)
+
+      console.log(res)
+
+      if (res.data) {
+        message.success('Đã đọc')
+      }
+
+      refetchNotiStudent();
+
+    } catch (error) {
+      console.log(error);
     }
-  ));
+  }
 
   useEffect(() => {
     if (isTeacherLayout) {
-      setDataNoti(dataNotifyTeacher)
+      setDataNoti(notifyDataTeacher)
     } else {
-      setDataNoti(dataNotify)
+      setDataNoti(notifyData)
     }
-  }, [])
+  }, [notifyData, notifyDataTeacher])
 
-  console.log(dataNotifyTeacher)
+  // console.log(dataNoti)
 
   // Hàm đếm thông báo
   const notiCount = () => {
@@ -251,7 +269,7 @@ const Header = () => {
 
   useEffect(() => {
     notiCount();
-  }, [userExist, notifyData])
+  }, [userExist, dataNoti])
 
   return (
     <>
@@ -386,7 +404,7 @@ const Header = () => {
                           <div className="space-x-5">
 
                             {/* reload */}
-                            <span className='cursor-pointer' >
+                            <span className='cursor-pointer' onClick={() => refetchNotiStudent()}>
                               <ReloadOutlined />
                             </span>
 
@@ -410,16 +428,20 @@ const Header = () => {
                       style={{ backgroundColor: theme === 'dark' ? '#2b2838' : '#fff' }}
                     >
                       {
-                        dataNoti?.data?.length === 0 ? (
+                        dataNotify?.data?.length === 0 ? (
                           <div className='flex justify-center items-center h-full'>
                             <span className='text-black dark:text-[#b9b7c0]'>Hiện không có thông báo nào!</span>
                           </div>
                         ) : (
                           <List
                             itemLayout="horizontal"
-                            dataSource={dataNoti}
+                            dataSource={dataNotify}
                             renderItem={(item: any, index) => (
-                              <List.Item onClick={() => alert(item.id)}>
+                              //! mark read
+                              <List.Item
+                                className='cursor-pointer'
+                                onClick={() => markAsRead(item.id)}
+                              >
                                 <List.Item.Meta
                                   title={
                                     <div className='flex items-center gap-x-2'>

@@ -61,14 +61,7 @@ const Transaction_History = () => {
       align: 'center' as const,
     },
     {
-      title: 'Giá gốc',
-      render: (_: any, record: TTransactionHistory) => (
-        <span>{formatPrice(+record?.origin_price)}</span>
-      ),
-      align: 'center' as const,
-    },
-    {
-      title: 'Giá khuyến mại',
+      title: 'Giá',
       render: (_: any, record: TTransactionHistory) => (
         <span>{formatPrice(+record?.discount_price)}</span>
       ),
@@ -92,12 +85,6 @@ const Transaction_History = () => {
       ),
       align: 'center' as const,
     },
-    // {
-    //   title: 'Trạng thái',
-    //   key: 'status',
-    //   dataIndex: 'status',
-    //   align: 'center' as const,
-    // },
   ]
 
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center icon"><LoadingOutlined size={62} /></div>

@@ -29,4 +29,8 @@ export const notifyApiSlice = createApi({
   })
 });
 
-export const { useGetAllNotifyForStudentQuery, useGetAllNotifyForTeacherQuery } = notifyApiSlice;
+export const {
+  useGetAllNotifyForStudentQuery,
+  useMarkAsReadNotiForStudentMutation,
+  useGetAllNotifyForTeacherQuery
+} = notifyApiSlice;
