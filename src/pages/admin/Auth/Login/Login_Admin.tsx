@@ -2,7 +2,7 @@ import { router } from '@/configs/routes'
 import useLoading from '@/hooks/useLoading'
 import { TLoginError } from '@/interfaces/TApi_Errors/Validation_Errors_Handler'
 import { TLogin, TResponseLogin } from '@/interfaces/TAuth'
-import { useLoginMutation } from '@/redux/slices/auth/authApiSlice'
+import { useLoginForAdminMutation } from '@/redux/slices/auth/authApiSlice'
 import { setToken } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import { Button, Form, Input, message } from 'antd'
@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom'
 const Login_Admin = () => {
   const { loading, startLoading, stopLoading } = useLoading()
 
-  const [login] = useLoginMutation()
+  const [loginAdmin] = useLoginForAdminMutation()
 
   const [form] = Form.useForm()
 
@@ -27,7 +27,7 @@ const Login_Admin = () => {
     try {
       startLoading()
 
-      const { access_token, refresh_token, expires_in}: TResponseLogin = await login(data).unwrap()
+      const { access_token, refresh_token, expires_in}: TResponseLogin = await loginAdmin(data).unwrap()
 
 
       dispatch(

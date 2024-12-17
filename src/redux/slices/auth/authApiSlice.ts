@@ -23,6 +23,15 @@ export const authApiSlice = createApi({
       }),
     }),
 
+    //! LOGIN FOR ADMIN
+    loginForAdmin: builder.mutation<TResponseLogin, TLogin>({
+      query: (dataForm: TLogin) => ({
+        url: `/auth/login-admin/email`,
+        method: 'POST',
+        body: dataForm
+      })
+    }),
+
     logoutApi: builder.mutation<void, void>({
       query: () => {
         const refresh_Token = Cookies.get('refresh_Token')
@@ -55,6 +64,7 @@ export const authApiSlice = createApi({
 export const {
   useRegisterMutation,
   useLoginMutation,
+  useLoginForAdminMutation,
   useLogoutApiMutation,
   useResetPasswordMutation,
   useForgotPasswordMutation,
