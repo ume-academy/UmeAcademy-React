@@ -1,15 +1,19 @@
 // ChapterList.tsx
 import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
-import { TChapter, TFormLesson, TLesson, TResource } from '@/interfaces/TLesson'
+import useLoading from '@/hooks/useLoading'
+import { CustomUploadFile, TChapter, TFormLesson, TLesson, TResource } from '@/interfaces/TLesson'
 import {
   useCreateLessonMutation,
   useRemoveLessonMutation,
+  useRemoveResourceLessonMutation,
+  useRemoveVideoLessonMutation,
   useUpdateLessonMutation,
   useUpdatePreviewVideoMutation
 } from '@/redux/slices/lesson/lessonApiSlice'
 import { validateResourceFile, validateVideoFile } from '@/Validators/upload_lesson_validator'
-import { DeleteFilled, EditFilled, UploadOutlined } from '@ant-design/icons'
+import { DeleteFilled, EditFilled, LoadingOutlined, UploadOutlined } from '@ant-design/icons'
 import {
+  Button,
   Collapse,
   CollapseProps,
   Form,
@@ -35,6 +39,7 @@ interface LessonProps {
 
 const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) => {
   const { theme } = useContext(ThemeContext) as ThemeContextType
+  const { startLoading, loading, stopLoading } = useLoading()
   const { id } = useParams()
   const [form] = Form.useForm()
   const id_Course = id
@@ -42,10 +47,12 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
   const [updateLesson] = useUpdateLessonMutation()
   const [updateIsPreview] = useUpdatePreviewVideoMutation()
   const [removeLesson] = useRemoveLessonMutation()
+  const [removeVideoLesson] = useRemoveVideoLessonMutation()
+  const [removeResourceLesson] = useRemoveResourceLessonMutation()
 
   // <==== State cho Upload video===>
   const [fileListVideo, setFileListVideo] = useState<UploadFile[]>([])
-  const [fileListResource, setFileListResource] = useState<UploadFile[]>([])
+  const [fileListResource, setFileListResource] = useState<CustomUploadFile[]>([])
 
   // Chuyển đổi `lessonsData` thành định dạng `fileList`
   useEffect(() => {
@@ -66,7 +73,8 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
           uid: `${lesson.id}-${resource.id}`, // Tạo UID duy nhất từ bài học và tài nguyên
           name: resource.name.split('/').pop(), // Tách lấy tên file từ URL
           status: 'done' as const, // Đã tải lên
-          url: resource.name // URL tài liệu
+          url: resource.name, // URL tài liệu
+          id: resource.id // ID tài liệu
         }))
       )
       setFileListResource(initialFileList)
@@ -144,7 +152,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
     }
   }
 
-  const handleChangeIsPreview = async (chapter_id: number, lesson_id: number, checked: boolean) => {
+  const handleChangeIsPreview = (chapter_id: number, lesson_id: number, checked: boolean) => {
     Modal.confirm({
       title: <span className='text-red-500 font-title'>Xác nhận thay đổi trạng thái</span>,
       content: (
@@ -169,7 +177,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
       onOk: async () => {
         try {
           if (id) {
-            updateIsPreview({
+            await updateIsPreview({
               id_course: Number(id_Course),
               id_chapter: chapter_id,
               id_lesson: lesson_id,
@@ -232,6 +240,70 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
     })
   }
 
+  // <==== Xử lí logic cho xóa video bài học =====>
+  const handleChangeDeleteVideo = async (chapter_id: number, lesson_id: number) => {
+    startLoading(); // Bắt đầu loading
+    const itemToDelete = fileListVideo.find((file) => file.uid === `${lesson_id}`); // Lưu item cần xóa
+    const updatedFileList = fileListVideo.filter((file) => file.uid !== `${lesson_id}`); // Tạm thời xóa item khỏi danh sách
+  
+    // Cập nhật lại danh sách fileListVideo trên UI (Loại bỏ video khỏi UI)
+    setFileListVideo(updatedFileList); 
+  
+    try {
+      if (id) {
+        // Gọi API để xóa video
+        await removeVideoLesson({
+          id_course: Number(id_Course),
+          id_chapter: chapter_id,
+          id_lesson: lesson_id
+        }).unwrap();
+  
+        // Sau khi xóa thành công, gọi refetch lại dữ liệu
+        isRefetch();
+        message.success('Xóa video bài học thành công');
+      }
+    } catch (error) {
+      const errorData = (error as { data?: any })?.data;
+      // Kiểm tra và hiển thị tất cả các lỗi trong errors
+      if (errorData?.error) {
+        message.error(errorData.error); // Hiển thị thông báo lỗi từ trường error trong data
+      } else {
+        message.error('Xóa video bài học thất bại'); // Thông báo lỗi mặc định nếu không có lỗi chi tiết
+      }
+  
+      // Nếu có lỗi, thêm lại item vào danh sách video (hoàn tác hành động xóa)
+      if (itemToDelete) {
+        setFileListVideo((prevFileList) => [...prevFileList, itemToDelete]);
+      }
+    } finally {
+      stopLoading(); // Dừng loading sau khi hoàn thành (thành công hoặc thất bại)
+    }
+  };
+
+  // <==== Xử lí logic cho xóa tài liệu bài học =====>
+  const handleChangeDeleteResource = async (chapter_id: number, lesson_id: number, resource_id: number) => {
+    startLoading()
+    try {
+      if(id){
+        await removeResourceLesson({ id_course: Number(id_Course), id_chapter: chapter_id, id_lesson: lesson_id, id_resource: resource_id }).unwrap()
+        isRefetch()
+        message.success('Xóa tài liệu thành công')
+      }
+    } catch (error) {
+      const errorData = (error as { data?: any })?.data
+      // Kiểm tra và hiển thị tất cả các lỗi trong errors
+      // Nếu có trường error trong data, hiển thị thông báo lỗi
+      if (errorData?.error) {
+        message.error(errorData.error) // Hiển thị thông báo lỗi từ trường error trong data
+      } else {
+        // Nếu không có trường error, hiển thị thông báo lỗi mặc định
+        message.error('Xóa tài liệu thất bại')
+      }
+    }finally{
+      stopLoading()
+    }
+  }
+
   // <==== Kết thúc xử lí logic cho CẬP NHẬT & THÊM chương =====>
 
   const getToken = localStorage.getItem('access_Token')
@@ -267,7 +339,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
         <>
           <div>
             <div
-              className={`grid  ${!hideCourseFunction ? 'grid-cols-[3fr_1fr] md:grid-cols-[4fr_1fr] lg:grid-cols-[11.5fr_0.5fr]' : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 place-items-center'} gap-4 w-full mb-5 min-h-6`}
+               className={`grid  ${!hideCourseFunction ? 'grid-cols-[3fr_1fr] md:grid-cols-[4fr_1fr] lg:grid-cols-[11.5fr_0.3fr]' : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 place-items-center'} gap-4 w-full mb-5 min-h-6`}
             >
               <Upload
                 accept='video/*'
@@ -287,7 +359,19 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                         .concat(validFileList.map((item) => ({ ...item, uid: `${lesson.id}` }))) // Thêm file mới với đúng uid
                   )
                 }}
-                showUploadList={{ showRemoveIcon: false }}
+                onRemove={(file) => {
+                  if (file.status === 'uploading') {
+                    message.warning('Không thể xóa tệp trong khi tải lên.');
+                    return false; // Ngăn xóa file
+                  }
+                  handleChangeDeleteVideo(chapter_id, lesson.id); // Gọi hàm xóa nếu không phải đang upload
+                  return true; // Cho phép xóa
+                }}
+                showUploadList={{
+                  removeIcon: (
+                    <DeleteFilled style={{ color: '#b9b7c0' }} />
+                  ),
+                }}
                 customRequest={async ({ file, onSuccess, onError }) => {
                   const formData = new FormData()
 
@@ -313,11 +397,20 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                       onSuccess?.(data)
                       // Lưu URL video vào fileList để hiển thị lại sau khi reload
                     } else {
-                      message.error('Video đã tồn tại trong bài học này.')
-                      onError?.(new Error('Upload failed'))
+                      const errorData = await response.json(); // Lấy dữ liệu lỗi từ response
+                      // Truyền lỗi từ response vào throw để bắt được thông báo chi tiết
+                      throw new Error(errorData?.error || 'Video đã tồn tại trong bài học này.'); // Lỗi từ response nếu có
                     }
                   } catch (error: any) {
-                    onError?.(error)
+                      // Lấy thông điệp lỗi từ đối tượng error
+                      const errorMessage = error.message || 'Thêm tài liệu thất bại'; // Lỗi mặc định nếu không có lỗi chi tiết
+
+                      message.error(errorMessage); // Hiển thị thông báo lỗi từ catch
+                      onError?.(error); // Gọi onError nếu có
+                      // Khi có lỗi, đảm bảo trạng thái loading được dừng lại
+                      setFileListVideo((prevFileList) =>
+                        prevFileList.filter((item) => item.uid !== `${lesson.id}`) // Xóa file đang "loading" nếu có lỗi
+                      );
                   }
                 }}
               >
@@ -328,18 +421,18 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                 ) : (
                   !fileListVideo.some((file) => file.uid === `${lesson.id}`) && (
                     <button
+                      disabled={loading}
                       className={`${
                         !hideCourseFunction ? 'w-[30vh] md:w-[60vh] lg:w-[760px]' : 'w-[36vh] md:w-[58vh] lg:w-[720px]'
                       } border-[2px] px-4 py-1 border-[#ff5364] rounded-lg text-[12px] text-[#ff5364] font-subtitle`}
                     >
-                      <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
-                      Upload video
+                      {loading ? <LoadingOutlined /> : (<span><UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
+                        Upload video</span>)}
                     </button>
                   )
                 )}
               </Upload>
-              {!hideCourseFunction && fileListVideo.some((file) => file.uid === `${lesson.id}`) && (
-                <>
+              {!hideCourseFunction && fileListVideo.some((file) => file.uid === `${lesson.id}`) && (  
                   <div className='flex flex-col justify-around'>
                     <Space direction='vertical' key={index + 1}>
                       <Tooltip title='Cho xem trước video không ?'>
@@ -348,23 +441,25 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                           unCheckedChildren='Đóng'
                           onChange={(checked) => handleChangeIsPreview(chapter_id, lesson.id, checked)}
                           checked={lesson.is_preview}
+                          disabled={fileListVideo.some((file) => file.status === 'uploading')} // Disable khi có file đang upload
                         />
                       </Tooltip>
-                      {/* <DeleteOutlined
-                    onClick={() => handleChangeDeleteChapter(2)}
-                    className='flex justify-center text-[16px] items-center text-[#1f1f1f] dark:text-[#b9b7c0]'
-                  /> */}
                     </Space>
                   </div>
-                </>
-              )}
-              <Upload
+              )}              
+            </div>
+            <Upload
                 // accept='video/*'
                 style={{border: '1px red solid', backgroundColor: 'red'}}
                 disabled={hideCourseFunction} // Disable button upload nếu là
                 listType='picture-card'
                 fileList={fileListResource.filter((file) => file.uid.startsWith(`${lesson.id}-`))}
-                showUploadList={{ showRemoveIcon: true }}
+                showUploadList={{ 
+                  showRemoveIcon: true,
+                  removeIcon: (
+                    <DeleteFilled style={{ color: '#b9b7c0' }} />
+                  ),
+                }}
                 customRequest={async ({ file, onSuccess, onError }) => {
                   // Validate trước khi upload
                   if (!validateResourceFile(file as File)) {
@@ -376,7 +471,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
 
                   // Thêm file và tên (name) vào FormData
                   formData.append('name', file)
-
+                  startLoading()
                   try {
                     const response = await fetch(
                       `https://umeacademy.me/api/v1/teacher/course/${id_Course}/chapter/${chapter_id}/lesson/${lesson.id}/resources`,
@@ -396,38 +491,59 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                       onSuccess?.(data)
                       // Lưu URL video vào fileList để hiển thị lại sau khi reload
                     } else {
-                      message.error('Tài liệu đã tồn tại trong bài học này.')
-                      onError?.(new Error('Upload failed'))
+                      const errorData = await response.json(); // Lấy dữ liệu lỗi từ response
+                      // Truyền lỗi từ response vào throw để bắt được thông báo chi tiết
+                      throw new Error(errorData?.error); // Lỗi từ response nếu có
                     }
                   } catch (error: any) {
-                     const errorData = (error as { data?: any })?.data
-                              // Kiểm tra và hiển thị tất cả các lỗi trong errors
-                              // Nếu có trường error trong data, hiển thị thông báo lỗi
-                              if (errorData?.error) {
-                                message.error(errorData.error) // Hiển thị thông báo lỗi từ trường error trong data
-                              } else {
-                                // Nếu không có trường error, hiển thị thông báo lỗi mặc định
-                                message.error('Thêm tài liệu thất bại')
-                              }
+                      // Lấy thông điệp lỗi từ đối tượng error
+                      const errorMessage = error.message || 'Thêm tài liệu thất bại'; // Lỗi mặc định nếu không có lỗi chi tiết
+
+                      message.error(errorMessage); // Hiển thị thông báo lỗi từ catch
+                      onError?.(error); // Gọi onError nếu có
+                  }finally {
+                    stopLoading()
+                  }
+                }}
+                onRemove={(file) => {
+                  if (file.status === 'uploading') {
+                    message.warning('Không thể xóa tệp trong khi tải lên.');
+                    return false; // Ngăn xóa file
+                  }
+                   // Tìm id tương ứng của file từ fileListResource dựa trên uid
+                  const resourceToDelete = fileListResource.find((item) => item.uid === file.uid);
+                  // Kiểm tra xem tài liệu có tồn tại không
+                  if (resourceToDelete) {
+                    handleChangeDeleteResource(chapter_id, lesson.id, Number(resourceToDelete.id)); // Truyền id của tài liệu vào hàm xóa
+                  } else {
+                    message.error('Không tìm thấy tài liệu để xóa.');
                   }
                 }}
               >
                 {hideCourseFunction ? (
-                  fileListResource.some((file) => file.uid === `${lesson.id}`) ? null : (
-                    <h1 className='text-red-600'>Không có tài liệu</h1>
-                  )
-                ) : (
-                  !fileListResource.some((file) => file.uid === `${lesson.id}`) && (
-                    <button
-                      
-                    >
-                      <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
-                      Upload tài liệu
-                    </button>
-                  )
-                )}
-              </Upload>
-            </div>
+  fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) ? (
+    null // Không hiển thị gì nếu có tài liệu
+  ) : (
+    <h1 className="text-red-600">Không có tài liệu</h1> // Hiển thị khi không có tài liệu
+  )
+) : (
+  !fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) && (
+    <button
+      className={`border-[0px] ${loading ? 'disabled:' : ''}`}
+      disabled={loading} // Disable button khi đang tải
+    >
+      {loading ? (
+        <LoadingOutlined />
+      ) : (
+        <span>
+          <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
+          Thêm tài liệu
+        </span>
+      )}
+    </button>
+  )
+)}
+            </Upload>
           </div>
         </>
       )

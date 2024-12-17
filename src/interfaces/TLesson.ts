@@ -1,3 +1,4 @@
+import { UploadFile } from "antd"
 import { is } from "date-fns/locale"
 
 export interface TLessonByCourseID  {
@@ -57,4 +58,10 @@ export interface TResource {
   id: number,
   name: string,
   created_at: string
+}
+
+export interface CustomUploadFile extends UploadFile {
+  uid: string;
+  id: string;
+  url: string;
 }

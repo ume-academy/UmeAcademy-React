@@ -57,6 +57,20 @@ export const lessonApiSlice = createApi({
       })
     }),
 
+    removeVideoLesson: builder.mutation<void, { id_course: number; id_chapter: number; id_lesson: number }>({
+      query: ({ id_course, id_chapter, id_lesson }) => ({
+        url: `/teacher/course/${id_course}/chapter/${id_chapter}/lesson/${id_lesson}/videos`,
+        method: 'DELETE'
+      })
+    }),
+
+    removeResourceLesson: builder.mutation<void, { id_course: number; id_chapter: number; id_lesson: number; id_resource: number }>({
+      query: ({ id_course, id_chapter, id_lesson, id_resource }) => ({
+        url: `/teacher/course/${id_course}/chapter/${id_chapter}/lesson/${id_lesson}/resources/${id_resource}`,
+        method: 'DELETE'
+      })
+    })
+
   })
 })
 
@@ -66,5 +80,7 @@ export const {
   useCreateLessonMutation,
   useUpdateLessonMutation,
   useUpdatePreviewVideoMutation,
-  useRemoveLessonMutation
+  useRemoveLessonMutation,
+  useRemoveVideoLessonMutation,
+  useRemoveResourceLessonMutation
  } = lessonApiSlice
