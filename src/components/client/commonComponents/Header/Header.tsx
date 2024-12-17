@@ -4,12 +4,11 @@ import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
 import { selectIsAuthenticated } from '@/redux/selector/auth_selector'
 import { logoutLocal } from '@/redux/slices/auth/authSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
-
 import { formatDate } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { authApiSlice } from '@/redux/slices/auth/authApiSlice'
 import { useGetAllFavoriteCoursesQuery } from '@/redux/slices/course/courseApiSlice'
-import { useGetAllNotifyForStudentQuery, useGetAllNotifyForTeacherQuery, useMarkAsReadNotiForStudentMutation } from '@/redux/slices/notification/notifyApiSlice'
+import { useGetAllNotifyForStudentQuery, useGetAllNotifyForTeacherQuery, useMarkAsReadNotiForStudentMutation, useMarkAsReadNotiForTeacherMutation } from '@/redux/slices/notification/notifyApiSlice'
 import { useCheckTeacherQuery } from '@/redux/slices/teacher/checkIsTeacher/checkTeacherApiSlice'
 import { CloseOutlined, LogoutOutlined, MoonFilled, ReloadOutlined, StarOutlined, SunFilled, UserOutlined, WalletOutlined } from '@ant-design/icons'
 import { Avatar, Drawer, Dropdown, List, MenuProps, message, Space } from 'antd'
@@ -36,9 +35,11 @@ const Header = () => {
   const [readed] = useMarkAsReadNotiForStudentMutation();
 
   // teacher's notification
-  const { data: notifyDataTeacher } = useGetAllNotifyForTeacherQuery(undefined, {
+  const { data: notifyDataTeacher, refetch: refetchNotiTeacher } = useGetAllNotifyForTeacherQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
+  const [readedTeacher] = useMarkAsReadNotiForTeacherMutation();
 
   const nav = useNavigate()
 
@@ -231,15 +232,25 @@ const Header = () => {
 
     try {
 
-      const res = await readed(notiId)
+      if (isTeacherLayout) {
+        const res = await readedTeacher(notiId)
 
-      console.log(res)
+        if (res.data) {
+          message.success('Đã đọc')
+        }
 
-      if (res.data) {
-        message.success('Đã đọc')
+        refetchNotiTeacher();
+
+      } else {
+        const res = await readed(notiId)
+
+
+        if (res.data) {
+          message.success('Đã đọc')
+        }
+
+        refetchNotiStudent();
       }
-
-      refetchNotiStudent();
 
     } catch (error) {
       console.log(error);
@@ -313,60 +324,33 @@ const Header = () => {
                 </button>
 
                 {/* icon */}
-                <div className='flex items-center w-[120px] justify-between mx-[20px]'>
+                <div className='flex items-center gap-x-6 justify-between mx-[20px]'>
                   {/* <Link to={router.listBlogs}>
                     <Newspaper size={22} className='text-green-400' />
                   </Link> */}
 
                   {
                     !isTeacherLayout && (
-                      <>
 
-                        < svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                          <path
-                            opacity='0.4'
-                            d='M17.98 10.79V14.79C17.98 15.05 17.97 15.3 17.94 15.54C17.71 18.24 16.12 19.58 13.19 19.58H12.79C12.54 19.58 12.3 19.7 12.15 19.9L10.95 21.5C10.42 22.21 9.56 22.21 9.03 21.5L7.82999 19.9C7.69999 19.73 7.41 19.58 7.19 19.58H6.79001C3.60001 19.58 2 18.79 2 14.79V10.79C2 7.86001 3.35001 6.27001 6.04001 6.04001C6.28001 6.01001 6.53001 6 6.79001 6H13.19C16.38 6 17.98 7.60001 17.98 10.79Z'
-                            fill='#1D9CFD'
-                          />
-                          <path
-                            d='M9.99023 14C9.43023 14 8.99023 13.55 8.99023 13C8.99023 12.45 9.44023 12 9.99023 12C10.5402 12 10.9902 12.45 10.9902 13C10.9902 13.55 10.5502 14 9.99023 14Z'
-                            fill='#1D9CFD'
-                          />
-                          <path
-                            d='M13.4902 14C12.9302 14 12.4902 13.55 12.4902 13C12.4902 12.45 12.9402 12 13.4902 12C14.0402 12 14.4902 12.45 14.4902 13C14.4902 13.55 14.0402 14 13.4902 14Z'
-                            fill='#1D9CFD'
-                          />
-                          <path
-                            d='M6.5 14C5.94 14 5.5 13.55 5.5 13C5.5 12.45 5.95 12 6.5 12C7.05 12 7.5 12.45 7.5 13C7.5 13.55 7.05 14 6.5 14Z'
-                            fill='#1D9CFD'
-                          />
-                          <path
-                            d='M21.9791 6.79001V10.79C21.9791 13.73 20.6291 15.31 17.9391 15.54C17.9691 15.3 17.9791 15.05 17.9791 14.79V10.79C17.9791 7.60001 16.3791 6 13.1891 6H6.78906C6.52906 6 6.27906 6.01001 6.03906 6.04001C6.26906 3.35001 7.85906 2 10.7891 2H17.1891C20.3791 2 21.9791 3.60001 21.9791 6.79001Z'
-                            fill='#1D9CFD'
-                          />
-                        </svg>
+                      <Link to={router.favoriteCourses} className='relative cursor-pointer'>
+                        <div className='relative'>
+                          <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                              d='M22 8.6901C22 9.8801 21.81 10.9801 21.48 12.0001H2.52C2.19 10.9801 2 9.8801 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.37 3.1001 10.99 3.9801 12 5.3301C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901Z'
+                              fill='#F66962'
+                            />
+                            <path
+                              opacity='0.4'
+                              d='M21.4795 12C19.8995 17 15.0295 19.99 12.6195 20.81C12.2795 20.93 11.7195 20.93 11.3795 20.81C8.96953 19.99 4.09953 17 2.51953 12H21.4795Z'
+                              fill='#F66962'
+                            />
+                          </svg>
 
-                        <Link to={router.favoriteCourses} className='relative cursor-pointer'>
-                          <div className='relative'>
-                            <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                              <path
-                                d='M22 8.6901C22 9.8801 21.81 10.9801 21.48 12.0001H2.52C2.19 10.9801 2 9.8801 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.37 3.1001 10.99 3.9801 12 5.3301C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901Z'
-                                fill='#F66962'
-                              />
-                              <path
-                                opacity='0.4'
-                                d='M21.4795 12C19.8995 17 15.0295 19.99 12.6195 20.81C12.2795 20.93 11.7195 20.93 11.3795 20.81C8.96953 19.99 4.09953 17 2.51953 12H21.4795Z'
-                                fill='#F66962'
-                              />
-                            </svg>
-
-                            <div className='absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full'>
-                              {favCourses?.data?.length > 9 ? '9+' : favCourses?.data?.length}
-                            </div>
+                          <div className='absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full'>
+                            {favCourses?.data?.length > 9 ? '9+' : favCourses?.data?.length}
                           </div>
-                        </Link>
-
-                      </>
+                        </div>
+                      </Link>
                     )
                   }
 

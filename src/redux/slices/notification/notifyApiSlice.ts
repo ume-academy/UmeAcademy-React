@@ -9,7 +9,7 @@ export const notifyApiSlice = createApi({
 
     //! GET ALL NOTIFICATIONS FOR STUDENT
     getAllNotifyForStudent: builder.query({
-      query: () => "/notifications",
+      query: () => `/notifications`,
       providesTags: ["Notify"],
     }),
 
@@ -18,7 +18,8 @@ export const notifyApiSlice = createApi({
       query: (notiId) => ({
         url: `/notifications/${notiId}`,
         method: 'POST'
-      })
+      }),
+      invalidatesTags: ["Notify"],
     }),
 
     //! GET ALL NOTIFICATIONS FOR TEACHER
@@ -26,11 +27,21 @@ export const notifyApiSlice = createApi({
       query: () => "/teacher/notifications",
       providesTags: ["Notify"],
     }),
+
+    //! MARK AS READ FOR TEACHER
+    markAsReadNotiForTeacher: builder.mutation({
+      query: (notiId) => ({
+        url: `/teacher/notifications/${notiId}`,
+        method: 'POST'
+      }),
+      invalidatesTags: ["Notify"],
+    }),
   })
 });
 
 export const {
   useGetAllNotifyForStudentQuery,
   useMarkAsReadNotiForStudentMutation,
-  useGetAllNotifyForTeacherQuery
+  useGetAllNotifyForTeacherQuery,
+  useMarkAsReadNotiForTeacherMutation
 } = notifyApiSlice;
