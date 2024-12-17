@@ -120,12 +120,20 @@ const List_Transactions = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      render: (status: 'pending' | 'success' | 'canceled') => (
+      render: (status: 'pending' | 'success' | 'canceled' | 'refunded') => (
         <Tag
           className='text-sm py-1 px-2 min-w-[120px] text-center'
-          color={status === 'pending' ? 'blue' : status === 'success' ? 'green' : 'red'}
+          color={
+            status === 'pending' ? 'blue' : status === 'success' ? 'green' : status === 'canceled' ? 'red' : 'gold'
+          }
         >
-          {status === 'pending' ? 'Chưa thanh toán' : status === 'success' ? 'Đã thanh toán' : 'Đã từ chối'}
+          {status === 'pending'
+            ? 'Chưa thanh toán'
+            : status === 'success'
+              ? 'Đã thanh toán'
+              : status === 'canceled'
+                ? 'Đã từ chối'
+                : 'Hoàn tiềntiền'}
         </Tag>
       ),
       width: 100
@@ -150,7 +158,9 @@ const List_Transactions = () => {
             treeData={[
               { value: 'pending', title: 'Chưa thanh toán' },
               { value: 'success', title: 'Đã thanh toán' },
-              { value: 'canceled', title: 'Đã từ chối' }
+              { value: 'canceled', title: 'Đã từ chối' },
+              { value: 'refunded', title: 'Hoàn tiền' }
+
             ]}
             allowClear
           />

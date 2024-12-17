@@ -253,8 +253,8 @@ const List_Withdrawal_Requests = () => {
             className='w-full sm:w-40 h-10'
             treeData={[
               { value: 'reject', title: 'Đã từ chối' },
-              { value: 'pending', title: 'Đã phê duyệt' },
-              { value: 'success', title: 'Chờ phê duyệt' }
+              { value: 'success', title: 'Đã phê duyệt' },
+              { value: 'pending', title: 'Chờ phê duyệt' }
             ]}
             allowClear
           />

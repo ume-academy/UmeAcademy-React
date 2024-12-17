@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useTopCourseQuery, useTopTeacherQuery } from '@/redux/slices/admin/dashboardApiSlice'
 import { TCourse } from '@/interfaces/TCourse'
 import { TTeacher } from '@/interfaces/TTeacher'
-import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
+import { useTopCourseQuery, useTopTeacherQuery } from '@/redux/slices/admin/dashboardApiSlice'
 import ReactECharts from 'echarts-for-react'
+import { useEffect, useState } from 'react'
 
 const Chart_C_T = () => {
   const { data: teacher, isLoading: teacherLoading } = useTopTeacherQuery({})
@@ -136,9 +135,7 @@ const Chart_C_T = () => {
     }
   }, [teacher, course, teacherLoading, courseLoading])
 
-  if (teacherLoading || courseLoading) {
-    return <DotLoader />
-  }
+
 
   return (
     <div className='p-4 flex flex-wrap bg-white dark:bg-[#2b2838] border border-[#e9ecef] dark:border-[#5a5a5a] rounded-lg shadow-md'>

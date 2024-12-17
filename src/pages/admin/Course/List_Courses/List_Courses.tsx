@@ -4,27 +4,34 @@ import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { TCourse } from '@/interfaces/TCourse'
 import { TTeacher } from '@/interfaces/TTeacher'
 import { useGetAllCourseAdminQuery } from '@/redux/slices/course/courseApiSlice'
-import { Image, Pagination, Table, TableColumnsType, Tag, TreeSelect } from 'antd'
+import { Image, Pagination, Table, TableColumnsType, Tag, TreeSelect, TreeSelectProps } from 'antd'
 import { Info } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const CustomTreeSelect = styled(TreeSelect)`
+interface CustomTreeSelectProps extends TreeSelectProps<any> {
+  value?: any
+}
+
+const CustomTreeSelect = styled(({ value, ...props }: CustomTreeSelectProps) => <TreeSelect {...props} />)`
   .ant-select-selector {
-    background-color: #fafafa !important;
-    border: 1px solid #c1c9d2 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .dark & .ant-select-selector {
-    background-color: #131022 !important;
-    border: 1px solid #c7c7c740 !important;
+    background-color: ${({ value }) => (value === 0 ? '#fff1f0' : value === 1 ? '#f6ffed' : '#e6f4ff')} !important;
+    border: ${({ value }) => (value === 0 ? '#ffa39e' : value === 1 ? '#b7eb8f' : '#91caff')} 1px solid !important;
   }
+
   .ant-select-selector .ant-select-selection-placeholder {
-    color: #6e82a3 !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
+
   .dark & .ant-select-selector .ant-select-selection-placeholder {
-    color: #e9ecef !important;
+    color: ${({ value }) => (value === 0 ? '#d81322' : value === 1 ? '#389e0d' : '#098eea')} !important;
   }
 `
 
@@ -35,6 +42,7 @@ const List_Courses = () => {
     page: currentPage,
     status: selectedStatus
   })
+  console.log(selectedStatus)
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -99,7 +107,7 @@ const List_Courses = () => {
           className='text-sm py-1 px-2 min-w-[110px] text-center'
           color={status === 0 ? 'red' : status === 1 ? 'blue' : status === 2 ? 'green' : 'gold'}
         >
-          {status === 0 ? 'Nháp ' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Lưu trữ'}
+          {status === 0 ? 'Nháp ' : status === 1 ? 'Chờ xuất bản' : status === 2 ? 'Đã xuất bản' : 'Lưu trữ'}
         </Tag>
       ),
       width: 150
@@ -133,8 +141,8 @@ const List_Courses = () => {
             className='w-44 h-10 mt-4 md:mt-0'
             treeData={[
               { value: 'draft', title: 'Nháp' },
-              { value: 'pending', title: 'Chờ phê duyệt' },
-              { value: 'publishsed', title: 'Đã phê duyệt' }
+              { value: 'pending', title: 'Chờ xuất bản' },
+              { value: 'published', title: 'Đã xuất bản' }
             ]}
             allowClear
           />

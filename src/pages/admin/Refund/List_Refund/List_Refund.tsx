@@ -153,11 +153,7 @@ const List_Refund = () => {
     }
   }
 
-  const optionStatus = [
-    { value: 0, label: 'Đã từ chối' },
-    { value: 1, label: 'Đã phê duyệt' },
-    { value: 2, label: 'Chờ phê duyệt' }
-  ]
+
 
   return (
     <div className='dark:text-[#B9B7C0] dark:bg-[#2b2838] bg-white text-[#685f78] rounded-lg p-4'>
@@ -174,8 +170,8 @@ const List_Refund = () => {
             className='w-full sm:w-40 h-10'
             treeData={[
               { value: 'reject', title: 'Đã từ chối' },
-              { value: 'pending', title: 'Đã phê duyệt' },
-              { value: 'success', title: 'Chờ phê duyệt' }
+              { value: 'success', title: 'Đã phê duyệt' },
+              { value: 'pending', title: 'Chờ phê duyệt' }
             ]}
             allowClear
           />

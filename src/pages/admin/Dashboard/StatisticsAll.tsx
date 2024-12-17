@@ -1,13 +1,9 @@
-import DotLoader from '@/components/client/commonComponents/Loader/DotLoader'
 import { formatPrice } from '@/constants/utils'
 import { useStatisticsAllQuery } from '@/redux/slices/admin/dashboardApiSlice'
 import { ArrowRightLeft, CircleDollarSign, GraduationCap, HandCoins, School, Users } from 'lucide-react'
 
 const StatisticsAll = () => {
-  const { data, isLoading } = useStatisticsAllQuery({})
-  if (isLoading) {
-    return <DotLoader />
-  }
+  const { data } = useStatisticsAllQuery({})
   return (
     <div>
       <div className=' grid grid-cols-1 md:grid-cols-3 gap-6'>
