@@ -1,19 +1,19 @@
+import Loading from "@/components/client/commonComponents/Loading/Loading";
 import { router } from "@/configs/routes";
 import { getTitleTab } from "@/constants/client";
+import useLoading from "@/hooks/useLoading";
+import { TRole } from "@/interfaces/TRole";
 import { TUser } from "@/interfaces/TUser";
-import { Form, Image, message, Modal, Select, Space, Switch, Table, TableColumnsType, TreeSelect } from "antd";
+import { useGetAllRoleQuery } from "@/redux/slices/role/roleApiSlice";
+import { useAssignRoleUserByIdMutation, useGetAllUsersSystemQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Image, message, Modal, Pagination, Select, Space, Switch, Table, TableColumnsType, TreeSelect } from "antd";
 import { Info, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import '../../User/List_Users/List_User_Antd.scss';
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { useAssignRoleUserByIdMutation, useGetAllUsersSystemQuery, useLockUserMutation, useUnLockUserMutation } from "@/redux/slices/user/userSlice";
-import { useGetAllRoleQuery } from "@/redux/slices/role/roleApiSlice";
-import Loading from "@/components/client/commonComponents/Loading/Loading";
-import { TRole } from "@/interfaces/TRole";
-import useLoading from "@/hooks/useLoading";
 
 const CustomTreeSelect = styled(TreeSelect)`
 .ant-select-selector {
@@ -40,17 +40,21 @@ const System_Users = () => {
 
   const [searchText, setSearchText] = useState<string>("");
 
-  const [selectedRole, setSelectedRole] = useState<any>(undefined);
+  // const [selectedRole, setSelectedRole] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
+  // const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-  const { data: usersSystem, isLoading, isFetching } = useGetAllUsersSystemQuery([]);
+  const [status, setStatus] = useState<any>(undefined);
+
+  const [role, setRole] = useState<any>(undefined);
+
+  const { data: usersSystem, isLoading, isFetching } = useGetAllUsersSystemQuery({ page: page, status: status, role: role });
 
   const [lockUser] = useLockUserMutation();
 
@@ -60,7 +64,7 @@ const System_Users = () => {
 
   const [updateRole] = useAssignRoleUserByIdMutation();
 
-  // console.log(data);
+  // console.log(usersSystem);
 
   useEffect(() => {
     if (usersSystem?.data) {
@@ -72,41 +76,27 @@ const System_Users = () => {
   }, [undefined, usersSystem, data]);
 
   const onHandleChangeUpdateRole = async (roleName: string, userId: number) => {
-
-
     try {
+
       startLoading();
-  
+
       const res = await updateRole({
         id: userId,
         role: roleName
       }).unwrap();
-  
+
       if (res?.data) {
-        // Cập nhật lại state với role mới
-        // setData((prevData: TUser[]) =>
-        //   prevData.map((user) =>
-        //     user.id === userId
-        //       ? {
-        //           ...user,
-        //           role: user.role.map((r) =>
-        //             r.name === roleName ? { ...r, name: roleName } : r
-        //           ),
-        //         }
-        //       : user
-        //   )
-        // );
-  
         stopLoading();
         return message.success('Cập nhật vai trò thành công!');
       }
+
     } catch (error) {
       console.error(error);
       stopLoading();
       message.error('Cập nhật vai trò thất bại!');
     }
   };
-  
+
 
   const handleChangeStatus = (id: string, checked: any) => {
     Modal.confirm({
@@ -156,14 +146,6 @@ const System_Users = () => {
   const handleSearch = (value: string) => {
     setSearchText(value);
   };
-
-  const filteredData = data.filter((user: TUser) => {
-    const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
-    const isMatchingRole = selectedRole === undefined || user?.is_teacher === selectedRole;
-    const isMatchingStatus = selectedStatus === undefined || user?.is_lock === selectedStatus;
-
-    return isMatchingEmail && isMatchingRole && isMatchingStatus;
-  });
 
   const rolesData = roles?.data?.data?.map((item: TRole, index: number) => (
     {
@@ -258,6 +240,19 @@ const System_Users = () => {
     }
   ];
 
+  console.log('role: ', role , '| status: ', status)
+
+  // opts Role
+  const optionsRole = roles?.data?.data?.map((item: TRole, index: number) => (
+    { key: index + 1, value: item.name, title: item.name, id: item.id }
+  ))
+
+  // opts Stt
+  const optionsStatus = [
+    {value: 'active', title: 'Đang hoạt động'},
+    {value: 'locked', title: 'Đã khóa'},
+  ]
+
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
   return (
@@ -313,27 +308,19 @@ const System_Users = () => {
 
         <CustomTreeSelect
           placeholder="Lọc theo trạng thái"
-          value={selectedStatus}
-          onChange={(value) => setSelectedStatus(value as number)}
+          value={status}
+          onChange={(value) => setStatus(value as number)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
-          treeData={[
-            { value: 2, title: 'Mặc định' },
-            { value: 1, title: 'Khóa' },
-            { value: 0, title: 'Mở' }
-          ]}
+          treeData={optionsStatus}
           allowClear
         />
 
         <CustomTreeSelect
           placeholder="Lọc theo vai trò"
-          value={selectedRole}
-          onChange={(value) => setSelectedRole(value as number)}
+          value={role}
+          onChange={(value) => setRole(value as string)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
-          treeData={[
-            { value: 1, title: 'Admin' },
-            { value: false, title: 'User' },
-            { value: true, title: 'Teacher' }
-          ]}
+          treeData={optionsRole}
           allowClear
         />
       </div>
@@ -341,22 +328,22 @@ const System_Users = () => {
       <Table
         columns={columns}
         pagination={false}
-        dataSource={filteredData}
+        dataSource={data}
         rowKey="id"
         scroll={{ x: "max-content" }}
       />
       {contextHolder}
 
-      {/* <div className="pt-4 space-x-3 flex items-center justify-between">
-        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{users?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{users?.meta?.last_page}</span> trang</p>
+      <div className="pt-4 space-x-3 flex items-center justify-between">
+        <p className='dark:text-[#b9b7c0]'>Trang số <span className='text-[#F84563] font-subtitle'>{usersSystem?.meta?.current_page}</span> trên tổng số <span className='text-[#F84563] font-subtitle'>{usersSystem?.meta?.last_page}</span> trang</p>
 
         <Pagination
-          pageSize={users?.meta?.per_page}
-          total={users?.meta?.total}
-          current={users?.meta?.current_page}
+          pageSize={usersSystem?.meta?.per_page}
+          total={usersSystem?.meta?.total}
+          current={usersSystem?.meta?.current_page}
           onChange={(page) => setPage(page)}
         />
-      </div> */}
+      </div>
     </div>
   );
 };

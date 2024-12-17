@@ -34,9 +34,9 @@ const List_Users = () => {
 
   const [searchText, setSearchText] = useState<string>("");
 
-  const [selectedRole, setSelectedRole] = useState<any>(undefined);
+  const [status, setStatus] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
+  const [role, setRole] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -45,7 +45,7 @@ const List_Users = () => {
   const [page, setPage] = useState(1);
 
   // mặc định sẽ lấy trang đầu tiên
-  const { data: users, isLoading, isFetching, isError, error } = useGetUsersQuery(page);
+  const { data: users, isLoading, isFetching } = useGetUsersQuery({ page: page, status: status, role: role });
 
   const [lockUser] = useLockUserMutation();
 
@@ -59,7 +59,7 @@ const List_Users = () => {
 
       if (users?.data) {
         setData(users?.data);
-      } 
+      }
     }
   }, [users]);
 
@@ -83,20 +83,20 @@ const List_Users = () => {
       },
       cancelText: 'Hủy',
       centered: true,
-      maskClosable: false, 
+      maskClosable: false,
       width: 600,
       icon: null,
       onOk: async () => {
         try {
 
-          if(!id) return;
+          if (!id) return;
 
           const res = checked ? await unLockUser(id).unwrap() : await lockUser(id).unwrap();
 
           console.log(res)
 
-          if(res?.data) {
-             message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
+          if (res?.data) {
+            message.success(`${checked ? "Mở khóa" : "Khóa"} tài khoản thành công!`)
           }
 
         } catch (error: any) {
@@ -108,25 +108,9 @@ const List_Users = () => {
     });
   };
 
-  const handleChangeRole = (id: number, value: number) => {
-    setData((prevData: any) =>
-      prevData.map((user: TUser) =>
-        user.id === id ? { ...user, role: value } : user
-      )
-    );
-  };
-
   const handleSearch = (value: string) => {
     setSearchText(value);
   };
-
-  const filteredData = data.filter((user: TUser) => {
-    const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
-    const isMatchingRole = selectedRole === undefined || user?.is_teacher === selectedRole;
-    const isMatchingStatus = selectedStatus === undefined || user?.is_lock === selectedStatus;
-
-    return isMatchingEmail && isMatchingRole && isMatchingStatus;
-  });
 
   const columns: TableColumnsType<TUser> = [
     {
@@ -147,7 +131,7 @@ const List_Users = () => {
     {
       title: "Avatar",
       render: (_: any, record: TUser) => (
-        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} className="object-cover"/>
+        <Image src={record?.avatar} alt={record?.avatar ? record?.avatar : 'Chưa có avatar'} width={100} height={100} className="object-cover" />
       ),
       align: "center",
     },
@@ -177,7 +161,7 @@ const List_Users = () => {
             unCheckedChildren="Khóa"
             checked={record?.is_lock === 0}
             onChange={(checked) => handleChangeStatus(record?.id, checked)}
-            // onClick={() => console.log(record)}
+          // onClick={() => console.log(record)}
           />
         </Space>
       ),
@@ -196,6 +180,18 @@ const List_Users = () => {
       ),
     }
   ];
+
+  // opts Stt
+  const optionsStatus = [
+    { value: 'active', title: 'Đang hoạt động' },
+    { value: 'locked', title: 'Đã khóa' },
+  ];
+
+  // // opts Role
+  // const optionsRole = [
+  //   { value: 'teacher', title: 'Giảng viên'},
+  //   { value: 'user', title: 'Học viên'},
+  // ]
 
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
@@ -222,32 +218,27 @@ const List_Users = () => {
 
         <CustomTreeSelect
           placeholder="Lọc theo trạng thái"
-          value={selectedStatus}
-          onChange={(value) => setSelectedStatus(value as number)}
+          value={status}
+          onChange={(value) => setStatus(value as string)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
-          treeData={[
-            { value: 1, title: 'Khóa' },
-            { value: 0, title: 'Mở' }
-          ]}
+          treeData={optionsStatus}
           allowClear
         />
+{/* 
 
         <CustomTreeSelect
           placeholder="Lọc theo vai trò"
-          value={selectedRole}
-          onChange={(value) => setSelectedRole(value as number)}
+          value={role}
+          onChange={(value) => setRole(value as string)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
-          treeData={[
-            { value: false, title: 'Học viên' },
-            { value: true, title: 'Giảng viên' }
-          ]}
+          treeData={optionsRole}
           allowClear
-        />
+        /> */}
       </div>
       <Table
         columns={columns}
         pagination={false}
-        dataSource={filteredData}
+        dataSource={data}
         rowKey="id"
         scroll={{ x: "max-content" }}
       />

@@ -12,13 +12,45 @@ export const userSlice = createApi({
   endpoints: (builder) => ({
     //! GET ALL
     getUsers: builder.query<any, any>({
-      query: (page = initialPage) => `/admin/users?page=${page}`,
+      query: ({ page, status, role }) => {
+
+        // flex endpoint
+
+        // endpoint
+        let url = `/admin/users?page=${page}`;
+
+        if(status) {
+          url += `&status=${status}`;
+        }
+
+        if(role) {
+          url += `&role=${role}`
+        }
+
+        return url;
+      },
       providesTags: ["User"],
       // transformResponse: (res: { data: TUser }) => res.data
     }),
 
     getTeachers: builder.query({
-      query: (page) => `/admin/teachers?page=${page}`,
+      query: ({ page, status, role }) => {
+
+        // flex endpoint
+
+        // endpoint
+        let url = `/admin/teachers?page=${page}`;
+
+        if(status) {
+          url += `&status=${status}`;
+        }
+
+        if(role) {
+          url += `&role=${role}`
+        }
+
+        return url;
+      },
       providesTags: ["User"],
     }),
 
@@ -56,9 +88,23 @@ export const userSlice = createApi({
 
     //! GET ALL USERS SYSTEM 
     getAllUsersSystem: builder.query({
-      query: () => `/admin/user-system`,
+      query: ({ page, status, role }) => {
+
+        // flex endpoint
+        let url = `/admin/user-system?page=${page}`;
+
+        if(status) {
+          url += `&status=${status}`;
+        }
+
+        if(role) {
+          url += `&role=${role}`
+        }
+
+        return url;
+      },
       providesTags: ["User"],
-    }), 
+    }),
 
     //! CREATE USER SYSTEM
     createUserSystem: builder.mutation({
@@ -82,13 +128,13 @@ export const userSlice = createApi({
   })
 });
 
-export const { 
-  useGetUsersQuery, 
+export const {
+  useGetUsersQuery,
   useGetTeachersQuery,
-  useGetAStudentByIdQuery, 
-  useGetATeacherByIdQuery, 
-  useLockUserMutation, 
-  useUnLockUserMutation, 
+  useGetAStudentByIdQuery,
+  useGetATeacherByIdQuery,
+  useLockUserMutation,
+  useUnLockUserMutation,
   useGetAllUsersSystemQuery,
   useCreateUserSystemMutation,
   useAssignRoleUserByIdMutation

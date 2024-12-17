@@ -34,9 +34,9 @@ const List_Teachers = () => {
 
   const [searchText, setSearchText] = useState<string>("");
 
-  const [selectedRole, setSelectedRole] = useState<any>(undefined);
+  const [status, setStatus] = useState<any>(undefined);
 
-  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
+  const [role, setRole] = useState<any>(undefined);
 
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -45,7 +45,7 @@ const List_Teachers = () => {
   const [page, setPage] = useState(1);
 
   // mặc định sẽ lấy trang đầu tiên
-  const { data: teachers, isLoading, isFetching, isError, error } = useGetTeachersQuery(page);
+  const { data: teachers, isLoading, isFetching, isError, error } = useGetTeachersQuery({ page: page, status: status, role: role });
 
   console.log(teachers)
 
@@ -109,25 +109,9 @@ const List_Teachers = () => {
     });
   };
 
-  const handleChangeRole = (id: number, value: number) => {
-    setData((prevData: any) =>
-      prevData.map((user: TUser) =>
-        user.id === id ? { ...user, role: value } : user
-      )
-    );
-  };
-
   const handleSearch = (value: string) => {
     setSearchText(value);
   };
-
-  const filteredData = data.filter((user: TUser) => {
-    const isMatchingEmail = user.email.toLowerCase().includes(searchText.toLowerCase());
-    const isMatchingRole = selectedRole === undefined || user?.is_teacher === selectedRole;
-    const isMatchingStatus = selectedStatus === undefined || user?.is_lock === selectedStatus;
-
-    return isMatchingEmail && isMatchingRole && isMatchingStatus;
-  });
 
   const columns: TableColumnType<TUser>[] = [
     {
@@ -198,6 +182,12 @@ const List_Teachers = () => {
     }
   ];
 
+  // opts Stt
+  const optionsStatus = [
+    { value: 'active', title: 'Đang hoạt động' },
+    { value: 'locked', title: 'Đã khóa' },
+  ];
+
   if (isLoading && isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /> </div>;
 
   return (
@@ -223,13 +213,10 @@ const List_Teachers = () => {
 
         <CustomTreeSelect
           placeholder="Lọc theo trạng thái"
-          value={selectedStatus}
-          onChange={(value) => setSelectedStatus(value as number)}
+          value={status}
+          onChange={(value) => setStatus(value as string)}
           className="mb-4 w-full md:w-1/3 lg:w-1/4 h-10"
-          treeData={[
-            { value: 1, title: 'Khóa' },
-            { value: 0, title: 'Mở' }
-          ]}
+          treeData={optionsStatus}
           allowClear
         />
 
@@ -249,7 +236,7 @@ const List_Teachers = () => {
       <Table
         columns={columns}
         pagination={false}
-        dataSource={filteredData}
+        dataSource={data}
         rowKey="id"
         scroll={{ x: "max-content" }}
       />
