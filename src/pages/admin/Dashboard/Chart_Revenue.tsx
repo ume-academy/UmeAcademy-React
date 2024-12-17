@@ -1,10 +1,14 @@
+import Loader from '@/components/client/commonComponents/Loader/Loader'
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { TStatisticRevenue } from '@/interfaces/TStatistic'
 import { useRevenueStatisticQuery } from '@/redux/slices/admin/dashboardApiSlice'
+import { Input } from 'antd'
 import ReactECharts from 'echarts-for-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const Chart_Revenue = () => {
-  const { data, isLoading, refetch } = useRevenueStatisticQuery({})
+  const [year, setYear] = useState<number>(new Date().getFullYear())
+  const { data, isLoading, refetch, isFetching } = useRevenueStatisticQuery({ year })
 
   useEffect(() => {
     refetch()
@@ -21,15 +25,15 @@ const Chart_Revenue = () => {
     tooltip: {
       trigger: 'axis',
       formatter: function (params: any) {
-        let tooltipHtml = `${params[0].name}<br />`;
+        let tooltipHtml = `${params[0].name}<br />`
         params.forEach((item: any) => {
-          tooltipHtml += `${item.seriesName}: ${item.value}<br />`;
-        });
-        return tooltipHtml;
+          tooltipHtml += `${item.seriesName}: ${item.value}<br />`
+        })
+        return tooltipHtml
       }
     },
     legend: {
-      data: ['Doanh thu', 'Tỷ lệ hoàn tiền','Khóa học đã bán', 'Học viên mới', 'Số giao dịch'],
+      data: ['Doanh thu', 'Tỷ lệ hoàn tiền', 'Khóa học đã bán', 'Học viên mới', 'Số giao dịch'],
       bottom: 0
     },
     xAxis: {
@@ -52,9 +56,9 @@ const Chart_Revenue = () => {
           formatter: (value: number, index: number) => {
             // Kiểm tra refundRate có tồn tại và hợp lệ
             if (Array.isArray(refundRate) && refundRate[index] !== undefined && refundRate[index] >= 0) {
-              return `${value.toLocaleString()} đ / ${refundRate[index]}%`; // Doanh thu và Tỷ lệ
+              return `${value.toLocaleString()} đ / ${refundRate[index]}%` // Doanh thu và Tỷ lệ
             }
-            return `${value.toLocaleString()} đ`; // Chỉ hiển thị doanh thu
+            return `${value.toLocaleString()} đ` // Chỉ hiển thị doanh thu
           }
         },
         min: 0
@@ -70,7 +74,7 @@ const Chart_Revenue = () => {
         min: 0
       }
     ],
-    
+
     series: [
       {
         name: 'Khóa học đã bán',
@@ -111,9 +115,22 @@ const Chart_Revenue = () => {
   }
 
   return (
-    <div className='w-full h-full p-4 bg-white dark:bg-[#2b2838] border border-[#e9ecef] dark:border-[#5a5a5a] rounded-lg shadow-md'>
-      <h2 className='text-lg font-subtitle dark:text-[#b9b7c0] text-center'>Biểu đồ tổng thống kê 12 tháng</h2>
-      {isLoading ? <div className=''></div> : <ReactECharts option={option} className='h-full' />}
+    <div className='w-full h-[400px] p-4 bg-white dark:bg-[#2b2838] border border-[#e9ecef] dark:border-[#5a5a5a] rounded-lg shadow-md'>
+      <div className='flex justify-center gap-3'>
+        <h2 className='text-lg font-subtitle dark:text-[#b9b7c0] text-center'>
+          Biểu đồ tổng thống kê 12 tháng theo năm
+        </h2>
+        <div className='w-[126px]'>
+          <Input value={year} onChange={(e) => setYear(Number(e.target.value))} placeholder='Nhập năm' min={2000} />
+        </div>
+      </div>
+      {isLoading || isFetching ? (
+        <div className='h-full flex justify-center items-center'>
+          <Loading />
+        </div>
+      ) : (
+        <ReactECharts option={option} className='h-full' />
+      )}
     </div>
   )
 }

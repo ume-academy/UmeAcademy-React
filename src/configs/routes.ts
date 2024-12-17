@@ -59,6 +59,7 @@ export const router = {
   courseManagement: `${prefixTeacher}/course-management/:id`,
 
   // < ===== ADMIN ===== >
+  
   // Route index
   dashBoard: `${prefixAdmin}/doashboard`,
 
