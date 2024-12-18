@@ -235,19 +235,10 @@ const Header = () => {
       if (isTeacherLayout) {
         const res = await readedTeacher(notiId)
 
-        if (res.data) {
-          message.success('Đã đọc')
-        }
-
         refetchNotiTeacher();
 
       } else {
         const res = await readed(notiId)
-
-
-        if (res.data) {
-          message.success('Đã đọc')
-        }
 
         refetchNotiStudent();
       }

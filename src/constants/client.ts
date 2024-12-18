@@ -47,6 +47,9 @@ export const getButtonDetails = (is_enrolled: boolean, courseId: number, status:
   } else if (location.pathname === `${router.myCourses}`) {
     buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
     targetPath = `${router.myCourses}`
+  } else {
+    buttonText = 'Xem ngay'
+    targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
   }
   return { buttonText, targetPath }
 }
