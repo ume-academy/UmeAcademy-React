@@ -211,12 +211,6 @@ const Header = () => {
 
   const showDrawer = () => {
     setIsHidden(true);
-
-    startLoading()
-
-    setTimeout(() => {
-      stopLoading()
-    }, 1000)
   };
 
   const dataNotify = dataNoti?.data?.map((item: any, index: number) => (
@@ -232,6 +226,8 @@ const Header = () => {
 
     try {
 
+      startLoading();
+
       if (isTeacherLayout) {
         const res = await readedTeacher(notiId)
 
@@ -242,6 +238,9 @@ const Header = () => {
 
         refetchNotiStudent();
       }
+
+
+      stopLoading();
 
     } catch (error) {
       console.log(error);

@@ -1,6 +1,6 @@
 import { router } from '@/configs/routes'
 import { useMediaQuery } from 'react-responsive'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useMatch } from 'react-router-dom'
 
 // Sử dụng cho reponsive bắt kích thước màn hình
 export const useIsMobile = () => useMediaQuery({ query: '(max-width: 768px)' })
@@ -35,6 +35,11 @@ export const routerConfig = {
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
 export const getButtonDetails = (is_enrolled: boolean, courseId: number, status: number, refund: boolean, transactionCode: string) => {
   const location = useLocation()
+
+  const isUserDetailPath = useMatch(`${router.userDetail}`); // Kiểm tra xem có phải trang chi tiết người dùng không
+
+  const isTeacherDetailPath = useMatch(`${router.teacherDetail}`); // Kiểm tra xem có phải trang chi tiết giảng viên không
+
   let buttonText = is_enrolled ? 'Xem ngay' : 'Mua ngay'
   // let targetPath = is_enrolled
   //   ? `${router.courseDetail.replace(':id', String(courseId))}`
@@ -47,10 +52,14 @@ export const getButtonDetails = (is_enrolled: boolean, courseId: number, status:
   } else if (location.pathname === `${router.myCourses}`) {
     buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
     targetPath = `${router.myCourses}`
-  } else {
+  }  else if (isUserDetailPath) {
     buttonText = 'Xem ngay'
     targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
+  } else if (isTeacherDetailPath) {
+    buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
+    targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
   }
+
   return { buttonText, targetPath }
 }
 
@@ -73,17 +82,17 @@ export const imgNF = 'https://dreamslms.dreamstechnologies.com/html/assets/img/e
 export const routerConfigTeacher = {
   hiddenButtonComeBack: [`${router.courseManagement}`],
   isTeacherLayout: [`
-      ${router.newInstructor}`, 
-      `${router.revenue}`,
-      `${router.listStudents}`,
-      `${router.myCourses}`,
-      `${router.withdrawalMethods}`,
-      `${router.formCourse}`,
-      `${router.courseManagement}`,
-      `${router.profileTeacher}`,
-      `${router.walletMoney}`,
-      `${router.withdrawHistories}`,
-    ],
+      ${router.newInstructor}`,
+  `${router.revenue}`,
+  `${router.listStudents}`,
+  `${router.myCourses}`,
+  `${router.withdrawalMethods}`,
+  `${router.formCourse}`,
+  `${router.courseManagement}`,
+  `${router.profileTeacher}`,
+  `${router.walletMoney}`,
+  `${router.withdrawHistories}`,
+  ],
   isTeacherRoute: [`${router.courseManagement}`]
 }
 

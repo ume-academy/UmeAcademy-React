@@ -226,28 +226,6 @@ const Register = () => {
           <div
             className={`${styles['others']} dark:bg-[#5C505B] bg-[#FFF5F4] flex flex-col items-center space-y-6 p-5`}
           >
-            <div className='title text-center'>
-              <p>Hoặc đăng nhập bằng</p>
-            </div>
-
-            <div className='act flex flex-col md:flex-row items-center gap-6'>
-              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
-                <GoogleCircleFilled className='text-3xl' />
-                <Link to={''} className='hover:text-[#FF875A]'>
-                  Đăng nhập bằng Google
-                </Link>
-              </div>
-
-              <div className='hidden md:block mx-6 '>|</div>
-
-              <div className='text-md text-center flex items-center gap-3 hover:text-[#FF875A] group'>
-                <FacebookFilled className='text-3xl' />
-                <Link to={''} className='hover:text-[#FF875A]'>
-                  Đăng nhập bằng Facebook
-                </Link>
-              </div>
-            </div>
-
             <div className=''>
               <p>
                 Đã có tài khoản? Đăng nhập ngay{' '}
