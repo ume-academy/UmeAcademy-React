@@ -399,11 +399,11 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                     } else {
                       const errorData = await response.json(); // Lấy dữ liệu lỗi từ response
                       // Truyền lỗi từ response vào throw để bắt được thông báo chi tiết
-                      throw new Error(errorData?.error || 'Video đã tồn tại trong bài học này.'); // Lỗi từ response nếu có
+                      throw new Error(errorData?.error || 'Thêm video liệu thất bại.'); // Lỗi từ response nếu có
                     }
                   } catch (error: any) {
                       // Lấy thông điệp lỗi từ đối tượng error
-                      const errorMessage = error.message || 'Thêm tài liệu thất bại'; // Lỗi mặc định nếu không có lỗi chi tiết
+                      const errorMessage = error.message || 'Thêm video liệu thất bại'; // Lỗi mặc định nếu không có lỗi chi tiết
 
                       message.error(errorMessage); // Hiển thị thông báo lỗi từ catch
                       onError?.(error); // Gọi onError nếu có
@@ -521,28 +521,23 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                 }}
               >
                 {hideCourseFunction ? (
-  fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) ? (
-    null // Không hiển thị gì nếu có tài liệu
-  ) : (
-    <h1 className="text-red-600">Không có tài liệu</h1> // Hiển thị khi không có tài liệu
-  )
-) : (
-  !fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) && (
-    <button
-      className={`border-[0px] ${loading ? 'disabled:' : ''}`}
-      disabled={loading} // Disable button khi đang tải
-    >
-      {loading ? (
-        <LoadingOutlined />
-      ) : (
-        <span>
-          <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
-          Thêm tài liệu
-        </span>
-      )}
-    </button>
-  )
-)}
+                fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) ? null : (
+                  <h1 className="text-red-600">Không có tài liệu</h1>
+                )
+              ) : (
+                fileListResource.filter((file) => file.uid.startsWith(`${lesson.id}-`)).length < 5 && ( // Giới hạn số lượng file upload
+                  <button className={`border-[0px] ${loading ? 'disabled:' : ''}`} disabled={loading}>
+                    {loading ? (
+                      <LoadingOutlined />
+                    ) : (
+                      <span>
+                        <UploadOutlined size={22} style={{ color: '#f66962', marginRight: 8 }} />
+                        Thêm tài liệu
+                      </span>
+                    )}
+                  </button>
+                )
+              )}
             </Upload>
           </div>
         </>

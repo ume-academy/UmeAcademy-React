@@ -15,6 +15,7 @@ export interface TUser {
 }
 
 export interface TProfile {
+  id: number
   avatar: any
   fullname: string
   email: string

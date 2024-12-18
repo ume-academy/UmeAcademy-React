@@ -42,7 +42,8 @@ const VideoPlayer = ({ videoURL, isCompleted, thumbnail, width ='100%', height =
 
   // playing lần đầu tiên sẽ là fasle tức là không tự động phát, nếu videoURL thay đổi thì sẽ tự động phát
   useEffect(() => {
-    setPlaying(true)
+    // Kiểm tra nếu videoURL thay đổi thì mới set playing = true
+    setPlaying(true);
   }, [videoURL])
 
   const handleProcess = async (processVideo: OnProgressProps) => {
@@ -100,7 +101,7 @@ const VideoPlayer = ({ videoURL, isCompleted, thumbnail, width ='100%', height =
       
       {/* ReactPlayer */}
       <ReactPlayer
-      muted={true}
+        muted={false}
         url={videoURL}
         controls={true}
         width="100%"

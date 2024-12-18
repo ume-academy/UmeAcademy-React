@@ -1,9 +1,9 @@
 import { router } from '@/configs/routes'
 import { TChapter, TResource } from '@/interfaces/TLesson'
 import { useGetLessonByCourseIdQuery } from '@/redux/slices/lesson/lessonApiSlice'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
 import {
   LeftOutlined,
-  LoadingOutlined,
   MenuOutlined,
   MoonFilled,
   PlayCircleFilled,
@@ -11,13 +11,16 @@ import {
 } from '@ant-design/icons'
 import { Progress, message } from 'antd'
 import { Check, ChevronRight, ChevronUp, X } from 'lucide-react'
+import Pusher from 'pusher-js'
 import { useContext, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, useParams } from 'react-router-dom'
 import { getTitleTab, logo, useIsMobile, useIsTablet } from '../../../../constants/client'
 import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContext'
+import Loading from '../../commonComponents/Loading/Loading'
 import VideoPlayer from '../../commonComponents/VideoPlayer/VideoPlayer'
 import style from './Lesson.module.scss'
+import { set } from 'date-fns'
 
 const Lesson = () => {
   const { id } = useParams();
@@ -28,7 +31,75 @@ const Lesson = () => {
 
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextType
   const { data: courseData, isLoading } = useGetLessonByCourseIdQuery(Number(id))
-  
+  const { data: user } = useGetProfileQuery({})
+
+  const [percent, setPercent] = useState<number | null>(null)
+  const [totalLessonCompleted, setTotalLessonCompleted] = useState<number | null>(null)
+  const [lessonCompletedIds, setLessonCompletedIds] = useState<number[]>([])
+  const coursceProgress = courseData?.progress
+  const coursceTotalLessonCompleted = courseData?.total_lesson_completed
+
+  // useEffect để thiết lập kết nối với Pusher
+  useEffect(() => {
+    if (!user?.id) {
+      console.log("ID người dùng bị thiếu, không thể đăng ký kênh.");
+      return; // Nếu không có `user?.id`, không thực hiện đăng ký kênh.
+    }
+
+    // Bật log để kiểm tra quá trình hoạt động của Pusher
+    Pusher.logToConsole = true;
+
+    // Khởi tạo một instance của Pusher với App Key và cluster
+    const pusher = new Pusher('5618fa1c0a69f85b146c', {
+      cluster: 'ap1' 
+    })
+
+    // Đăng ký một kênh Pusher cụ thể. 
+    // Tên kênh bao gồm thông tin khóa học (`course.${id}`) và người dùng (`user.${user?.id}`).
+    const channel = pusher.subscribe(`course`)
+
+    // Lắng nghe sự kiện 'LessonCompleted' từ kênh
+    channel.bind('LessonCompleted', (dataCompleted : any) => {
+      console.log(dataCompleted)
+      if (dataCompleted) {
+        const newPercent = dataCompleted.progress;
+        const newTotalLessonCompleted = dataCompleted.totalLessonCompleted
+        const newLessonId = dataCompleted.lessonId
+        // Chỉ cập nhật nếu giá trị mới khác giá trị cũ
+        setPercent(newPercent);
+        setTotalLessonCompleted(newTotalLessonCompleted);
+        setLessonCompletedIds((prev) => {
+          // Đảm bảo không thêm trùng lặp
+          if (!prev.includes(newLessonId)) {
+            return [...prev, newLessonId];
+          }
+          return prev;
+        })
+      } else {
+        // Nếu dữ liệu không hợp lệ, đặt lại giá trị `Percent` bằng `coursePr` nếu tồn tại
+        setPercent(Number(coursceProgress));
+        setTotalLessonCompleted(Number(coursceTotalLessonCompleted));
+        setLessonCompletedIds([])
+      }
+    });
+
+    // Cleanup khi component bị unmount
+    return () => {
+      // Hủy đăng ký kênh để tránh rò rỉ bộ nhớ
+      channel.unbind_all(); // Hủy tất cả sự kiện đã bind trong kênh
+      channel.unsubscribe(); // Hủy đăng ký kênh
+      pusher.disconnect(); // Ngắt kết nối với Pusher
+    };
+  }, [id, user?.id]); // Chỉ chạy một lần khi component được mount
+
+  // useEffect để đồng bộ trạng thái `Percent` với giá trị `coursePr`
+  useEffect(() => {
+    if (coursceProgress !== undefined && coursceTotalLessonCompleted !== undefined) {
+      setPercent((prevPercent) => (prevPercent === null ? Number(coursceProgress) : prevPercent));
+      setTotalLessonCompleted((prevTotalLessonCompleted) => (prevTotalLessonCompleted === null ? Number(coursceTotalLessonCompleted) : prevTotalLessonCompleted));
+    }
+  }, [coursceProgress]);
+
   // Sử dụng để kiểm tra kích thước màn hình rồi render element
   const isMobile = useIsMobile()
   const isTablet = useIsTablet()
@@ -65,11 +136,6 @@ const Lesson = () => {
     setLessonId(courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].id)
   }
 
-
-  // if(courseData && !isLessonCompleted === false) {
-  //   setIsLessonCompleted(courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].is_completed)
-  // }
-  
   // Xử lý lấy ra isLessonCompleted hiện tại/ Lấy isLessonCompleted hiện tại nếu đã gọi api xong và isLessonCompleted hiện tại chưa có giá trị
   useEffect(() => {
     if (courseData) {
@@ -207,7 +273,7 @@ const Lesson = () => {
     }
   }
 
-  if (isLoading) return <LoadingOutlined size={100} color='red' />
+  if (isLoading) return <div className="min-h-screen flex justify-center items-center"><Loading /></div>
 
   return (
     <>
@@ -242,13 +308,13 @@ const Lesson = () => {
               strokeWidth={5}
               trailColor='#4d4f50'
               strokeColor={'#f66962'}
-              percent={courseData?.progress}
+              percent={percent ?? 0}
               format={(percent) => <p className='text-[#fff] font-desc text-[11px]'>{percent} %</p>}
             />
             {!isMobile && (
               <>
                 <p className='text-[#fff] pr-5 text-[12px] mt-[2px]'>
-                  {courseData?.total_lesson_completed}/{courseData?.total_lesson} bài học
+                  {totalLessonCompleted}/{courseData?.total_lesson} tổng bài học
                 </p>
                 <button
                   className='dark:bg-[#fff] flex items-center justify-center bg-black rounded-lg border-none mr-[20px] self-center py-[10px] px-[10px]'
@@ -288,7 +354,7 @@ const Lesson = () => {
                   <ul className='pl-4'>
                   {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].resources.map((item: TResource) => (
                     <li key={item.id} className='list-disc text-[14px] mb-2 dark:text-[#b9b7c0]'>
-                      <Link className='hover:text-[#f66962] underline dark:text-[#b9b7c0]' to={`${item.name}`} key={item.id}>
+                      <Link className='hover:text-[#f66962] underline dark:text-[#b9b7c0]' to={`${item.name}`} key={item.id} download={item.name}>
                       {item.name}
                     </Link>
                     </li>
@@ -341,7 +407,7 @@ const Lesson = () => {
                           />
                         </div>
                         <div className='flex text-[12px]'>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.lesson_completed} bài</span>
+                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.total_lesson} bài</span>
                           <div className='border-l-[0.5px] border-[#29303b] mt-[4px] mb-[4px] mx-1.5 dark:border-[#b9b7c0]'></div>
                           <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.chapter_duration}s</span>
                         </div>
@@ -372,16 +438,15 @@ const Lesson = () => {
                                     style={{ fontSize: 12, color: '#888888' }}
                                   />
                                   <span className='inline text-[#29303b] ml-1 dark:text-[#b9b7c0]'>
-                                    {lesson.video_duration}
+                                    {lesson.video_duration}s
                                   </span>
                                 </div>
                                 </div>
-                                {lesson.is_completed === true && (
+                                {(lesson.is_completed || lessonCompletedIds.includes(lesson.id)) && (
                                   <div className="">
                                   <Check size={14} strokeWidth={6} className='text-[8px] bg-[#f66962] p-[3px] rounded-full ' style={{color: '#fff', fontWeight: 100}}/>
                                 </div>
                                 )}
-                                
                               </li>
                             ))}
                           </ul>
