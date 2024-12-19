@@ -108,7 +108,7 @@ const Targets = ({ courseData, isLoading, isRefetch }: { courseData: TCourseDeta
                               //   form.setFieldsValue({ course_requirement: updatedValue })
                               // }}
                               disabled={hideCourseFunction}
-                              placeholder='Lợi ích khi tham gia'
+                              placeholder='Yêu cầu khi tham gia'
                               className='w-[90%] md:w-[94%] lg:w-[94%] py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-transparent 
                                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
@@ -165,7 +165,7 @@ const Targets = ({ courseData, isLoading, isRefetch }: { courseData: TCourseDeta
                             <Input
                               value={form.getFieldValue(['course_learning_benefit', field.name])}
                               disabled={hideCourseFunction}
-                              placeholder='Yêu cầu khi tham gia'
+                              placeholder='Nhận được gì khi tham gia'
                               className='w-[90%] md:w-[94%] lg:w-[94%] py-[6px] px-[16px] bg-[#fafafa] dark:bg-[#131022] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                                   h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-transparent 
                                   focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
