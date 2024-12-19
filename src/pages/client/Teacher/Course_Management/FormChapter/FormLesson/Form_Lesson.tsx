@@ -521,11 +521,10 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                 }}
               >
                 {hideCourseFunction ? (
-                fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) ? null : (
-                  <h1 className="text-red-600">Không có tài liệu</h1>
-                )
-              ) : (
-                fileListResource.filter((file) => file.uid.startsWith(`${lesson.id}-`)).length < 5 && ( // Giới hạn số lượng file upload
+                  fileListResource.some((file) => file.uid.startsWith(`${lesson.id}-`)) ? null : (
+                    <h1 className="text-red-600">Không có tài liệu</h1>
+                  )
+                ) : (
                   <button className={`border-[0px] ${loading ? 'disabled:' : ''}`} disabled={loading}>
                     {loading ? (
                       <LoadingOutlined />
@@ -536,8 +535,7 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
                       </span>
                     )}
                   </button>
-                )
-              )}
+                )}
             </Upload>
           </div>
         </>
