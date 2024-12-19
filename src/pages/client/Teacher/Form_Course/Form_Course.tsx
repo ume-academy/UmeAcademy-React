@@ -3,12 +3,12 @@ import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { router } from '@/configs/routes'
 import { routerConfigAdmin } from '@/constants/admin'
 import { routerConfigTeacher } from '@/constants/client'
-import { ThemeContext, ThemeContextType } from '@/contexts/ThemeContext'
+import { smoothScrollToTop } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { TCategory } from '@/interfaces/TCategory'
 import { TCreateCourse, TEditCourse } from '@/interfaces/TCourse'
 import { TLevel } from '@/interfaces/TLevel'
-import { useGetAllCategoryQuery } from '@/redux/slices/category/categoryApiSlice'
+import { useGetAllCategoriesNoPaginationQuery } from '@/redux/slices/category/categoryApiSlice'
 import { useCreateCourseOfTeacherMutation, useUpdateCourseOfteacherMutation } from '@/redux/slices/course/courseApiSlice'
 import { useGetAlllevelQuery } from '@/redux/slices/level/levelApiSlice'
 import { LoadingOutlined, UploadOutlined } from '@ant-design/icons'
@@ -17,11 +17,10 @@ import Input from 'antd/es/input/Input'
 import TextArea from 'antd/es/input/TextArea'
 import { TreeNode } from 'antd/es/tree-select'
 import Dragger from 'antd/es/upload/Dragger'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import './Form_Course.scss'
-import { smoothScrollToTop } from '@/constants/utils'
 
 interface CourseProps  {
   courseData?: any
@@ -29,7 +28,7 @@ interface CourseProps  {
 }
 
 const Form_Course = ({courseData, isLoading}: CourseProps) => {
-  const { theme } = useContext(ThemeContext) as ThemeContextType
+
   const [form] = Form.useForm() //<TCourse>
   const { id } = useParams()
   const [isHovered, setIsHovered] = useState(false);
@@ -56,8 +55,8 @@ const Form_Course = ({courseData, isLoading}: CourseProps) => {
     return regex.test(location.pathname)
   })
 
-  const {data: levels} = useGetAlllevelQuery({}, {skip: hideCourseFunctionAdmin})
-  const {data: catalogues}  = useGetAllCategoryQuery({}, {skip: hideCourseFunctionAdmin})
+  const {data: levels} = useGetAlllevelQuery({})
+  const {data: catalogues}  = useGetAllCategoriesNoPaginationQuery({})
   const [createCourse] = useCreateCourseOfTeacherMutation()
   const [updateCourse] =  useUpdateCourseOfteacherMutation()
 

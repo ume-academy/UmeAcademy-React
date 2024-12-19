@@ -46,14 +46,21 @@ export const categoryApiSlice = createApi({
         body: dataForm
       }),
       invalidatesTags: ["Category"]
-    })
-  })
-})
+    }),
+
+    //! GET ALL WITHOUT PAGINATION ()
+    getAllCategoriesNoPagination: builder.query({
+      query: () => `/categories/?per_page=1000`,  // Không cần thêm tham số `page` dùng per_page=100 cho select khi thêm
+      providesTags: ["Category"],
+    }),
+  }),
+});
 
 export const { 
   useGetAllCategoryQuery, 
   useGetOneCategoryQuery, 
   useRemoveCategoryMutation, 
   useCreateCategoryMutation, 
-  useUpdateCategoryMutation 
+  useUpdateCategoryMutation,
+  useGetAllCategoriesNoPaginationQuery
 } = categoryApiSlice
