@@ -138,7 +138,8 @@ const Form_Lesson = ({ hideCourseFunction, chapter, isRefetch }: LessonProps) =>
           
         }
       }
-      message.success(lesson?.id ? 'Cập nhật bài học thành công' : 'Thêm mới bài học thành công!!!!')
+      isRefetch()
+      message.success(lesson?.id ? 'Cập nhật bài học thành công' : 'Thêm mới bài học thành công')
     } catch (error) {
       const errorData = (error as { data?: any })?.data
       // Kiểm tra và hiển thị tất cả các lỗi trong errors
