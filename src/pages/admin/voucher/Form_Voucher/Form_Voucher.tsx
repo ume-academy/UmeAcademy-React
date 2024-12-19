@@ -167,7 +167,7 @@ const Form_Voucher = () => {
                   className='dark:bg-[#2b2838] bg-white p-3 w-full md:w-[350px] lg:w-[266px] placeholder:text-[#6e82a3] dark:placeholder:text-[#b9b7c0]
                            dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                           focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
-                  disabledDate={(current) => current && current < moment().endOf('day')}
+                  disabledDate={(current) => current && current < moment().startOf('day')}
                 />
               </Form.Item>
 

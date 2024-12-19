@@ -32,12 +32,18 @@ const Wallet_Money = () => {
   }))
 
   const onFinish = async (value: { money: number }) => {
+
+    if(!value) return message.error('Vui lòng nhập số tiền bạn muốn rút')
+
     try {
       const money = Number(value.money)
       console.log(money)
       const res = await withdrawlaRequest({ money: money }).unwrap()
       form.resetFields()
       console.log(res)
+
+      if((res as any).error) return message.error((res as any).error)
+
       message.success('Yêu cầu rút tiền đã được tạo thành công.')
     } catch (error) {
       message.error('Đã có lỗi xảy ra khi bạn tạo yêu cầu rút tiền')
@@ -57,7 +63,7 @@ const Wallet_Money = () => {
           <div className='text-sm lg:text-[16px] flex justify-between items-center mb-4'>
             <div>
               <p>Số dư hiện tại:</p>
-              <p className='text-[#ff4667]'>{formatPrice(Number(price))}</p>
+              <p className='text-[#ff4667]'>{formatPrice(Number(price?.available_balance))}</p>
             </div>
             <div>
               <div className='flex gap-2'>

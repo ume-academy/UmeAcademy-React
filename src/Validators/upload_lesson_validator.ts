@@ -12,10 +12,10 @@ export const validateVideoFile = (file: File): boolean => {
     return false;
   }
 
-  if (!isValidSize) {
-    message.error(`Dung lượng file không được vượt quá ${maxFileSizeMB}MB.`);
-    return false;
-  }
+  // if (!isValidSize) {
+  //   message.error(`Dung lượng file không được vượt quá ${maxFileSizeMB}MB.`);
+  //   return false;
+  // }
 
   return true;
 };

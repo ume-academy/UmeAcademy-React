@@ -3,7 +3,7 @@ import { formatDate } from '@/constants/utils'
 import { TBlog } from '@/interfaces/TBlog'
 import { useGetAllArticlePublishedQuery } from '@/redux/slices/blog/blogApiSlice'
 import { easeInOut, motion, useInView } from 'framer-motion'
-import { CalendarDays, Tag } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 

@@ -39,11 +39,13 @@ export const formatSeconds = (seconds: number): string => {
 
   if (minutes > 0) {
     if (hours > 0) {
-      result += `${hours} giờ ${minutes} phút`
-    } else result += `${minutes} phút`
+      result += ` ${minutes} phút`
+    } else {
+      result += `${minutes} phút`
+    }
   }
 
-  if (remainingSeconds > 0 && hours === 0 && minutes == 0) {
+  if (remainingSeconds > 0 && hours === 0 && minutes === 0) {
     result += `${remainingSeconds} giây`
   }
 

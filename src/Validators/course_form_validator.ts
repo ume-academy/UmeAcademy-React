@@ -30,8 +30,8 @@ export const validateVideo = async (file: FileType) => {
   
   if(!file) return Promise.resolve()
 
-  const isFileize = file.size / 1024 / 1024 < 10;
-  if(!isFileize) return Promise.reject('Video phải nhỏ hơn 10MB');
+  // const isFileize = file.size / 1024 / 1024 < 10;
+  // if(!isFileize) return Promise.reject('Video phải nhỏ hơn 10MB');
 
   const isFileFormat = file.type === 'video/mp4'
                     || file.type === 'video/mpeg'

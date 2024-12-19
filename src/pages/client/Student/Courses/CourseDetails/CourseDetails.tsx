@@ -22,6 +22,7 @@ import {
   useSendReviewCourseMutation
 } from '@/redux/slices/course/reviewCourseApiSlice'
 import { TReviewCourse } from '@/interfaces/TReviewCourse'
+import { formatSeconds } from '@/constants/utils'
 
 const CourseDetails = () => {
   const [modal2Open, setModal2Open] = useState(false)
@@ -105,20 +106,20 @@ const CourseDetails = () => {
   }
 
 
-  // convert seconds to minutes
-  function formatTime(seconds: number): string {
-    // Tạo khoảng thời gian từ 0 đến giây cần định dạng
-    const duration = intervalToDuration({ start: 0, end: seconds * 1000 })
+  // // convert seconds to minutes
+  // function formatTime(seconds: number): string {
+  //   // Tạo khoảng thời gian từ 0 đến giây cần định dạng
+  //   const duration = intervalToDuration({ start: 0, end: seconds * 1000 })
 
-    // Loại bỏ các đơn vị không cần thiết ngoài phút và giây
-    const formatted = formatDuration(duration, {
-      format: ['minutes', 'seconds'], // Chỉ hiển thị phút và giây
-      locale: vi // Định dạng ngôn ngữ tiếng Việt
-    })
+  //   // Loại bỏ các đơn vị không cần thiết ngoài phút và giây
+  //   const formatted = formatDuration(duration, {
+  //     format: ['minutes', 'seconds'], // Chỉ hiển thị phút và giây
+  //     locale: vi // Định dạng ngôn ngữ tiếng Việt
+  //   })
 
-    // Trường hợp giây dưới 60, thêm "0 phút" vào trước
-    return formatted.includes('phút') ? formatted : `0 phút ${formatted}`
-  }
+  //   // Trường hợp giây dưới 60, thêm "0 phút" vào trước
+  //   return formatted.includes('phút') ? formatted : `0 phút ${formatted}`
+  // }
 
   // convert seconds to min:sec
   function formatToMinutesAndSeconds(seconds: number) {
@@ -239,7 +240,7 @@ const CourseDetails = () => {
                         fill='#FFB54A'
                       />
                     </svg>
-                    <p>{course?.duration ? formatTime(course.duration) : 'N/A'}</p>
+                    <p>{course?.duration ? formatSeconds(course.duration) : 'N/A'}</p>
                   </div>
 
                   <div className='flex flex-1 w-full justify-start text-sm md:text-md items-center md:justify-start space-x-4'>
@@ -338,7 +339,7 @@ const CourseDetails = () => {
                   {/* Tổng số bài giảng, thời gian của khóa học */}
                   <p className={`${styles['infoLesson']} dark:text-[#B9B7C0] text-black`}>
                     {courseContent?.data?.total_chapter} chương,{' '}
-                    {courseContent?.data?.total_duration ? formatTime(courseContent.data.total_duration) : 'N/A'}
+                    {courseContent?.data?.total_duration ? formatSeconds(courseContent.data.total_duration) : 'N/A'}
                   </p>
                 </div>
 
@@ -918,7 +919,7 @@ const CourseDetails = () => {
                       </svg>
 
                       <p>
-                        Thời lượng: <b>{course?.duration ? formatTime(course.duration) : 'N/A'}</b>
+                        Thời lượng: <b>{course?.duration ? formatSeconds(course.duration) : 'N/A'}</b>
                       </p>
                     </li>
 

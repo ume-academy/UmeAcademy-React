@@ -1,13 +1,13 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { formatDate } from '@/constants/utils'
 import { useGetArticlePublishedQuery } from '@/redux/slices/blog/blogApiSlice'
 import { motion } from 'framer-motion'
-import { CalendarDays, Tag } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import styles from './blogDetail.module.scss'
-import { useEffect } from 'react'
-import Loading from '@/components/client/commonComponents/Loading/Loading'
 
 const Blog_Detail = () => {
   const { id } = useParams()

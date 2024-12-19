@@ -78,7 +78,7 @@ const Targets = ({ courseData, isLoading, isRefetch }: { courseData: TCourseDeta
               <Form.Item
                 label={
                   <span className='text-[#685f78] dark:text-[#b9b7c0] text-[16px] font-subtitle'>
-                    Lợi ích khi tham gia khóa học ?
+                    Yêu cầu khi tham gia khóa học?
                   </span>
                 }
                 name={'course_requirement'}
@@ -145,7 +145,7 @@ const Targets = ({ courseData, isLoading, isRefetch }: { courseData: TCourseDeta
               <Form.Item
                 label={
                   <span className='text-[#685f78] dark:text-[#b9b7c0] text-[16px] font-subtitle'>
-                    Yêu cầu khi tham gia khóa học ?
+                    Nhận được gì sau khi hoàn thành khóa học?
                   </span>
                 }
                 name={'course_learning_benefit'}

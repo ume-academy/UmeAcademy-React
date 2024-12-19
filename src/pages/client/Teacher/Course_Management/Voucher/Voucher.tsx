@@ -163,7 +163,7 @@ const Voucher = ({isRefetch}: VoucherProps ) => {
                           h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                           focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
               placeholder='Ngày bắt đầu '
-              disabledDate={(current) => current && current < moment().endOf('day')}
+              disabledDate={(current) => current && current < moment().startOf('day')}
             />
             </Form.Item>
             
@@ -182,7 +182,7 @@ const Voucher = ({isRefetch}: VoucherProps ) => {
                           h-[44px] dark:text-[#b9b7c0] border-[1px] dark:border-[#c7c7c740] hover:border-[#c1c9d2] focus:border-[#c1c9d2] 
                           focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)] focus:bg-[#fafafa]'
               placeholder='Ngày Kết thúc'
-              disabledDate={(current) => current && current < moment().add(2, 'days').startOf('day')} // cho chọn lớn hơn ngày hiện tại
+              disabledDate={(current) => current && current < moment().add(1, 'days').startOf('day')} // cho chọn lớn hơn ngày hiện tại
             />
             </Form.Item>
           </div>
