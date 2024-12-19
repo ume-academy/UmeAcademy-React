@@ -1,4 +1,5 @@
 import { customBaseQuery } from '@/Api'
+import { TWalletBalance } from '@/interfaces/TWalletBalance'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const walletApiSlice = createApi({
@@ -8,7 +9,7 @@ export const walletApiSlice = createApi({
   endpoints: (builder) => ({
     walletBalance: builder.query({
       query: () => '/teacher/wallet-balance',
-      transformResponse: (res: { data: number }) => res.data,
+      transformResponse: (res: { data: TWalletBalance }) => res.data,
       providesTags: ['wallet']
     }),
 

@@ -20,6 +20,8 @@ const Wallet_Money = () => {
   const [withdrawlaRequest] = useCreateWithdrawalRequestMutation({})
   const [form] = Form.useForm()
 
+  console.log('price: ', price)
+
   useEffect(() => {
     refetch()
   }, [])
@@ -180,9 +182,28 @@ const Wallet_Money = () => {
             </div>
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
-              <p className='text-xs md:text-lg  dark:hover:text-white'>
-                Bạn đang có: {price ? <strong>{formatPrice(Number(price))}</strong> : <strong>0 đ</strong>}
-              </p>
+
+              <div className="">
+                <div className="text-xs md:text-lg  dark:hover:text-white  flex items-center">
+                  <p className='min-w-[100px] md:min-w-[160px]'>
+                    Số dư khả dụng:
+                  </p>
+
+                  <span>
+                    {price?.available_balance ? <strong>{formatPrice(Number(price?.available_balance))}</strong> : <strong>0 đ</strong>}
+                  </span>
+                </div>
+
+                <div className="text-xs md:text-lg  dark:hover:text-white  flex items-center">
+                  <p className='min-w-[100px] md:min-w-[160px]'>
+                    Số dư tạm thời:
+                  </p>
+
+                  <span>
+                    {price?.temporary_balance ? <strong>{formatPrice(Number(price?.temporary_balance))}</strong> : <strong>0 đ</strong>}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <button
