@@ -2,8 +2,13 @@ import { EnvironmentFilled, MailFilled, PhoneFilled } from '@ant-design/icons'
 import { logo } from '../../../../constants/client'
 import { Link } from 'react-router-dom'
 import { router } from '@/configs/routes'
+import { Newspaper } from 'lucide-react'
+import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
+import { useEffect } from 'react'
 
 const Footer = () => {
+  const { data, refetch } = useGetProfileQuery({})
+  useEffect(()=>{refetch()},[data])
   return (
     <div className='dark:bg-[#131022] dark:text-[#B9B7C0] bg-white text-[#0a142f] min-h-[350px] text-[14px] max-w-full lg:pt-6'>
       <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto flex flex-wrap justify-between gap-6 lg:p-0 p-6'>
@@ -12,45 +17,67 @@ const Footer = () => {
             <img src={logo} alt='' className='w-[200px] md:w-[266px]' />
           </div>
           <p className='text-sm md:text-[15px] leading-6'>
-            Ume Academy là nền tảng giáo dục trực tuyến giúp kết nối học viên và giảng viên từ mọi nơi. Với sứ mệnh mang lại
-            trải nghiệm học tập tốt nhất, chúng tôi cung cấp các khóa học đa dạng từ cơ bản đến nâng cao, giúp bạn phát triển
-            kỹ năng và đạt được mục tiêu học tập một cách hiệu quả.
+            Ume Academy là nền tảng giáo dục trực tuyến giúp kết nối học viên và giảng viên từ mọi nơi. Với sứ mệnh mang
+            lại trải nghiệm học tập tốt nhất, chúng tôi cung cấp các khóa học đa dạng từ cơ bản đến nâng cao, giúp bạn
+            phát triển kỹ năng và đạt được mục tiêu học tập một cách hiệu quả.
           </p>
         </div>
 
         <div className='flex gap-6 md:gap-20 flex-wrap justify-between lg:w-auto md:w-[100%]'>
           <div className='w-[45%] md:w-auto'>
-            <h2 className='font-bold text-[17px] mb-4'>Dành cho Giảng viên</h2>
+            <h2 className='font-bold text-[17px] mb-4'>Nội dung</h2>
             <ul className='space-y-3 sm:space-y-5'>
-              <li><Link to={router.profileTeacher} className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
-              <li><Link to={router.login} className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
-              <li><Link to={router.register} className='hover:text-[#dc3545]'>Đăng ký</Link></li>
-            </ul>
-          </div>
-
-          <div className='w-[45%] md:w-auto'>
-            <h2 className='font-bold text-[17px] mb-4'>Dành cho Học viên</h2>
-            <ul className='space-y-3 sm:space-y-5'>
-              <li><Link to={router.profileStudent} className='hover:text-[#dc3545]'>Hồ sơ</Link></li>
-              <li><Link to={router.login} className='hover:text-[#dc3545]'>Đăng nhập</Link></li>
-              <li><Link to={router.register} className='hover:text-[#dc3545]'>Đăng ký</Link></li>
+              {data ? (
+                <>
+                  <li>
+                    <Link to={router.profileStudent} className='hover:text-[#dc3545]'>
+                      Hồ sơ
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={router.listAllCourse} className='hover:text-[#dc3545]'>
+                      Khóa học
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                 <li>
+                    <Link to={router.register} className='hover:text-[#dc3545]'>
+                      Đăng ký
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={router.login} className='hover:text-[#dc3545]'>
+                      Đăng nhập
+                    </Link>
+                  </li>
+                 
+                  <li>
+                    <Link to={router.listAllCourse} className='hover:text-[#dc3545]'>
+                      Khóa học
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
           <div className='w-full md:w-auto'>
             <h2 className='font-bold text-[17px] mb-4'>Bản tin</h2>
             <div className='space-y-3 sm:space-y-5'>
+              <Link to={router.listBlogs} className='flex items-center gap-2 hover:text-green-500'>
+                <Newspaper className='text-green-500' size={18} strokeWidth={2} />
+                <span>Bài viết</span>
+              </Link>
+
               <div className='flex items-center gap-2'>
                 <EnvironmentFilled className='text-purple-500 text-lg' />
                 <span>Hà Nội</span>
               </div>
               <div className='flex items-center gap-2'>
                 <MailFilled className='text-red-400 text-lg' />
-                <span>daddygiao@gmail.com</span>
-              </div>
-              <div className='flex items-center gap-2'>
-                <PhoneFilled className='text-orange-400 text-lg' />
-                <span>+84 329460020</span>
+                <span>umeacademy@gmail.com</span>
               </div>
             </div>
           </div>
@@ -59,9 +86,13 @@ const Footer = () => {
 
       <div className='max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] mx-auto lg:p-0 p-6 mt-0 lg:mt-14 text-center flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0'>
         <ul className='flex items-center space-x-2'>
-          <li><Link to='#'>Điều khoản</Link></li>
+          <li>
+            <Link to='#'>Điều khoản</Link>
+          </li>
           <li>|</li>
-          <li><Link to='#'>Quyền riêng tư</Link></li>
+          <li>
+            <Link to='#'>Quyền riêng tư</Link>
+          </li>
         </ul>
         <p>© 2024 Ume Academy. Bản quyền thuộc về Ume Academy.</p>
       </div>

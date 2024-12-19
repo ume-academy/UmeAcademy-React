@@ -8,7 +8,7 @@ import {
 } from '@/redux/slices/teacher/wallet/walletApiSlice'
 import '@/scss/PaginationAntd.scss'
 import { WalletFilled } from '@ant-design/icons'
-import { Form, Input, message, Modal, Pagination, Table, TableColumnsType } from 'antd'
+import { Form, Input, message, Modal, Pagination, Table, TableColumnsType, Tag } from 'antd'
 import { CircleAlert } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
@@ -32,8 +32,7 @@ const Wallet_Money = () => {
   }))
 
   const onFinish = async (value: { money: number }) => {
-
-    if(!value) return message.error('Vui lòng nhập số tiền bạn muốn rút')
+    if (!value) return message.error('Vui lòng nhập số tiền bạn muốn rút')
 
     try {
       const money = Number(value.money)
@@ -42,7 +41,7 @@ const Wallet_Money = () => {
       form.resetFields()
       console.log(res)
 
-      if((res as any).error) return message.error((res as any).error)
+      if ((res as any).error) return message.error((res as any).error)
 
       message.success('Yêu cầu rút tiền đã được tạo thành công.')
     } catch (error) {
@@ -143,12 +142,6 @@ const Wallet_Money = () => {
       width: 100
     },
     {
-      title: 'Phương thức',
-      dataIndex: 'type',
-      key: 'type',
-      width: 190
-    },
-    {
       title: 'Thời gian',
       dataIndex: 'created_at',
       key: 'created_at',
@@ -164,6 +157,34 @@ const Wallet_Money = () => {
         <span className='text-sm lg:text-[16px]'>{formatPrice(balance_tracking)}</span>
       )
     },
+    {
+      title: 'Phương thức',
+      dataIndex: 'type',
+      key: 'type',
+      width: 190,
+      render: (status: 'available_receive_money' | 'temporary_receive_money' | 'withdraw_money' | 'return_money') => (
+        <div
+          className={`font-desc ${
+            status === 'available_receive_money'
+              ? 'text-green-400'
+              : status === 'temporary_receive_money'
+                ? 'text-yellow-400'
+                : status === 'withdraw_money'
+                  ? 'text-red-400'
+                  : 'text-blue-400'
+          }`}
+        >
+          {status === 'available_receive_money'
+            ? 'Số dư khả dụng'
+            : status === 'temporary_receive_money'
+              ? 'Số dư tạm thời'
+              : status === 'withdraw_money'
+                ? 'Rút tiền'
+                : 'Hoàn tiền'}
+        </div>
+      )
+    },
+
     {
       title: 'Ghi chú',
       dataIndex: 'note',
@@ -189,24 +210,28 @@ const Wallet_Money = () => {
             <div>
               <p className='text-sm md:text-[15px]'>Số dư hiện tại</p>
 
-              <div className="">
-                <div className="text-xs md:text-lg  dark:hover:text-white  flex items-center">
-                  <p className='min-w-[100px] md:min-w-[160px]'>
-                    Số dư khả dụng:
-                  </p>
+              <div className=''>
+                <div className='text-xs md:text-lg  dark:hover:text-white  flex items-center'>
+                  <p className='min-w-[100px] md:min-w-[160px]'>Số dư khả dụng:</p>
 
                   <span>
-                    {price?.available_balance ? <strong>{formatPrice(Number(price?.available_balance))}</strong> : <strong>0 đ</strong>}
+                    {price?.available_balance ? (
+                      <strong>{formatPrice(Number(price?.available_balance))}</strong>
+                    ) : (
+                      <strong>0 đ</strong>
+                    )}
                   </span>
                 </div>
 
-                <div className="text-xs md:text-lg  dark:hover:text-white  flex items-center">
-                  <p className='min-w-[100px] md:min-w-[160px]'>
-                    Số dư tạm thời:
-                  </p>
+                <div className='text-xs md:text-lg  dark:hover:text-white  flex items-center'>
+                  <p className='min-w-[100px] md:min-w-[160px]'>Số dư tạm thời:</p>
 
                   <span>
-                    {price?.temporary_balance ? <strong>{formatPrice(Number(price?.temporary_balance))}</strong> : <strong>0 đ</strong>}
+                    {price?.temporary_balance ? (
+                      <strong>{formatPrice(Number(price?.temporary_balance))}</strong>
+                    ) : (
+                      <strong>0 đ</strong>
+                    )}
                   </span>
                 </div>
               </div>

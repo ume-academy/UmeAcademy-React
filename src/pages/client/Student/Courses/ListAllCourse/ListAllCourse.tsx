@@ -31,7 +31,7 @@ const ListAllCourse = () => {
 
   const [priceRange, setPriceRange] = useState<[number, number]>([minPrice | minPrice, maxPrice | maxPrice])
 
-  const isLogin = localStorage.getItem('access_Token') || '';
+  const isLogin = localStorage.getItem('access_Token') || ''
 
   useEffect(() => {
     setPriceRange([minPrice, maxPrice])
@@ -170,7 +170,9 @@ const ListAllCourse = () => {
           ) : data?.data.length > 0 ? (
             <div>
               <div className='space-y-4 md:space-y-6'>
-                {data?.data.map((course: TCourse) => <Card_Horizontal key={course.id} {...course} refetch={refetch} isLogin={isLogin}/>)}
+                {data?.data.map((course: TCourse) => (
+                  <Card_Horizontal key={course.id} {...course} refetch={refetch} isLogin={isLogin} />
+                ))}
               </div>
               <div className='flex justify-end mt-10'>
                 <Pagination
@@ -255,7 +257,7 @@ const ListAllCourse = () => {
                             checked={filter.categories === c.name}
                             onChange={() => handleCategory(c.name)}
                           >
-                            {c.name} <span>(0)</span>
+                            {c.name}
                           </Checkbox>
                         ))}
                     </div>
@@ -373,7 +375,7 @@ const ListAllCourse = () => {
                           checked={filter.categories === c.name}
                           onChange={() => handleCategory(c.name)}
                         >
-                          {c.name} <span>(0)</span>
+                          {c.name}
                         </Checkbox>
                       ))}
                   </div>

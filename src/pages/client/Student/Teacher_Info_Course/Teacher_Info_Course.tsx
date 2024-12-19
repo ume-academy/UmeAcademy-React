@@ -1,3 +1,4 @@
+import Loading from '@/components/client/commonComponents/Loading/Loading'
 import { getTitleTab } from '@/constants/client'
 import { useTeacherInfoCourseQuery } from '@/redux/slices/teacher/profile/profileTeacherApiSlice'
 import { Facebook, Linkedin, Twitter, Youtube } from 'lucide-react'
@@ -6,7 +7,9 @@ import { Link, useParams } from 'react-router-dom'
 
 const Teacher_Info_Course = () => {
   const { id } = useParams()
-  const { data, isLoading } = useTeacherInfoCourseQuery({ id })
+  const { data, isLoading, isFetching } = useTeacherInfoCourseQuery({ id })
+
+  if (isLoading || isFetching) return <div className="min-h-screen flex justify-center items-center"><Loading /></div>
 
   return (
     <div className='max-w-full md:max-w-[1024px] lg:max-w-[1066px] p-4 lg:p-6 mx-auto text-[#685f78] dark:text-[#B9B7C0] mt-24 mb-10 md:mt-32 md:mb-20 flex flex-wrap-reverse md:flex-wrap justify-center md:justify-between items-start gap-y-10 border shadow-md'>

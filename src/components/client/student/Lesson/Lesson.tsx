@@ -1,14 +1,9 @@
 import { router } from '@/configs/routes'
+import { formatSeconds } from '@/constants/utils'
 import { TChapter, TResource } from '@/interfaces/TLesson'
 import { useGetLessonByCourseIdQuery } from '@/redux/slices/lesson/lessonApiSlice'
 import { useGetProfileQuery } from '@/redux/slices/profile/profileApiSlice'
-import {
-  LeftOutlined,
-  MenuOutlined,
-  MoonFilled,
-  PlayCircleFilled,
-  SunFilled
-} from '@ant-design/icons'
+import { LeftOutlined, MenuOutlined, MoonFilled, PlayCircleFilled, SunFilled } from '@ant-design/icons'
 import { Progress, message } from 'antd'
 import { Check, ChevronRight, ChevronUp, X } from 'lucide-react'
 import Pusher from 'pusher-js'
@@ -20,10 +15,9 @@ import { ThemeContext, ThemeContextType } from '../../../../contexts/ThemeContex
 import Loading from '../../commonComponents/Loading/Loading'
 import VideoPlayer from '../../commonComponents/VideoPlayer/VideoPlayer'
 import style from './Lesson.module.scss'
-import { set } from 'date-fns'
 
 const Lesson = () => {
-  const { id } = useParams();
+  const { id } = useParams()
 
   // const { isEnrolled } = useRedirectToPurchase();
 
@@ -42,63 +36,65 @@ const Lesson = () => {
   // useEffect để thiết lập kết nối với Pusher
   useEffect(() => {
     if (!user?.id) {
-      console.log("ID người dùng bị thiếu, không thể đăng ký kênh.");
-      return; // Nếu không có `user?.id`, không thực hiện đăng ký kênh.
+      console.log('ID người dùng bị thiếu, không thể đăng ký kênh.')
+      return // Nếu không có `user?.id`, không thực hiện đăng ký kênh.
     }
 
     // Bật log để kiểm tra quá trình hoạt động của Pusher
-    Pusher.logToConsole = true;
+    Pusher.logToConsole = true
 
     // Khởi tạo một instance của Pusher với App Key và cluster
     const pusher = new Pusher('5618fa1c0a69f85b146c', {
-      cluster: 'ap1' 
+      cluster: 'ap1'
     })
 
-    // Đăng ký một kênh Pusher cụ thể. 
+    // Đăng ký một kênh Pusher cụ thể.
     // Tên kênh bao gồm thông tin khóa học (`course.${id}`) và người dùng (`user.${user?.id}`).
     const channel = pusher.subscribe(`course`)
 
     // Lắng nghe sự kiện 'LessonCompleted' từ kênh
-    channel.bind('LessonCompleted', (dataCompleted : any) => {
+    channel.bind('LessonCompleted', (dataCompleted: any) => {
       console.log(dataCompleted)
       if (dataCompleted) {
-        const newPercent = dataCompleted.progress;
+        const newPercent = dataCompleted.progress
         const newTotalLessonCompleted = dataCompleted.totalLessonCompleted
         const newLessonId = dataCompleted.lessonId
         // Chỉ cập nhật nếu giá trị mới khác giá trị cũ
-        setPercent(newPercent);
-        setTotalLessonCompleted(newTotalLessonCompleted);
+        setPercent(newPercent)
+        setTotalLessonCompleted(newTotalLessonCompleted)
         setLessonCompletedIds((prev) => {
           // Đảm bảo không thêm trùng lặp
           if (!prev.includes(newLessonId)) {
-            return [...prev, newLessonId];
+            return [...prev, newLessonId]
           }
-          return prev;
+          return prev
         })
       } else {
         // Nếu dữ liệu không hợp lệ, đặt lại giá trị `Percent` bằng `coursePr` nếu tồn tại
-        setPercent(Number(coursceProgress));
-        setTotalLessonCompleted(Number(coursceTotalLessonCompleted));
+        setPercent(Number(coursceProgress))
+        setTotalLessonCompleted(Number(coursceTotalLessonCompleted))
         setLessonCompletedIds([])
       }
-    });
+    })
 
     // Cleanup khi component bị unmount
     return () => {
       // Hủy đăng ký kênh để tránh rò rỉ bộ nhớ
-      channel.unbind_all(); // Hủy tất cả sự kiện đã bind trong kênh
-      channel.unsubscribe(); // Hủy đăng ký kênh
-      pusher.disconnect(); // Ngắt kết nối với Pusher
-    };
-  }, [id, user?.id]); // Chỉ chạy một lần khi component được mount
+      channel.unbind_all() // Hủy tất cả sự kiện đã bind trong kênh
+      channel.unsubscribe() // Hủy đăng ký kênh
+      pusher.disconnect() // Ngắt kết nối với Pusher
+    }
+  }, [id, user?.id]) // Chỉ chạy một lần khi component được mount
 
   // useEffect để đồng bộ trạng thái `Percent` với giá trị `coursePr`
   useEffect(() => {
     if (coursceProgress !== undefined && coursceTotalLessonCompleted !== undefined) {
-      setPercent((prevPercent) => (prevPercent === null ? Number(coursceProgress) : prevPercent));
-      setTotalLessonCompleted((prevTotalLessonCompleted) => (prevTotalLessonCompleted === null ? Number(coursceTotalLessonCompleted) : prevTotalLessonCompleted));
+      setPercent((prevPercent) => (prevPercent === null ? Number(coursceProgress) : prevPercent))
+      setTotalLessonCompleted((prevTotalLessonCompleted) =>
+        prevTotalLessonCompleted === null ? Number(coursceTotalLessonCompleted) : prevTotalLessonCompleted
+      )
     }
-  }, [coursceProgress]);
+  }, [coursceProgress])
 
   // Sử dụng để kiểm tra kích thước màn hình rồi render element
   const isMobile = useIsMobile()
@@ -127,28 +123,28 @@ const Lesson = () => {
   const [isLessonCompleted, setIsLessonCompleted] = useState<boolean>(false)
 
   // Xử lý lấy ra chapterId hiện tại/ Lấy chapterId hiện tại nếu đã gọi api xong và chapterId hiện tại chưa có giá trị
-  if(courseData && !chapterId) {
+  if (courseData && !chapterId) {
     setChapterId(courseData.chapters[currentChapterIndex].id)
   }
 
   // Xử lý lấy ra lessonId hiện tại/ Lấy lessonId hiện tại nếu đã gọi api xong và lessonId hiện tại chưa có giá trị
-  if(courseData && !lessonId) {
+  if (courseData && !lessonId) {
     setLessonId(courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].id)
   }
 
   // Xử lý lấy ra isLessonCompleted hiện tại/ Lấy isLessonCompleted hiện tại nếu đã gọi api xong và isLessonCompleted hiện tại chưa có giá trị
   useEffect(() => {
     if (courseData) {
-      const completed = courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].is_completed;
-      setIsLessonCompleted(completed); // Gán giá trị boolean từ API
+      const completed = courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].is_completed
+      setIsLessonCompleted(completed) // Gán giá trị boolean từ API
     }
-  }, [courseData, currentChapterIndex, currentLessonIndex]);
+  }, [courseData, currentChapterIndex, currentLessonIndex])
 
   // Xử lý lấy ra link hiện tại/ Lấy link hiện tại nếu đã gọi api xong và link hiện tại chưa có giá trị
   if (courseData && !selectedVideoLink) {
     setSelectedVideoLink(courseData.chapters[currentChapterIndex].lessons[currentLessonIndex].video_link) // Viết như này cho đỡ hashcode [0]
   }
-  
+
   const handlePrevious = () => {
     // Lấy ra chapter hiện tại
     const currentChapter = getChapterByIndex(currentChapterIndex)
@@ -180,7 +176,7 @@ const Lesson = () => {
     if (!prevChapter) {
       message.warning('Đây là bài học đầu tiên')
       return // Để ko dính vào phần code dưới
-    }else {
+    } else {
       // Nếu có chapter trước thì setchapterId để truyền vào videoPlayer
       setChapterId(prevChapter?.id)
     }
@@ -228,14 +224,13 @@ const Lesson = () => {
     // Lấy ra chapter tiếp theo
     const nextChapter = getChapterByIndex(currentChapterIndex + 1)
 
-
     // Đây là trường hợp không còn chapter hay lesson tiếp theo
     if (!nextChapter) {
       // DisableNextButton khi không còn chapter hay lesson tiếp theo
       message.warning('Đây là bài học cuối cùng')
       setIsDisableNextButton(true)
       return // Để ko dính vào phần code dưới
-    }else {
+    } else {
       // Nếu có chapter tiếp theo thì setchapterId để truyền vào videoPlayer
       setChapterId(nextChapter?.id)
     }
@@ -265,15 +260,19 @@ const Lesson = () => {
     return chapter?.lessons[index]
   }
 
-
   const toggleSubMenu = (indexChapter: number) => {
     setCurrentChapterIndex((prevChapterId) => (prevChapterId === indexChapter ? -1 : indexChapter))
     if (currentChapterIndex !== indexChapter) {
-        setCurrentLessonIndex(0)
+      setCurrentLessonIndex(0)
     }
   }
 
-  if (isLoading) return <div className="min-h-screen flex justify-center items-center"><Loading /></div>
+  if (isLoading)
+    return (
+      <div className='min-h-screen flex justify-center items-center'>
+        <Loading />
+      </div>
+    )
 
   return (
     <>
@@ -339,31 +338,41 @@ const Lesson = () => {
           >
             {selectedVideoLink && (
               <>
-              <VideoPlayer 
-                courseId={Number(id)} 
-                chapterId={chapterId} 
-                lessonId={lessonId} 
-                videoURL={selectedVideoLink} 
-                thumbnail={courseData?.thumbnail} 
-                isCompleted={isLessonCompleted}
-                height={'560px'} />
-                <div className="lg:ml-14 lg:mt-8 lg:pb-36">
-                  <h1 className='font-subtitle text-[26px] mb-6 dark:text-[#b9b7c0]'> {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].name}</h1>
+                <VideoPlayer
+                  courseId={Number(id)}
+                  chapterId={chapterId}
+                  lessonId={lessonId}
+                  videoURL={selectedVideoLink}
+                  thumbnail={courseData?.thumbnail}
+                  isCompleted={isLessonCompleted}
+                  height={'560px'}
+                />
+                <div className='lg:ml-14 lg:mt-8 lg:pb-36'>
+                  <h1 className='font-subtitle text-[26px] mb-6 dark:text-[#b9b7c0]'>
+                    {' '}
+                    {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].name}
+                  </h1>
                   <h1 className='font-desc text-[15px] mb-2 text-[#535050] dark:text-[#b9b7c0]'>Tài liệu giảng dạy:</h1>
 
                   <ul className='pl-4'>
-                  {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].resources.map((item: TResource) => (
-                    <li key={item.id} className='list-disc text-[14px] mb-2 dark:text-[#b9b7c0]'>
-                      <Link className='hover:text-[#f66962] underline dark:text-[#b9b7c0]' to={`${item.name}`} key={item.id} download={item.name}>
-                      {item.name}
-                    </Link>
-                    </li>
-                  ))}
+                    {courseData?.chapters[currentChapterIndex].lessons[currentLessonIndex].resources.map(
+                      (item: TResource) => (
+                        <li key={item.id} className='list-disc text-[14px] mb-2 dark:text-[#b9b7c0]'>
+                          <Link
+                            className='hover:text-[#f66962] underline dark:text-[#b9b7c0]'
+                            to={`${item.name}`}
+                            key={item.id}
+                            download={item.name}
+                          >
+                            {item.name}
+                          </Link>
+                        </li>
+                      )
+                    )}
                   </ul>
-              </div>
-               </> 
+                </div>
+              </>
             )}
-            
           </div>
 
           {/* sidebar */}
@@ -409,7 +418,9 @@ const Lesson = () => {
                         <div className='flex text-[12px]'>
                           <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.total_lesson} bài</span>
                           <div className='border-l-[0.5px] border-[#29303b] mt-[4px] mb-[4px] mx-1.5 dark:border-[#b9b7c0]'></div>
-                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>{chapter.chapter_duration}s</span>
+                          <span className='inline text-[#29303b] dark:text-[#b9b7c0]'>
+                            {formatSeconds(chapter.chapter_duration)}
+                          </span>
                         </div>
                       </div>
 
@@ -428,24 +439,29 @@ const Lesson = () => {
                                   setLessonId(lesson.id)
                                   setIsLessonCompleted(lesson.is_completed)
                                 }}
-                                className={`pl-[28px] pr-[24px] py-[8px] flex justify-between ${ currentLessonIndex === indexLesson && 'dark:bg-[#413655] bg-[#edeff1]'} dark:bg-[#1b172f] hover:bg-[#edeff1] dark:hover:bg-[#413655]`}
+                                className={`pl-[28px] pr-[24px] py-[8px] flex justify-between ${currentLessonIndex === indexLesson && 'dark:bg-[#413655] bg-[#edeff1]'} dark:bg-[#1b172f] hover:bg-[#edeff1] dark:hover:bg-[#413655]`}
                               >
-                                <div className="">
-                                <h4 className='mb-2 dark:text-[#b9b7c0] font-desc'>{lesson.name}</h4>
-                                <div className='flex text-[11px]'>
-                                  <PlayCircleFilled
-                                    className='dark:text-[#edeff1]'
-                                    style={{ fontSize: 12, color: '#888888' }}
-                                  />
-                                  <span className='inline text-[#29303b] ml-1 dark:text-[#b9b7c0]'>
-                                    {lesson.video_duration}s
-                                  </span>
-                                </div>
+                                <div className=''>
+                                  <h4 className='mb-2 dark:text-[#b9b7c0] font-desc'>{lesson.name}</h4>
+                                  <div className='flex text-[11px]'>
+                                    <PlayCircleFilled
+                                      className='dark:text-[#edeff1]'
+                                      style={{ fontSize: 12, color: '#888888' }}
+                                    />
+                                    <span className='inline text-[#29303b] ml-1 dark:text-[#b9b7c0]'>
+                                      {formatSeconds(lesson.video_duration)}
+                                    </span>
+                                  </div>
                                 </div>
                                 {(lesson.is_completed || lessonCompletedIds.includes(lesson.id)) && (
-                                  <div className="">
-                                  <Check size={14} strokeWidth={6} className='text-[8px] bg-[#f66962] p-[3px] rounded-full ' style={{color: '#fff', fontWeight: 100}}/>
-                                </div>
+                                  <div className=''>
+                                    <Check
+                                      size={14}
+                                      strokeWidth={6}
+                                      className='text-[8px] bg-[#f66962] p-[3px] rounded-full '
+                                      style={{ color: '#fff', fontWeight: 100 }}
+                                    />
+                                  </div>
                                 )}
                               </li>
                             ))}
