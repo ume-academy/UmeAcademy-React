@@ -3,7 +3,7 @@ import { getButtonDetails } from '@/constants/client'
 import { formatPrice, formatSeconds } from '@/constants/utils'
 import useLoading from '@/hooks/useLoading'
 import { TCourse } from '@/interfaces/TCourse'
-import { useAddCourseToFavoriteMutation, useRemoveCourseInFavoriteMutation } from '@/redux/slices/course/courseApiSlice'
+import { useAddCourseToFavoriteMutation, useRemoveCourseInFavoriteMutation, useTeacherRemoveCourseByIdMutation } from '@/redux/slices/course/courseApiSlice'
 import { useCreateRefundRequestMutation } from '@/redux/slices/transaction/refundApiSlice'
 import { BookFilled, FieldTimeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message, Modal, Rate, TreeSelect } from 'antd'
@@ -58,20 +58,29 @@ const Card = ({
 
 
   const [heart, setHeart] = useState(is_wishlist)
-  const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
-  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, transaction_code)
-  const location = useLocation()
 
+  const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
+
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, total_student)
+
+  const location = useLocation()
 
   const [form] = Form.useForm()
 
   const { loading, startLoading, stopLoading } = useLoading()
 
   const isMyCoursesPage = location.pathname === `${router.myCourses}`
+
   const isHistoryLesson = location.pathname === `${router.purchasedCourses}`
 
+  //* FAV
   const [addToFav] = useAddCourseToFavoriteMutation()
   const [removeCourseInFavorite] = useRemoveCourseInFavoriteMutation()
+  // **
+
+  //* REMOVE COURSE
+  const [removeCourse] = useTeacherRemoveCourseByIdMutation();
+  // **
 
   const [createRefundRequest] = useCreateRefundRequestMutation()
 
@@ -82,9 +91,8 @@ const Card = ({
     setIsEnrolled(is_enrolled)
   }, [is_wishlist, is_enrolled])
 
-  // ADD, REMOVE COURSE IN FAV
+  //! ADD, REMOVE COURSE IN FAV
   const handleClickForFav = async (courseId: string | number) => {
-
 
     if (!isLogin) return message.error('Vui lòng đăng nhập để thực hiện chức năng này!')
 
@@ -117,6 +125,89 @@ const Card = ({
     }
   }
 
+  //! REMOVE COURSE
+  const handleRemoveCourse = (courseId: string | number, totalStudent: number) => {
+    if (totalStudent !== 0) return message.error('Không thể xóa khóa học này khi đã có học viên tham gia!')
+
+    // return alert('Xóa thành công!')
+
+    return Modal.confirm({
+      title: (
+        <p className='text-red-500 font-title text-[16px] md:text-lg text-center'>
+          Yêu cầu xóa khóa học
+        </p>
+      ),
+      footer: null,
+      closable: true,
+      content: (
+        <div className=' dark:text-[#b9b7c0] text-[#685f78]'>
+          <div className='flex items-stretch gap-4 mb-4'>
+            <img src={thumbnail} alt='' className='w-24 md:w-28 h-auto object-cover' />
+            <div className='text-[15px] md:text-[17px] md:space-y-1'>
+              <p className='text-[16px] md:text-xl line-clamp-2'>{name}</p>
+              <p>Giá: {formatPrice(price)}</p>
+              <p>Số lượng học viên tham gia: {totalStudent}</p>
+            </div>
+          </div>
+
+          <div className='w-full space-y-1'>
+            <p>Lưu ý: Sẽ không thể xóa nếu khóa học đã có học viên tham gia!</p>
+          </div>
+
+          <div className="flex items-end justify-end gap-x-4 pt-6">
+            <div className="bg-transparent border border-[#f8f8f8] text-[#000] px-3 py-2 rounded-md cursor-pointer"
+              onClick={() => Modal.destroyAll()}
+            >
+              Hủy
+            </div>
+
+            <div className="bg-[#F84563] border text-[#fff] px-3 py-2 rounded-md cursor-pointer"
+              onClick={async () => {
+                try {
+
+                  // return alert(courseId)
+
+                  const res = await removeCourse(61);
+
+                  // console.log(res)
+
+                  //* Đóng modal sau khi xác nhận
+                  Modal.destroyAll();
+
+                  //* error alert
+                  if (res.error) return message.error((res as any).error.data.error)
+
+                  //* success alert
+                  return message.success(res.data.message)
+
+                } catch (error) {
+                  console.log(error)
+
+                  return message.error('Có lỗi xảy ra, vui lòng thử lại sau!')
+                }
+              }}
+            >
+              Xóa khóa học
+            </div>
+          </div>
+        </div>
+      ),
+      // okText: 'Xóa khóa học',
+      // okType: 'danger',
+      // okButtonProps: {
+      //   style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }
+      // },
+      // cancelButtonProps: {
+      //   className: 'custom-cancel-btn'
+      // },
+      // cancelText: 'Hủy',
+      centered: true,
+      maskClosable: false,
+      width: 600,
+      icon: null
+    })
+  }
+
   useEffect(() => {
     if (!isHistoryLesson) {
       form.resetFields()
@@ -131,7 +222,9 @@ const Card = ({
     try {
       const res = await createRefundRequest({ ...values, transactionCode: transaction_code })
 
-      console.log(res)
+      // console.log(res)
+
+      Modal.destroyAll();
 
       if (res.data) {
         message.success(res.data.message || 'Yêu cầu hoàn tiền thành công!')
@@ -142,6 +235,8 @@ const Card = ({
       }
     } catch (error: any) {
       console.log(error)
+
+      Modal.destroyAll();
 
       return message.error('Có lỗi từ hệ thống, vui lòng thử lại sau!')
     }
@@ -154,7 +249,7 @@ const Card = ({
       return Modal.confirm({
         title: (
           <p className='text-red-500 font-title text-[16px] md:text-lg'>
-            {type === 'refund' ? 'Yêu cầu hoàn tiền khóa học' : 'Yêu cầu xóa khóa học'}
+            Yêu cầu hoàn tiền khóa học
           </p>
         ),
         footer: null,
@@ -178,39 +273,30 @@ const Card = ({
             )}
 
             <div className='w-full space-y-1'>
-              {refund ? (
-                <Form form={form} layout='vertical' onFinish={onFinish} className='space-y-4'>
-                  <Form.Item
-                    name='refund_reason'
-                    label='Lý do hoàn tiền'
-                    rules={[{ required: true, message: `Cần điền lý do hoàn trả để thực hiện yêu cầu!` }]}
-                  >
-                    <Input placeholder='Nhập lý do hoàn tiền' className='py-3' disabled={loading} />
-                  </Form.Item>
+              <Form form={form} layout='vertical' onFinish={onFinish} className='space-y-4'>
+                <Form.Item
+                  name='refund_reason'
+                  label='Lý do hoàn tiền'
+                  rules={[{ required: true, message: `Cần điền lý do hoàn trả để thực hiện yêu cầu!` }]}
+                >
+                  <Input placeholder='Nhập lý do hoàn tiền' className='py-3' disabled={loading} />
+                </Form.Item>
 
-                  <Form.Item className='py-4'>
-                    <Button
-                      loading={loading}
-                      disabled={loading}
-                      htmlType='submit'
-                      className='bg-[#ef4444] text-white py-2 px-6'
-                    >
-                      Xác nhận
-                    </Button>
-                  </Form.Item>
-                </Form>
-              ) : (
-                <CustomTreeSelect
-                  treeDefaultExpandAll
-                  className='w-full h-10 md:h-11 text-[15px] md:text-[17px]'
-                  placeholder={'Lý do xóa khóa học'}
-                  treeData={[{ value: 0, title: <span className='text-green-500'>Như chim cút</span> }]}
-                />
-              )}
+                <Form.Item className='py-4'>
+                  <Button
+                    loading={loading}
+                    disabled={loading}
+                    htmlType='submit'
+                    className='bg-[#ef4444] text-white py-2 px-6'
+                  >
+                    Xác nhận
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
           </div>
         ),
-        okText: type === 'refund' ? 'Hoàn tiền' : 'Xóa',
+        okText: 'Hoàn tiền',
         okType: 'danger',
         okButtonProps: {
           style: { backgroundColor: '#F84563', borderColor: '#F84563', color: '#fff' }
@@ -308,7 +394,7 @@ const Card = ({
       </Link>
 
       <div className='flex justify-between items-center mt-4'>
-        <span className='text-[11px] space-x-[6px]'>
+        <span className='text-[11px] space-x-[6px] flex items-center'>
           <Rate allowHalf value={Number(rating)} className='text-[11px] group-hover:text-white' disabled />
           <span>
             {rating} ({total_review})
@@ -316,17 +402,25 @@ const Card = ({
         </span>
         <Link to={targetPath}>
           <button
+            disabled={location.pathname === `${router.myCourses}` && total_student !== 0}
             onClick={() => {
-              handleOpenModal(buttonText === 'Hoàn tiền' ? 'refund' : 'refund')
+              // Chức năng xóa khi pathname hiện tại === biến path
+              location.pathname === `${router.myCourses}` ? (
+                handleRemoveCourse(id, total_student)
+              ) :
+                handleOpenModal(buttonText === 'Hoàn tiền' ? 'refund' : 'refund')
               form.resetFields()
             }}
-            className='border-[3px] border-[#b4a7f5] py-2 px-[17px] rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]'
+            className={
+              `${location.pathname === `${router.myCourses}` && total_student !== 0 ? 'cursor-default border-none hover:bg-transparent text-transparent hover:text-transparent' : ''}
+              border-[3px] border-[#b4a7f5] py-2 px-[17px] rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]`
+            }
           >
             {buttonText}
           </button>
         </Link>
       </div>
-    </div>
+    </div >
   )
 }
 

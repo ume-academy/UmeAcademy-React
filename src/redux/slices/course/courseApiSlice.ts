@@ -139,7 +139,18 @@ export const courseApiSlice = createApi({
       }),
       invalidatesTags: ['Course']
       // transformResponse: (res: { data: TPaymentDetails }) => res,
-    })
+    }),
+
+    //! TEACHER: REMOVE COURSE BY ID 
+    teacherRemoveCourseById: builder.mutation({
+      query: (courseId) => ({
+        url: `/teacher/course/${courseId}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["Course"]
+    }),
+
+
   })
 })
 
@@ -161,5 +172,6 @@ export const {
   useCheckOutMutation,
   useGetAllFavoriteCoursesQuery,
   useAddCourseToFavoriteMutation,
-  useRemoveCourseInFavoriteMutation
+  useRemoveCourseInFavoriteMutation,
+  useTeacherRemoveCourseByIdMutation
 } = courseApiSlice

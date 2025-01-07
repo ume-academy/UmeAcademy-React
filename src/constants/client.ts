@@ -33,7 +33,7 @@ export const routerConfig = {
 }
 
 // Location của card giữa mua ngay - hoàn tiền và trang teacher
-export const getButtonDetails = (is_enrolled: boolean, courseId: number, status: number, refund: boolean, transactionCode: string) => {
+export const getButtonDetails = (is_enrolled: boolean, courseId: number, status: number, refund: boolean, total_student: number) => {
   const location = useLocation()
 
   const isUserDetailPath = useMatch(`${router.userDetail}`); // Kiểm tra xem có phải trang chi tiết người dùng không
@@ -50,7 +50,8 @@ export const getButtonDetails = (is_enrolled: boolean, courseId: number, status:
     buttonText = refund ? 'Hoàn tiền' : 'Xem ngay'
     targetPath = refund ? `${router.purchasedCourses}` : `${router.courseDetail.replace(':id', String(courseId))}`
   } else if (location.pathname === `${router.myCourses}`) {
-    buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
+    // buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
+    buttonText = total_student === 0 ? 'Xóa khóa học' : 'Xóa khóa học'
     targetPath = `${router.myCourses}`
   }  else if (isUserDetailPath) {
     buttonText = 'Xem ngay'

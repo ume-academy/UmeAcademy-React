@@ -36,7 +36,7 @@ const Card_Horizontal = ({
 
   const [heart, setHeart] = useState(is_wishlist)
   const [isEnrolled, setIsEnrolled] = useState(is_enrolled)
-  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, transaction_code)
+  const { buttonText, targetPath } = getButtonDetails(isEnrolled, id, status, refund, total_student)
 
   const nav = useNavigate();
 
