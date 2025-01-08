@@ -167,7 +167,7 @@ const Card = ({
 
                   // return alert(courseId)
 
-                  const res = await removeCourse(61);
+                  const res = await removeCourse(id);
 
                   // console.log(res)
 
@@ -402,7 +402,6 @@ const Card = ({
         </span>
         <Link to={targetPath}>
           <button
-            disabled={location.pathname === `${router.myCourses}` && total_student !== 0}
             onClick={() => {
               // Chức năng xóa khi pathname hiện tại === biến path
               location.pathname === `${router.myCourses}` ? (
@@ -411,10 +410,7 @@ const Card = ({
                 handleOpenModal(buttonText === 'Hoàn tiền' ? 'refund' : 'refund')
               form.resetFields()
             }}
-            className={
-              `${location.pathname === `${router.myCourses}` && total_student !== 0 ? 'cursor-default border-none hover:bg-transparent text-transparent hover:text-transparent' : ''}
-              border-[3px] border-[#b4a7f5] py-2 px-[17px] rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]`
-            }
+            className={`border-[3px] border-[#b4a7f5] py-2 px-[17px] rounded-[50px] hover:bg-[#b4a7f5] hover:text-white text-[14px]`}
           >
             {buttonText}
           </button>
