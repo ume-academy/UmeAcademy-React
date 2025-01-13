@@ -18,14 +18,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import './HeaderAntd.scss'
 import Search from './Search/Search'
+import Pusher from 'pusher-js'
+import { useGetInfoProfileQuery } from '@/redux/slices/teacher/profile/profileTeacherApiSlice'
 
 const Header = () => {
 
+  // set scroll cuộn header đổi màu bgr header
+  const [isScroll, setIsScroll] = useState(false)
+
   const [isHidden, setIsHidden] = useState(false);
 
-  const [dataNoti, setDataNoti] = useState<any>([])
 
   const { loading, startLoading, stopLoading } = useLoading();
+
+  const [realtimeNoti, setRealtimeNoti] = useState<any>();
+
+  // Bật trạng thái trong suốt khi ở trang home
+  const transperent = routerConfig.transparentHeader.includes(location.pathname)
+  const isTeacherLayout = routerConfigTeacher.isTeacherLayout.includes(location.pathname)
 
   // user's notification
   const { data: notifyData, refetch: refetchNotiStudent } = useGetAllNotifyForStudentQuery(undefined, {
@@ -39,6 +49,10 @@ const Header = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  //* INIT STATE LÀ DATA API BACKEND
+  const [dataNoti, setDataNoti] = useState<any>(!isTeacherLayout ? notifyData : notifyDataTeacher);
+
+
   const [readedTeacher] = useMarkAsReadNotiForTeacherMutation();
 
   const nav = useNavigate()
@@ -47,13 +61,103 @@ const Header = () => {
 
   const isAuthenticated = useSelector(selectIsAuthenticated)
 
-  const { data } = useGetProfileQuery({})
+  const { data } = useGetProfileQuery({}) //* API auth/me for student
+
+  const { data: dataTeacher } = useGetInfoProfileQuery({})  //* API /teacher/profile for teacher
+
+  const defaultId = !isTeacherLayout ? data?.id : dataTeacher?.id;
+
+  const [idInfo, setIdInfo] = useState<any>(defaultId);
 
   const dispatch = useDispatch()
 
   const userExist = localStorage.getItem('access_Token')
 
-  // console.log(theme)
+  // console.log('id: ', idInfo)
+
+  useEffect(() => {
+    // Kiểm tra và cập nhật idInfo khi có sự thay đổi từ dữ liệu người dùng hoặc layout
+    const currentId = isTeacherLayout ? dataTeacher?.id : data?.id;
+    
+    if (currentId && currentId !== idInfo) {
+      setIdInfo(currentId);  // Cập nhật idInfo khi ID thay đổi
+    }
+  }, [data?.id, dataTeacher?.id, isTeacherLayout]);  // Khi bất kỳ giá trị nào thay đổi, sẽ chạy lại
+  
+  useEffect(() => {
+    // Nếu trạng thái userExist thay đổi (đăng nhập hoặc đăng xuất), cần cập nhật lại idInfo
+    if (userExist) {
+      const currentId = isTeacherLayout ? dataTeacher?.id : data?.id;
+      if (currentId) {
+        setIdInfo(currentId);  // Đảm bảo lấy ID của người dùng mới đăng nhập
+      }
+    } else {
+      // Nếu đăng xuất, đặt lại idInfo về null
+      setIdInfo(null);
+    }
+  }, [userExist, data?.id, dataTeacher?.id, isTeacherLayout]);  // Khi userExist thay đổi (đăng nhập, đăng xuất)
+  
+  useEffect(() => {
+    // Nếu idInfo vẫn null sau khi đăng nhập, lấy lại từ data API
+    if (userExist && !idInfo) {
+      const currentId = isTeacherLayout ? dataTeacher?.id : data?.id;
+      if (currentId) {
+        setIdInfo(currentId);
+      }
+    }
+  }, [userExist, data?.id, dataTeacher?.id, isTeacherLayout, idInfo]);  // Thực hiện khi idInfo thay đổi
+  
+  
+
+  // * REALTIME NOTIFYCATION
+  useEffect(() => {
+    //* Check id account
+    if (idInfo === undefined) return;
+
+    // Log để kiểm tra quá trình hoạt động của Pusher
+    Pusher.logToConsole = true;
+
+    //! Create Pusher instance
+    const pusher = new Pusher('5618fa1c0a69f85b146c', {
+      cluster: 'ap1',
+    });
+
+    //! Connect to public channel for notifications
+    const channel = pusher.subscribe(!isTeacherLayout ? `notify.${idInfo}` : `notify.teacher.${idInfo}`);
+
+    //! Listen to the relevant event based on layout
+    channel.bind(!isTeacherLayout ? 'BuyCourse' : 'CoursePurchased', (dataRealtime: any) => {
+      console.log('Realtime data:', dataRealtime);
+
+      // Merge new notifications with existing ones
+      setDataNoti((prevDataNoti: any) => {
+        const newData = dataRealtime?.data?.data || [];
+
+        console.log(newData);
+
+        // Filter out duplicate notifications by ID
+        const mergedData = [...newData, ...(prevDataNoti?.data || [])].reduce((acc: any[], item: any) => {
+          if (!acc.find((i) => i.id === item.id)) acc.push(item);
+          return acc;
+        }, []);
+        return { ...prevDataNoti, data: mergedData };
+      });
+    });
+
+    // Cleanup function
+    return () => {
+      channel.unbind_all();
+      pusher.unsubscribe(!isTeacherLayout ? `notify.${idInfo}` : `notify.teacher.${idInfo}`);
+      pusher.disconnect();
+    };
+  }, [idInfo, isTeacherLayout]);
+
+
+  // console.log(dataTeacher?.id)
+
+  // console.log(realtimeNoti)
+  console.log('noti_compile: ', dataNoti);
+
 
   // Lấy số lượng kh yêu thích
   const {
@@ -65,14 +169,9 @@ const Header = () => {
     refetchOnReconnect: true
   })
 
-  // Bật trạng thái trong suốt khi ở trang home
-  const transperent = routerConfig.transparentHeader.includes(location.pathname)
-  const isTeacherLayout = routerConfigTeacher.isTeacherLayout.includes(location.pathname)
-
-  // console.log(isTeacherLayout)
-
   // Lấy data check teacher từ api
   const { data: dataIsTeacher } = useCheckTeacherQuery()
+
   const isTeacherApi = dataIsTeacher?.is_teacher
 
   const handleToggle = () => {
@@ -85,6 +184,7 @@ const Header = () => {
     }
   }
 
+  //* LOGOUT
   const handleLogout = async () => {
     // const tokenREF = Cookies.get('refresh_Token')
 
@@ -102,9 +202,7 @@ const Header = () => {
     }
   }
 
-  // set scroll cuộn header đổi màu bgr header
-  const [isScroll, setIsScroll] = useState(false)
-
+  //* SCROLL HEADER
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -123,7 +221,7 @@ const Header = () => {
     }
   }, [])
 
-  // dropdown for infomation
+  //* DROPDOWN FOR INFOMATION
   const items: MenuProps['items'] = [
     {
       key: '0',
@@ -213,39 +311,43 @@ const Header = () => {
     setIsHidden(true);
   };
 
-  const dataNotify = dataNoti?.data?.map((item: any, index: number) => (
-    {
-      key: index + 1,
-      ...item
-    }
-  ));
+  //* DATA NOTIFY BY API 
+  const dataNotify = dataNoti?.data?.map((item: any, index: number) => ({
+    key: index + 1,
+    ...item,
+  }));
 
+  //* MARK AS READ
   const markAsRead = async (notiId: any) => {
-
     if (!notiId) return;
 
     try {
-
       startLoading();
 
+      // Call the appropriate API based on layout
       if (isTeacherLayout) {
-        const res = await readedTeacher(notiId)
-
-        refetchNotiTeacher();
-
+        await readedTeacher(notiId); // API call for teacher
+        refetchNotiTeacher(); // Refetch teacher notifications
       } else {
-        const res = await readed(notiId)
-
-        refetchNotiStudent();
+        await readed(notiId); // API call for student
+        refetchNotiStudent(); // Refetch student notifications
       }
 
+      // Update the local state to mark the notification as read
+      setDataNoti((prevDataNoti: any) => {
+        const updatedData = prevDataNoti?.data?.map((noti: any) =>
+          noti.id === notiId ? { ...noti, is_read: 1 } : noti
+        );
+        return { ...prevDataNoti, data: updatedData };
+      });
 
       stopLoading();
-
     } catch (error) {
-      console.log(error);
+      console.error('Error marking notification as read:', error);
+      stopLoading();
     }
-  }
+  };
+
 
   useEffect(() => {
     if (isTeacherLayout) {
@@ -259,14 +361,10 @@ const Header = () => {
 
   // Hàm đếm thông báo
   const notiCount = () => {
+    const count = dataNoti?.data?.filter((record: any) => record.is_read === 0).length || 0;
+    return count > 9 ? '9+' : count;
+  };
 
-    // Chỉ list những thông báo chưa đọc
-    const count = isTeacherLayout ? notifyDataTeacher?.data?.filter((record: any) => record.is_read === 0).length : notifyData?.data?.filter((record: any) => record.is_read === 0).length
-
-    if (count > 9) return '9+';
-
-    return count;
-  }
 
   useEffect(() => {
     notiCount();
