@@ -18,7 +18,7 @@ const Purchased_Courses = () => {
   const { refetch: refetchFav} = useGetAllFavoriteCoursesQuery([])
 
 
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     refetch()

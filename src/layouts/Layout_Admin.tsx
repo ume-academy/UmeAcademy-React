@@ -81,7 +81,7 @@ const Layout_Admin: React.FC = () => {
         '10',
         <GitPullRequestCreate size={15} />
       ),
-      getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <FileOutputIcon size={15} />)
+      // getItem(<NavLink to={router.listRefundCourses}>Danh sách hoàn tiền</NavLink>, '11', <FileOutputIcon size={15} />)
     ]),
 
     getItem(<NavLink to={router.listRole}>Phân quyền</NavLink>, '12', <ShieldAlert size={15} />),

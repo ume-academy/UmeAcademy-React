@@ -47,8 +47,8 @@ export const getButtonDetails = (is_enrolled: boolean, courseId: number, status:
   let targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
 
   if (location.pathname === `${router.purchasedCourses}`) {
-    buttonText = refund ? 'Hoàn tiền' : 'Xem ngay'
-    targetPath = refund ? `${router.purchasedCourses}` : `${router.courseDetail.replace(':id', String(courseId))}`
+    buttonText = refund ? 'Xem ngay' : 'Xem ngay'
+    targetPath = `${router.courseDetail.replace(':id', String(courseId))}`
   } else if (location.pathname === `${router.myCourses}`) {
     // buttonText = status === 0 ? 'Bản nháp' : status === 1 ? 'Chờ phê duyệt' : status === 2 ? 'Đã phê duyệt' : 'Đang lưu trữ '
     buttonText = total_student === 0 ? 'Xóa khóa học' : 'Xóa khóa học'

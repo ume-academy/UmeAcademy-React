@@ -1,5 +1,5 @@
 import { getTitleTab } from '@/constants/client'
-import { formatDate, formatPrice, smoothScrollToTop } from '@/constants/utils'
+import { formatDate, formatDateDay, formatPrice, smoothScrollToTop } from '@/constants/utils'
 import { THistoryWallet } from '@/interfaces/THistoryWallet'
 import {
   useCreateWithdrawalRequestMutation,
@@ -146,7 +146,8 @@ const Wallet_Money = () => {
       dataIndex: 'created_at',
       key: 'created_at',
       width: 120,
-      render: (created_at: string) => <div className='text-sm lg:text-[16px]'>{formatDate(created_at)}</div>
+      render: (created_at: string) => <div className='text-sm lg:text-[16px]'>{formatDateDay(created_at)}</div>,
+      align: 'center' as const
     },
     {
       title: 'Số tiền',
@@ -157,34 +158,33 @@ const Wallet_Money = () => {
         <span className='text-sm lg:text-[16px]'>{formatPrice(balance_tracking)}</span>
       )
     },
-    {
-      title: 'Phương thức',
-      dataIndex: 'type',
-      key: 'type',
-      width: 190,
-      render: (status: 'available_receive_money' | 'temporary_receive_money' | 'withdraw_money' | 'return_money') => (
-        <div
-          className={`font-desc ${
-            status === 'available_receive_money'
-              ? 'text-green-400'
-              : status === 'temporary_receive_money'
-                ? 'text-yellow-400'
-                : status === 'withdraw_money'
-                  ? 'text-red-400'
-                  : 'text-blue-400'
-          }`}
-        >
-          {status === 'available_receive_money'
-            ? 'Số dư khả dụng'
-            : status === 'temporary_receive_money'
-              ? 'Số dư tạm thời'
-              : status === 'withdraw_money'
-                ? 'Rút tiền'
-                : 'Hoàn tiền'}
-        </div>
-      )
-    },
-
+    // {
+    //   title: 'Phương thức',
+    //   dataIndex: 'type',
+    //   key: 'type',
+    //   width: 190,
+    //   render: (status: 'available_receive_money' | 'temporary_receive_money' | 'withdraw_money' | 'return_money') => (
+    //     <div
+    //       className={`font-desc ${
+    //         status === 'available_receive_money'
+    //           ? 'text-green-400'
+    //           : status === 'temporary_receive_money'
+    //             ? 'text-yellow-400'
+    //             : status === 'withdraw_money'
+    //               ? 'text-red-400'
+    //               : 'text-blue-400'
+    //       }`}
+    //     >
+    //       {status === 'available_receive_money'
+    //         ? 'Số dư khả dụng'
+    //         : status === 'temporary_receive_money'
+    //           ? 'Số dư tạm thời'
+    //           : status === 'withdraw_money'
+    //             ? 'Rút tiền'
+    //             : 'Hoàn tiền'}
+    //     </div>
+    //   )
+    // },
     {
       title: 'Ghi chú',
       dataIndex: 'note',
@@ -223,7 +223,8 @@ const Wallet_Money = () => {
                   </span>
                 </div>
 
-                <div className='text-xs md:text-lg  dark:hover:text-white  flex items-center'>
+                {/* Số dư tạm thười */}
+                {/* <div className='text-xs md:text-lg  dark:hover:text-white  flex items-center'>
                   <p className='min-w-[100px] md:min-w-[160px]'>Số dư tạm thời:</p>
 
                   <span>
@@ -233,7 +234,7 @@ const Wallet_Money = () => {
                       <strong>0 đ</strong>
                     )}
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
